@@ -1047,3 +1047,22 @@ a.alink2{color:var(--ink);text-decoration:none}
 .bm-yp i{width:38%;max-width:34px;border-radius:5px 5px 0 0;min-height:1px}
 .bm-rv{background:var(--bm0)}.bm-cs{background:var(--bm4)}
 .bm-yb small{color:var(--muted);font-size:12px}
+
+/* Società sportive (1.20): prefissi sx e so, diversi dalle classi del motore del referto (styles.css) */
+.sxsq>.sech{align-items:center;flex-wrap:wrap;gap:10px}
+.sxsq>.sech>.grow{flex:1 1 220px;min-width:0}
+.sxsq .h3 .lnk{text-decoration:none;color:var(--ink)}
+.sxsq small.sub{display:block;margin:2px 0 0;line-height:1.4}
+.sxsqlg{flex:none;width:44px;height:44px;border-radius:12px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;padding:3px;overflow:hidden}
+.sxsqlg img{max-width:100%;max-height:100%;object-fit:contain}
+.sxsqlg.ini{font-family:var(--display);font-weight:800;font-size:16px;background:var(--sunk);color:var(--ink);border-color:transparent}
+.sxaff{display:flex;gap:12px;align-items:center;width:100%;text-align:left;text-decoration:none;color:var(--ink);font:inherit;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;flex-wrap:wrap}
+.sxaff+.sxaff{margin-top:8px}
+.sxaff>.grow{flex:1 1 200px;min-width:0}
+.sxaff small{display:block;color:var(--muted)}
+.sxaff:disabled{opacity:.55;cursor:default}
+.sxen{flex:none;min-width:64px;height:40px;padding:0 10px;border-radius:10px;background:var(--ink);color:var(--surface);display:grid;place-items:center;font-family:var(--mono,monospace);font-weight:700;font-size:13px}
+.soprev{border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow-3);overflow:hidden;position:relative;min-height:360px;background:var(--bg)}
+.soprev .sqpage{padding:16px}
+.soprev .sqpage>.sqdeco{left:0;width:100%;top:0;bottom:0}
+.soprev .sqhero .h1{font-size:30px}.soprev .sqhero .lgbig{width:84px;height:84px}
