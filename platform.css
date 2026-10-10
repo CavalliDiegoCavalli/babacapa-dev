@@ -1066,3 +1066,10 @@ a.alink2{color:var(--ink);text-decoration:none}
 .soprev .sqpage{padding:16px}
 .soprev .sqpage>.sqdeco{left:0;width:100%;top:0;bottom:0}
 .soprev .sqhero .h1{font-size:30px}.soprev .sqhero .lgbig{width:84px;height:84px}
+/* Atleti della squadra a fisarmonica nella sezione Squadre della società (1.20.0-dev.3) */
+.sxacc{margin-top:4px;border-top:1px solid var(--sunk)}
+.sxacc>summary{display:flex;flex-wrap:wrap;align-items:center;gap:8px;min-height:48px;padding:8px 0;cursor:pointer;list-style:none}
+.sxacc>summary::-webkit-details-marker{display:none}
+.sxacc>summary::before{content:"";flex:none;width:9px;height:9px;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:rotate(-45deg);margin:0 6px 0 2px;transition:transform .15s}
+.sxacc[open]>summary::before{transform:rotate(45deg)}
+.sxacct{font-weight:800;margin-right:4px}
