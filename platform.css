@@ -1086,3 +1086,26 @@ a.alink2{color:var(--ink);text-decoration:none}
 .rtr{flex:none;min-width:64px;font-weight:700;font-size:16px}
 .cvnum{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
 .cvnum input{width:56px;height:40px;text-align:center;font-family:var(--mono);font-size:16px;border:1.5px solid var(--warn);border-radius:10px;background:var(--surface);color:var(--ink)}
+
+/* squadra a riposo nella giornata del campionato (1.20.0-dev.5) */
+.crip{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-top:6px;padding:8px 12px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:14px}
+.crip small{font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.crip b{color:var(--ink)}
+.crip .drest{cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;color:var(--ink);font-weight:700;border-radius:999px;padding:3px 12px;background:var(--sunk)}
+.crip .drest.dz-on{background:var(--ok-soft);outline:2px solid var(--ok)}
+.dteam.dz-no{outline:2px dashed var(--crit)}
+/* card pubbliche delle squadre: nome, logo e luogo, due per riga sul telefono (1.20.0-dev.5) */
+.sqgrid.pub{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+.sqloc{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
+.sqloc .maplink{display:inline-flex;gap:4px;align-items:flex-start;color:inherit}
+.sqloc svg{width:14px;height:14px;flex:none;margin-top:2px}
+.sqloc span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+@media (max-width:600px){
+  .sqgrid.pub{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .sqgrid.pub .sqband{height:46px}
+  .sqgrid.pub .sqcr{left:50%;transform:translateX(-50%);bottom:-24px;width:52px;height:52px}
+  .sqgrid.pub .sqtl{width:40px;height:40px}.sqgrid.pub .sqtl.ini{width:52px;height:52px;font-size:16px}
+  .sqgrid.pub .sqtb{padding:30px 10px 12px;text-align:center;align-items:center}
+  .sqgrid.pub .sqtb .evn{font-size:15px;line-height:1.2}
+  .sqgrid.pub .sqloc{font-size:12.5px}
+}
