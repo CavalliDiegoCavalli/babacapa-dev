@@ -1115,3 +1115,5 @@ a.alink2{color:var(--ink);text-decoration:none}
 .pendbar .grow{display:flex;flex-direction:column;gap:2px;min-width:180px}
 .pendbar small{color:var(--muted);font-size:13px}
 .pendbar.bad small{color:var(--crit)}
+/* pagina dell'evento (1.23.0-dev.2): referto sotto le statistiche, largo come la sintesi */
+.evref{display:flex;flex-direction:column;gap:16px}
