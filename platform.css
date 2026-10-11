@@ -1073,3 +1073,16 @@ a.alink2{color:var(--ink);text-decoration:none}
 .sxacc>summary::before{content:"";flex:none;width:9px;height:9px;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:rotate(-45deg);margin:0 6px 0 2px;transition:transform .15s}
 .sxacc[open]>summary::before{transform:rotate(45deg)}
 .sxacct{font-weight:800;margin-right:4px}
+/* Ruoli degli atleti (1.20.0-dev.4): storia nella scheda, conteggi e passaggi nelle statistiche, maglia in convocazione */
+.rhist{list-style:none;margin:8px 0 0;padding:0 0 0 14px;border-left:2px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.rhist li{position:relative;display:grid;grid-template-columns:92px minmax(0,1fr);gap:8px;align-items:baseline}
+.rhist li::before{content:"";position:absolute;left:-20px;top:6px;width:10px;height:10px;border-radius:999px;background:var(--surface);border:2px solid var(--muted)}
+.rhist li.on::before{background:var(--primary);border-color:var(--primary)}
+.rhist small{display:block;color:var(--muted)}
+.rhd{color:var(--muted);font-size:13.5px}
+.rcnt{display:flex;flex-wrap:wrap;gap:10px}
+.rcnt>span{display:flex;flex-direction:column;align-items:center;min-width:74px;padding:8px 10px;border-radius:12px;background:var(--sunk)}
+.rcnt b{font-size:24px}.rcnt small{color:var(--muted);font-size:12.5px}
+.rtr{flex:none;min-width:64px;font-weight:700;font-size:16px}
+.cvnum{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
+.cvnum input{width:56px;height:40px;text-align:center;font-family:var(--mono);font-size:16px;border:1.5px solid var(--warn);border-radius:10px;background:var(--surface);color:var(--ink)}
