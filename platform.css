@@ -1109,3 +1109,9 @@ a.alink2{color:var(--ink);text-decoration:none}
   .sqgrid.pub .sqtb .evn{font-size:15px;line-height:1.2}
   .sqgrid.pub .sqloc{font-size:12.5px}
 }
+/* modifiche al calendario da salvare (1.23.0-dev.1): barra in fondo alla pagina, sempre visibile */
+.pendbar{position:sticky;bottom:12px;z-index:30;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0 0;padding:12px 14px;background:var(--surface);border:1px solid var(--primary);border-radius:14px;box-shadow:0 8px 24px rgba(20,32,43,.16)}
+.pendbar.bad{border-color:var(--crit)}
+.pendbar .grow{display:flex;flex-direction:column;gap:2px;min-width:180px}
+.pendbar small{color:var(--muted);font-size:13px}
+.pendbar.bad small{color:var(--crit)}
