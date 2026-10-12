@@ -598,19 +598,19 @@ a.alink2{color:var(--ink);text-decoration:none}
 .day.drafts .dd{background:var(--warn-soft);border-right-color:var(--warn)}
 .day.drafts .dd .wd,.day.drafts .dd .dn{color:var(--warn)}
 .drows{min-width:0}
-.evcard.evrow{display:grid;grid-template-columns:62px 40px minmax(0,1fr) minmax(0,190px) minmax(0,150px);align-items:center;gap:14px;padding:13px 18px;border:0;border-radius:0;box-shadow:none;background:transparent;margin:0}
+.evcard.evrow{display:grid;grid-template-columns:62px 40px minmax(0,1fr) minmax(0,220px) minmax(0,120px);align-items:center;gap:14px;padding:13px 18px;border:0;border-radius:0;box-shadow:none;background:transparent;margin:0}
 .evcard.evrow+.evcard.evrow{border-top:1px solid var(--line)}
 .evcard.evrow:hover{background:color-mix(in srgb,var(--primary-soft) 55%,transparent);transform:none}
 .evcard.evrow.draft{border-style:solid;background:transparent}
 .evrow .evh{font-family:var(--mono);font-weight:700;font-size:16px;font-stretch:normal}
 .evrow .evm{display:flex;flex-direction:column;gap:3px;min-width:0}
 .evrow .evn{font-size:16px;font-weight:700;overflow:hidden;text-overflow:ellipsis}
-.evrow .evsq{display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-width:0;font-size:15.5px;font-weight:400}
+.evrow .evsq{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0;font-size:15.5px;font-weight:400}
 .evrow b{font-weight:700}
 .evrow .evsq .tnm{min-width:0}
 .evrow .evsq .tnm b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .evrow .evw{color:var(--muted);font-size:13.5px;overflow:hidden;text-overflow:ellipsis}
-.evrow .evp{color:var(--muted);font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.evrow .evp{color:var(--muted);font-size:14px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;line-height:1.35;overflow-wrap:anywhere}
 .evrow .evs{justify-self:end;text-align:right;font-size:13px;color:var(--muted);display:flex;justify-content:flex-end;min-width:0}
 .evrow .evres{font-family:var(--mono);font-size:17px;color:var(--ink);font-stretch:normal}
 .evrow .evok{color:var(--ok);font-weight:700}
@@ -644,6 +644,22 @@ a.alink2{color:var(--ink);text-decoration:none}
 .mcal .cd i b.ty-campionato,.mleg b.ty-campionato{background:#00B050}
 .mcal .cd.now i b{box-shadow:0 0 0 1px #fff}
 .mleg{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+/* Eventi (1.25, Diego 2026-10-12): mese con le frecce, giorni toccabili, intestazione e colonna laterale ferme mentre scorre l'elenco */
+.mhead{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.mhead .lbl{margin:0;text-align:center;flex:1;text-transform:capitalize}
+.mnav{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);display:grid;place-items:center;cursor:pointer;flex:none;padding:0}
+.mnav svg{width:18px;height:18px}
+.mnav:hover{border-color:var(--primary);color:var(--primary)}
+.mcal button.cd{border:0;background:transparent;font:inherit;color:inherit;cursor:pointer;width:100%;-webkit-tap-highlight-color:transparent}
+.mcal button.cd:hover{background:var(--primary-soft)}
+.mcal button.cd.now{background:var(--primary);color:#fff}
+.mcal button.cd.sel{box-shadow:inset 0 0 0 2px var(--primary)}
+.mcal button.cd:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
+.evtop{position:sticky;top:0;z-index:20;display:flex;flex-direction:column;gap:14px;background:var(--bg);margin:-18px -16px 0;padding:18px 16px 12px;border-bottom:1px solid var(--line)}
+@media (min-width:700px){.evtop{margin:-26px -28px 0;padding:26px 28px 14px}}
+@media (min-width:980px){.evcols>.cside{position:sticky;top:calc(var(--evh,0px) + 16px);max-height:calc(var(--evvh,100vh) - var(--evh,0px) - 32px);overflow:auto;overscroll-behavior:contain;padding:2px;margin:-2px}}
+.day.flash{animation:dflash 1.2s ease-out}
+@keyframes dflash{0%{box-shadow:0 0 0 3px var(--primary)}100%{box-shadow:var(--shadow-1)}}
 .mleg span{display:inline-flex;align-items:center;gap:5px}
 .mleg b{width:8px;height:8px}
 .cprog{display:flex;flex-direction:column;gap:7px;color:inherit;text-decoration:none;padding:6px 0}
