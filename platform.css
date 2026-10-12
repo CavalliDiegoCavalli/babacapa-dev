@@ -1133,3 +1133,23 @@ a.alink2{color:var(--ink);text-decoration:none}
 .pendbar.bad small{color:var(--crit)}
 /* pagina dell'evento (1.23.0-dev.2): referto sotto le statistiche, largo come la sintesi */
 .evref{display:flex;flex-direction:column;gap:16px}
+
+/* Arbitri designati (1.26): riga nella card della gara, fondo del box delle squadre, filtri e finestra della designazione */
+.evarb{display:flex;align-items:center;gap:5px}
+.evarb svg{width:14px;height:14px;flex:none}
+.evarb b{color:var(--ink)}
+.varb{display:flex;align-items:center;justify-content:center;gap:10px 14px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:14px}
+.varl{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.varl svg{width:18px;height:18px}
+.varn{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.varx{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:999px;background:var(--sunk);color:var(--ink);font-weight:700;font-size:15px}
+.varx.me{background:var(--primary-soft);color:var(--primary)}
+.varx small{font-weight:600;color:var(--muted)}
+.varx.none{background:none;color:var(--muted);font-weight:600}
+.fdn{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+.fdl{font-size:13px;font-weight:700;color:var(--muted)}
+.fchip svg{width:16px;height:16px}
+.dsgl{display:flex;flex-direction:column;gap:8px;max-height:min(50vh,420px);overflow:auto}
+.rp.dsga[hidden]{display:none}
+.rp.dsga:has(input:checked){border-color:var(--primary)}
+.rp.dsga:has(input:disabled){opacity:.5;cursor:default}
