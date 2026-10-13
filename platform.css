@@ -1153,3 +1153,49 @@ a.alink2{color:var(--ink);text-decoration:none}
 .rp.dsga[hidden]{display:none}
 .rp.dsga:has(input:checked){border-color:var(--primary)}
 .rp.dsga:has(input:disabled){opacity:.5;cursor:default}
+
+/* ---------- Tifoso e squadre seguite (1.27, Diego 2026-10-13) ---------- */
+/* card della squadra: il link è sul nome e copre tutta la card; pollice e icone dei campi restano pulsanti a sé */
+.evcard.sqtile{position:relative}
+.sqtile .sqlk{color:inherit;text-decoration:none}
+.sqtile .sqlk::after{content:'';position:absolute;inset:0;z-index:1;border-radius:16px}
+.sqtile .sqlk:focus-visible{outline:0}.sqtile .sqlk:focus-visible::after{outline:3px solid var(--focus,#0096FF);outline-offset:-3px}
+@media (hover:hover){.evcard.sqtile.lk:hover{box-shadow:var(--shadow-2);transform:translateY(-2px)}}
+.sqtile.fw .sqtb{padding-right:52px}
+.sqseg{position:absolute;right:6px;bottom:6px;z-index:2;width:44px;height:44px;padding:0;border:0;border-radius:999px;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:color .5s ease,background-color .12s}
+.sqseg:hover{background:var(--sunk)}
+.sqseg:focus-visible{outline:3px solid var(--focus,#0096FF);outline-offset:1px}
+.sqseg>svg:first-child{width:24px;height:24px;fill:currentColor;fill-opacity:0;transition:fill-opacity .5s ease}
+.sqseg.on{color:var(--sc)}.sqseg.on>svg:first-child{fill-opacity:1}
+.sqseg.pop>svg:first-child{animation:segpop .5s ease}
+.sqseg.inl{position:relative;right:auto;bottom:auto;flex:none}
+.segst{position:absolute;left:50%;top:50%;width:8px;height:8px;fill:var(--sc);pointer-events:none;animation:segburst .5s ease-out forwards}
+@keyframes segpop{0%{transform:scale(1)}35%{transform:scale(1.28)}100%{transform:scale(1)}}
+@keyframes segburst{0%{transform:translate(-50%,-50%) scale(.2) rotate(0);opacity:1}65%{opacity:1}100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1) rotate(120deg);opacity:0}}
+@media (prefers-reduced-motion:reduce){.segst{display:none}.sqseg.pop>svg:first-child{animation:none}}
+.sqic,.sqcm{display:none}
+.sqib{position:relative;z-index:2;width:44px;height:44px;border-radius:999px;display:grid;place-items:center;color:var(--muted);text-decoration:none}
+.sqib:hover{background:var(--sunk);color:var(--ink)}
+.sqib:focus-visible{outline:3px solid var(--focus,#0096FF)}
+.sqib svg{width:24px;height:24px}
+/* telefono: sotto il nome il comune e le icone dei campi al posto dell'indirizzo; il pollice in basso a destra */
+@media (max-width:600px){
+  .sqgrid.pub .sqloc{display:none}
+  .sqgrid.pub .sqcm{display:block;color:var(--muted);font-size:12.5px}
+  .sqgrid.pub .sqic{display:flex;align-self:stretch;justify-content:center;margin:2px -4px -6px}
+  .sqgrid.pub .sqtile.fw .sqic{justify-content:flex-start;margin-right:44px}
+  .sqgrid.pub .sqtile.fw .sqtb{padding-right:10px}
+  .sqgrid.pub .sqtile:has(.sqic) .sqtb{padding-bottom:6px}
+}
+/* pagina della squadra: quante persone la seguono */
+.segc{display:flex;flex-direction:row;align-items:center;gap:12px}
+.segc .lbl{margin:0 0 2px}
+.segw{font-size:15px}.segw b{font-family:var(--mono);font-size:22px;font-stretch:normal}
+/* Eventi: Seguite / Tutte */
+.seg.tabs.evseg{width:auto;flex:none}
+.seg.tabs.evseg button{flex:none;display:inline-flex;align-items:center;gap:6px;padding:0 16px}
+.evseg svg{width:18px;height:18px;fill:currentColor}
+/* menu Utenti: ricerca del designatore */
+.ufound{display:flex;flex-direction:column;gap:8px}
+.ufr{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--line);border-radius:12px}
+.ufr small{display:block}
