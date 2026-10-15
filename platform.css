@@ -1224,6 +1224,7 @@ a.chip.tychip:focus-visible{outline:3px solid var(--focus,#0096FF);outline-offse
   .fchips.ftys{width:auto;flex-wrap:nowrap}
   .evf2{flex-wrap:nowrap}
   .evacts{margin-left:0;width:100%}
+  .evfil,.evf2,.evfil .fchips,.fdn{justify-content:center}   /* 1.29: filtri centrati sul telefono */
   #evcal,.cside>.card.side.cpside{display:none}   /* sul telefono niente calendario né avanzamento dei campionati */
 }
 /* pagina dell'evento: giorno, data e ora al centro tra i loghi */
@@ -1232,3 +1233,4 @@ a.chip.tychip:focus-visible{outline:3px solid var(--focus,#0096FF);outline-offse
 .vwd,.vdd{font-size:22px}
 .vdd i{font-style:normal;margin:0 .2em}
 @media (max-width:640px){.vgrid .vm{gap:4px}.vwd,.vdd{font-size:14px}}
+.sqseg.own{cursor:default}
