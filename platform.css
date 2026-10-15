@@ -1206,3 +1206,9 @@ a.chip.tychip:focus-visible{outline:3px solid var(--focus,#0096FF);outline-offse
 .card.acoutc{display:flex;align-items:center;justify-content:center;gap:8px;margin:0;padding:15px;font:inherit;font-weight:800;font-size:15px;color:var(--crit);cursor:pointer;width:100%}
 .acoutc svg{width:20px;height:20px}
 .acsi.acout span{white-space:normal}
+/* 1.29 (Diego, 2026-10-15): freccia "indietro" senza testo (torna alla schermata lasciata), area di tocco da 44 px */
+a.back{min-width:44px;min-height:44px;justify-content:center;padding:0;margin:-10px 0 -10px -12px;border-radius:12px}
+a.back svg{width:22px;height:22px}
+@media (hover:hover){a.back:hover{background:var(--sunk);color:var(--ink)}}
+a.back:focus-visible{outline:3px solid var(--focus,#0096FF);outline-offset:-3px}
+.acmain>a.back.acback{margin:-10px 0 -10px -12px}
