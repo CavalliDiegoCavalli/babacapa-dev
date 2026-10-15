@@ -1,0 +1,179 @@
+/* SP-IN — tokens.css, generato da design-system/tokens.json.
+   Includilo PRIMA di styles.css e platform.css. Non modificare a mano: si cambia tokens.json nel design system SP-IN e si rigenera. */
+
+:root{
+  --bg:#f4f6f7;
+  --surface:#ffffff;
+  --sunk:#e9ecef;
+  --line:#d9dcdf;
+  --line-strong:#848e97;
+  --ink:#14202b;
+  --muted:#5a6670;
+  --primary:#0077cc;
+  --primary-hover:#0063aa;
+  --primary-soft:#dcefff;
+  --primary-fill:#0077cc;
+  --accent:var(--brand-orange);
+  --accent-hover:#e08000;
+  --accent-ink:#14202b;
+  --focus:var(--brand-blue);
+  --ok:#007a3d;
+  --ok-soft:#ddf5e7;
+  --ok-fill:#007a3d;
+  --warn:#9a5800;
+  --warn-soft:#ffefd9;
+  --warn-fill:#9a5800;
+  --crit:#c62828;
+  --crit-soft:#fde4e2;
+  --crit-fill:#c62828;
+  --on-fill:#ffffff;
+  --A:var(--primary);
+  --A-soft:#dcefff;
+  --A-ink:#a8540a;
+  --B:var(--accent-hover);
+  --B-soft:#ffefd9;
+  --B-ink:#0b6e60;
+  --scorebox:#14202b;
+  --A-sb:#f0913a;
+  --B-sb:#2bb39f;
+  --blue:#1c3faa;
+  --brand-blue:#0096ff;
+  --brand-orange:#ff9300;
+  --brand-green:#00b050;
+  --brand-grey:#bfbfbf;
+  --bm1:#5aa9e6;
+  --bm3:#9aa6b0;
+  --bm5:#2e9e6a;
+  --shadow-1:0 1px 2px rgba(20,32,43,.06),0 1px 1px rgba(20,32,43,.04);
+  --shadow-2:0 4px 12px rgba(20,32,43,.08),0 1px 3px rgba(20,32,43,.06);
+  --shadow-3:0 16px 40px rgba(20,32,43,.16),0 4px 10px rgba(20,32,43,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){color-scheme:dark;
+  --bg:#0e161d;
+  --surface:#14202b;
+  --sunk:#0b1218;
+  --line:#2a3946;
+  --line-strong:#617080;
+  --ink:#e9ecef;
+  --muted:#9aa6b0;
+  --primary:#1a8ce6;
+  --primary-hover:#3daeff;
+  --primary-soft:#0e2c44;
+  --primary-fill:#1a8ce6;
+  --accent-hover:#ffa733;
+  --accent-ink:#14202b;
+  --ok:#2fc774;
+  --ok-soft:#0f2e1d;
+  --ok-fill:#2fc774;
+  --warn:#ffb347;
+  --warn-soft:#3a2810;
+  --warn-fill:#ffb347;
+  --crit:#f2685e;
+  --crit-soft:#3a1614;
+  --crit-fill:#e72113;
+  --on-fill:#ffffff;
+  --A:var(--primary-hover);
+  --A-soft:#0e2c44;
+  --A-ink:#f0913a;
+  --B-soft:#3a2810;
+  --B-ink:#2bb39f;
+  --scorebox:#14202b;
+  --A-sb:#f0913a;
+  --B-sb:#2bb39f;
+  --blue:#7c98f2;
+  --bm1:#9bcbf2;
+  --bm3:#5a6670;
+  --bm5:#4cc88e;
+  --shadow-1:0 1px 2px rgba(0,0,0,.3);
+  --shadow-2:0 4px 12px rgba(0,0,0,.35);
+  --shadow-3:0 16px 40px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{color-scheme:dark;
+  --bg:#0e161d;
+  --surface:#14202b;
+  --sunk:#0b1218;
+  --line:#2a3946;
+  --line-strong:#617080;
+  --ink:#e9ecef;
+  --muted:#9aa6b0;
+  --primary:#1a8ce6;
+  --primary-hover:#3daeff;
+  --primary-soft:#0e2c44;
+  --primary-fill:#1a8ce6;
+  --accent-hover:#ffa733;
+  --accent-ink:#14202b;
+  --ok:#2fc774;
+  --ok-soft:#0f2e1d;
+  --ok-fill:#2fc774;
+  --warn:#ffb347;
+  --warn-soft:#3a2810;
+  --warn-fill:#ffb347;
+  --crit:#f2685e;
+  --crit-soft:#3a1614;
+  --crit-fill:#e72113;
+  --on-fill:#ffffff;
+  --A:var(--primary-hover);
+  --A-soft:#0e2c44;
+  --A-ink:#f0913a;
+  --B-soft:#3a2810;
+  --B-ink:#2bb39f;
+  --scorebox:#14202b;
+  --A-sb:#f0913a;
+  --B-sb:#2bb39f;
+  --blue:#7c98f2;
+  --bm1:#9bcbf2;
+  --bm3:#5a6670;
+  --bm5:#4cc88e;
+  --shadow-1:0 1px 2px rgba(0,0,0,.3);
+  --shadow-2:0 4px 12px rgba(0,0,0,.35);
+  --shadow-3:0 16px 40px rgba(0,0,0,.5);
+}
+
+/* scale: corpi, spazi, raggi, larghezze, font */
+:root{
+  --space-2:2px;
+  --space-4:4px;
+  --space-8:8px;
+  --space-12:12px;
+  --space-16:16px;
+  --space-20:20px;
+  --space-24:24px;
+  --space-32:32px;
+  --space-40:40px;
+  --space-48:48px;
+  --radius-xs:4px;
+  --radius-sm:8px;
+  --radius-md:12px;
+  --radius-lg:16px;
+  --radius-xl:24px;
+  --radius-pill:999px;
+  --radius-round:50%;
+  --display-w:87.5%;
+  --num-w:75%;
+  --fs-11:11px;
+  --fs-12:12px;
+  --fs-13:13px;
+  --fs-14:14px;
+  --fs-15:15px;
+  --fs-17:17px;
+  --fs-20:20px;
+  --fs-24:24px;
+  --fs-30:30px;
+  --fs-42:42px;
+  --fs-60:60px;
+  --font-display:"Archivo", "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  --font-body:"Archivo", "Helvetica Neue", Helvetica, Arial, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+
+/* compatibilità: i nomi vecchi puntano ai nuovi. Toglili man mano che il codice usa i nomi nuovi. */
+:root{
+  --A-tx:var(--A-ink);
+  --B-tx:var(--B-ink);
+  --display:var(--font-display);
+  --body:var(--font-body);
+  --mono:var(--font-mono);
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
