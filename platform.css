@@ -990,6 +990,15 @@ a.alink2{color:var(--ink);text-decoration:none}
    come prima (prime 4 gare), e nella tabella degli atleti solo numero, cognome e nome, genere */
 .sqnlg{flex:none;display:flex}
 .sqnha{white-space:nowrap}
+.sqnx .sqnxl{display:flex;flex-direction:column;gap:var(--space-8)}
+.sqnx .sqnrow{position:relative;align-items:center}
+.sqnx .sqnrow>*{align-self:center}
+.sqnx .sqnlk{position:absolute;inset:0;z-index:1;border-radius:var(--radius-md)}
+.sqnx .sqnlk:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+@media (hover:hover){.sqnx .sqnrow:hover b{text-decoration:underline}}
+.sqnd{display:flex;flex-direction:column;align-items:center;gap:var(--space-4);flex:none;width:52px}
+.sqnd .sqd8{width:auto;text-align:center}
+.sqnd .ty{width:30px;height:30px}.sqnd .ty svg{width:16px;height:16px}
 .sqnini{display:flex;align-items:center;justify-content:center;background:var(--sunk);color:var(--muted);font-size:var(--fs-12);font-weight:700}
 .rnames{list-style:none;margin:0;padding:var(--space-8) 0 0;border-top:1px solid var(--line);align-self:stretch;display:flex;flex-direction:column;gap:var(--space-4);font-size:var(--fs-15)}
 .rnames .chip{font-size:var(--fs-11);padding:var(--space-2) var(--space-8)}
@@ -1000,7 +1009,7 @@ a.alink2{color:var(--ink);text-decoration:none}
 }
 @media (max-width:899px){
   .sqpage .sqstpc,.sqnx .sqnxp{display:none}
-  .sqnx .sqnxl>a:nth-child(n+5){display:none}
+  .sqnx .sqnxl>.sqnrow:nth-child(n+5){display:none}
   .sqpage .atmain td[data-l="Ruolo"],.sqpage .atmain td[data-l="Tessera"],.sqpage .atmain td[data-l="Visita medica"],.sqpage .atmain td[data-l="Liberatoria"],.sqpage .atmain .atder{display:none}
   .sqpage .atmain tr{grid-template-columns:44px minmax(0,1fr) auto;align-items:center}
   .sqpage .atmain td.atnum,.sqpage .atmain:not(.ro) td.atnum{grid-row:auto}
