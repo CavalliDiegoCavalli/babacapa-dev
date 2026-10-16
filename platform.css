@@ -992,7 +992,7 @@ a.alink2{color:var(--ink);text-decoration:none}
 .sqnha{white-space:nowrap}
 .sqnx .sqnxl{display:flex;flex-direction:column;gap:var(--space-8)}
 .sqnx .sqnrow{position:relative;align-items:center}
-.sqnx .sqnrow>*{align-self:center}
+.sqnx .sqnrow>:not(.sqnlk){align-self:center}   /* il link che copre la riga no: centrato avrebbe altezza zero */
 .sqnx .sqnlk{position:absolute;inset:0;z-index:1;border-radius:var(--radius-md)}
 .sqnx .sqnlk:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 @media (hover:hover){.sqnx .sqnrow:hover b{text-decoration:underline}}
