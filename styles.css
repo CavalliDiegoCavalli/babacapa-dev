@@ -736,3 +736,7 @@ body{font-stretch:100%;-webkit-font-smoothing:antialiased}
 .sheet.center{align-self:center}
 .tile .meta{flex-wrap:wrap}
 .tile .pts{white-space:nowrap}
+/* .acts del referto (griglia dei punti) non è la riga dei pulsanti del dialogo di components.css (.sheet .acts) */
+.sheet .acts{display:grid;justify-content:normal}
+/* deroghe nella lista R: con 8 px per lato Tempo, Spazio e Canestro non stanno nella colonna da 190 px */
+.sqmain .prow .der button{padding:0 var(--space-4)}
