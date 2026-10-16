@@ -985,6 +985,28 @@ a.alink2{color:var(--ink);text-decoration:none}
 @media (max-width:980px){.atmain:not(.ro) td.atnum{grid-row:span 4}}
 @media (max-width:420px){.atmain:not(.ro) td.atnum{grid-row:span 7}}
 .sqnums .sqsl{display:inline-flex;align-items:center;gap:var(--space-8)}.sqnums .sqsl svg{width:16px;height:16px;flex:none}
+/* 1.31 (Diego, 2026-10-16). PC (da 900 px): niente "Gare della squadra" né card sintetica, statistiche di squadra e ruoli in
+   chiaro, prossimi eventi tutti e scorrevoli nella card con logo dell'avversaria e Casa/Trasferta. Telefono e tablet stretti:
+   come prima (prime 4 gare), e nella tabella degli atleti solo numero, cognome e nome, genere */
+.sqnlg{flex:none;display:flex}
+.sqnha{white-space:nowrap}
+.sqnini{display:flex;align-items:center;justify-content:center;background:var(--sunk);color:var(--muted);font-size:var(--fs-12);font-weight:700}
+.rnames{list-style:none;margin:0;padding:var(--space-8) 0 0;border-top:1px solid var(--line);align-self:stretch;display:flex;flex-direction:column;gap:var(--space-4);font-size:var(--fs-15)}
+.rnames .chip{font-size:var(--fs-11);padding:var(--space-2) var(--space-8)}
+@media (min-width:900px){
+  .sqpage .sqgare,.sqpage .sqstm{display:none}
+  .sqnx .sqnxl{max-height:420px;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;margin-right:calc(-1 * var(--space-8));padding-right:var(--space-8)}
+  .sqstpc{display:flex;flex-direction:column;gap:var(--space-20)}
+}
+@media (max-width:899px){
+  .sqpage .sqstpc,.sqnx .sqnxp{display:none}
+  .sqnx .sqnxl>a:nth-child(n+5){display:none}
+  .sqpage .atmain td[data-l="Ruolo"],.sqpage .atmain td[data-l="Tessera"],.sqpage .atmain td[data-l="Visita medica"],.sqpage .atmain td[data-l="Liberatoria"],.sqpage .atmain .atder{display:none}
+  .sqpage .atmain tr{grid-template-columns:44px minmax(0,1fr) auto;align-items:center}
+  .sqpage .atmain td.atnum,.sqpage .atmain:not(.ro) td.atnum{grid-row:auto}
+  .sqpage .atmain td.sxtn{grid-column:auto}
+  .sqpage .atmain td[data-l="Genere"]::before{display:none}
+}
 
 /* Società sportive (1.20): prefissi sx e so, diversi dalle classi del motore del referto (styles.css) */
 .sxsq>.sech{align-items:center;flex-wrap:wrap;gap:var(--space-12)}
