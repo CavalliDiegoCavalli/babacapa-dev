@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SP-IN · Scheda evento · anteprima</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="event-poster.css">
+<style>
+  /* gli stessi font dell'app (styles.css): la cartella fonts/ è accanto a design-system/ */
+  @font-face{font-family:"Archivo";font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url(../fonts/archivo.woff2) format("woff2")}
+  @font-face{font-family:"JetBrains Mono";font-weight:100 800;font-display:swap;src:url(../fonts/jetbrains-mono.woff2) format("woff2")}
+  body{margin:0;padding:32px;background:var(--bg);color:var(--ink);font-family:var(--font-body)}
+  h1{font-size:var(--fs-24);margin:0 0 8px}
+  h2{font-size:var(--fs-15);color:var(--muted);font-weight:700;margin:32px 0 12px}
+  .row{display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start}
+  .phone{width:390px;border-radius:24px;overflow:hidden;box-shadow:var(--shadow-2)}
+  .pc{width:var(--pcw,1440px);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-2)}
+  .theme{position:fixed;top:16px;right:16px}
+</style>
+</head>
+<body>
+<button class="btn theme" type="button" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Tema chiaro/scuro</button>
+<h1>Scheda evento · Faccia a faccia</h1>
+<p style="color:var(--muted);margin:0">Dati di esempio. Un solo componente: il layout cambia con la larghezza del contenitore (mobile &lt; 1280px ≤ PC).</p>
+
+<h2>Mobile · prima della partita · in diretta (maglia trasferta) · finita</h2>
+<div class="row"><div class="phone" id="m-pre"></div><div class="phone" id="m-live"></div><div class="phone" id="m-final"></div><div class="phone" id="m-lungo"></div></div>
+
+<h2>PC · prima della partita</h2>
+<div class="pc" id="d-pre"></div>
+<h2>PC · finita</h2>
+<div class="pc" id="d-final"></div>
+
+<script src="event-poster.js"></script>
+<script>
+const L = 'event-poster-samples/';
+const T = {
+  rossa: { name: 'Squadra Rossa Baskin Bergamo', short: 'Rossa', kicker: 'Squadra', sub: 'Baskin Bergamo', logo: L + 'rossa.png', color: '#B5121B', altColor: '#F5D300', form: 'VVPVV' },
+  gialla: { name: 'Squadra Gialla Baskin Bergamo', short: 'Gialla', kicker: 'Squadra', sub: 'Baskin Bergamo', logo: L + 'gialla.png', color: '#F5CF1F', altColor: '#7B2490', form: 'PVVVP' },
+  islanders: { name: 'Islanders', short: 'Islanders', kicker: 'Baskin', sub: 'Baskin', logo: L + 'islanders.png', color: '#0E7C8C', altColor: '#F07A2A', form: 'VPV' },
+  valseriana: { name: 'Valseriana Baskin', short: 'Valseriana', kicker: 'Baskin', sub: 'Val Seriana', logo: L + 'valseriana.png', color: '#0E2F4F', altColor: '#E2542A', form: 'VVV' },
+  aurora: { name: 'Aurora S.F. Baskin', short: 'Aurora S.F.', kicker: 'Baskin', sub: 'Baskin', logo: L + 'aurora.jpg', color: '#D0312D', altColor: '#F08A2C', form: 'VVPVV' },
+  lumezzane: { name: 'Basket Lumezzane', short: 'Lumezzane', kicker: 'Basket', sub: 'Lumezzane', logo: L + 'lumezzane.png', color: '#1B3563', altColor: '#F0592A', form: 'PVVPP' }
+};
+const E = {
+  pre: { state: 'pre', competition: 'Campionato Baskin', round: 'Derby', start: '2026-10-24T15:00:00+02:00', venue: { name: 'Palestra comunale', city: 'Bergamo' },
+    home: T.rossa, away: T.gialla, stats: { home: { ptsAvg: 38.4, wins: 4, h2hWins: 3 }, away: { ptsAvg: 35.1, wins: 3, h2hWins: 3 } } },
+  live: { state: 'live', competition: 'Campionato Baskin', round: 'Giornata 4', start: '2026-10-18T10:30:00+02:00', venue: { name: 'Palestra comunale', city: 'Bergamo' },
+    home: T.islanders, away: T.valseriana, score: { home: 27, away: 24 }, live: { period: '3° tempo', clock: '04:51' },
+    stats: { home: { ptsAvg: 33.7, wins: 2, h2hWins: 1 }, away: { ptsAvg: 36, wins: 3, h2hWins: 2 } } },
+  final: { state: 'final', competition: 'Torneo d’autunno', round: 'Semifinale', start: '2026-10-10T16:00:00+02:00', venue: { name: 'Palestra comunale', city: 'Bergamo' },
+    home: T.aurora, away: T.lumezzane, score: { home: 46, away: 40 }, periods: [[12, 9], [10, 11], [13, 8], [11, 12]],
+    stats: { home: { ptsAvg: 41.3, wins: 5, h2hWins: 2 }, away: { ptsAvg: 37.9, wins: 4, h2hWins: 1 } } }
+};
+/* nell'app il pulsante compare solo quando esiste l'azione corrispondente (cta); qui sempre, come nelle tavole */
+Object.values(E).forEach(e => { e.cta = { href: '#' }; e.calendarHref = '#'; });
+/* nome lungo senza sigla breve, come i nomi delle squadre nell'app */
+E.lungo = Object.assign({}, E.pre, { home: Object.assign({}, T.rossa, { short: '' }), away: Object.assign({}, T.gialla, { short: '' }) });
+const P = SPIN.eventPoster;
+P.mount(document.getElementById('m-pre'), E.pre);
+P.mount(document.getElementById('m-live'), E.live);
+P.mount(document.getElementById('m-final'), E.final);
+P.mount(document.getElementById('d-pre'), E.pre);
+P.mount(document.getElementById('d-final'), E.final);
+P.mount(document.getElementById('m-lungo'), E.lungo);
+</script>
+</body>
+</html>

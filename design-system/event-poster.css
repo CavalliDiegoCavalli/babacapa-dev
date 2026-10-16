@@ -1,0 +1,190 @@
+/* SP-IN · Scheda evento "Faccia a faccia"
+   Componente EventPoster. Markup generato da event-poster.js (SPIN.eventPoster.render).
+   Un solo markup per mobile e PC: il layout cambia con la larghezza del contenitore
+   (container query), non con quella della finestra.
+     < 1280px  layout mobile (impilato)
+     ≥ 1280px  layout PC (stemma · punteggio · box · punteggio · stemma)
+   Colori squadra: arrivano come variabili inline sull'<article> (--ep-a, --ep-a-on, --ep-a-bar, …)
+   calcolate da event-poster.js. Tutto il resto usa i token di tokens.css.
+   Nota: una container query non può dare stile al contenitore stesso, per questo le variabili
+   dei breakpoint sono assegnate ai figli diretti (.ep>*) e da lì ereditate.
+   Le misure del manifesto (nomi, punteggi, stemmi) sono fuori dalla scala tipografica di proposito:
+   sono definite qui come variabili locali --ep-* e non vanno riusate altrove. */
+
+.ep{
+  --ep-seam:#FFFFFF;            /* linea tra i due colori e anello del box: bianca in entrambi i temi */
+  --ep-live:#FF8A80;            /* stato "In diretta" sul fondo --scorebox (contrasto 6,9:1) */
+  --ep-crest:64px;
+  --ep-ring:3px;
+  --ep-name:32px;
+  --ep-score:80px;
+  --ep-box-w:auto;
+  --ep-date:var(--fs-30);
+  --ep-time:22px;
+  --ep-day:var(--fs-11);
+  --ep-place:var(--fs-12);
+  --ep-wm:320px;
+  container-type:inline-size;
+  container-name:ep;
+  display:flex;flex-direction:column;
+  background:var(--surface);color:var(--ink);
+  font-family:var(--font-body);
+  overflow:hidden;
+}
+
+/* ---------- testata a due colori ---------- */
+.ep-hero{
+  position:relative;isolation:isolate;
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-rows:auto auto auto auto auto;
+  row-gap:var(--space-12);
+  padding:var(--space-12) 0 var(--space-32);
+  background:linear-gradient(90deg,var(--ep-a) 50%,var(--ep-b) 50%);
+}
+.ep-hero::after{ /* linea centrale */
+  content:"";position:absolute;top:0;bottom:0;left:50%;width:4px;transform:translateX(-50%);
+  background:var(--ep-seam);z-index:0;
+}
+.ep-hero>*{position:relative;z-index:1}
+
+/* filigrana: il logo grande tagliato dal bordo, uno per metà */
+.ep-wm{position:absolute!important;top:0;bottom:0;width:50%;overflow:hidden;z-index:0!important;pointer-events:none}
+.ep-wm--a{left:0;background:var(--ep-a)}.ep-wm--b{right:0;background:var(--ep-b)}
+/* il fondo colorato sta anche dentro la filigrana: così il "multiply" cancella il bianco dei loghi JPG */
+.ep-wm img{position:absolute;top:150px;width:var(--ep-wm);height:var(--ep-wm);object-fit:contain;opacity:.2;mix-blend-mode:multiply}
+.ep-wm--a img{left:calc(var(--ep-wm) * -.44)}
+.ep-wm--b img{right:calc(var(--ep-wm) * -.44)}
+
+/* barra superiore */
+.ep-top{grid-area:1/1/2/3;display:flex;align-items:center;justify-content:space-between;gap:var(--space-8);padding:0 var(--space-16)}
+.ep-icon{width:44px;height:44px;flex:none;border:0;border-radius:var(--radius-pill);background:color-mix(in srgb,var(--scorebox) 82%,transparent);color:#FFFFFF;display:grid;place-items:center;cursor:pointer;text-decoration:none}
+.ep-icon svg{width:22px;height:22px}
+.ep-comp{text-decoration:none;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:6px var(--space-12);border-radius:var(--radius-pill);background:var(--scorebox);color:#FFFFFF;font-size:var(--fs-11);font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+
+/* stemmi */
+.ep-crest{
+  justify-self:center;align-self:center;
+  width:var(--ep-crest);height:var(--ep-crest);border-radius:var(--radius-round);
+  background:var(--ep-crest-bg,#FFFFFF);overflow:hidden;display:grid;place-items:center;
+  box-shadow:0 0 0 var(--ep-ring) var(--ep-on),0 10px 30px rgba(0,0,0,.3);
+  margin-top:var(--space-20);
+}
+.ep-crest:is(a){text-decoration:none}
+.ep-crest img{width:86%;height:86%;object-fit:contain;display:block}
+.ep-crest b{font-family:var(--font-display);font-weight:900;font-stretch:75%;font-size:calc(var(--ep-crest) * .32);color:var(--ep-c)}
+.ep-crest--a{grid-area:2/1/3/2;--ep-on:var(--ep-a-on);--ep-c:var(--ep-a);--ep-crest-bg:var(--ep-a-crest)}
+.ep-crest--b{grid-area:2/2/3/3;--ep-on:var(--ep-b-on);--ep-c:var(--ep-b);--ep-crest-bg:var(--ep-b-crest)}
+
+/* nomi */
+.ep-team{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;padding:0 var(--space-12);text-align:center}
+.ep-team--a{grid-area:3/1/4/2;color:var(--ep-a-on)}
+.ep-team--b{grid-area:3/2/4/3;color:var(--ep-b-on)}
+.ep-kicker{font-size:var(--fs-11);font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.ep-name{margin:0;color:inherit;font-family:var(--font-display);font-weight:900;font-stretch:70%;font-size:calc(var(--ep-name) * var(--ep-k,1));line-height:.9;text-transform:uppercase;max-width:100%;overflow:hidden;text-wrap:balance;overflow-wrap:break-word;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+/* SP-IN: nome trascinabile per scambiare casa e ospite (pagina dell'evento) */
+.ep-name.dteam{cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;border-radius:var(--radius-sm);outline:2px dashed color-mix(in srgb,currentColor 45%,transparent);outline-offset:4px}
+.ep-name.dteam.dz-on{outline:3px solid currentColor}
+.ep-name.dteam.dz-no{outline:3px dashed var(--crit)}
+.ep-sub{display:none;font-size:var(--fs-15);font-weight:700}
+.ep-kit{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:3px var(--space-8);border-radius:var(--radius-pill);border:1.5px solid currentColor}
+
+/* punteggi (solo in diretta e a fine partita) */
+.ep-score{align-self:center;justify-self:center;font-family:var(--font-mono);font-weight:700;font-size:var(--ep-score);line-height:1;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.ep-score--a{grid-area:4/1/5/2;color:var(--ep-a-on)}
+.ep-score--b{grid-area:4/2/5/3;color:var(--ep-b-on)}
+.ep-score.is-lost{opacity:.5}
+
+/* box centrale: giorno, data, ora, luogo */
+.ep-when{
+  grid-area:5/1/6/3;justify-self:center;align-self:center;
+  width:var(--ep-box-w);box-sizing:border-box;
+  display:flex;flex-direction:column;align-items:center;gap:var(--space-4);
+  padding:var(--space-12) var(--space-20) 14px;border-radius:var(--radius-xl);
+  background:var(--scorebox);color:#FFFFFF;box-shadow:0 0 0 4px var(--ep-seam);
+  text-align:center;white-space:nowrap;
+}
+.ep-status{display:flex;align-items:center;gap:6px;padding-bottom:6px;margin-bottom:2px;border-bottom:1px solid #33424F;font-size:var(--ep-day);font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ep-live)}
+.ep-status::before{content:"";width:8px;height:8px;border-radius:var(--radius-pill);background:currentColor}
+.ep-day{font-size:var(--ep-day);font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#9AA6B0}
+.ep-date{font-family:var(--font-display);font-weight:900;font-stretch:75%;font-size:var(--ep-date);line-height:.95;text-transform:uppercase}
+.ep-date.is-tbd{font-size:calc(var(--ep-date) * .7)}
+.ep-time{font-family:var(--font-mono);font-weight:700;font-size:var(--ep-time);line-height:1.1}
+.ep-place{text-decoration:none;max-width:100%;white-space:normal;display:flex;align-items:center;gap:var(--space-4);font-size:var(--ep-place);font-weight:600;color:#C9D0D6}
+.ep-place svg{width:14px;height:14px;flex:none}
+
+/* ---------- statistiche ---------- */
+.ep-stats{width:100%;max-width:760px;box-sizing:border-box;margin:0 auto;display:flex;flex-direction:column;gap:var(--space-12);padding:18px var(--space-20) 0}
+.ep-stats h3{margin:0;color:var(--ink);text-align:center;font-family:var(--font-display);font-weight:800;font-stretch:var(--display-w);font-size:var(--fs-20);text-transform:uppercase}
+.ep-stat{display:flex;flex-direction:column;gap:6px}
+.ep-stat-head{display:grid;grid-template-columns:64px minmax(0,1fr) 64px;align-items:baseline}
+.ep-stat-head b{font-family:var(--font-mono);font-weight:700;font-size:var(--fs-17)}
+.ep-stat-head b:last-child{text-align:right}
+.ep-stat-head span,.ep-form span.ep-lbl{text-align:center;font-size:var(--fs-11);font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ep-stat .is-low{opacity:.45}
+.ep-bars{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4);height:10px}
+.ep-bars>span{display:flex;background:var(--sunk);overflow:hidden}
+.ep-bars>span:first-child{justify-content:flex-end;border-radius:var(--radius-pill) 0 0 var(--radius-pill)}
+.ep-bars>span:last-child{border-radius:0 var(--radius-pill) var(--radius-pill) 0}
+.ep-bars i{display:block;height:100%}
+.ep-bars>span:first-child i{background:var(--ep-a-bar)}
+.ep-bars>span:last-child i{background:var(--ep-b-bar)}
+.ep-form{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center}
+.ep-dots{display:flex;gap:var(--space-4)}
+.ep-dots:last-child{justify-content:flex-end}
+.ep-dots i{width:12px;height:12px;box-sizing:border-box;border-radius:var(--radius-pill);border:2px solid var(--ep-dot)}
+.ep-dots i.w{background:var(--ep-dot)}
+.ep-dots--a{--ep-dot:var(--ep-a-bar)}.ep-dots--b{--ep-dot:var(--ep-b-bar)}
+.ep-periods{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.ep-periods>span{display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px var(--space-4);border-radius:var(--radius-md);background:var(--sunk);border-top:4px solid var(--ep-p,var(--line))}
+.ep-periods small{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ep-periods b{font-family:var(--font-mono);font-weight:700;font-size:var(--fs-15);white-space:nowrap}
+.ep-periods .pa{--ep-p:var(--ep-a-bar)}.ep-periods .pb{--ep-p:var(--ep-b-bar)}
+
+/* azioni (solo mobile) */
+.ep-actions{display:flex;gap:var(--space-12);align-items:center;padding:var(--space-20) var(--space-20) var(--space-24);max-width:760px;width:100%;box-sizing:border-box;margin:0 auto}
+.ep-actions .btn.primary{flex:1;text-decoration:none}
+.ep-cal{width:52px;height:52px;flex:none;box-sizing:border-box;border-radius:var(--radius-pill);border:1.5px solid var(--line-strong);color:var(--ink);display:grid;place-items:center}
+.ep-cal svg{width:20px;height:20px}
+
+/* ---------- tablet: stesso layout, un po' più grande ---------- */
+@container ep (min-width:700px){
+  .ep>*{--ep-crest:96px;--ep-name:44px;--ep-score:96px;--ep-wm:440px}
+  .ep-sub{display:block}
+}
+
+/* ---------- PC ---------- */
+@container ep (min-width:1280px){
+  .ep>*{
+    --ep-crest:clamp(128px,10cqi,144px);
+    --ep-ring:4px;
+    --ep-name:80px;
+    --ep-score:clamp(72px,calc(72px + (100cqi - 1280px) * .125),92px);
+    --ep-box-w:288px;
+    --ep-date:var(--fs-42);
+    --ep-time:34px;
+    --ep-day:var(--fs-13);
+    --ep-place:var(--fs-15);
+    --ep-wm:680px;
+  }
+  .ep-hero{grid-template-rows:auto auto auto;row-gap:var(--space-16);padding:var(--space-24) 0 var(--space-40)}
+  .ep-hero::after{width:6px}
+  .ep-top{padding:0 var(--space-40)}
+  .ep-wm img{top:40px}
+  .ep-crest{margin-top:var(--space-32)}
+  .ep-crest--a,.ep-score--a{grid-area:2/1/3/2}
+  .ep-crest--b,.ep-score--b{grid-area:2/2/3/3}
+  /* il punteggio sta tra lo stemma e il box */
+  .ep-score{margin-top:var(--space-32)}
+  .ep-score--a{justify-self:end;margin-right:calc(var(--ep-box-w) / 2 + var(--space-20))}
+  .ep-score--b{justify-self:start;margin-left:calc(var(--ep-box-w) / 2 + var(--space-20))}
+  .ep-when{grid-area:2/1/3/3;margin-top:var(--space-32);padding:var(--space-20) var(--space-20) 22px;box-shadow:0 0 0 6px var(--ep-seam)}
+  .ep-team{gap:10px}
+  .ep-team--a{grid-area:3/1/4/2}.ep-team--b{grid-area:3/2/4/3}
+  .ep-kicker{font-size:var(--fs-13);letter-spacing:.16em;margin-top:var(--space-8)}
+  .ep-name{line-height:.86}
+  .ep-stats{gap:18px;padding:36px var(--space-40) var(--space-40);max-width:840px}
+  .ep-stats h3{font-size:26px}
+  .ep-stat-head b{font-size:22px}
+  .ep-bars{height:12px}
+  .ep-actions{display:none}
+}

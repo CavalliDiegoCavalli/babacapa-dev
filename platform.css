@@ -507,8 +507,12 @@ a.alink2{color:var(--ink);text-decoration:none}
 .dsrc{opacity:.35}
 .dghost{position:fixed;z-index:1000;pointer-events:none;margin:0;opacity:.95;box-shadow:0 10px 28px rgba(0,0,0,.22);background:var(--surface);border-radius:var(--radius-md);cursor:grabbing}
 .dndh{margin:0 0 var(--space-8);font-size:var(--fs-13)}
-.card.vs .dteam{cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;border-radius:var(--radius-sm);padding:var(--space-2) var(--space-8);margin:0 calc(-1 * var(--space-8));background:linear-gradient(var(--sunk),var(--sunk)) bottom/100% 2px no-repeat}
-.card.vs .dteam.dz-on{background:var(--ok-soft);outline:2px solid var(--ok)}
+/* Scheda dell'evento "Faccia a faccia" (1.31, design-system/event-poster.css): larga quanto la pagina, fino ai bordi
+   dello schermo; così su PC (pagina di 1280 px) prende il layout in una riga, che parte da 1280 px di scheda */
+.wrap>.ep{margin-inline:calc(-1 * var(--space-16))}
+@media (min-width:700px){.wrap>.ep{margin-inline:calc(-1 * var(--space-32))}}
+@media (min-width:1300px){.wrap>.ep{border-radius:var(--radius-xl);box-shadow:var(--shadow-1)}}
+.evarbc .varb{border-top:0;padding-top:0}
 /* campionati nell'elenco Eventi (1.12): card verdi gara per gara; collegamento dalla gara al torneo o al campionato */
 .evcard.camp .evd{background:var(--ok-soft)}
 .evcard.camp .evd b{color:var(--ok)}
@@ -529,7 +533,6 @@ a.alink2{color:var(--ink);text-decoration:none}
 .evd.sqd.lg img{width:100%;height:46px;object-fit:contain;display:block}
 .tnm{display:inline-flex;align-items:center;gap:var(--space-8);vertical-align:middle;max-width:100%}
 .tlogo{width:22px;height:22px;object-fit:contain;flex:none;border-radius:var(--radius-xs);background:#fff}
-.vs .vlogo{width:64px;height:64px;object-fit:contain;align-self:center;background:#fff;border-radius:var(--radius-md);padding:var(--space-4);border:1px solid var(--line)}
 .lgbox{width:44px;height:44px;border-radius:var(--radius-md);background:#fff;border:1px solid var(--line);display:grid;place-items:center;flex:none;padding:var(--space-4)}
 .lgbox img{max-width:100%;max-height:100%;object-fit:contain}
 .tcsw{display:flex;align-items:center;gap:var(--space-8);margin-top:var(--space-12)}
@@ -552,7 +555,6 @@ a.alink2{color:var(--ink);text-decoration:none}
 .svrow{width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer}
 .svrow small{display:block;color:var(--muted);font-size:var(--fs-12)}
 .svrow[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
-.card.vs .vt{align-self:stretch;justify-content:flex-end}
 .archb{display:inline-flex;align-items:center;gap:var(--space-8);margin-top:var(--space-8);font-size:var(--fs-13)}.archb svg{width:16px;height:16px;flex:none}
 
 /* ===== Redesign 1.16 (Diego, 2026-10-08): più larghezza, colonne laterali, elenco eventi per giorno ===== */
@@ -679,32 +681,7 @@ a.alink2{color:var(--ink);text-decoration:none}
 .bsep{color:var(--line)}
 .back.blink{color:var(--primary)}.back.blink.camp{color:var(--ok)}
 .eacts{gap:var(--space-8)}.eacts .btn{height:40px}
-.card.vs.hero2{display:flex;flex-direction:column;gap:var(--space-16);padding:var(--space-24) var(--space-32);grid-template-columns:none}
-.vh1{margin:0;text-align:center;font-family:var(--font-display);font-stretch:var(--display-w);font-weight:800;font-size:var(--fs-24);line-height:1.1}
-.vchips{display:flex;justify-content:center;gap:var(--space-8);flex-wrap:wrap}
-.vchips .chip{gap:var(--space-8)}.vchips .ty{width:18px;height:18px;background:none!important}.vchips .ty svg{width:15px;height:15px}
-.vgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,240px) minmax(0,1fr);grid-template-areas:"ca m cb" "na s nb";column-gap:var(--space-24);row-gap:var(--space-12);align-items:center;justify-items:center;text-align:center}
-.vgrid .vt{display:contents}
-.vt.a .vc{grid-area:ca}.vt.b .vc{grid-area:cb}.vt.a .vn{grid-area:na}.vt.b .vn{grid-area:nb}
-.vgrid .vm{grid-area:m}.vgrid .vms{grid-area:s;align-self:start;color:var(--muted);font-size:var(--fs-13);padding-top:var(--space-4)}
-.vc{display:grid;place-items:center;text-decoration:none}
-.card.vs .vlogo,.vcrest{width:128px;height:128px;border-radius:var(--radius-round);object-fit:contain;background:#fff;box-shadow:0 0 0 6px var(--surface),0 4px 12px rgba(20,32,43,.12)}
-.vcrest{display:grid;place-items:center;background:var(--sunk);color:var(--muted);font-size:var(--fs-42);font-weight:900}
-.vn{align-self:start;display:flex;flex-direction:column;gap:var(--space-2);min-width:0;max-width:100%}
-.vn b{font-family:var(--font-display);font-stretch:var(--display-w);font-weight:800;font-size:var(--fs-24);line-height:1.12;overflow-wrap:break-word;hyphens:auto}
-.vn small{color:var(--muted);font-size:var(--fs-14)}
-.vsc{font-family:var(--font-mono);font-size:var(--fs-60);font-weight:700;line-height:1;letter-spacing:-.04em;font-stretch:normal;white-space:nowrap}
-.vsc i{font-style:normal;color:var(--line);margin:0 var(--space-8)}
-.vsc.vtime{font-size:var(--fs-42)}
-.vmeta{display:flex;justify-content:center;gap:var(--space-24);flex-wrap:wrap;color:var(--muted);font-size:var(--fs-15);border-top:1px solid var(--line);padding-top:var(--space-16)}
-.vmeta>*{display:inline-flex;align-items:center;gap:var(--space-8)}.vmeta svg{width:18px;height:18px}
 @media (max-width:640px){
-  .card.vs.hero2{padding:var(--space-16) var(--space-16);gap:var(--space-12)}.vh1{font-size:var(--fs-20)}
-  .vgrid{grid-template-columns:minmax(0,1fr) 92px minmax(0,1fr);column-gap:var(--space-8);row-gap:var(--space-8)}
-  .card.vs .vlogo,.vcrest{width:76px;height:76px;box-shadow:0 0 0 3px var(--surface),0 2px 6px rgba(20,32,43,.12)}.vcrest{font-size:var(--fs-24)}
-  .vn b{font-size:var(--fs-15)}.vn small{font-size:var(--fs-12)}
-  .vsc{font-size:var(--fs-30)}.vsc i{margin:0 var(--space-4)}.vsc.vtime{font-size:var(--fs-24)}
-  .vmeta{flex-direction:column;align-items:center;gap:var(--space-4);font-size:var(--fs-14)}
   .ehtop .eacts{width:100%}.ehtop .grow{display:none}
 }
 .sidegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--space-16);align-items:start}
@@ -1177,12 +1154,6 @@ a.chip.tychip:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
   .evfil,.evf2,.evfil .fchips,.fdn{justify-content:center}   /* 1.29: filtri centrati sul telefono */
   #evcal,.cside>.card.side.cpside{display:none}   /* sul telefono niente calendario né avanzamento dei campionati */
 }
-/* pagina dell'evento: giorno, data e ora al centro tra i loghi */
-.vgrid .vm{display:flex;flex-direction:column;align-items:center;gap:var(--space-8)}
-.vdate{display:flex;flex-direction:column;align-items:center;gap:var(--space-2);font-family:var(--font-mono);font-weight:700;line-height:1.1;letter-spacing:-.02em;font-stretch:normal;white-space:nowrap}
-.vwd,.vdd{font-size:var(--fs-20)}
-.vdd i{font-style:normal;margin:0 .2em}
-@media (max-width:640px){.vgrid .vm{gap:var(--space-4)}.vwd,.vdd{font-size:var(--fs-14)}}
 .sqseg.own{cursor:default}
 
 /* ---------- Pagina utente (1.29, Diego 2026-10-15) ---------- */
