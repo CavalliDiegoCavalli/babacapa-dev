@@ -410,7 +410,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 :root:root{--A-soft:color-mix(in srgb,var(--A) 14%,var(--surface));--B-soft:color-mix(in srgb,var(--B) 14%,var(--surface))}
  
  
-.ev .tg.A{color:var(--A-ink)} .ev .tg.B{color:var(--B-ink)}
+/* etichette di squadra nella cronologia: colore maglia leggibile (--A-tx/--A-dk da setTeamColors, come fino alla 1.29) */
+.ev .tg.A{color:var(--A-tx)} .ev .tg.B{color:var(--B-tx)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ev .tg.A{color:var(--A-dk,var(--A-ink))}:root:not([data-theme="light"]) .ev .tg.B{color:var(--B-dk,var(--B-ink))}}
+:root[data-theme="dark"] .ev .tg.A{color:var(--A-dk,var(--A-ink))}:root[data-theme="dark"] .ev .tg.B{color:var(--B-dk,var(--B-ink))}
 .mhint{font-size:var(--fs-12);color:var(--warn);font-weight:700;min-height:0}
 .mhint:empty{display:none}
 
@@ -551,7 +554,7 @@ body{font-stretch:100%;-webkit-font-smoothing:antialiased}
 .pick{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
 .pk{min-height:72px;gap:var(--space-12)}
 .pk b{font-size:var(--fs-30);width:auto;flex:none}
-.pk .dec{color:var(--A-ink)}.pk.tB .dec{color:var(--B-ink)}
+.pk .dec{color:var(--A)}.pk.tB .dec{color:var(--B)}
 .pk .pkd{display:flex;flex-direction:column;gap:var(--space-4);min-width:0}
 .pk .pn{font-size:var(--fs-14);font-weight:700;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pk .pc{display:flex;gap:var(--space-4)}
