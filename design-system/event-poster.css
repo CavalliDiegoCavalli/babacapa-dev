@@ -63,6 +63,8 @@
 /* azione in alto a destra (topAction): stesso fondo dei pulsanti tondi, con il testo */
 .ep-act{height:44px;flex:none;box-sizing:border-box;display:inline-flex;align-items:center;gap:var(--space-8);padding:0 var(--space-16);border:0;border-radius:var(--radius-pill);background:color-mix(in srgb,var(--scorebox) 82%,transparent);color:#FFFFFF;font:inherit;font-size:var(--fs-14);font-weight:700;text-decoration:none;cursor:pointer}
 .ep-act svg{width:18px;height:18px}
+/* sul telefono solo l'icona (Diego, 2026-10-19): il testo resta nell'aria-label */
+.ep-act{width:44px;padding:0;justify-content:center}.ep-act>span{display:none}
 .ep-comp{display:inline-flex;align-items:center;gap:var(--space-8);text-decoration:none;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:6px var(--space-12);border-radius:var(--radius-pill);background:var(--scorebox);color:#FFFFFF;font-size:var(--fs-11);font-weight:700;letter-spacing:.14em;text-transform:uppercase}
 .ep-comp>span:last-child{min-width:0;overflow:hidden;text-overflow:ellipsis}
 .ep-comp .ty{width:22px;height:22px;margin-left:calc(-1 * var(--space-8))}
@@ -165,6 +167,7 @@
 @container ep (min-width:700px){
   .ep>*{--ep-crest:120px;--ep-name:44px;--ep-score:96px;--ep-wm:440px}
   .ep-sub{display:block}
+  .ep-act{width:auto;padding:0 var(--space-16)}.ep-act>span{display:inline}
 }
 
 /* ---------- PC ---------- */
