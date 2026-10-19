@@ -8,8 +8,9 @@
    Novità facoltative del contratto: Team.abbr (sigla di 3 lettere), elementi di statRows kind 'form' con score/opp,
    kind 'player' (miglior realizzatore e simili, dati strutturati invece di HTML).
    Decisioni di design (Diego, 2026-10-20): i fondi delle squadre, le caselle dei valori, le ultime partite e le schede
-   dei giocatori usano SEMPRE il primo colore della squadra (niente maglia trasferta); niente "Condividi" salvo share: true;
-   niente statistiche live durante la gara. */
+   dei giocatori usano il primo colore della squadra; niente "Condividi" salvo share: true; niente statistiche live durante
+   la gara. Dal 2026-10-20 (Diego): se il primo colore dell'ospite si confonde con quello di casa (clash), l'ospite prende
+   il secondo colore (altColor), in tutta la scheda; se manca o si confonde anche quello, resta il primo. */
 (function () {
   'use strict';
 
@@ -21,15 +22,17 @@
   /* testo sul colore squadra: bianco o inchiostro, quello con più contrasto */
   function onColor(h) { return contrast(h, '#FFFFFF') >= contrast(h, INK) ? '#FFFFFF' : INK; }
   function hue(h) { const [r, g, b] = rgb(h).map(v => v / 255); const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn; if (!d) return 0; const H = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; return (H * 60 + 360) % 360; }
-  /* esportata per compatibilità: questa versione non la usa per cambiare colore */
+  /* due colori "si confondono" se hanno tinta e luminosità vicine, o se sono entrambi molto scuri */
   function clash(a, b) {
     const d = Math.abs(hue(a) - hue(b));
     return (Math.min(d, 360 - d) < 35 && Math.abs(lum(a) - lum(b)) < .25) || (lum(a) < .06 && lum(b) < .06);
   }
-  /* sempre il primo colore di ciascuna squadra (decisione di design, vedi intestazione) */
+  /* primo colore di ciascuna squadra; l'ospite passa al secondo se il primo si confonde con quello di casa */
   function teamColors(home, away) {
-    const a = home.color || INK, b = away.color || INK;
-    return { a, aOn: onColor(a), aBar: a, b, bOn: onColor(b), bBar: b, awayKit: false };
+    const a = home.color || INK, b0 = away.color || INK, alt = away.altColor;
+    const awayKit = clash(a, b0) && !!alt && alt.toLowerCase() !== b0.toLowerCase() && !clash(a, alt);
+    const b = awayKit ? alt : b0;
+    return { a, aOn: onColor(a), aBar: a, b, bOn: onColor(b), bBar: b, awayKit };
   }
 
   /* ---------- testo ---------- */
