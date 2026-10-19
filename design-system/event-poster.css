@@ -73,6 +73,11 @@
 .ep-kicker{font-size:var(--fs-11);font-weight:800;letter-spacing:.16em;text-transform:uppercase}
 .ep-name{margin:0;color:inherit;font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;font-size:calc(var(--ep-name) * var(--ep-k,1));line-height:.86;text-transform:uppercase;max-width:100%;overflow:hidden;overflow-wrap:break-word;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}
 .ep-sub{display:none;font-size:var(--fs-13);font-weight:700}
+/* SP-IN 2026-10-20: il corsivo sporge a destra dell'ultima lettera e il riquadro del nome (overflow:hidden per tagliare a
+   2 righe) la tagliava: niente ritaglio, le righe le limita il corpo (nameScale e, da tablet, --ep-w). La squadra di casa è
+   tutta allineata a sinistra (nome, "In casa", località) */
+.ep-name{overflow:visible;display:block;-webkit-line-clamp:none}
+.ep-side--a .ep-team{align-items:flex-start;text-align:left}
 
 /* tabellone TV: sigla casa · punteggio o ora · sigla ospite */
 .ep-bug{position:absolute;z-index:3;left:50%;top:calc(var(--ep-slab-h) - var(--ep-bug-h) / 2);transform:translateX(-50%) skewX(-10deg);display:inline-flex;align-items:stretch;height:var(--ep-bug-h);background:var(--ep-white);border-radius:6px;box-shadow:0 10px 30px rgba(20,32,43,.25);overflow:hidden;white-space:nowrap}
