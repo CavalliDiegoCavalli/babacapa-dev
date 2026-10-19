@@ -21,6 +21,18 @@
 
 @media (min-width:900px){.tnav{display:flex}.tabbar{display:none}}
 @media (max-width:420px){.pbar .bt .chip{display:none}.pbar .acc-in .bl{display:none}.pbar{gap:var(--space-8);padding:0 var(--space-12)}}
+/* Telefono (sotto 900 px, Diego 2026-10-20): niente barra in alto col logo; barra dei tab flottante sopra la pagina, con
+   lo spazio in fondo alla pagina perché l'ultimo contenuto non resti sotto. Barra "Salva" del calendario e avvisi si spostano */
+@media (max-width:899px){
+  :root{--tabh:calc(72px + var(--space-12))}
+  .pbar{display:none}
+  #app>.tabbar{position:absolute;left:calc(var(--space-12) + env(safe-area-inset-left,0px));right:calc(var(--space-12) + env(safe-area-inset-right,0px));bottom:calc(var(--space-12) + env(safe-area-inset-bottom,0px));z-index:35;
+    border:1px solid var(--line);border-radius:var(--radius-xl);background:color-mix(in srgb,var(--surface) 92%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:var(--shadow-3);overflow:hidden}
+  #app .page .wrap{padding-bottom:calc(var(--space-40) + var(--tabh) + var(--kb))}
+  #app>.page{scroll-padding-bottom:calc(var(--tabh) + var(--space-12))}
+  #app .pendbar{bottom:calc(var(--tabh) + var(--space-12))}
+  .toasts{top:calc(var(--space-12) + var(--top-pad))}
+}
 
 /* ---------- pagina ---------- */
 .page{overflow:auto;-webkit-overflow-scrolling:touch;-webkit-user-select:none;user-select:none}
