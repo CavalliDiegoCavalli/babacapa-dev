@@ -90,10 +90,6 @@
 .ep-team--b{grid-area:3/2/4/3;color:var(--ep-b-on)}
 .ep-kicker{font-size:var(--fs-11);font-weight:800;letter-spacing:.14em;text-transform:uppercase}
 .ep-name{margin:0;color:inherit;font-family:var(--font-display);font-weight:900;font-stretch:70%;font-size:calc(var(--ep-name) * var(--ep-k,1));line-height:.9;text-transform:uppercase;max-width:100%;overflow:hidden;text-wrap:balance;overflow-wrap:break-word;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}
-/* SP-IN: nome trascinabile per scambiare casa e ospite (pagina dell'evento) */
-.ep-name.dteam{cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;border-radius:var(--radius-sm);outline:2px dashed color-mix(in srgb,currentColor 45%,transparent);outline-offset:4px}
-.ep-name.dteam.dz-on{outline:3px solid currentColor}
-.ep-name.dteam.dz-no{outline:3px dashed var(--crit)}
 .ep-sub{display:none;font-size:var(--fs-15);font-weight:700}
 .ep-kit{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:3px var(--space-8);border-radius:var(--radius-pill);border:1.5px solid currentColor}
 
