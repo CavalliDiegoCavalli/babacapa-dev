@@ -7,7 +7,11 @@
    Aggiunte per SP-IN (2026-10-16, manuale sezione 17): start nullo ("Data da definire"), competitionHref, venue.href e
    venue.ext (mappe), Team.href (stemma che apre la squadra), Team.attrs/nameClass (trascinamento casa/ospite), data-back
    sulla freccia (nell'app torna alla schermata lasciata), cta come
-   azione dell'app ({label, act, id}; senza cta niente pulsante), calendarHref facoltativo, nomi lunghi rimpiccioliti. */
+   azione dell'app ({label, act, id}; senza cta niente pulsante), calendarHref facoltativo, nomi lunghi rimpiccioliti.
+   Dal 2026-10-19 (Diego): Condividi solo con share: true; competitionIcon (HTML fidato, prima del nome della competizione);
+   topAction (HTML fidato, in alto a destra); when {day, date, time} al posto della data calcolata da start; statRows
+   (righe scelte dall'app: numeri con barre, kind 'form' con i pallini, kind 'text' con HTML fidato, "—" se manca un
+   valore) e statsNote; more (HTML fidato: il resto della pagina, sotto le statistiche, nella stessa scheda). */
 (function () {
   'use strict';
 
@@ -88,6 +92,23 @@
     return `<div class="ep-stat"><div class="ep-stat-head"><b${lowA}>${fmtNum(x)}</b><span>${esc(label)}</span><b${lowB}>${fmtNum(y)}</b></div>` +
       `<div class="ep-bars" aria-hidden="true"><span><i${lowA} style="width:${Math.round(x / mx * 100)}%"></i></span><span><i${lowB} style="width:${Math.round(y / mx * 100)}%"></i></span></div></div>`;
   }
+  function numRow(r) {
+    const x = r.home == null ? null : +r.home, y = r.away == null ? null : +r.away, mx = Math.max(x || 0, y || 0) || 1;
+    const lowA = x != null && y != null && x < y ? ' class="is-low"' : '', lowB = x != null && y != null && y < x ? ' class="is-low"' : '';
+    const v = (n, lo) => n == null ? '<b class="is-none">—</b>' : `<b${lo}>${fmtNum(n)}</b>`;
+    return `<div class="ep-stat"><div class="ep-stat-head">${v(x, lowA)}<span>${esc(r.label)}${r.sub ? `<small>${esc(r.sub)}</small>` : ''}</span>${v(y, lowB)}</div>` +
+      `<div class="ep-bars" aria-hidden="true"><span><i${lowA} style="width:${x == null ? 0 : Math.round(x / mx * 100)}%"></i></span><span><i${lowB} style="width:${y == null ? 0 : Math.round(y / mx * 100)}%"></i></span></div></div>`;
+  }
+  function formDots(l, side) {
+    if (!Array.isArray(l) || !l.length) return `<span class="ep-dots ep-dots--${side}"><b class="is-none">—</b></span>`;
+    return `<span class="ep-dots ep-dots--${side}" role="img" aria-label="${esc(l.map(x => x.title || (x.w ? 'vinta' : 'persa')).join(', '))}">${l.map(x => `<i class="${x.w ? 'w' : ''}" title="${esc(x.title || '')}"></i>`).join('')}</span>`;
+  }
+  function anyRow(r) {
+    const lbl = `<span class="ep-lbl">${esc(r.label)}${r.sub ? `<small>${esc(r.sub)}</small>` : ''}</span>`;
+    if (r.kind === 'form') return `<div class="ep-form">${formDots(r.home, 'a')}${lbl}${formDots(r.away, 'b')}</div>`;
+    if (r.kind === 'text') return `<div class="ep-txt"><span class="ep-tv ep-tv--a">${r.home || '<b class="is-none">—</b>'}</span>${lbl}<span class="ep-tv ep-tv--b">${r.away || '<b class="is-none">—</b>'}</span></div>`;
+    return numRow(r);
+  }
   function dots(form, side) {
     const f = String(form || '').toUpperCase().split('').filter(c => c === 'V' || c === 'P');
     return `<span class="ep-dots ep-dots--${side}" role="img" aria-label="Ultime partite: ${f.map(c => c === 'V' ? 'vinta' : 'persa').join(', ') || 'nessuna'}">${f.map(c => `<i class="${c === 'V' ? 'w' : ''}"></i>`).join('')}</span>`;
@@ -97,19 +118,19 @@
   function render(d) {
     const H = d.home, A = d.away, C = teamColors(H, A);
     const live = d.state === 'live', final = d.state === 'final', hasScore = (live || final) && d.score;
-    const w = when(d.start, d.timeZone);
+    const w = d.when || when(d.start, d.timeZone);
     const lostA = final && d.score.home < d.score.away, lostB = final && d.score.away < d.score.home;
     const style = [
       `--ep-a:${C.a}`, `--ep-a-on:${C.aOn}`, `--ep-a-bar:${C.aBar}`, `--ep-a-crest:${H.logoBg || '#FFFFFF'}`,
       `--ep-b:${C.b}`, `--ep-b-on:${C.bOn}`, `--ep-b-bar:${C.bBar}`, `--ep-b-crest:${A.logoBg || '#FFFFFF'}`
     ].join(';');
     const s = d.stats || {};
-    const stats = [
+    const stats = Array.isArray(d.statRows) ? d.statRows.map(anyRow).join('') : [
       statRow('Punti a partita', s.home && s.home.ptsAvg, s.away && s.away.ptsAvg),
       statRow('Vittorie in stagione', s.home && s.home.wins, s.away && s.away.wins),
       statRow('Precedenti vinti', s.home && s.home.h2hWins, s.away && s.away.h2hWins)
     ].join('');
-    const form = (H.form || A.form) ? `<div class="ep-form">${dots(H.form, 'a')}<span class="ep-lbl">Ultime partite</span>${dots(A.form, 'b')}</div>` : '';
+    const form = !Array.isArray(d.statRows) && (H.form || A.form) ? `<div class="ep-form">${dots(H.form, 'a')}<span class="ep-lbl">Ultime partite</span>${dots(A.form, 'b')}</div>` : '';
     const periods = final && Array.isArray(d.periods) && d.periods.length
       ? `<div class="ep-periods">${d.periods.slice(0, 4).map((p, i) => `<span class="${p[0] > p[1] ? 'pa' : p[1] > p[0] ? 'pb' : ''}"><small>${i + 1}° T</small><b>${p[0]}–${p[1]}</b></span>`).join('')}</div>`
       : '';
@@ -123,8 +144,8 @@
   ${watermark(H, 'a')}${watermark(A, 'b')}
   <div class="ep-top">
     <a class="ep-icon" href="${esc(d.backHref || '#')}" data-back aria-label="Indietro">${I.back}</a>
-    ${d.competitionHref ? `<a class="ep-comp" href="${esc(d.competitionHref)}">${comp}</a>` : `<span class="ep-comp">${comp}</span>`}
-    <button type="button" class="ep-icon" data-ep-share aria-label="Condividi">${I.share}</button>
+    ${d.competitionHref ? `<a class="ep-comp" href="${esc(d.competitionHref)}">${d.competitionIcon || ''}<span>${comp}</span></a>` : `<span class="ep-comp">${d.competitionIcon || ''}<span>${comp}</span></span>`}
+    ${d.topAction || (d.share ? `<button type="button" class="ep-icon" data-ep-share aria-label="Condividi">${I.share}</button>` : '<span class="ep-icon ep-icon--void" aria-hidden="true"></span>')}
   </div>
   ${crest(H, 'a')}${crest(A, 'b')}
   ${team(H, 'a', false)}${team(A, 'b', C.awayKit)}
@@ -132,16 +153,17 @@
   <div class="ep-when">
     ${live ? `<span class="ep-status">${esc(['In diretta', [d.live && d.live.period, d.live && d.live.clock].filter(Boolean).join(' ')].filter(Boolean).join(' · '))}</span>` : ''}
     ${w.day ? `<span class="ep-day">${esc(w.day)}</span>` : ''}
-    <b class="ep-date${d.start ? '' : ' is-tbd'}">${esc(w.date)}</b>
+    <b class="ep-date${d.start || d.when ? '' : ' is-tbd'}">${esc(w.date)}</b>
     ${w.time ? `<span class="ep-time">${esc(w.time)}</span>` : ''}
     ${place ? (d.venue.href ? `<a class="ep-place" href="${esc(d.venue.href)}"${d.venue.ext ? ' target="_blank" rel="noopener"' : ''} aria-label="Apri ${esc(d.venue.name)} nelle mappe">${place}</a>` : `<span class="ep-place">${place}</span>`) : ''}
   </div>
 </header>
-${stats || form || periods ? `<section class="ep-stats" aria-label="Statistiche"><h3>Statistiche</h3>${stats}${form}${periods}</section>` : ''}
+${stats || form || periods ? `<section class="ep-stats" aria-label="Statistiche"><h3>Statistiche</h3>${stats}${form}${periods}${d.statsNote ? `<small class="ep-note">${esc(d.statsNote)}</small>` : ''}</section>` : ''}
 ${cta ? `<footer class="ep-actions">
   ${d.cta.act ? `<button type="button" class="btn big primary" data-act="${esc(d.cta.act)}" data-id="${esc(d.cta.id || '')}">${esc(cta)}</button>` : `<a class="btn big primary" href="${esc(d.cta.href || '#')}">${esc(cta)}</a>`}
   ${d.state === 'pre' && d.calendarHref ? `<a class="ep-cal" href="${esc(d.calendarHref)}" aria-label="Aggiungi al calendario">${I.cal}</a>` : ''}
 </footer>` : ''}
+${d.more ? `<div class="ep-more">${d.more}</div>` : ''}
 </article>`;
   }
 

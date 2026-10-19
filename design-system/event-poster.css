@@ -14,7 +14,7 @@
 .ep{
   --ep-seam:#FFFFFF;            /* linea tra i due colori e anello del box: bianca in entrambi i temi */
   --ep-live:#FF8A80;            /* stato "In diretta" sul fondo --scorebox (contrasto 6,9:1) */
-  --ep-crest:64px;
+  --ep-crest:80px;
   --ep-ring:3px;
   --ep-name:32px;
   --ep-score:80px;
@@ -22,7 +22,7 @@
   --ep-date:var(--fs-30);
   --ep-time:22px;
   --ep-day:var(--fs-11);
-  --ep-place:var(--fs-12);
+  --ep-place:var(--fs-11);
   --ep-wm:320px;
   container-type:inline-size;
   container-name:ep;
@@ -59,7 +59,14 @@
 .ep-top{grid-area:1/1/2/3;display:flex;align-items:center;justify-content:space-between;gap:var(--space-8);padding:0 var(--space-16)}
 .ep-icon{width:44px;height:44px;flex:none;border:0;border-radius:var(--radius-pill);background:color-mix(in srgb,var(--scorebox) 82%,transparent);color:#FFFFFF;display:grid;place-items:center;cursor:pointer;text-decoration:none}
 .ep-icon svg{width:22px;height:22px}
-.ep-comp{text-decoration:none;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:6px var(--space-12);border-radius:var(--radius-pill);background:var(--scorebox);color:#FFFFFF;font-size:var(--fs-11);font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.ep-icon--void{visibility:hidden}
+/* azione in alto a destra (topAction): stesso fondo dei pulsanti tondi, con il testo */
+.ep-act{height:44px;flex:none;box-sizing:border-box;display:inline-flex;align-items:center;gap:var(--space-8);padding:0 var(--space-16);border:0;border-radius:var(--radius-pill);background:color-mix(in srgb,var(--scorebox) 82%,transparent);color:#FFFFFF;font:inherit;font-size:var(--fs-14);font-weight:700;text-decoration:none;cursor:pointer}
+.ep-act svg{width:18px;height:18px}
+.ep-comp{display:inline-flex;align-items:center;gap:var(--space-8);text-decoration:none;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:6px var(--space-12);border-radius:var(--radius-pill);background:var(--scorebox);color:#FFFFFF;font-size:var(--fs-11);font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.ep-comp>span:last-child{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.ep-comp .ty{width:22px;height:22px;margin-left:calc(-1 * var(--space-8))}
+.ep-comp .ty svg{width:14px;height:14px}
 
 /* stemmi */
 .ep-crest{
@@ -119,8 +126,16 @@
 .ep-stat-head{display:grid;grid-template-columns:64px minmax(0,1fr) 64px;align-items:baseline}
 .ep-stat-head b{font-family:var(--font-mono);font-weight:700;font-size:var(--fs-17)}
 .ep-stat-head b:last-child{text-align:right}
-.ep-stat-head span,.ep-form span.ep-lbl{text-align:center;font-size:var(--fs-11);font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ep-stat-head span,.ep-form span.ep-lbl,.ep-txt span.ep-lbl{text-align:center;font-size:var(--fs-11);font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .ep-stat .is-low{opacity:.45}
+.ep-stats small{display:block;margin-top:2px;font-size:var(--fs-11);font-weight:600;letter-spacing:0;text-transform:none}
+.ep-stats .is-none{font-family:var(--font-mono);font-weight:700;color:var(--muted)}
+.ep-txt{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr) minmax(0,1fr);align-items:center;gap:var(--space-8)}
+.ep-tv{display:flex;flex-direction:column;gap:2px;min-width:0;font-size:var(--fs-13);line-height:1.25}
+.ep-tv--b{text-align:right;align-items:flex-end}
+.ep-tv>b{font-weight:700;overflow-wrap:anywhere}
+.ep-tv>small{color:var(--muted);font-size:var(--fs-12)}
+.ep-note{text-align:center;color:var(--muted);font-size:var(--fs-12)}
 .ep-bars{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4);height:10px}
 .ep-bars>span{display:flex;background:var(--sunk);overflow:hidden}
 .ep-bars>span:first-child{justify-content:flex-end;border-radius:var(--radius-pill) 0 0 var(--radius-pill)}
@@ -148,14 +163,14 @@
 
 /* ---------- tablet: stesso layout, un po' più grande ---------- */
 @container ep (min-width:700px){
-  .ep>*{--ep-crest:96px;--ep-name:44px;--ep-score:96px;--ep-wm:440px}
+  .ep>*{--ep-crest:120px;--ep-name:44px;--ep-score:96px;--ep-wm:440px}
   .ep-sub{display:block}
 }
 
 /* ---------- PC ---------- */
 @container ep (min-width:1280px){
   .ep>*{
-    --ep-crest:clamp(128px,10cqi,144px);
+    --ep-crest:clamp(136px,10.5cqi,176px);
     --ep-ring:4px;
     --ep-name:80px;
     --ep-score:clamp(72px,calc(72px + (100cqi - 1280px) * .125),92px);
@@ -163,7 +178,7 @@
     --ep-date:var(--fs-42);
     --ep-time:34px;
     --ep-day:var(--fs-13);
-    --ep-place:var(--fs-15);
+    --ep-place:var(--fs-13);
     --ep-wm:680px;
   }
   .ep-hero{grid-template-rows:auto auto auto;row-gap:var(--space-16);padding:var(--space-24) 0 var(--space-40)}
@@ -175,8 +190,8 @@
   .ep-crest--b,.ep-score--b{grid-area:2/2/3/3}
   /* il punteggio sta tra lo stemma e il box */
   .ep-score{margin-top:var(--space-32)}
-  .ep-score--a{justify-self:end;margin-right:calc(var(--ep-box-w) / 2 + var(--space-20))}
-  .ep-score--b{justify-self:start;margin-left:calc(var(--ep-box-w) / 2 + var(--space-20))}
+  .ep-score--a{justify-self:end;margin-right:calc(var(--ep-box-w) / 2 + var(--space-16))}
+  .ep-score--b{justify-self:start;margin-left:calc(var(--ep-box-w) / 2 + var(--space-16))}
   .ep-when{grid-area:2/1/3/3;margin-top:var(--space-32);padding:var(--space-20) var(--space-20) 22px;box-shadow:0 0 0 6px var(--ep-seam)}
   .ep-team{gap:10px}
   .ep-team--a{grid-area:3/1/4/2}.ep-team--b{grid-area:3/2/4/3}
@@ -185,6 +200,7 @@
   .ep-stats{gap:18px;padding:36px var(--space-40) var(--space-40);max-width:840px}
   .ep-stats h3{font-size:26px}
   .ep-stat-head b{font-size:22px}
+  .ep-tv{font-size:var(--fs-15)}
   .ep-bars{height:12px}
   .ep-actions{display:none}
 }
