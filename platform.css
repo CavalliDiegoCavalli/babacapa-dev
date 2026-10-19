@@ -509,17 +509,16 @@ a.alink2{color:var(--ink);text-decoration:none}
 .dndh{margin:0 0 var(--space-8);font-size:var(--fs-13)}
 /* Pagina dell'evento (1.31, Diego 2026-10-19): è tutta la scheda "Faccia a faccia" (design-system/event-poster.css), da
    bordo a bordo; sotto le statistiche le altre sezioni con lo stesso titolo centrato e la stessa colonna (840 px) */
-.wrap.wrap-ep{max-width:none;padding:0 0 var(--space-40);gap:0;background:var(--surface)}
+.wrap.wrap-ep{max-width:none;padding:0 0 var(--space-40);gap:0}
 .wrap-ep>.legal{padding:var(--space-16)}
 .wrap-ep>.ep{flex:1}
 .ep-more{width:100%;max-width:840px;box-sizing:border-box;margin:0 auto;display:flex;flex-direction:column;gap:var(--space-24);padding:var(--space-24) var(--space-20) 0}
 .ep-msgs{display:flex;flex-direction:column;gap:var(--space-12)}
 .ep-sec{display:flex;flex-direction:column;gap:var(--space-12);padding-top:var(--space-24);border-top:1px solid var(--line)}
-.ep-sec>h3{margin:0;color:var(--ink);text-align:center;font-family:var(--font-display);font-weight:800;font-stretch:var(--display-w);font-size:var(--fs-20);text-transform:uppercase}
 .ep-sec .card{box-shadow:none}
 .ep-sec .varb{border-top:0;padding-top:0}.ep-sec .varl{display:none}
 .ep-end{padding-top:var(--space-24);border-top:1px solid var(--line)}
-@container ep (min-width:1280px){.ep-more{gap:var(--space-32);padding:var(--space-32) var(--space-40) 0}.ep-sec>h3{font-size:var(--fs-24)}}
+@container ep (min-width:1280px){.ep-more{gap:var(--space-32);padding:var(--space-32) var(--space-40) 0}}
 /* campionati nell'elenco Eventi (1.12): card verdi gara per gara; collegamento dalla gara al torneo o al campionato */
 .evcard.camp .evd{background:var(--ok-soft)}
 .evcard.camp .evd b{color:var(--ok)}
