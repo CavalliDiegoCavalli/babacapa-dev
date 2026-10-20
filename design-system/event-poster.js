@@ -32,7 +32,11 @@
     const a = home.color || INK, b0 = away.color || INK, alt = away.altColor;
     const awayKit = clash(a, b0) && !!alt && alt.toLowerCase() !== b0.toLowerCase() && !clash(a, alt);
     const b = awayKit ? alt : b0;
-    return { a, aOn: onColor(a), aBar: a, b, bOn: onColor(b), bBar: b, awayKit };
+    /* contorno dello stemma (Diego, 2026-10-20): l'altro colore della squadra rispetto a quello della fascia (primo → secondo,
+       secondo → primo); se la squadra ha un solo colore, il colore del testo sulla fascia */
+    const other = (x, y) => y && y.toLowerCase() !== x.toLowerCase() ? y : '';
+    const aRing = other(a, home.altColor) || onColor(a), bRing = (awayKit ? b0 : other(b, alt)) || onColor(b);
+    return { a, aOn: onColor(a), aBar: a, aRing, b, bOn: onColor(b), bBar: b, bRing, awayKit };
   }
 
   /* ---------- testo ---------- */
@@ -152,8 +156,8 @@
     const w = d.when || when(d.start, d.timeZone);
     const lostA = final && d.score && d.score.home < d.score.away, lostB = final && d.score && d.score.away < d.score.home;
     const style = [
-      `--ep-a:${C.a}`, `--ep-a-on:${C.aOn}`, `--ep-a-crest:${H.logoBg || '#FFFFFF'}`,
-      `--ep-b:${C.b}`, `--ep-b-on:${C.bOn}`, `--ep-b-crest:${A.logoBg || '#FFFFFF'}`
+      `--ep-a:${C.a}`, `--ep-a-on:${C.aOn}`, `--ep-a-ring:${C.aRing}`, `--ep-a-crest:${H.logoBg || '#FFFFFF'}`,
+      `--ep-b:${C.b}`, `--ep-b-on:${C.bOn}`, `--ep-b-ring:${C.bRing}`, `--ep-b-crest:${A.logoBg || '#FFFFFF'}`
     ].join(';');
     const rows = Array.isArray(d.statRows) ? d.statRows : legacyRows(d);
     const statsHtml = rows.filter(r => !isPlayer(r)).map(r => anyRow(r, H, A)).join('');
