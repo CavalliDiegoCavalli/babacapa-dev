@@ -10,7 +10,11 @@
    es. {"data-act": "evseg", "data-v": "1"}) così l'app collega i propri gestori senza cambiare il componente.
    Decisioni di design (Diego, 2026-10-20): niente dati live; selettore "Prossimi" + orologio (già giocati);
    filtri multipli senza "Tutti" (nessun filtro attivo = tutti), pollice "Le mie squadre" per primo; niente ricerca;
-   colori delle squadre sempre il primo colore; su PC selettore e filtri su una riga, calendario sopra "Competizioni". */
+   colori delle squadre sempre il primo colore; su PC selettore e filtri su una riga, calendario sopra "Competizioni".
+   Correzioni di Diego del 2026-10-20 (SP-IN): niente titolo se header.title è vuoto; "Prossimi" senza numero se manca
+   count; colori di fasce e stemmi con le regole della scheda evento (SPIN.eventPoster.teamColors: ospite al secondo colore
+   se si confonde con la casa, contorno dello stemma nell'altro colore della squadra); pollice = icona thumbs-up del design
+   system; header.extra (HTML fidato) per i filtri propri dell'app, sotto la barra. */
 (function () {
   'use strict';
 
@@ -32,7 +36,7 @@
   const I = {
     plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
     clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
-    thumb: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v11H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h3zm0 0 4-7a2 2 0 0 1 3 2l-1 5h5.6a2 2 0 0 1 2 2.4l-1.4 7a2 2 0 0 1-2 1.6H7"/></svg>',
+    thumb: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg>',
     pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',
     chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>',
     left: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>',
@@ -49,7 +53,7 @@
       ? tag(f, 'evx-f evx-f--mine', `<span>${I.thumb}</span>`, ` aria-pressed="${!!f.pressed}" aria-label="${esc(f.label || 'Le mie squadre')}" title="${esc(f.label || 'Le mie squadre')}"`)
       : tag(f, 'evx-f', `<span>${esc(f.label || TYPES[f.key] || f.key)}</span>`, ` aria-pressed="${!!f.pressed}"`)).join('');
     return `<div class="evx-head">
-  <div class="evx-title"><h1>${esc(h.title || 'Eventi')}</h1>${create}</div>
+  ${h.title || create ? `<div class="evx-title">${h.title ? `<h1>${esc(h.title)}</h1>` : ''}${create}</div>` : ''}
   <div class="evx-bar">
     <div class="evx-seg" role="group" aria-label="Quali eventi">
       ${tag(nx, 'evx-s evx-s--next', `<span>${esc(nx.label || 'Prossimi')}${nx.count != null ? `<small>${esc(nx.count)}</small>` : ''}</span>`, ` aria-pressed="${!ps.pressed}"`)}
@@ -57,13 +61,21 @@
     </div>
     ${fl ? `<span class="evx-sep" aria-hidden="true"></span><div class="evx-filters" role="group" aria-label="Filtra gli eventi">${fl}</div>` : ''}
   </div>
+  ${h.extra ? `<div class="evx-extra">${h.extra}</div>` : ''}
 </div>`;
   }
 
   /* ---------- card ---------- */
-  function crest(t, cls) {
+  /* contorno dello stemma: l'altro colore della squadra (come nella scheda evento), o il colore del testo sulla fascia */
+  function ringOf(t) { const c = t.color || INK, a = t.altColor; return a && a.toLowerCase() !== c.toLowerCase() ? a : onColor(c); }
+  function crest(t, cls, ring) {
     const inner = t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy">` : `<b>${esc(initials(t.short || t.name))}</b>`;
-    return `<span class="${cls}" style="--c-bg:${esc(t.logoBg || '#FFFFFF')};--c-ring:${onColor(t.color || INK)}">${inner}</span>`;
+    return `<span class="${cls}" style="--c-bg:${esc(t.logoBg || '#FFFFFF')};--c-ring:${esc(ring || ringOf(t))}">${inner}</span>`;
+  }
+  function pairColors(H, A) {
+    const P = window.SPIN && window.SPIN.eventPoster;
+    if (P && P.teamColors) { const c = P.teamColors(H, A); return { a: c.a, b: c.b, aRing: c.aRing, bRing: c.bRing }; }
+    return { a: H.color || INK, b: A.color || INK, aRing: ringOf(H), bRing: ringOf(A) };
   }
   function meta(it, title) {
     return `<span class="evx-meta">
@@ -75,7 +87,7 @@
   }
   function typeChip(it) { return it.type ? `<span class="evx-type"><span>${esc(TYPES[it.type] || it.type)}</span></span>` : ''; }
   function matchCard(it) {
-    const H = it.home || {}, A = it.away || {}, a = H.color || INK, b = A.color || INK;
+    const H = it.home || {}, A = it.away || {}, C = pairColors(H, A), a = C.a, b = C.b;
     const sc = it.score && it.score.home != null;
     const lostA = sc && it.score.home < it.score.away, lostB = sc && it.score.away < it.score.home;
     const mid = sc
@@ -84,7 +96,7 @@
     const title = `${H.short || H.name || ''} – ${A.short || A.name || ''}`;
     const inner = `<span class="evx-band" style="--a:${esc(a)};--a-on:${onColor(a)};--b:${esc(b)};--b-on:${onColor(b)}" aria-hidden="true">
         <span class="evx-slab evx-slab--a"></span><span class="evx-slab evx-slab--b"></span><span class="evx-tex"></span>
-        ${crest(H, 'evx-crest evx-crest--a')}${crest(A, 'evx-crest evx-crest--b')}
+        ${crest(H, 'evx-crest evx-crest--a', C.aRing)}${crest(A, 'evx-crest evx-crest--b', C.bRing)}
         <span class="evx-bug"><span class="evx-bug-t evx-bug-t--a"><b>${esc(abbr(H))}</b></span><span class="evx-bug-mid">${mid}</span><span class="evx-bug-t evx-bug-t--b"><b>${esc(abbr(A))}</b></span></span>
       </span>
       <span class="evx-body">${meta(it, title)}${typeChip(it)}<span class="evx-chev">${I.chev}</span></span>`;

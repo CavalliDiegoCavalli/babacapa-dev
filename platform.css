@@ -655,7 +655,14 @@ a.alink2{color:var(--ink);text-decoration:none}
    l'elenco; da 980 px la colonna laterale (calendario, competizioni) resta ferma sotto l'intestazione */
 .evx-sticky{position:sticky;top:0;z-index:20;display:flex;flex-direction:column;gap:var(--space-12);background:var(--bg);margin:calc(-1 * var(--space-20)) calc(-1 * var(--space-16)) 0;padding:var(--space-20) var(--space-16) var(--space-12);border-bottom:1px solid var(--line)}
 @media (min-width:700px){.evx-sticky{margin:calc(-1 * var(--space-32)) calc(-1 * var(--space-32)) 0;padding:var(--space-32) var(--space-32) var(--space-16)}}
-.evx-more{justify-content:flex-start}
+.evx-extra{display:flex;flex-wrap:wrap;gap:6px var(--space-12);align-items:center;padding:0 var(--space-4)}
+.evx-extra .evx-f{flex:none;padding:0 var(--space-12)}
+.evx-extra .evx-f--x>span{display:inline-flex;align-items:center;gap:6px}
+.evx-extra .evx-f--x svg{width:16px;height:16px;flex:none}
+.evx-fdn{display:inline-flex;align-items:center;gap:6px}
+.evx-extra .evx-f--n{width:40px;padding:0}
+.evx-fl{font-size:var(--fs-11);font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:var(--space-4)}
+.evx-extra .evx-f--demo{border-color:var(--crit);color:var(--crit)}
 .evx-compr:not(:has(.evx-mini--lead)){grid-template-columns:minmax(0,1fr) 18px}   /* competizione senza squadra in testa */
 .evx>.ainfo,.evx>.aerr{margin-top:var(--space-16)}
 .evx-cols{margin-top:var(--space-20)}

@@ -21,6 +21,7 @@
 .evx-head{display:flex;flex-direction:column;gap:var(--space-12)}
 .evx-title{display:flex;align-items:center;justify-content:space-between;gap:var(--space-12)}
 .evx-title h1{margin:0;font-size:44px;line-height:.9}
+.evx-title:not(:has(h1)){justify-content:flex-end}   /* SP-IN: senza titolo, "Crea evento" a destra */
 .evx-create{height:44px;flex:none;padding:0 var(--space-16);border:0;background:var(--primary-fill);color:var(--on-fill);transform:skewX(var(--evx-skew));cursor:pointer;text-decoration:none;font-size:var(--fs-17);display:inline-flex;align-items:center}
 .evx-create>span{display:inline-flex;align-items:center;gap:6px;transform:skewX(var(--evx-unskew));white-space:nowrap}
 .evx-create svg{width:18px;height:18px}
@@ -39,7 +40,7 @@
 .evx-f{flex:1 1 0;min-width:0;height:36px;padding:0 6px;border:1.5px solid var(--line-strong);background:transparent;color:var(--ink);transform:skewX(var(--evx-skew));cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
 .evx-f>span{display:block;transform:skewX(var(--evx-unskew));font-size:var(--fs-11);font-weight:800;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .evx-f--mine{flex:none;width:44px;padding:0}
-.evx-f--mine>span{display:grid;place-items:center}
+.evx-f--mine>span{display:grid;place-items:center;overflow:visible}
 .evx-f svg{width:17px;height:17px}
 .evx-f[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--surface)}
 .evx :is(.evx-s,.evx-f,.evx-create,.evx-mnav,.evx-cd):focus-visible{outline:2px solid var(--focus);outline-offset:2px}
