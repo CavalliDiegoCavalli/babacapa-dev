@@ -102,6 +102,7 @@
 .ep-body{display:flex;flex-direction:column;gap:18px;padding:18px var(--space-16) 0}
 .ep-col{display:flex;flex-direction:column;gap:var(--space-12);min-width:0}
 .ep-col--players{margin-top:6px}
+.ep-side3{display:none}
 .ep-tag{align-self:center;margin:0;padding:5px var(--space-16);background:var(--scorebox);color:#FFFFFF;transform:skewX(var(--ep-skew))}
 .ep-tag>span{display:block;transform:skewX(var(--ep-unskew));font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;font-size:var(--fs-13);letter-spacing:.08em;text-transform:uppercase}
 
@@ -186,6 +187,20 @@
   .ep-info{padding-top:18px}
   .ep-body{max-width:1200px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px;align-items:start;padding:26px 0 48px}
   .ep-col--players{margin-top:0}
+  /* SP-IN 2026-10-20: tre colonne simmetriche, realizzatori di casa a sinistra e dell'ospite a destra; le colonne laterali
+     partono all'altezza della prima riga delle statistiche (sotto l'etichetta "Statistiche") */
+  .ep-body:has(.ep-side3){grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) minmax(0,1fr);grid-template-areas:"pa st pb";gap:32px}
+  .ep-body .ep-col--stats{grid-area:st}
+  .ep-body .ep-col--players{display:none}
+  .ep-side3{display:flex;padding-top:calc(var(--fs-15) + 10px + var(--space-12))}
+  .ep-side3--a{grid-area:pa}.ep-side3--b{grid-area:pb}
+  .ep-side3 .ep-form-l{text-align:left}.ep-side3--b .ep-form-l{text-align:right}
+  /* schede dell'ospite riflesse: barra a destra, testo a destra, numero in trasparenza a sinistra */
+  .ep-side3--b .ep-card{padding:var(--space-12) 18px var(--space-12) var(--space-12);align-items:flex-end;text-align:right}
+  .ep-side3--b .ep-card::before{left:auto;right:0}
+  .ep-side3--b .ep-card-ghost{right:auto;left:-4px}
+  .ep-side3--b .ep-card-v{flex-direction:row-reverse}
+  .ep-side3--b .ep-card-n{max-width:100%}
   .ep-tag>span{font-size:var(--fs-15)}
   .ep-fm{height:40px}
   .ep-actions{display:none}

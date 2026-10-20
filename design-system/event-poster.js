@@ -162,6 +162,10 @@
     const rows = Array.isArray(d.statRows) ? d.statRows : legacyRows(d);
     const statsHtml = rows.filter(r => !isPlayer(r)).map(r => anyRow(r, H, A)).join('');
     const playersHtml = rows.filter(isPlayer).map(r => anyRow(r, H, A)).join('');
+    /* PC (Diego, 2026-10-20): simmetria verticale, statistiche al centro e i migliori realizzatori di ciascuna squadra dal
+       suo lato (casa a sinistra, ospite a destra); sotto 1280 px resta "Protagonisti" sotto le statistiche */
+    const sideCol = s => rows.filter(isPlayer).map(r => `<div class="ep-players"><span class="ep-form-l">${esc(r.label)}${r.sub ? ' · ' + esc(r.sub) : ''}</span>` +
+      (r.kind === 'text' ? `<div class="ep-card ep-card--${s} ep-card--html">${(s === 'a' ? r.home : r.away) || NONE}</div>` : card(s === 'a' ? H : A, s === 'a' ? r.home : r.away, s)) + '</div>').join('');
     const cta = d.cta && (d.cta.label || (live ? 'Segui il referto live' : final ? 'Vedi il referto' : 'Segui l’evento'));
     const comp = esc([d.competition, d.round].filter(Boolean).join(' · '));
     const placeTxt = d.venue ? esc([d.venue.name, d.venue.city].filter(Boolean).join(' · ')) : '';
@@ -190,7 +194,9 @@
 </div>
 ${statsHtml || playersHtml ? `<div class="ep-body">
   ${statsHtml ? `<section class="ep-col ep-col--stats" aria-label="Statistiche"><h3 class="ep-tag"><span>Statistiche</span></h3>${statsHtml}${d.statsNote ? `<small class="ep-note">${esc(d.statsNote)}</small>` : ''}</section>` : ''}
-  ${playersHtml ? `<section class="ep-col ep-col--players" aria-label="Protagonisti"><h3 class="ep-tag"><span>Protagonisti</span></h3>${playersHtml}</section>` : ''}
+  ${playersHtml ? `<section class="ep-col ep-col--players" aria-label="Protagonisti"><h3 class="ep-tag"><span>Protagonisti</span></h3>${playersHtml}</section>
+  <section class="ep-col ep-side3 ep-side3--a" aria-label="Migliori realizzatori: ${esc(H.short || H.name)}">${sideCol('a')}</section>
+  <section class="ep-col ep-side3 ep-side3--b" aria-label="Migliori realizzatori: ${esc(A.short || A.name)}">${sideCol('b')}</section>` : ''}
 </div>` : ''}
 ${cta ? `<footer class="ep-actions">
   ${d.cta.act ? `<button type="button" class="ep-cta" data-act="${esc(d.cta.act)}" data-id="${esc(d.cta.id || '')}"><span>${esc(cta)}</span></button>` : `<a class="ep-cta" href="${esc(d.cta.href || '#')}"><span>${esc(cta)}</span></a>`}
