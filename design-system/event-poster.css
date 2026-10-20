@@ -80,7 +80,7 @@
 .ep-side--a .ep-team{align-items:flex-start;text-align:left}
 
 /* tabellone TV: sigla casa · punteggio o ora · sigla ospite */
-.ep-bug{position:absolute;z-index:3;left:50%;top:calc(var(--ep-slab-h) - var(--ep-bug-h) / 2);transform:translateX(-50%) skewX(-10deg);display:inline-flex;align-items:stretch;height:var(--ep-bug-h);background:var(--ep-white);border-radius:6px;box-shadow:0 10px 30px rgba(20,32,43,.25);overflow:hidden;white-space:nowrap}
+.ep-bug{position:absolute;z-index:3;left:50%;top:calc(var(--ep-slab-h) - var(--ep-bug-h) / 2);transform:translateX(-50%) skewX(-10deg);display:inline-flex;align-items:stretch;height:var(--ep-bug-h);background:var(--ep-white);border-radius:6px;box-shadow:0 16px 40px rgba(20,32,43,.45),0 6px 14px rgba(20,32,43,.3);overflow:hidden;white-space:nowrap}   /* ombra più marcata: Diego, 2026-10-20 */
 .ep-bug>span>*{transform:skewX(10deg)}
 .ep-bug-t{min-width:calc(var(--ep-bug-h) * 1.45);display:grid;place-items:center;padding:0 var(--space-12);font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;font-size:var(--ep-bug-ab)}
 .ep-bug-t--a{background:var(--ep-a);color:var(--ep-a-on)}
