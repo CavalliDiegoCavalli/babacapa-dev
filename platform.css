@@ -662,7 +662,10 @@ a.alink2{color:var(--ink);text-decoration:none}
 .evx-fdn{display:inline-flex;align-items:center;gap:6px}
 .evx-extra .evx-f--n{width:40px;padding:0}
 .evx-fl{font-size:var(--fs-11);font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:var(--space-4)}
-.evx-extra .evx-f--demo{border-color:var(--crit);color:var(--crit)}
+.evx .evx-f.evx-f--demo{border-color:var(--crit);color:var(--crit)}
+.evx-title-x{display:flex;margin-left:auto}
+.evx-title-x .evx-f{flex:none;padding:0 var(--space-12);height:40px}
+.evx-title-x .evx-f--x>span{display:inline-flex;align-items:center;gap:6px}
 .evx-compr:not(:has(.evx-mini--lead)){grid-template-columns:minmax(0,1fr) 18px}   /* competizione senza squadra in testa */
 .evx>.ainfo,.evx>.aerr{margin-top:var(--space-16)}
 .evx-cols{margin-top:var(--space-20)}

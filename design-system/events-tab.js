@@ -14,7 +14,8 @@
    Correzioni di Diego del 2026-10-20 (SP-IN): niente titolo se header.title è vuoto; "Prossimi" senza numero se manca
    count; colori di fasce e stemmi con le regole della scheda evento (SPIN.eventPoster.teamColors: ospite al secondo colore
    se si confonde con la casa, contorno dello stemma nell'altro colore della squadra); pollice = icona thumbs-up del design
-   system; header.extra (HTML fidato) per i filtri propri dell'app, sotto la barra. */
+   system; header.extra (HTML fidato) per i filtri propri dell'app, sotto la barra; header.titleExtra (HTML fidato) a
+   sinistra di "Crea evento". */
 (function () {
   'use strict';
 
@@ -53,7 +54,7 @@
       ? tag(f, 'evx-f evx-f--mine', `<span>${I.thumb}</span>`, ` aria-pressed="${!!f.pressed}" aria-label="${esc(f.label || 'Le mie squadre')}" title="${esc(f.label || 'Le mie squadre')}"`)
       : tag(f, 'evx-f', `<span>${esc(f.label || TYPES[f.key] || f.key)}</span>`, ` aria-pressed="${!!f.pressed}"`)).join('');
     return `<div class="evx-head">
-  ${h.title || create ? `<div class="evx-title">${h.title ? `<h1>${esc(h.title)}</h1>` : ''}${create}</div>` : ''}
+  ${h.title || create || h.titleExtra ? `<div class="evx-title">${h.title ? `<h1>${esc(h.title)}</h1>` : ''}${h.titleExtra ? `<span class="evx-title-x">${h.titleExtra}</span>` : ''}${create}</div>` : ''}
   <div class="evx-bar">
     <div class="evx-seg" role="group" aria-label="Quali eventi">
       ${tag(nx, 'evx-s evx-s--next', `<span>${esc(nx.label || 'Prossimi')}${nx.count != null ? `<small>${esc(nx.count)}</small>` : ''}</span>`, ` aria-pressed="${!ps.pressed}"`)}
