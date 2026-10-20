@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SP-IN · Landing Baskin · anteprima</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="landing.css">
+<style>
+  @font-face{font-family:"Archivo";font-weight:100 900;font-stretch:62% 125%;font-style:normal;font-display:swap;src:url(../fonts/archivo.woff2) format("woff2")}
+  @font-face{font-family:"JetBrains Mono";font-weight:100 800;font-display:swap;src:url(../fonts/jetbrains-mono.woff2) format("woff2")}
+  body{margin:0;padding:32px;background:var(--sunk);color:var(--ink);font-family:var(--font-body)}
+  h2.pv{font-size:var(--fs-15);color:var(--muted);font-weight:700;margin:32px 0 12px}
+  .row{display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start}
+  .phone{position:relative;width:390px;background:var(--bg);border-radius:24px;overflow:hidden;box-shadow:var(--shadow-2);--tabh:84px}
+  .pc{width:1440px;background:var(--bg);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-2)}
+  .theme{position:fixed;top:16px;right:16px;z-index:60}
+</style>
+</head>
+<body>
+<button class="btn theme" type="button" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Tema chiaro/scuro</button>
+<h1 style="font-size:var(--fs-24);margin:0 0 8px">Landing Baskin · Prima serata</h1>
+<p style="color:var(--muted);margin:0">Dati di esempio. Un solo componente: il layout dipende dalla larghezza del contenitore (PC da 900px). Le barre dell'app (app-shell.css) si vedono nell'app.</p>
+<h2 class="pv">Mobile</h2>
+<div class="row"><div class="phone" id="m"></div></div>
+<h2 class="pv">PC</h2>
+<div class="pc" id="d"></div>
+
+<script src="landing.js"></script>
+<script>
+const L = 'event-poster-samples/';
+const T = {
+  rossa: { short: 'Rossa', abbr: 'ROS', logo: L + 'rossa.png', color: '#B5121B' },
+  gialla: { short: 'Gialla', abbr: 'GIA', logo: L + 'gialla.png', color: '#F5CF1F' },
+  hurricanes: { short: 'Hurricanes', abbr: 'HUR', logo: L + 'hurricanes.jpg', color: '#3E9B2F' },
+  imagna: { short: 'Imagna', abbr: 'IMA', logo: L + 'imagna.png', color: '#0E8A3A' }
+};
+const data = {
+  hero: {
+    kicker: 'Lo sport inclusivo',
+    title: ['Un campo.', 'Sei canestri.', 'Tutti in gioco.'],
+    lead: 'Nel Baskin persone con e senza disabilità giocano **nella stessa squadra**, e ognuno è decisivo per il risultato. Non sono i giocatori ad adattarsi al gioco: **è il gioco che si adatta ai giocatori**.',
+    primary: { label: 'Vedi gli eventi', href: '#/eventi' },
+    secondary: { label: 'Come si gioca', href: '#come-si-gioca' }
+  },
+  numbers: [
+    { value: '6', label: 'in campo', sub: 'per squadra, fino a 14 in lista' },
+    { value: '4×8′', label: 'tempi', sub: 'di gioco effettivo' },
+    { value: '23', label: 'somma massima', sub: 'dei ruoli in campo' },
+    { value: 'N°5', label: 'pallone', sub: 'del minibasket' }
+  ],
+  roles: {
+    title: 'Cinque ruoli, una squadra', sub: 'La decina del numero di maglia dice il ruolo di chi la indossa.',
+    items: [
+      { kind: 'pivot', n: '1–2', title: 'Pivot', text: 'Giocano nelle aree laterali e tirano ai canestri laterali, alto o basso a seconda delle capacità.' },
+      { kind: 'movimento', n: '3–5', title: 'In movimento', text: 'Si muovono in tutto il campo, tirano al canestro frontale o entrano nell’area laterale per servire il pivot.' },
+      { kind: 'regola', n: '=', title: 'La regola d’oro', text: 'Ognuno marca solo giocatori di ruolo pari o superiore al proprio: la sfida è sempre alla pari.' }
+    ]
+  },
+  cta: {
+    title: 'Il modo migliore per capirlo? Vederlo dal vivo.',
+    sub: 'Trova un’amichevole o un torneo vicino a te e vai a fare il tifo.',
+    button: { label: 'Vedi gli eventi', href: '#/eventi' },
+    eventsTitle: 'Prossimi eventi',
+    events: [
+      { href: '#', home: T.rossa, away: T.gialla, time: '15:00', day: 'Sab 24 ott', comp: 'Campionato Baskin · Giornata 6', type: 'campionato' },
+      { href: '#', home: T.hurricanes, away: T.imagna, time: '11:00', day: 'Dom 25 ott', comp: 'Campionato Baskin · Giornata 6', type: 'campionato' }
+    ]
+  },
+  pillars: {
+    title: 'I pilastri del Baskin',
+    items: [
+      { title: 'Una squadra vera', text: 'Non una squadra “speciale” accanto a quella normale: un’unica squadra, maschi e femmine, con e senza disabilità.' },
+      { title: 'Ognuno conta', text: 'Cinque ruoli costruiti sulle capacità di ciascuno: il canestro del pivot vale quanto quello del tiratore.' },
+      { title: 'Si gioca per vincere', text: 'Agonismo vero: tornei, campionati regionali, il campionato italiano e la Coppa Europa.' },
+      { title: 'Cambia chi gioca e chi guarda', text: 'Nato a scuola, il Baskin insegna a collaborare e a rispettare le differenze. In campo e sugli spalti.' }
+    ]
+  }
+};
+document.getElementById('m').innerHTML = SPIN.landing.render(data);
+document.getElementById('d').innerHTML = SPIN.landing.render(data);
+</script>
+</body>
+</html>

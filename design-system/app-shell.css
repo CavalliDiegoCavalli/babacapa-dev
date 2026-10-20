@@ -1,0 +1,35 @@
+/* SP-IN · Barre dell'app in stile "Prima serata" (barra in alto su PC, barra dei tab flottante su telefono).
+   Solo CSS sul markup che app.js genera già: header.pbar (.brand, .logo, .bt, .tnav, .acc-in, .tbav) e
+   #app>nav.tabbar (a, .tbi, .tbav, .tbnm). Va caricato DOPO platform.css.
+   Decisioni (Diego, 2026-10-21): su telefono niente barra in alto (platform.css la nasconde già sotto 900 px);
+   la barra dei tab è flottante, scura, con la sezione attiva in un riquadro bianco inclinato. */
+
+/* ---------- PC: barra in alto scura con le sezioni inclinate ---------- */
+@media (min-width:900px){
+  .pbar{position:relative;overflow:hidden;height:68px;background:#14202B;border-bottom:0;color:#FFFFFF}
+  .pbar::before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(115deg,rgba(255,255,255,.05) 0 2px,transparent 2px 14px)}
+  .pbar>*{position:relative}
+  .pbar .brand{color:#FFFFFF}
+  .pbar .bt b{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:24px}
+  .tnav{gap:6px}
+  .tnav a{padding:8px 16px;border-radius:0;transform:skewX(-12deg);color:#C9D0D6;background:transparent;text-decoration:none;
+    font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:17px}
+  .tnav a>*{transform:skewX(12deg)}
+  .tnav a[aria-current="page"]{background:#FFFFFF;color:#14202B}
+  @media (hover:hover){.tnav a:not([aria-current="page"]):hover{background:rgba(255,255,255,.1);color:#FFFFFF}}
+  .pbar .btn.ghost{color:#FFFFFF}
+  .pbar .acc-in .tbav{background:var(--brand-orange);color:#14202B}
+}
+
+/* ---------- telefono: barra dei tab flottante scura ---------- */
+@media (max-width:899px){
+  #app>.tabbar{left:calc(14px + env(safe-area-inset-left,0px));right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));
+    padding:6px 16px;gap:4px;align-items:center;border:0;border-radius:16px;
+    background:color-mix(in srgb,#14202B 94%,transparent);box-shadow:0 14px 34px rgba(20,32,43,.35),inset 0 0 0 1px rgba(255,255,255,.06)}
+  #app>.tabbar a{height:52px;padding:0;justify-content:center;gap:2px;color:#C9D0D6;font-size:var(--fs-11);font-weight:600}
+  #app>.tabbar a[aria-current="page"]{background:#FFFFFF;color:#14202B;font-weight:800;transform:skewX(-12deg)}
+  #app>.tabbar a[aria-current="page"]>*{transform:skewX(12deg)}
+  #app>.tabbar a svg{width:22px;height:22px}
+  #app>.tabbar .tbav{background:rgba(255,255,255,.16);color:#FFFFFF}
+  #app>.tabbar a[aria-current="page"] .tbav{background:var(--primary-fill);color:var(--on-fill)}
+}
