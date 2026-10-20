@@ -532,12 +532,12 @@ a.alink2{color:var(--ink);text-decoration:none}
 .ep-end{padding-top:var(--space-24);border-top:1px solid var(--line)}
 @container ep (min-width:1280px){.ep-more{gap:var(--space-32);padding:var(--space-32) var(--space-40) 0}}
 /* campionati nell'elenco Eventi (1.12): card verdi gara per gara; collegamento dalla gara al torneo o al campionato */
-.evcard.camp .evd{background:var(--ok-soft)}
-.evcard.camp .evd b{color:var(--ok)}
-.evcard.stack.camp .evd{background:var(--ok-soft)}
+.evcard.camp .evd{background:var(--warn-soft)}
+.evcard.camp .evd b{color:var(--accent-hover)}
+.evcard.stack.camp .evd{background:var(--warn-soft)}
 .evcard .evf{display:block;color:var(--muted);font-size:var(--fs-12);font-weight:700;margin-top:var(--space-2)}
 .tstepl.tlink .tsi{background:var(--primary-soft);color:var(--brand,var(--ink))}
-.tstepl.tlink.camp .tsi{background:var(--ok-soft);color:var(--ok)}
+.tstepl.tlink.camp .tsi{background:var(--warn-soft);color:var(--accent-hover)}
 .tstepl.tlink .tsi svg{width:16px;height:16px}
 .ctog{margin-top:var(--space-2)}
 .cgcal{display:flex;flex-direction:column;gap:var(--space-8);border-top:1px solid var(--line);padding-top:var(--space-12)}
@@ -604,8 +604,9 @@ a.alink2{color:var(--ink);text-decoration:none}
 .ty{width:36px;height:36px;border-radius:var(--radius-round);display:inline-grid;place-items:center;flex:none}
 .ty svg{width:20px;height:20px}
 .ty-amichevole{color:var(--primary);background:var(--primary-soft)}
-.ty-torneo{color:var(--accent-hover);background:var(--warn-soft)}
-.ty-campionato{color:var(--ok);background:var(--ok-soft)}
+/* colori dei tipi di evento (Diego, 2026-10-20): amichevole blu, torneo verde, campionato arancio */
+.ty-torneo{color:var(--ok);background:var(--ok-soft)}
+.ty-campionato{color:var(--accent-hover);background:var(--warn-soft)}
 /* giorni */
 .day{display:grid;grid-template-columns:92px minmax(0,1fr);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow-1);overflow:hidden}
 .dd{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:var(--space-16) var(--space-8);border-right:2px solid var(--line);gap:var(--space-2);background:var(--surface)}
@@ -666,6 +667,16 @@ a.alink2{color:var(--ink);text-decoration:none}
 .evx-title-x{display:flex;margin-left:auto}
 .evx-title-x .evx-f{flex:none;padding:0 var(--space-12);height:40px}
 .evx-title-x .evx-f--x>span{display:inline-flex;align-items:center;gap:6px}
+/* Pagina pubblicata di tornei e campionati (2026-10-20, design-system/competition-page.css): parti proprie dell'app */
+.cpx-main>.ainfo,.cpx-main>.aerr,.cpx-main>.tmiss{margin:0}
+.cpx-edit{display:flex;flex-direction:column;gap:var(--space-12);min-width:0}
+.cpx-rules{display:flex;flex-direction:column;gap:var(--space-12)}
+.cpx-where{margin:0;color:var(--muted)}.cpx-where a{display:inline-flex;align-items:center;gap:var(--space-8)}.cpx-where svg{width:18px;height:18px}
+.cpx-teams{display:flex;flex-direction:column;gap:var(--space-12)}
+.cpx-tlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:var(--space-8)}
+.cpx-tm2{display:flex;align-items:center;gap:var(--space-12);padding:var(--space-12);background:var(--surface);box-shadow:var(--shadow-1);color:var(--ink);text-decoration:none;min-width:0}
+.cpx-tm2>b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cpx-tm2 .cpx-crest{width:36px;height:36px}
 .evx-compr:not(:has(.evx-mini--lead)){grid-template-columns:minmax(0,1fr) 18px}   /* competizione senza squadra in testa */
 .evx>.ainfo,.evx>.aerr{margin-top:var(--space-16)}
 .evx-cols{margin-top:var(--space-20)}
@@ -686,7 +697,7 @@ a.alink2{color:var(--ink);text-decoration:none}
 .ehtop{display:flex;align-items:center;gap:var(--space-12);flex-wrap:wrap}
 .ehtop .back{margin:0}
 .bsep{color:var(--line)}
-.back.blink{color:var(--primary)}.back.blink.camp{color:var(--ok)}
+.back.blink{color:var(--primary)}.back.blink.camp{color:var(--accent-hover)}
 .eacts{gap:var(--space-8)}.eacts .btn{height:40px}
 @media (max-width:640px){
   .ehtop .eacts{width:100%}.ehtop .grow{display:none}

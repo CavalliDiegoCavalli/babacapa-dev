@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SP-IN · Tornei e campionati · anteprima</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="competition-page.css">
+<style>
+  @font-face{font-family:"Archivo";font-weight:100 900;font-stretch:62% 125%;font-style:normal;font-display:swap;src:url(../fonts/archivo.woff2) format("woff2")}
+  @font-face{font-family:"JetBrains Mono";font-weight:100 800;font-display:swap;src:url(../fonts/jetbrains-mono.woff2) format("woff2")}
+  body{margin:0;padding:32px;background:var(--sunk);color:var(--ink);font-family:var(--font-body)}
+  h2.pv{font-size:var(--fs-15);color:var(--muted);font-weight:700;margin:32px 0 12px}
+  .row{display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start}
+  .phone{width:390px;background:var(--bg);border-radius:24px;overflow:hidden;box-shadow:var(--shadow-2)}
+  .pc{width:1440px;background:var(--bg);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-2)}
+  .theme{position:fixed;top:16px;right:16px;z-index:60}
+</style>
+</head>
+<body>
+<button class="btn theme" type="button" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Tema chiaro/scuro</button>
+<h1 style="font-size:var(--fs-24);margin:0 0 8px">Tornei e campionati · Prima serata</h1>
+<p style="color:var(--muted);margin:0">Dati di esempio. Un solo componente: il layout dipende dalla larghezza del contenitore (PC da 980px). Il pulsante "Struttura" apre il dialog.</p>
+<h2 class="pv">Mobile · Campionato (girone) · Torneo (tabellone)</h2>
+<div class="row"><div class="phone" id="m-camp"></div><div class="phone" id="m-tor"></div></div>
+<h2 class="pv">PC · Campionato, girone</h2>
+<div class="pc" id="d-camp"></div>
+<h2 class="pv">PC · Campionato, playoff (serie al meglio delle 3)</h2>
+<div class="pc" id="d-po"></div>
+<h2 class="pv">PC · Torneo, tabellone a eliminazione</h2>
+<div class="pc" id="d-tor"></div>
+<div id="dlg"></div>
+
+<script src="competition-page.js"></script>
+<script>
+const L = 'event-poster-samples/';
+const T = {
+  rossa: { short: 'Rossa', abbr: 'ROS', logo: L + 'rossa.png', color: '#B5121B' },
+  gialla: { short: 'Gialla', abbr: 'GIA', logo: L + 'gialla.png', color: '#F5CF1F' },
+  blu: { short: 'Blu', abbr: 'BLU', logo: L + 'blu.png', color: '#1E3A78' },
+  islanders: { short: 'Islanders', abbr: 'ISL', logo: L + 'islanders.png', color: '#0E7C8C' },
+  valseriana: { short: 'Valseriana', abbr: 'VAL', logo: L + 'valseriana.png', color: '#0E2F4F' },
+  aurora: { short: 'Aurora S.F.', abbr: 'AUR', logo: L + 'aurora.jpg', color: '#D0312D' },
+  lumezzane: { short: 'Lumezzane', abbr: 'LUM', logo: L + 'lumezzane.png', color: '#1B3563' },
+  hurricanes: { short: 'Hurricanes', abbr: 'HUR', logo: L + 'hurricanes.jpg', color: '#3E9B2F' },
+  imagna: { short: 'Imagna', abbr: 'IMA', logo: L + 'imagna.png', color: '#0E8A3A' },
+  extrapass: { short: 'ExtraPass', abbr: 'EXP', logo: L + 'extrapass.jpg', logoBg: '#000000', color: '#111111' }
+};
+for (const k in T) T[k].name = T[k].short;
+const CP = window.SPIN.competitionPage;
+const open = { attrs: { 'data-pv': 'struttura' } };
+
+const CAMP = ['valseriana', 'rossa', 'aurora', 'gialla', 'extrapass', 'islanders', 'hurricanes', 'blu', 'lumezzane', 'imagna'].map(k => T[k]);
+const campHero = (status) => ({
+  kind: 'campionato', back: { href: '#' }, title: 'Campionato Baskin', sub: 'Stagione 2026/27 · EISI Lombardia',
+  chips: ['Gironi + playoff', '10 squadre', 'Bergamo e provincia', 'Andata e ritorno'], structure: open,
+  teams: CAMP, status
+});
+const st = (k, pt, g, v, p, pf, ps, zone) => ({ team: T[k], pt, g, v, p, pf, ps, zone });
+const standings = {
+  title: 'Classifica · Girone A',
+  rows: [st('valseriana', 12, 5, 4, 1, 196, 168, 'playoff'), st('rossa', 9, 5, 3, 2, 190, 177, 'playoff'), st('aurora', 9, 4, 3, 1, 171, 150), st('gialla', 6, 5, 2, 3, 175, 183), st('extrapass', 0, 5, 0, 5, 158, 210, 'playout')],
+  legend: { playoff: 'Playoff', playout: 'Playout' },
+  note: 'Pt punti · G giocate · V vinte · P perse · PF punti fatti · PS punti subiti · +/− differenza punti'
+};
+const mm = (h, a, o) => Object.assign({ href: '#', home: T[h], away: T[a] }, o);
+const calendar = {
+  title: 'Calendario · Girone A',
+  rounds: [
+    { title: 'Giornata 6', note: 'Sab 24 ottobre · riposa Aurora S.F.', matches: [
+      mm('rossa', 'gialla', { time: '15:00', when: 'Sab 24 ott, 15:00', place: 'Palestra comunale, Bergamo' }),
+      mm('extrapass', 'valseriana', { time: '17:00', when: 'Sab 24 ott, 17:00', place: 'Palestra comunale, Bergamo' })] },
+    { title: 'Giornata 5', note: 'Sab 17 ottobre · riposa Rossa', matches: [
+      mm('valseriana', 'gialla', { score: { home: 40, away: 29 }, when: 'Sab 17 ott', place: 'Palasport, Clusone' }),
+      mm('aurora', 'extrapass', { score: { home: 43, away: 36 }, when: 'Sab 17 ott', place: 'Palestra comunale, Bergamo' })] }
+  ]
+};
+const campTabs = (a) => ['Girone A', 'Girone B', 'Playoff'].map(l => ({ label: l, pressed: l === a, attrs: { 'data-tab': l } }));
+
+/* playoff: serie al meglio delle 3 */
+const side = (k, seed) => ({ team: T[k], seed });
+const po = {
+  rounds: [
+    { title: 'Semifinali', series: [
+      { href: '#', name: 'Semifinale 1', best: 3, home: side('valseriana', '1ª Girone A'), away: side('hurricanes', '2ª Girone B'), games: [{ home: 41, away: 33 }, { home: 38, away: 36 }, null], note: '31 ott · 7 nov', state: 'Valseriana in finale 2–0', stateTone: 'ok' },
+      { href: '#', name: 'Semifinale 2', best: 3, home: side('islanders', '1ª Girone B'), away: side('rossa', '2ª Girone A'), games: [{ home: 39, away: 35 }, { home: 30, away: 37 }, { home: 34, away: 40 }], note: '31 ott · 4 nov · 7 nov', state: 'Rossa in finale 2–1', stateTone: 'ok' }] },
+    { title: 'Finale', series: [
+      { href: '#', name: 'Finale 1º–2º', best: 3, home: side('valseriana', '1ª Girone A'), away: side('rossa', '2ª Girone A'), games: [{ home: 42, away: 38 }, null, 'ifneeded'], note: 'Gara 2 · Sab 14 nov, 18:00', state: 'Valseriana avanti 1–0', stateTone: 'info' }] }
+  ],
+  extra: [{ title: 'Finale 3º–4º', series: [
+    { href: '#', name: 'Finale 3º–4º', best: 1, when: 'Sab 14 nov', home: side('hurricanes', 'Perdente Semifinale 1'), away: side('islanders', 'Perdente Semifinale 2'), note: 'Sab 14 nov, 15:30 · Palasport, Clusone' }] }]
+};
+
+/* torneo a eliminazione diretta, gara unica */
+const g = (name, when, h, a, hs, as, sh, sa) => ({ href: '#', name, when, best: 1, home: { team: T[h], seed: sh, score: hs }, away: { team: T[a], seed: sa, score: as } });
+const tor = {
+  rounds: [
+    { title: 'Quarti', series: [
+      g('Quarto 1', 'Sab 3 ott', 'valseriana', 'blu', 41, 30, 'Testa di serie 1', 'Testa di serie 8'),
+      g('Quarto 2', 'Sab 3 ott', 'hurricanes', 'islanders', 36, 29, 'Testa di serie 4', 'Testa di serie 5'),
+      g('Quarto 3', 'Dom 4 ott', 'aurora', 'lumezzane', 46, 40, 'Testa di serie 2', 'Testa di serie 7'),
+      g('Quarto 4', 'Dom 4 ott', 'rossa', 'gialla', 38, 35, 'Testa di serie 3', 'Testa di serie 6')] },
+    { title: 'Semifinali', series: [g('Semifinale 1', 'Sab 10 ott', 'valseriana', 'hurricanes', 37, 33), g('Semifinale 2', 'Sab 10 ott', 'aurora', 'rossa', 42, 39)] },
+    { title: 'Finale', series: [g('Finale 1º–2º', 'Dom 11 ott', 'valseriana', 'aurora', 39, 35)] }
+  ],
+  extra: [{ title: 'Finale 3º–4º', series: [g('Finale 3º–4º', 'Dom 11 ott', 'hurricanes', 'rossa', 40, 36)] }]
+};
+const TOR = ['valseriana', 'aurora', 'hurricanes', 'rossa', 'blu', 'islanders', 'lumezzane', 'gialla'].map(k => T[k]);
+const torHero = {
+  kind: 'torneo', back: { href: '#' }, title: 'Torneo d’autunno', sub: 'Edizione 2026 · 8 squadre',
+  chips: ['Eliminazione diretta', 'Palasport, Clusone', '3–11 ottobre'], structure: open,
+  teams: TOR, status: { label: 'Concluso', tone: 'ok' }, champion: T.valseriana
+};
+const torTabs = ['Tabellone', 'Squadre'].map(l => ({ label: l, pressed: l === 'Tabellone' }));
+
+const campData = { hero: campHero({ label: 'Giornata 6 di 10', tone: 'info' }), tabs: campTabs('Girone A'), standings, calendar };
+document.getElementById('m-camp').innerHTML = CP.render(campData);
+document.getElementById('d-camp').innerHTML = CP.render(campData);
+document.getElementById('d-po').innerHTML = CP.render({ hero: campHero({ label: 'Playoff · Finale', tone: 'info' }), tabs: campTabs('Playoff'), view: 'bracket', bracket: po });
+const torData = { hero: torHero, tabs: torTabs, view: 'bracket', bracket: tor };
+document.getElementById('m-tor').innerHTML = CP.render(torData);
+document.getElementById('d-tor').innerHTML = CP.render(torData);
+
+/* dialog "Struttura" */
+const STRUCT = {
+  campionato: { kind: 'campionato', eyebrow: 'Campionato Baskin', close: { attrs: { 'data-pv': 'chiudi' } }, sections: [
+    { title: 'Fase a gironi', rows: [['Gironi', '2 gironi da 5 squadre'], ['Calendario', 'Andata e ritorno, 10 giornate'], ['Punti', 'Vittoria 3 · Sconfitta 0'], ['Parità in classifica', 'Scontri diretti, poi differenza punti']] },
+    { title: 'Playoff', rows: [['Chi si qualifica', 'Prime 2 di ogni girone'], ['Semifinali', '1ª A – 2ª B e 1ª B – 2ª A, al meglio delle 3 gare'], ['Finale 1º–2º', 'Al meglio delle 3 gare'], ['Finale 3º–4º', 'Gara unica'], ['Campo', 'Gara 1 e 3 in casa della meglio piazzata']] },
+    { title: 'Playout', rows: [['Chi lo gioca', 'Ultima di ogni girone'], ['Formula', 'Gara unica in campo neutro']] }] },
+  torneo: { kind: 'torneo', eyebrow: 'Torneo d’autunno', close: { attrs: { 'data-pv': 'chiudi' } }, sections: [
+    { title: 'Eliminazione diretta', rows: [['Squadre', '8, ordinate per testa di serie'], ['Turni', 'Quarti, semifinali, finale'], ['Formula', 'Gara unica'], ['Finale 3º–4º', 'Sì'], ['Campo', 'Palasport, Clusone']] }] }
+};
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-pv]'); if (!b) return;
+  const host = document.getElementById('dlg');
+  if (b.dataset.pv === 'chiudi' || b.classList.contains('cpx-scrim')) { host.innerHTML = ''; return; }
+  const kind = b.closest('.cpx-hero--torneo') ? 'torneo' : 'campionato';
+  host.innerHTML = CP.structureDialog(Object.assign({ scrimAttrs: { 'data-pv': 'chiudi' } }, STRUCT[kind]));
+  host.querySelector('.cpx-dlg').addEventListener('click', ev => { if (!ev.target.closest('.cpx-dlg-x')) ev.stopPropagation(); });
+  host.querySelector('.cpx-dlg-x').focus();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') document.getElementById('dlg').innerHTML = ''; });
+</script>
+</body>
+</html>

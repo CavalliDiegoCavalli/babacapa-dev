@@ -14,7 +14,8 @@
    Correzioni di Diego del 2026-10-20 (SP-IN): niente titolo se header.title è vuoto; "Prossimi" senza numero se manca
    count; colori di fasce e stemmi con le regole della scheda evento (SPIN.eventPoster.teamColors: ospite al secondo colore
    se si confonde con la casa, contorno dello stemma nell'altro colore della squadra); pollice = icona thumbs-up del design
-   system; header.extra (HTML fidato) per i filtri propri dell'app, sotto la barra; header.titleExtra (HTML fidato) a
+   system; colori dei tipi (Diego, 2026-10-20, con la pagina tornei/campionati): campionato arancio, torneo verde,
+   amichevole blu; la card torneo usa la scarpa che corre, quella campionato la coppa; header.extra (HTML fidato) per i filtri propri dell'app, sotto la barra; header.titleExtra (HTML fidato) a
    sinistra di "Crea evento". */
 (function () {
   'use strict';
@@ -41,6 +42,7 @@
     pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',
     chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>',
     left: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>',
+    shoe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 15h12a2 2 0 0 0 2-2 2 2 0 0 0-1.5-1.9L16 10l-2-4h-2.5l-1 2H9a1 1 0 0 0-1 1z"/><path d="M8 18.5h14"/><path d="M12.5 9.5h2"/><path d="M13 12h2.5"/><path d="M2 9h4"/><path d="M1 12h5"/><path d="M3 15h3"/></svg>',
     trophy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>'
   };
   const TYPES = { amichevole: 'Amichevole', torneo: 'Torneo', campionato: 'Campionato' };
@@ -105,7 +107,7 @@
   }
   function stackCard(it) {
     const crests = (it.crests || []).slice(0, 5).map(t => crest(t, 'evx-mini')).join('');
-    const inner = `<span class="evx-sband" aria-hidden="true"><span class="evx-sband-acc"></span><span class="evx-tex"></span><span class="evx-trophy">${I.trophy}</span><span class="evx-minis">${crests}</span></span>
+    const inner = `<span class="evx-sband" aria-hidden="true"><span class="evx-sband-acc" style="background:${TYCOL[it.type] || 'var(--accent)'}"></span><span class="evx-tex"></span><span class="evx-trophy">${it.type === 'torneo' ? I.shoe : I.trophy}</span><span class="evx-minis">${crests}</span></span>
       <span class="evx-body">${meta({ comp: it.info, extra: it.nextLine, place: it.place, city: it.city }, it.name)}${typeChip(it)}<span class="evx-chev">${I.chev}</span></span>`;
     return tag(it, 'evx-card evx-card--stack', inner);
   }
@@ -125,7 +127,7 @@
   }
 
   /* ---------- colonna laterale ---------- */
-  const TYCOL = { amichevole: 'var(--brand-blue)', torneo: 'var(--brand-orange)', campionato: 'var(--brand-green)' };
+  const TYCOL = { amichevole: 'var(--brand-blue)', torneo: 'var(--brand-green)', campionato: 'var(--brand-orange)' };
   function calendar(c) {
     if (!c) return '';
     const head = ['L', 'M', 'M', 'G', 'V', 'S', 'D'].map(d => `<span class="evx-cw">${d}</span>`).join('');
