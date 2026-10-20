@@ -200,8 +200,50 @@ ${d.more ? `<div class="ep-more">${d.more}</div>` : ''}
 </article>`;
   }
 
-  function mount(el, data) { el.innerHTML = render(data); return el.firstElementChild; }
+  function mount(el, data) { el.innerHTML = render(data); fitAll(el); return el.firstElementChild; }
+
+  /* ---------- nomi dentro la propria metà (SP-IN, Diego 2026-10-20) ----------
+     Le fasce sono divise da una diagonale (--ep-cut-top in alto, --ep-cut-bot in basso): lo spazio per il nome cambia con
+     l'altezza. Per ogni riga del nome si controlla che stia dal proprio lato della diagonale (con la linea bianca e un
+     margine per il corsivo); se no il corpo scende del 6% alla volta, fino al 40%. Si rifà quando la scheda cambia
+     larghezza, quando arriva nella pagina e quando i font sono caricati. */
+  function fitName(n, side, hero, top, bot, gap) {
+    n.style.fontSize = '';
+    const H = hero.getBoundingClientRect(), slab = hero.querySelector('.ep-slab'), sh = slab ? slab.getBoundingClientRect().height : H.height;
+    if (!H.width || !sh) return;
+    const x = y => H.left + H.width * (top + (bot - top) * Math.min(1, Math.max(0, (y - H.top) / sh)));
+    const base = parseFloat(getComputedStyle(n).fontSize) || 0; let fs = base;
+    const r = document.createRange();
+    for (let i = 0; i < 16 && fs > base * .4; i++) {
+      r.selectNodeContents(n); const m = fs * .14;
+      const ok = [...r.getClientRects()].every(q => side === 'a' ? q.right <= x(q.bottom) - m : q.left >= x(q.top) + gap + m);
+      if (ok) return;
+      fs *= .94; n.style.fontSize = fs + 'px';
+    }
+  }
+  function fitEp(ep) {
+    const hero = ep.querySelector('.ep-hero'); if (!hero) return;
+    const cs = getComputedStyle(hero), pc = v => (parseFloat(cs.getPropertyValue(v)) || 0) / 100;
+    const top = pc('--ep-cut-top'), bot = pc('--ep-cut-bot'), gap = parseFloat(cs.getPropertyValue('--ep-gap')) || 0;
+    ep.querySelectorAll('.ep-side--a .ep-name').forEach(n => fitName(n, 'a', hero, top, bot, gap));
+    ep.querySelectorAll('.ep-side--b .ep-name').forEach(n => fitName(n, 'b', hero, top, bot, gap));
+  }
+  const RO = typeof ResizeObserver === 'function' ? new ResizeObserver(es => es.forEach(e => {
+    const w = Math.round(e.contentRect.width); if (e.target.__epW === w) return; e.target.__epW = w; fitEp(e.target);
+  })) : null;
+  function fitAll(root) {
+    (root || document).querySelectorAll('.ep').forEach(ep => { if (RO && !ep.__epRO) { ep.__epRO = 1; RO.observe(ep); } fitEp(ep); });
+  }
+  if (typeof document !== 'undefined' && typeof MutationObserver === 'function') {
+    const start = () => {
+      new MutationObserver(ms => { if (ms.some(m => [...m.addedNodes].some(x => x.nodeType === 1 && (x.matches('.ep') || x.querySelector('.ep'))))) fitAll(); })
+        .observe(document.body, { childList: true, subtree: true });
+      fitAll();
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { document.querySelectorAll('.ep').forEach(ep => fitEp(ep)); });
+    };
+    if (document.body) start(); else document.addEventListener('DOMContentLoaded', start);
+  }
 
   window.SPIN = window.SPIN || {};
-  window.SPIN.eventPoster = { render, mount, teamColors, clash, onColor, abbr };
+  window.SPIN.eventPoster = { render, mount, teamColors, clash, onColor, abbr, fit: fitAll };
 })();
