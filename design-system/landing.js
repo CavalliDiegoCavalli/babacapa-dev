@@ -114,13 +114,21 @@
   }
 
   /* ---------- invito + prossimi eventi ---------- */
+  /* Colori come nel tab Eventi e nella scheda evento (Diego, 2026-10-21): primo colore delle squadre, ospite al secondo
+     colore se si confonde con la casa, contorno dello stemma nell'altro colore (SPIN.eventPoster.teamColors) */
+  function ringOf(t) { const c = t.color || INK, a = t.altColor; return a && a.toLowerCase() !== c.toLowerCase() ? a : onColor(c); }
+  function pairColors(H, A) {
+    const P = window.SPIN && window.SPIN.eventPoster;
+    if (P && P.teamColors) { const c = P.teamColors(H, A); return { a: c.a, b: c.b, aRing: c.aRing, bRing: c.bRing }; }
+    return { a: H.color || INK, b: A.color || INK, aRing: ringOf(H), bRing: ringOf(A) };
+  }
   function evRow(e) {
-    const H = e.home || {}, A = e.away || {}, a = H.color || INK, b = A.color || INK;
-    const crest = (t) => `<span class="lpx-crest" style="--c-bg:${esc(t.logoBg || '#FFFFFF')};--c-team:${esc(t.color || INK)}">${t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy">` : `<b>${esc(initials(t.short || t.name))}</b>`}</span>`;
+    const H = e.home || {}, A = e.away || {}, C = pairColors(H, A), a = C.a, b = C.b;
+    const crest = (t, ring) => `<span class="lpx-crest" style="--c-bg:${esc(t.logoBg || '#FFFFFF')};--c-team:${esc(ring)}">${t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy">` : `<b>${esc(initials(t.short || t.name))}</b>`}</span>`;
     const title = `${H.short || H.name || ''} – ${A.short || A.name || ''}`;
     /* Diego, 2026-10-21: nel tabellone giorno sopra e ora sotto; accanto il tipo di evento (non i nomi delle squadre,
        che restano nell'etichetta per gli screen reader) e sotto la competizione */
-    const inner = `<span class="lpx-ev-band" aria-hidden="true">${crest(H)}<span class="lpx-bug"><span style="background:${esc(a)};color:${onColor(a)}"><b>${esc(abbr(H))}</b></span><span class="lpx-bug-mid">${e.day ? `<small>${esc(e.day)}</small>` : ''}<b>${esc(e.time || '—')}</b></span><span style="background:${esc(b)};color:${onColor(b)}"><b>${esc(abbr(A))}</b></span></span>${crest(A)}</span>
+    const inner = `<span class="lpx-ev-band" aria-hidden="true">${crest(H, C.aRing)}<span class="lpx-bug"><span style="background:${esc(a)};color:${onColor(a)}"><b>${esc(abbr(H))}</b></span><span class="lpx-bug-mid">${e.day ? `<small>${esc(e.day)}</small>` : ''}<b>${esc(e.time || '—')}</b></span><span style="background:${esc(b)};color:${onColor(b)}"><b>${esc(abbr(A))}</b></span></span>${crest(A, C.bRing)}</span>
       <span class="lpx-ev-t"><b>${esc(e.typeLabel || TYLBL[e.type] || '')}</b>${e.comp ? `<span>${esc(e.comp)}</span>` : ''}</span><span class="lpx-chev">${I.chev}</span>`;
     return tag(e, 'lpx-ev', inner, ` style="--ty:${TYCOL[e.type] || 'var(--brand-blue)'}" aria-label="${esc(title + (e.time ? ', ' + (e.day ? e.day + ' ' : '') + 'ore ' + e.time : ''))}"`);
   }
