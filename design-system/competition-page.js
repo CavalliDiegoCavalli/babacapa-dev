@@ -15,7 +15,8 @@
    Decisioni di design (Diego, 2026-10-20): stile della scheda evento "Prima serata"; fascia arancio per i campionati
    e verde per i tornei; filigrana coppa (campionato) o scarpa che corre (torneo); "Struttura" è un info box accanto
    alle chip e apre un dialog; playoff con la stessa struttura del tabellone del torneo più le gare vinte nella serie;
-   sempre il primo colore delle squadre; niente dati live. */
+   sempre il primo colore delle squadre; niente dati live.
+   SP-IN (2026-10-20): hero.topAction (HTML fidato) in alto a destra, per il pulsante "Modifica" dell'app. */
 (function () {
   'use strict';
 
@@ -72,7 +73,7 @@
   <span class="cpx-hero-band" aria-hidden="true"></span><span class="cpx-hero-tex" aria-hidden="true"></span>
   <span class="cpx-hero-wm" aria-hidden="true">${kind === 'torneo' ? I.shoe : I.trophy}</span>
   <div class="cpx-hero-in">
-    <div class="cpx-hero-top">${back}<span class="cpx-kind"><b>${esc(h.kindLabel || KINDS[kind])}</b></span><span class="cpx-back-sp"></span></div>
+    <div class="cpx-hero-top">${back}<span class="cpx-kind"><b>${esc(h.kindLabel || KINDS[kind])}</b></span>${h.topAction || '<span class="cpx-back-sp"></span>'}</div>
     <div class="cpx-hero-tt">${h.sub ? `<span class="cpx-sub">${esc(h.sub)}</span>` : ''}<h1>${esc(h.title)}</h1></div>
     ${chips || info ? `<div class="cpx-chips">${chips}${info}</div>` : ''}
     ${crests || st ? `<div class="cpx-hero-row"><span class="cpx-hcrests">${crests}</span>${st}</div>` : ''}

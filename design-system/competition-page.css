@@ -41,7 +41,11 @@
 .cpx-chips{display:flex;flex-wrap:wrap;gap:8px}
 .cpx-chip,.cpx-info{flex:none;padding:4px 10px;transform:skewX(-10deg)}
 .cpx-chip{border:1.5px solid rgba(255,255,255,.4);color:#FFFFFF}
-.cpx-chip{flex:0 1 auto;max-width:100%;box-sizing:border-box}.cpx-chip>span{white-space:normal}   /* SP-IN: una chip lunga va a capo invece di uscire dallo schermo */
+.cpx-chip{flex:0 1 auto;max-width:100%;box-sizing:border-box}.cpx-chip>span{white-space:normal}   /* SP-IN: "Modifica" in alto a destra della testata (solo la matita sotto 700 px) */
+.cpx-act{height:40px;width:40px;flex:none;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:var(--space-8);padding:0;border:0;border-radius:var(--radius-pill);background:rgba(255,255,255,.14);color:#FFFFFF;font:inherit;font-size:var(--fs-14);font-weight:700;cursor:pointer}
+.cpx-act svg{width:18px;height:18px}.cpx-act>span{display:none}
+@container cpx (min-width:700px){.cpx-act{width:auto;padding:0 var(--space-16)}.cpx-act>span{display:inline}}
+/* SP-IN: una chip lunga va a capo invece di uscire dallo schermo */
 .cpx-chip>span,.cpx-info>span{display:inline-flex;align-items:center;gap:6px;transform:skewX(10deg);font-size:var(--fs-11);font-weight:800;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
 .cpx-info{border:0;padding:4px 12px 4px 9px;background:#FFFFFF;color:#14202B;cursor:pointer;text-decoration:none}
 .cpx-info svg{width:15px;height:15px;color:#0077CC}
@@ -72,7 +76,7 @@
 .cpx-main{display:flex;flex-direction:column;gap:20px;padding:16px 16px 32px}
 .cpx-tabs{display:flex;gap:6px;flex-wrap:wrap}   /* SP-IN: con molte schede si va su più righe invece di troncare i nomi */
 .cpx-tab{flex:1 1 max(30%,140px);min-width:0;height:40px;padding:0 8px;border:0;background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink);transform:skewX(var(--cpx-skew));cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;font-size:var(--fs-17)}
-.cpx-tab>span{display:block;transform:skewX(var(--cpx-unskew));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cpx-tab>span{display:block;transform:skewX(var(--cpx-unskew));white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 .18em .06em .06em}   /* SP-IN: spazio per la sporgenza del corsivo, che veniva tagliata */
 .cpx-tab[aria-selected="true"]{background:var(--ink);color:var(--surface);box-shadow:none}
 .cpx-sec{display:flex;align-items:center;gap:10px}
 .cpx-tag{flex:none;padding:5px 14px;background:var(--scorebox);color:#FFFFFF;transform:skewX(var(--cpx-skew))}
