@@ -90,14 +90,16 @@
 .lpx-ev{position:relative;display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;padding:12px 36px 12px 12px;border:0;border-radius:4px;background:rgba(255,255,255,.06);box-shadow:inset 4px 0 0 var(--ty);color:#FFFFFF;text-align:left;text-decoration:none;cursor:pointer}
 @media (hover:hover){.lpx-ev:hover{background:rgba(255,255,255,.12)}}
 .lpx-ev-band{flex:none;display:flex;align-items:center;gap:8px}
-.lpx-crest{width:26px;height:26px;flex:none;border-radius:999px;background:var(--c-bg);box-shadow:0 0 0 2px var(--c-team);overflow:hidden;display:grid;place-items:center}
+/* telefono: niente stemmi accanto al tabellone (giorno e ora su due righe lo allargano; restano le sigle nel colore della squadra), Diego 2026-10-21 */
+.lpx-crest{display:none;width:26px;height:26px;flex:none;border-radius:999px;background:var(--c-bg);box-shadow:0 0 0 2px var(--c-team);overflow:hidden;place-items:center}
 .lpx-crest img{width:86%;height:86%;object-fit:contain}
 .lpx-crest b{font-size:10px;color:#14202B}
-.lpx-bug{display:inline-flex;height:26px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.18))}
+.lpx-bug{display:inline-flex;height:36px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.18))}
 .lpx-bug>span{display:grid;place-items:center;padding:0 9px;transform:skewX(var(--lpx-skew))}
 .lpx-bug>span>b{transform:skewX(var(--lpx-unskew));font-size:12px}
-.lpx-bug .lpx-bug-mid{background:#0B1218;color:#FFFFFF;padding:0 10px}
-.lpx-bug .lpx-bug-mid b{font-family:var(--font-mono);font-style:normal;font-weight:700;font-size:14px}
+.lpx-bug .lpx-bug-mid{background:#0B1218;color:#FFFFFF;padding:0 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.lpx-bug .lpx-bug-mid small{transform:skewX(var(--lpx-unskew));font-size:var(--fs-11);font-weight:800;letter-spacing:.04em;text-transform:uppercase;line-height:1;white-space:nowrap;color:#C9D0D6}
+.lpx-bug .lpx-bug-mid b{font-family:var(--font-mono);font-style:normal;font-weight:700;font-size:14px;line-height:1}
 .lpx-ev-t{display:flex;flex-direction:column;gap:2px;min-width:0}
 .lpx-ev-t>b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lpx-ev-t>span{font-size:var(--fs-12);color:#C9D0D6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -142,8 +144,8 @@
   .lpx-cta-band{width:30%}
   .lpx-cta-in{display:grid;grid-template-columns:1fr 520px;gap:32px;align-items:center;padding:32px 36px}
   .lpx-cta-t>b{font-size:48px}
-  .lpx-crest{width:30px;height:30px}
-  .lpx-bug{height:30px}
+  .lpx-crest{display:grid;width:30px;height:30px}
+  .lpx-bug{height:40px}
   .lpx-ev-t>b{font-size:18px}
   .lpx-pil-g{grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
   .lpx-pil-h{font-size:26px}

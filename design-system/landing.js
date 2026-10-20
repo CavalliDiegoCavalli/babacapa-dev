@@ -39,6 +39,7 @@
     trophy: `<svg ${SV}><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>`,
     heart: `<svg ${SV}><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21.2l8.8-8.8a5.5 5.5 0 0 0 0-7.8z"/></svg>`
   };
+  const TYLBL = { amichevole: 'Amichevole', torneo: 'Torneo', campionato: 'Campionato' };
   const TYCOL = { amichevole: 'var(--brand-blue)', torneo: 'var(--brand-green)', campionato: 'var(--brand-orange)' };
   const ROLECOL = { pivot: 'var(--brand-orange)', movimento: 'var(--brand-blue)', regola: 'var(--brand-green)' };
 
@@ -117,8 +118,10 @@
     const H = e.home || {}, A = e.away || {}, a = H.color || INK, b = A.color || INK;
     const crest = (t) => `<span class="lpx-crest" style="--c-bg:${esc(t.logoBg || '#FFFFFF')};--c-team:${esc(t.color || INK)}">${t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy">` : `<b>${esc(initials(t.short || t.name))}</b>`}</span>`;
     const title = `${H.short || H.name || ''} – ${A.short || A.name || ''}`;
-    const inner = `<span class="lpx-ev-band" aria-hidden="true">${crest(H)}<span class="lpx-bug"><span style="background:${esc(a)};color:${onColor(a)}"><b>${esc(abbr(H))}</b></span><span class="lpx-bug-mid"><b>${esc(e.time || '—')}</b></span><span style="background:${esc(b)};color:${onColor(b)}"><b>${esc(abbr(A))}</b></span></span>${crest(A)}</span>
-      <span class="lpx-ev-t"><b>${esc(title)}</b><span>${esc([e.day, e.comp].filter(Boolean).join(' · '))}</span></span><span class="lpx-chev">${I.chev}</span>`;
+    /* Diego, 2026-10-21: nel tabellone giorno sopra e ora sotto; accanto il tipo di evento (non i nomi delle squadre,
+       che restano nell'etichetta per gli screen reader) e sotto la competizione */
+    const inner = `<span class="lpx-ev-band" aria-hidden="true">${crest(H)}<span class="lpx-bug"><span style="background:${esc(a)};color:${onColor(a)}"><b>${esc(abbr(H))}</b></span><span class="lpx-bug-mid">${e.day ? `<small>${esc(e.day)}</small>` : ''}<b>${esc(e.time || '—')}</b></span><span style="background:${esc(b)};color:${onColor(b)}"><b>${esc(abbr(A))}</b></span></span>${crest(A)}</span>
+      <span class="lpx-ev-t"><b>${esc(e.typeLabel || TYLBL[e.type] || '')}</b>${e.comp ? `<span>${esc(e.comp)}</span>` : ''}</span><span class="lpx-chev">${I.chev}</span>`;
     return tag(e, 'lpx-ev', inner, ` style="--ty:${TYCOL[e.type] || 'var(--brand-blue)'}" aria-label="${esc(title + (e.time ? ', ' + (e.day ? e.day + ' ' : '') + 'ore ' + e.time : ''))}"`);
   }
   function cta(c) {
