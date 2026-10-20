@@ -651,38 +651,17 @@ a.alink2{color:var(--ink);text-decoration:none}
   .evrow .evp:empty,.evrow .evs:empty{display:none}
 }
 /* calendario e colonna laterale */
-.mcal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:var(--space-2);text-align:center;font-size:var(--fs-13)}
-.mcal .cw{color:var(--muted);font-size:var(--fs-12);padding-bottom:var(--space-4)}
-.mcal .cd{position:relative;padding:var(--space-8) 0 var(--space-8);border-radius:var(--radius-pill);font-stretch:normal}
-.mcal .cd.has{font-weight:700}
-.mcal .cd.now{background:var(--primary);color:var(--on-fill)}
-.mcal .cd i{position:absolute;left:0;right:0;bottom:2px;display:flex;justify-content:center;gap:var(--space-2)}
-.mcal .cd i b,.mleg b{width:5px;height:5px;border-radius:var(--radius-round);display:inline-block;background:currentColor}
-.mcal .cd i b.ty-amichevole,.mleg b.ty-amichevole{background:var(--brand-blue)}
-.mcal .cd i b.ty-torneo,.mleg b.ty-torneo{background:var(--brand-orange)}
-.mcal .cd i b.ty-campionato,.mleg b.ty-campionato{background:var(--brand-green)}
-.mcal .cd.now i b{box-shadow:0 0 0 1px #fff}
-.mleg{display:flex;gap:var(--space-12);flex-wrap:wrap;font-size:var(--fs-12);color:var(--muted)}
-/* Eventi (1.25, Diego 2026-10-12): mese con le frecce, giorni toccabili, intestazione e colonna laterale ferme mentre scorre l'elenco */
-.mhead{display:flex;align-items:center;justify-content:space-between;gap:var(--space-8)}
-.mhead .lbl{margin:0;text-align:center;flex:1;text-transform:capitalize}
-.mnav{width:36px;height:36px;border-radius:var(--radius-round);border:1.5px solid var(--line);background:var(--surface);color:var(--ink);display:grid;place-items:center;cursor:pointer;flex:none;padding:0}
-.mnav svg{width:18px;height:18px}
-.mnav:hover{border-color:var(--primary);color:var(--primary)}
-.mcal button.cd{border:0;background:transparent;font:inherit;color:inherit;cursor:pointer;width:100%;-webkit-tap-highlight-color:transparent}
-.mcal button.cd:hover{background:var(--primary-soft)}
-.mcal button.cd.now{background:var(--primary);color:var(--on-fill)}
-.mcal button.cd.sel{box-shadow:inset 0 0 0 2px var(--primary)}
-.mcal button.cd:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
-.evtop{position:sticky;top:0;z-index:20;display:flex;flex-direction:column;gap:var(--space-16);background:var(--bg);margin:calc(-1 * var(--space-20)) calc(-1 * var(--space-16)) 0;padding:var(--space-20) var(--space-16) var(--space-12);border-bottom:1px solid var(--line)}
-@media (min-width:700px){.evtop{margin:calc(-1 * var(--space-32)) calc(-1 * var(--space-32)) 0;padding:var(--space-32) var(--space-32) var(--space-16)}}
-@media (min-width:980px){.evcols>.cside{position:sticky;top:calc(var(--evh,0px) + 16px);max-height:calc(var(--evvh,100vh) - var(--evh,0px) - 32px);overflow:auto;overscroll-behavior:contain;padding:var(--space-2);margin:calc(-1 * var(--space-2))}}
-.day.flash{animation:dflash 1.2s ease-out}
+/* Tab Eventi "Prima serata" (2026-10-20, design-system/events-tab.css): l'intestazione resta ferma in alto mentre scorre
+   l'elenco; da 980 px la colonna laterale (calendario, competizioni) resta ferma sotto l'intestazione */
+.evx-sticky{position:sticky;top:0;z-index:20;display:flex;flex-direction:column;gap:var(--space-12);background:var(--bg);margin:calc(-1 * var(--space-20)) calc(-1 * var(--space-16)) 0;padding:var(--space-20) var(--space-16) var(--space-12);border-bottom:1px solid var(--line)}
+@media (min-width:700px){.evx-sticky{margin:calc(-1 * var(--space-32)) calc(-1 * var(--space-32)) 0;padding:var(--space-32) var(--space-32) var(--space-16)}}
+.evx-more{justify-content:flex-start}
+.evx-compr:not(:has(.evx-mini--lead)){grid-template-columns:minmax(0,1fr) 18px}   /* competizione senza squadra in testa */
+.evx>.ainfo,.evx>.aerr{margin-top:var(--space-16)}
+.evx-cols{margin-top:var(--space-20)}
+@container evx (min-width:980px){.evx-side{position:sticky;top:calc(var(--evh,0px) + 16px);max-height:calc(var(--evvh,100vh) - var(--evh,0px) - 32px);overflow:auto;overscroll-behavior:contain;padding:var(--space-2);margin:calc(-1 * var(--space-2))}}
+.day.flash,.evx-group.flash{animation:dflash 1.2s ease-out}
 @keyframes dflash{0%{box-shadow:0 0 0 3px var(--primary)}100%{box-shadow:var(--shadow-1)}}
-.mleg span{display:inline-flex;align-items:center;gap:var(--space-4)}
-.mleg b{width:8px;height:8px}
-.cprog{display:flex;flex-direction:column;gap:var(--space-8);color:inherit;text-decoration:none;padding:var(--space-8) 0}
-.cprog+.cprog{border-top:1px solid var(--line);padding-top:var(--space-12)}
 .prog{height:8px;background:var(--sunk);border-radius:var(--radius-pill);overflow:hidden;display:block}
 .prog i{display:block;height:100%;background:var(--brand-green);border-radius:var(--radius-pill)}
 .cpn{display:flex;justify-content:space-between;gap:var(--space-8);font-size:var(--fs-13);flex-wrap:wrap}
@@ -1134,14 +1113,9 @@ a.chip.tychip:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 /* intestazione: Prossimi e orologio, pollice e Tutte con le tipologie accanto */
 .evfil .seg.tabs .evclk{display:inline-flex;align-items:center;justify-content:center;padding:0 var(--space-16)}
 .evclk svg{width:20px;height:20px}
-.evf2{display:flex;gap:var(--space-12);align-items:center;flex-wrap:wrap}
-.evacts{margin-left:auto}
 @media (max-width:640px){
   .fchips.ftys{width:auto;flex-wrap:nowrap}
-  .evf2{flex-wrap:nowrap}
-  .evacts{margin-left:0;width:100%}
-  .evfil,.evf2,.evfil .fchips,.fdn{justify-content:center}   /* 1.29: filtri centrati sul telefono */
-  #evcal,.cside>.card.side.cpside{display:none}   /* sul telefono niente calendario né avanzamento dei campionati */
+  .evfil,.evfil .fchips,.fdn{justify-content:center}   /* 1.29: filtri centrati sul telefono */
 }
 .sqseg.own{cursor:default}
 

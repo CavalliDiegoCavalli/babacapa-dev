@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SP-IN · Tab Eventi · anteprima</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="events-tab.css">
+<style>
+  @font-face{font-family:"Archivo";font-weight:100 900;font-stretch:62% 125%;font-style:normal;font-display:swap;src:url(../fonts/archivo.woff2) format("woff2")}
+  @font-face{font-family:"JetBrains Mono";font-weight:100 800;font-display:swap;src:url(../fonts/jetbrains-mono.woff2) format("woff2")}
+  body{margin:0;padding:32px;background:var(--sunk);color:var(--ink);font-family:var(--font-body)}
+  h2{font-size:var(--fs-15);color:var(--muted);font-weight:700;margin:32px 0 12px}
+  .row{display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start}
+  .phone{width:390px;box-sizing:border-box;padding:18px 16px 24px;background:var(--bg);border-radius:24px;box-shadow:var(--shadow-2)}
+  .pc{width:1440px;box-sizing:border-box;padding:28px 120px 48px;background:var(--bg);border-radius:12px;box-shadow:var(--shadow-2)}
+  .theme{position:fixed;top:16px;right:16px;z-index:9}
+</style>
+</head>
+<body>
+<button class="btn theme" type="button" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Tema chiaro/scuro</button>
+<h1 style="font-size:var(--fs-24);margin:0 0 8px">Tab Eventi · Prima serata</h1>
+<p style="color:var(--muted);margin:0">Dati di esempio. Un solo componente: il layout dipende dalla larghezza del contenitore (PC da 980px).</p>
+<h2>Mobile · Prossimi · Già giocati</h2>
+<div class="row"><div class="phone" id="m-next"></div><div class="phone" id="m-past"></div></div>
+<h2>PC · Prossimi</h2>
+<div class="pc" id="d-next"></div>
+
+<script src="events-tab.js"></script>
+<script>
+const L = 'event-poster-samples/';
+const T = {
+  rossa: { short: 'Rossa', abbr: 'ROS', logo: L + 'rossa.png', color: '#B5121B' },
+  gialla: { short: 'Gialla', abbr: 'GIA', logo: L + 'gialla.png', color: '#F5CF1F' },
+  blu: { short: 'Blu', abbr: 'BLU', logo: L + 'blu.png', color: '#1E3A78' },
+  islanders: { short: 'Islanders', abbr: 'ISL', logo: L + 'islanders.png', color: '#0E7C8C' },
+  valseriana: { short: 'Valseriana', abbr: 'VAL', logo: L + 'valseriana.png', color: '#0E2F4F' },
+  aurora: { short: 'Aurora S.F.', abbr: 'AUR', logo: L + 'aurora.jpg', color: '#D0312D' },
+  lumezzane: { short: 'Lumezzane', abbr: 'LUM', logo: L + 'lumezzane.png', color: '#1B3563' },
+  hurricanes: { short: 'Hurricanes', abbr: 'HUR', logo: L + 'hurricanes.jpg', color: '#3E9B2F' },
+  imagna: { short: 'Imagna', abbr: 'IMA', logo: L + 'imagna.png', color: '#0E8A3A' },
+  extrapass: { short: 'ExtraPass', abbr: 'EXP', logo: L + 'extrapass.jpg', logoBg: '#000000', color: '#111111' }
+};
+const m = (h, a, o) => Object.assign({ kind: 'match', href: '#', home: T[h], away: T[a] }, o);
+const header = past => ({
+  title: 'Eventi', create: { label: 'Crea evento', href: '#' },
+  seg: { next: { label: 'Prossimi', count: 7, attrs: { 'data-act': 'evseg', 'data-v': '1' } }, past: { pressed: past, attrs: { 'data-act': 'evseg', 'data-v': '0' } } },
+  filters: [{ key: 'mine', label: 'Le mie squadre' }, { key: 'campionato', label: 'Campionati' }, { key: 'torneo', label: 'Tornei' }, { key: 'amichevole', label: 'Amichevoli' }]
+});
+const NEXT = [
+  { day: 'Sabato 24 ottobre', count: '2 eventi', items: [
+    m('rossa', 'gialla', { time: '15:00', comp: 'Campionato Baskin', round: 'Giornata 5 · Derby', type: 'campionato', place: 'Palestra comunale', city: 'Bergamo' }),
+    { kind: 'stack', href: '#', name: 'Torneo d’autunno', type: 'torneo', info: 'Semifinali e finale · 3 partite', nextLine: 'Prossima: Aurora S.F. – Lumezzane · 16:30', place: 'Palasport', city: 'Clusone', crests: [T.aurora, T.lumezzane, T.valseriana, T.blu] } ] },
+  { day: 'Domenica 25 ottobre', count: '2 eventi', items: [
+    m('hurricanes', 'imagna', { time: '11:00', comp: 'Campionato Baskin', round: 'Giornata 6', type: 'campionato', place: 'Palestra comunale', city: 'Bagnatica' }),
+    m('islanders', 'valseriana', { time: '17:00', comp: 'Amichevole', round: 'Pre-coppa', type: 'amichevole', place: 'Palestra comunale', city: 'Bergamo' }) ] },
+  { day: 'Sabato 31 ottobre', count: '2 eventi', items: [
+    m('imagna', 'extrapass', { time: '16:30', comp: 'Campionato Baskin', round: 'Giornata 6', type: 'campionato', place: 'Palestra comunale', city: 'Valle Imagna' }),
+    { kind: 'draft', href: '#', name: 'Campionato invernale', info: 'Bozza · 6 squadre · calendario da completare' } ] }
+];
+const PAST = [
+  { day: 'Mercoledì 14 ottobre', count: '1 evento', items: [m('gialla', 'islanders', { score: { home: 33, away: 36 }, comp: 'Coppa di Lega', round: 'Quarti di finale', type: 'torneo', place: 'Palestra comunale', city: 'Bergamo' })] },
+  { day: 'Domenica 11 ottobre', count: '1 evento', items: [m('valseriana', 'aurora', { score: { home: 39, away: 35 }, comp: 'Torneo d’autunno', round: 'Finale', type: 'torneo', place: 'Palasport', city: 'Clusone' })] },
+  { day: 'Sabato 10 ottobre', count: '2 eventi', items: [
+    m('aurora', 'lumezzane', { score: { home: 46, away: 40 }, comp: 'Torneo d’autunno', round: 'Semifinale', type: 'torneo', place: 'Palasport', city: 'Clusone' }),
+    m('islanders', 'hurricanes', { score: { home: 29, away: 36 }, comp: 'Torneo d’autunno', round: 'Semifinale', type: 'torneo', place: 'Palasport', city: 'Clusone' }) ] }
+];
+const EV = { 3: ['campionato'], 10: ['torneo'], 11: ['torneo'], 14: ['torneo'], 18: ['campionato'], 24: ['campionato', 'torneo'], 25: ['campionato', 'amichevole'], 31: ['campionato'] };
+const CAL = { month: 'Ottobre 2026', offset: 3, prev: { attrs: { 'data-act': 'mprev' } }, next: { attrs: { 'data-act': 'mnext' } },
+  days: Array.from({ length: 31 }, (_, i) => ({ n: i + 1, events: EV[i + 1] || [], today: i + 1 === 20, past: i + 1 < 20, attrs: { 'data-act': 'mday', 'data-d': '2026-10-' + String(i + 1).padStart(2, '0') } })) };
+const COMPS = [
+  { href: '#', name: 'Campionato Baskin', info: 'Giornata 5 di 9', leadTxt: 'In testa: Valseriana · 12 punti', pct: 55, lead: T.valseriana },
+  { href: '#', name: 'Coppa di Lega', info: 'Quarti di finale', leadTxt: 'Islanders in semifinale', pct: 62, lead: T.islanders },
+  { href: '#', name: 'Torneo d’autunno', info: 'Semifinali sabato 24', leadTxt: 'Aurora S.F. campione uscente', pct: 75, lead: T.aurora }
+];
+const P = SPIN.eventsTab;
+document.getElementById('m-next').innerHTML = P.render({ header: header(false), groups: NEXT, calendar: CAL, competitions: COMPS });
+document.getElementById('m-past').innerHTML = P.render({ header: header(true), groups: PAST, calendar: CAL, competitions: COMPS });
+document.getElementById('d-next').innerHTML = P.render({ header: header(false), groups: NEXT, calendar: CAL, competitions: COMPS });
+</script>
+</body>
+</html>
