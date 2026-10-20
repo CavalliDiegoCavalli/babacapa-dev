@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SP-IN · Tab Squadre · anteprima</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="teams-tab.css">
+<style>
+  @font-face{font-family:"Archivo";font-weight:100 900;font-stretch:62% 125%;font-style:normal;font-display:swap;src:url(../fonts/archivo.woff2) format("woff2")}
+  @font-face{font-family:"JetBrains Mono";font-weight:100 800;font-display:swap;src:url(../fonts/jetbrains-mono.woff2) format("woff2")}
+  body{margin:0;padding:32px;background:var(--sunk);color:var(--ink);font-family:var(--font-body)}
+  h2.pv{font-size:var(--fs-15);color:var(--muted);font-weight:700;margin:32px 0 12px}
+  .row{display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start}
+  .phone{position:relative;width:390px;height:844px;background:var(--bg);border-radius:24px;overflow:auto;box-shadow:var(--shadow-2);padding:18px 16px;box-sizing:border-box;transform:translateZ(0)}
+  .phone .tmx-dlg{position:absolute}
+  .pc{width:1440px;background:var(--bg);border-radius:12px;box-shadow:var(--shadow-2);padding:28px 120px 48px;box-sizing:border-box}
+  .theme{position:fixed;top:16px;right:16px;z-index:90}
+</style>
+</head>
+<body>
+<button class="btn theme" type="button" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Tema chiaro/scuro</button>
+<h1 style="font-size:var(--fs-24);margin:0 0 8px">Tab Squadre · Muro degli stemmi</h1>
+<p style="color:var(--muted);margin:0">Dati di esempio. Un solo componente: il layout dipende dalla larghezza del contenitore (PC da 900px). Su telefono tocca una squadra per aprire il dialog; su PC cliccala per vederla nell'anteprima.</p>
+<h2 class="pv">Telefono · tutte le squadre</h2>
+<div class="row"><div class="phone" id="m"></div><div class="phone" id="m2"></div></div>
+<h2 class="pv">PC · anteprima a destra</h2>
+<div class="pc" id="d"></div>
+
+<script src="teams-tab.js"></script>
+<script>
+const L = 'event-poster-samples/';
+const T = {
+  rossa: { name: 'Squadra Rossa', short: 'Rossa', abbr: 'ROS', logo: L + 'rossa.png', color: '#B5121B', altColor: '#F5D300' },
+  gialla: { name: 'Squadra Gialla', short: 'Gialla', abbr: 'GIA', logo: L + 'gialla.png', color: '#F5CF1F', altColor: '#7B2490' },
+  blu: { name: 'Squadra Blu', short: 'Blu', abbr: 'BLU', logo: L + 'blu.png', color: '#1E3A78', altColor: '#3EC1C9' },
+  islanders: { name: 'Islanders', abbr: 'ISL', logo: L + 'islanders.png', color: '#0E7C8C', altColor: '#F07A2A' },
+  valseriana: { name: 'Valseriana', abbr: 'VAL', logo: L + 'valseriana.png', color: '#0E2F4F', altColor: '#E2542A' },
+  aurora: { name: 'Aurora S.F.', abbr: 'AUR', logo: L + 'aurora.jpg', color: '#D0312D', altColor: '#F08A2C' },
+  lumezzane: { name: 'Lumezzane', abbr: 'LUM', logo: L + 'lumezzane.png', color: '#1B3563', altColor: '#F0592A' },
+  hurricanes: { name: 'Hurricanes', abbr: 'HUR', logo: L + 'hurricanes.jpg', color: '#3E9B2F', altColor: '#F28C28' },
+  imagna: { name: 'Imagna', abbr: 'IMA', logo: L + 'imagna.png', color: '#0E8A3A', altColor: '#12305A' },
+  extrapass: { name: 'ExtraPass', abbr: 'EXP', logo: L + 'extrapass.jpg', logoBg: '#000000', color: '#111111', altColor: '#FFFFFF' }
+};
+const FOL = new Set(['rossa', 'valseriana']);
+const CARD = {
+  rossa: { athletes: 12, stats: { ppgOther: 37.5, ppgLeague: 39.1 }, top: { name: 'Marta Bonfanti', num: 57, points: 86, perGame: 12.3 }, top3: { name: 'Luca Ghisleni', num: 31, made: 9 },
+    last: [{ result: 'V', score: '41–33', opp: T.blu }, { result: 'P', score: '30–36', opp: T.islanders }, { result: 'V', score: '44–28', opp: T.extrapass }],
+    next: { home: T.rossa, away: T.gialla, day: 'Sab 24 ott', time: '15:00', comp: 'Campionato Baskin · Girone A', href: '#' } },
+  gialla: { athletes: 12, stats: { ppgOther: 35.1, ppgLeague: 34.6 }, top: { name: 'Giulia Pesenti', num: 42, points: 74, perGame: 10.6 }, top3: { name: 'Davide Locatelli', num: 39, made: 11 },
+    last: [{ result: 'V', score: '38–31', opp: T.imagna }, { result: 'V', score: '35–34', opp: T.hurricanes }, { result: 'P', score: '29–40', opp: T.valseriana }],
+    next: { home: T.rossa, away: T.gialla, day: 'Sab 24 ott', time: '15:00', comp: 'Campionato Baskin · Girone A', href: '#' } }
+};
+function cardOf(k, dialog) {
+  const c = CARD[k] || CARD.rossa;
+  return Object.assign({}, c, { team: T[k], follow: { pressed: FOL.has(k), attrs: { 'data-act': 'follow', 'data-k': k } },
+    open: { href: '#/squadre/' + k }, close: { attrs: { 'data-act': 'close' } } });
+}
+function data(sel, preview) {
+  return {
+    header: { create: { href: '#/squadre/nuova' }, search: {}, mine: { pressed: false, attrs: { 'data-act': 'mine' } } },
+    teams: Object.keys(T).map(k => Object.assign({}, T[k], { followed: FOL.has(k), selected: k === sel, attrs: { 'data-act': 'pick', 'data-k': k } })),
+    preview: preview ? cardOf(sel) : null
+  };
+}
+function draw() {
+  document.getElementById('m').innerHTML = SPIN.teamsTab.render(data(null, false));
+  document.getElementById('m2').innerHTML = SPIN.teamsTab.render(data('rossa', false)) + SPIN.teamsTab.dialog(cardOf('rossa'));
+  document.getElementById('d').innerHTML = SPIN.teamsTab.render(data(window.SEL || 'rossa', true));
+}
+draw();
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const phone = b.closest('.phone');
+  if (b.dataset.act === 'pick') {
+    if (phone) { phone.querySelector('.tmx-dlg') && phone.querySelector('.tmx-dlg').remove(); phone.insertAdjacentHTML('beforeend', SPIN.teamsTab.dialog(cardOf(b.dataset.k))); phone.querySelector('.tmx-close').focus(); }
+    else { window.SEL = b.dataset.k; draw(); }
+  }
+  if (b.dataset.act === 'close') { const d = b.closest('.tmx-dlg'); d && d.remove(); }
+  if (b.dataset.act === 'follow') { FOL.has(b.dataset.k) ? FOL.delete(b.dataset.k) : FOL.add(b.dataset.k); draw(); }
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.tmx-dlg').forEach(d => d.remove()); });
+</script>
+</body>
+</html>

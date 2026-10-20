@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SP-IN · Gestione squadra e società · anteprima</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="manage.css">
+<style>
+  @font-face{font-family:"Archivo";font-weight:100 900;font-stretch:62% 125%;font-style:normal;font-display:swap;src:url(../fonts/archivo.woff2) format("woff2")}
+  @font-face{font-family:"JetBrains Mono";font-weight:100 800;font-display:swap;src:url(../fonts/jetbrains-mono.woff2) format("woff2")}
+  body{margin:0;padding:32px;background:var(--sunk);color:var(--ink);font-family:var(--font-body)}
+  h2.pv{font-size:var(--fs-15);color:var(--muted);font-weight:700;margin:32px 0 12px}
+  .row{display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start}
+  .phone{width:390px;background:var(--surface);border-radius:24px;overflow:hidden;box-shadow:var(--shadow-2);padding-bottom:40px}
+  .pc{width:1440px;background:var(--surface);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-2);padding-bottom:56px}
+  .theme{position:fixed;top:16px;right:16px;z-index:60}
+</style>
+</head>
+<body>
+<button class="btn theme" type="button" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Tema chiaro/scuro</button>
+<h1 style="font-size:var(--fs-24);margin:0 0 8px">Gestione · squadra e società (Almanacco)</h1>
+<p style="color:var(--muted);margin:0">Dati di esempio. Un solo componente per pagina: il layout dipende dalla larghezza del contenitore (PC da 900px).</p>
+<h2 class="pv">Telefono · squadra e società</h2>
+<div class="row"><div class="phone" id="tm"></div><div class="phone" id="sm"></div></div>
+<h2 class="pv">PC · squadra</h2>
+<div class="pc" id="td"></div>
+<h2 class="pv">PC · società</h2>
+<div class="pc" id="sd"></div>
+
+<script src="manage.js"></script>
+<script>
+const L = 'event-poster-samples/';
+const T = {
+  rossa: { name: 'Squadra Rossa', short: 'Rossa', abbr: 'ROS', logo: L + 'rossa.png', color: '#B5121B' },
+  gialla: { name: 'Squadra Gialla', short: 'Gialla', abbr: 'GIA', logo: L + 'gialla.png', color: '#F5CF1F' },
+  blu: { name: 'Squadra Blu', short: 'Blu', abbr: 'BLU', logo: L + 'blu.png', color: '#1E3A78' }
+};
+const ok = d => ({ state: 'ok', date: d });
+const A = (num, name, card, medical, release) => ({ num, name, card: card ? { number: '2026/' + card } : { pending: true }, medical, release, href: '#' });
+const team = {
+  team: T.rossa,
+  kicker: 'Squadra che gestisci · Baskin Bergamo',
+  back: { label: 'Le mie squadre', href: '#/squadre' },
+  place: 'Palestra comunale, Bergamo',
+  edit: { attrs: { 'data-act': 'editTeam' } },
+  actions: [{ label: 'Iscrivi un atleta', icon: 'plus', primary: true, href: '#' }, { label: 'Convoca', href: '#' }],
+  addAthlete: { label: 'Iscrivi', icon: 'plus', href: '#' },
+  addStaff: { label: 'Aggiungi', icon: 'plus', href: '#' },
+  extras: { athletes: '12 · da 6 a 14 in lista', staff: '4', events: 'prossimi 2' },
+  todo: { items: [
+    { state: 'crit', text: '**#15 Matteo Brembilla** · visita medica scaduta il 12/10', href: '#' },
+    { state: 'warn', text: '**#42 Giulia Rota** · visita medica scade il 03/11', href: '#' },
+    { state: 'warn', text: '**#26 Sofia Gamba**, **#58 Nicola Testa** · liberatoria da caricare', href: '#' },
+    { state: 'warn', text: '**Blu – Rossa** del 7/11 · da convocare', href: '#' }] },
+  athletes: [
+    A(11, 'Paolo Marini', '004512', ok('14/03/2027'), 'ok'), A(15, 'Matteo Brembilla', '004513', { state: 'crit', date: '12/10/2026' }, 'ok'),
+    A(22, 'Elena Conti', '004518', ok('02/02/2027'), 'ok'), A(26, 'Sofia Gamba', '004521', ok('30/05/2027'), 'todo'),
+    A(31, 'Luca Ghisleni', '004527', ok('18/01/2027'), 'ok'), A(34, 'Andrea Rossi', '004530', ok('09/04/2027'), 'ok'),
+    A(42, 'Giulia Rota', '004534', { state: 'warn', date: '03/11/2026' }, 'ok'), A(45, 'Rita Cattaneo', '004536', ok('21/06/2027'), 'ok'),
+    A(51, 'Davide Carminati', '004541', ok('11/12/2026'), 'ok'), A(53, 'Federica Belotti', '004544', ok('27/02/2027'), 'ok'),
+    A(57, 'Marta Bonfanti', '004547', ok('05/05/2027'), 'ok'), A(58, 'Nicola Testa', null, ok('16/09/2027'), 'todo')],
+  staff: [
+    { role: 'Allenatore', name: 'Roberto Villa', card: '2026/003118' }, { role: 'Vice allenatore', name: 'Laura Bonetti', card: '2026/003121' },
+    { role: 'Team manager', name: 'Anna Pozzi', note: { state: 'mut', text: 'Gestisce la squadra sulla piattaforma' } },
+    { role: 'Dirigente accompagnatore', name: 'Marco Pesenti', note: { state: 'warn', text: 'Ordine di tesseramento in corso' } }],
+  stats: {
+    games: { league: 5, other: 4, all: 9 },
+    team: { ppgOther: 37.5, ppgLeague: 39.1, q: [8.6, 9.4, 10.1, 10.3], total: 346, pct3: 31, fouls: 11.2, illegal: 4.2, unsport: 1.1, tech: 0.6 },
+    roles: {
+      1: { ppgOther: 4.1, ppgLeague: 4.3, q: [0.9, 1.0, 1.1, 1.1], total: 38, pct3: 25, fouls: 0.8, illegal: 0, unsport: 0, tech: 0 },
+      2: { ppgOther: 5.6, ppgLeague: 5.9, q: [1.3, 1.4, 1.5, 1.5], total: 52, pct3: 30, fouls: 1.4, illegal: 0.5, unsport: 0, tech: 0 },
+      3: { ppgOther: 7.7, ppgLeague: 8.0, q: [1.8, 1.9, 2.1, 2.1], total: 71, pct3: 28, fouls: 2.6, illegal: 3.1, unsport: 1.4, tech: 0.9 },
+      4: { ppgOther: 8.6, ppgLeague: 8.9, q: [2.0, 2.1, 2.3, 2.4], total: 79, pct3: 33, fouls: 2.9, illegal: 5.2, unsport: 1.2, tech: 0.6 },
+      5: { ppgOther: 11.5, ppgLeague: 12.0, q: [2.6, 2.9, 3.1, 3.2], total: 106, pct3: 32, fouls: 3.5, illegal: 6.8, unsport: 1.8, tech: 1.0 } } },
+  events: [
+    { home: T.rossa, away: T.gialla, day: 'Sab 24 ott', time: '15:00', comp: 'Campionato Baskin · Giornata 6', href: '#',
+      conv: { state: 'ok', label: 'Convocati 10 su 12', sub: 'Convocazione inviata', action: { label: 'Modifica', href: '#' } } },
+    { home: T.blu, away: T.rossa, day: 'Sab 7 nov', time: '15:00', comp: 'Campionato Baskin · Giornata 7', href: '#',
+      conv: { state: 'warn', label: 'Da convocare', sub: 'Servono da 6 a 14 giocatori in lista', action: { label: 'Convoca', primary: true, href: '#' } } }]
+};
+const society = {
+  society: { name: 'Baskin Bergamo', monogram: 'BB', color: '#1E3A78' },
+  kicker: 'Società che gestisci',
+  back: { label: 'Le mie società', href: '#/societa' },
+  edit: { attrs: { 'data-act': 'editSociety' } },
+  actions: [{ label: 'Crea una squadra', icon: 'plus', primary: true, href: '#/squadre/nuova' }, { label: 'Nuova affiliazione', href: '#' }],
+  addAffiliation: { label: 'Nuova', icon: 'plus', href: '#' },
+  addTeam: { label: 'Crea', icon: 'plus', href: '#/squadre/nuova' },
+  extras: { docs: '3 su 4 in regola', affiliations: '1', teams: '3 · 35 atleti', athleteDocs: '30 su 35 in regola' },
+  todo: { items: [
+    { state: 'crit', text: '**Verbale di nomina** del presidente e del consiglio · da caricare', href: '#' },
+    { state: 'warn', text: '**Documento d’identità del presidente** · scade il 30/11', href: '#' },
+    { state: 'crit', text: '**1 visita medica scaduta** · Squadra Rossa', href: '#' },
+    { state: 'warn', text: '**4 atleti** con documenti in scadenza o da caricare', href: '#' }] },
+  docs: [
+    { name: 'Atto costitutivo', state: 'ok', sub: 'Caricato il 12/09/2026', action: { label: 'Apri', href: '#' } },
+    { name: 'Statuto', state: 'ok', sub: 'Caricato il 12/09/2026', action: { label: 'Apri', href: '#' } },
+    { name: 'Documento d’identità del presidente', state: 'warn', sub: 'Scade il 30/11/2026', action: { label: 'Sostituisci', icon: 'upload', href: '#' } },
+    { name: 'Verbale di nomina del presidente e del consiglio direttivo', state: 'crit', sub: 'Da caricare', action: { label: 'Carica', icon: 'upload', primary: true, href: '#' } }],
+  affiliations: [{ name: 'EISI · Ente Italiano Sport Inclusivi', season: 'Stagione 2026/27 · valida fino al 31/08/2027', state: 'ok', stateLabel: 'Attiva',
+    steps: [{ label: 'Dati e documenti inviati', date: '12/09', done: true }, { label: 'Bonifico confermato', date: '15/09', done: true }, { label: 'Credenziali EISI ricevute', date: '20/09', done: true }],
+    facts: [{ value: 35, label: 'atleti tesserati' }, { value: 9, label: 'staff tesserati' }], notes: [{ state: 'warn', text: '1 ordine di tesseramento in corso' }] }],
+  teams: [{ team: T.rossa, athletes: 12, ok: 8, href: '#/squadre/rossa' }, { team: T.gialla, athletes: 12, ok: 12, href: '#/squadre/gialla' }, { team: T.blu, athletes: 11, ok: 10, href: '#/squadre/blu' }],
+  athleteDocs: {
+    summary: [{ label: 'Tessere EISI', done: 34, total: 35, issues: [{ state: 'warn', text: '1 ordine in corso' }] },
+      { label: 'Visite mediche valide', done: 32, total: 35, issues: [{ state: 'crit', text: '1 scaduta' }, { state: 'warn', text: '2 in scadenza' }] },
+      { label: 'Liberatorie firmate', done: 33, total: 35, issues: [{ state: 'warn', text: '2 da caricare' }] }],
+    issues: [
+      { num: 15, name: 'Matteo Brembilla', team: T.rossa, state: 'crit', text: 'Visita medica scaduta il 12/10/2026', href: '#' },
+      { num: 42, name: 'Giulia Rota', team: T.rossa, state: 'warn', text: 'Visita medica scade il 03/11/2026', href: '#' },
+      { num: 33, name: 'Pietro Ferrari', team: T.blu, state: 'warn', text: 'Visita medica scade il 15/11/2026', href: '#' },
+      { num: 26, name: 'Sofia Gamba', team: T.rossa, state: 'warn', text: 'Liberatoria da caricare', href: '#' },
+      { num: 58, name: 'Nicola Testa', team: T.rossa, state: 'warn', text: 'Liberatoria da caricare · tessera in ordine', href: '#' }] }
+};
+document.getElementById('tm').innerHTML = SPIN.manage.teamPage(team);
+document.getElementById('td').innerHTML = SPIN.manage.teamPage(team);
+document.getElementById('sm').innerHTML = SPIN.manage.societyPage(society);
+document.getElementById('sd').innerHTML = SPIN.manage.societyPage(society);
+</script>
+</body>
+</html>

@@ -485,6 +485,11 @@ a.alink2{color:var(--ink);text-decoration:none}
 .wrap-ep>.ep{flex:1}
 /* Landing (2026-10-21): lo spazio per la barra dei tab flottante lo lascia già .wrap, non anche il componente */
 .wrap-lpx .lpx{--tabh:0px}
+/* Tab Squadre (2026-10-21): con il dialog aperto la pagina sotto non scorre */
+#app>.page:has(.tmx-dlg){overflow:hidden}
+/* Pagine di gestione "Almanacco" (2026-10-21): avvisi sopra il componente, che è a tutta larghezza */
+.wrap-mgx>.mgx-pre{width:min(1200px,100% - 2 * var(--space-16));margin:var(--space-16) auto 0;display:flex;flex-direction:column;gap:var(--space-12)}
+.wrap-mgx>.mgx-pre:empty{display:none}
 .ep-more{width:100%;max-width:840px;box-sizing:border-box;margin:0 auto;display:flex;flex-direction:column;gap:var(--space-24);padding:var(--space-24) var(--space-20) 0}
 .ep-msgs{display:flex;flex-direction:column;gap:var(--space-12)}
 .ep-sec{display:flex;flex-direction:column;gap:var(--space-12);padding-top:var(--space-24);border-top:1px solid var(--line)}
