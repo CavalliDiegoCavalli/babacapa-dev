@@ -9,12 +9,26 @@
 
 
 
-.pbar .bt .chip{align-self:flex-start;font-size:var(--fs-11);padding:var(--space-2) var(--space-8)}
 .pbar .btn{height:42px;padding:0 var(--space-12);text-decoration:none;color:var(--ink)}
 .pbar .acc-in .bl{max-width:120px;overflow:hidden;text-overflow:ellipsis}
-.tnav{display:none;gap:var(--space-4);margin-left:var(--space-20)}
-.tnav a{padding:var(--space-8) var(--space-16);border-radius:var(--radius-md);color:var(--muted);font-weight:700;text-decoration:none}
-.tnav a[aria-current="page"]{background:var(--sunk);color:var(--ink)}
+.tnav{display:none;gap:6px;margin-left:var(--space-24)}
+/* Barra in alto su PC "Prima serata" (Diego 2026-10-20): come il selettore "Prossimi" del tab Eventi, voci inclinate in
+   maiuscolo nel corsivo condensato, quella aperta piena; nome SP-IN nello stesso corsivo, DEV e Accedi inclinati */
+.pbar{--pb-skew:-12deg;--pb-unskew:12deg;height:64px;gap:var(--space-16);padding:0 var(--space-24)}
+.pbar .logo{width:36px;height:36px}
+.pbar .bt{flex-direction:row;align-items:center;gap:var(--space-16)}
+.pbar .bt b,.tnav a,.pbar .acc-in .bl{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase}
+.pbar .bt b{font-size:var(--fs-24);letter-spacing:.01em;padding-right:var(--space-2)}
+.pbar .bt .chip{align-self:center;height:28px;padding:0 var(--space-12);border:1.5px solid var(--crit);border-radius:0;background:transparent;color:var(--crit);transform:skewX(var(--pb-skew));font-size:var(--fs-11);font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.tnav a{height:40px;display:inline-flex;align-items:center;padding:0 var(--space-16);color:var(--ink);text-decoration:none;transform:skewX(var(--pb-skew));box-shadow:inset 0 0 0 1px transparent}
+.tnav a>span{transform:skewX(var(--pb-unskew));font-size:var(--fs-17);padding-right:var(--space-2);white-space:nowrap}
+.tnav a:hover{box-shadow:inset 0 0 0 1px var(--ink)}
+.tnav a[aria-current="page"]{background:var(--ink);color:var(--surface);box-shadow:none}
+.tnav a:focus-visible,.pbar .acc-in:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.pbar .btn.acc-in{height:40px;border-radius:0;transform:skewX(var(--pb-skew));padding:0 var(--space-16)}
+.pbar .btn.acc-in>*{transform:skewX(var(--pb-unskew))}
+.pbar .acc-in .bl{font-size:var(--fs-17);padding-right:var(--space-2)}
+.pbar a.btn.acc-in:not(.ghost){border:0;background:var(--primary-fill);color:var(--on-fill);font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:var(--fs-17)}
 
 
 
@@ -827,7 +841,6 @@ a.alink2{color:var(--ink);text-decoration:none}
 
 
 
-.tnav a[aria-current="page"]{background:var(--primary-soft);color:var(--primary-hover)}
 .h1{font-weight:800;letter-spacing:-.02em}
 .h2,.h3{font-weight:800}
 .hero{background:var(--surface);border-color:var(--line);box-shadow:var(--shadow-1)}
@@ -1146,8 +1159,8 @@ a.chip.tychip:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 .tabbar .tbnm{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 var(--space-4)}
 .pbar .acc-in .tbav{width:28px;height:28px;font-size:var(--fs-11)}
 .pbar a.acc-in{text-decoration:none}
-.pbar a.acc-in[aria-current="page"]{background:var(--primary-soft);color:var(--primary-hover)}
-.pbar a.acc-in[aria-current="page"] .tbav{background:var(--primary);color:var(--on-fill)}
+.pbar a.acc-in[aria-current="page"]{background:var(--ink);color:var(--surface)}
+.pbar a.acc-in[aria-current="page"] .tbav{background:var(--surface);color:var(--ink)}
 @media (max-width:899px){.pbar .acc-in{display:none}}
 .acshell{display:block}
 .acside{display:none}
