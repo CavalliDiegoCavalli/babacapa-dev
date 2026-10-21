@@ -57,7 +57,7 @@
 .mgx-back svg{width:16px;height:16px}
 .mgx-kick{font-size:var(--fs-12);font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .mgx-name{display:flex;align-items:center;gap:14px}
-.mgx-name h1{margin:0;font-size:44px;line-height:.86;min-width:0;overflow-wrap:anywhere}
+.mgx-name h1{margin:0;font-size:min(44px,9.5vw);line-height:.86;min-width:0;overflow-wrap:break-word}   /* SP-IN (2026-10-21): sul telefono il nome scala e non si spezza a metà parola */
 .mgx-crest{flex:none;width:56px;height:56px;border-radius:999px;background:var(--c-bg);box-shadow:0 0 0 2px var(--c-ring);overflow:hidden;display:grid;place-items:center}
 .mgx-crest img{width:86%;height:86%;object-fit:contain}
 .mgx-crest b{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;color:var(--c-ring);font-size:22px}
@@ -70,7 +70,14 @@
 .mgx-acts{display:flex;flex-wrap:wrap;gap:8px}
 
 /* ---------- da sistemare ---------- */
-.mgx-todo{display:flex;flex-direction:column}
+.mgx-todo{display:flex;flex-direction:column;position:relative;min-height:0;max-height:var(--mgx-todo-max,none)}
+/* SP-IN (2026-10-21): elenco scorrevole, con le ombre ai bordi quando c'è altro sopra o sotto */
+.mgx-todo-l{display:flex;flex-direction:column;min-height:0;overflow:auto;overscroll-behavior:contain;
+  background:linear-gradient(var(--bg) 30%,transparent) top/100% 24px no-repeat local,linear-gradient(transparent,var(--bg) 70%) bottom/100% 24px no-repeat local,
+    radial-gradient(farthest-side at 50% 0,color-mix(in srgb,var(--ink) 22%,transparent),transparent) top/100% 10px no-repeat scroll,radial-gradient(farthest-side at 50% 100%,color-mix(in srgb,var(--ink) 22%,transparent),transparent) bottom/100% 10px no-repeat scroll}
+.mgx-todo-l:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.mgx-todo-more{display:none;align-self:center;margin-top:6px;padding:2px 10px;border-radius:999px;background:var(--sunk);color:var(--muted);font-size:var(--fs-11);font-weight:700}
+.mgx-todo.is-more .mgx-todo-more{display:block}
 .mgx-todo-h{display:flex;align-items:baseline;gap:8px;padding-bottom:6px;font-size:var(--fs-12);color:var(--muted)}
 .mgx-todo-t{font-size:18px;color:var(--warn)}
 .mgx-todo-t--ok{color:var(--ok)}

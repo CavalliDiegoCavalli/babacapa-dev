@@ -102,7 +102,9 @@
     const items = (t && t.items) || [];
     if (!items.length) return `<div class="mgx-todo mgx-o-todo"><div class="mgx-todo-h"><b class="mgx-todo-t mgx-todo-t--ok">Tutto in regola</b></div></div>`;
     const li = items.map(x => tag(x, 'mgx-todo-i', `${st(x.state || 'warn', '')}<span class="mgx-grow">${rich(x.text)}</span>${chev()}`)).join('');
-    return `<div class="mgx-todo mgx-o-todo"><div class="mgx-todo-h"><b class="mgx-todo-t">${esc((t && t.title) || 'Da sistemare')}</b><span>${items.length} ${items.length === 1 ? 'cosa' : 'cose'}</span></div>${li}</div>`;
+    /* SP-IN (Diego, 2026-10-21): l'elenco scorre dentro un'altezza massima (quella del nome, la imposta l'app con
+       --mgx-todo-max) e lo dice: ombre ai bordi e la scritta "Scorri per vedere le altre" finché non si arriva in fondo */
+    return `<div class="mgx-todo mgx-o-todo"><div class="mgx-todo-h"><b class="mgx-todo-t">${esc((t && t.title) || 'Da sistemare')}</b><span>${items.length} ${items.length === 1 ? 'cosa' : 'cose'}</span></div><div class="mgx-todo-l" tabindex="0" aria-label="${esc((t && t.title) || 'Da sistemare')}: ${items.length} ${items.length === 1 ? 'cosa' : 'cose'}">${li}</div><span class="mgx-todo-more" aria-hidden="true">Scorri per vedere le altre ↓</span></div>`;
   }
 
   /* ---------- squadra: atleti ----------
@@ -175,11 +177,11 @@
       ['Punti', 'Punti medi', '3° quarto', v => dec((v.q || [])[2]), g.all, 'q'],
       ['Punti', 'Punti medi', '4° quarto', v => dec((v.q || [])[3]), g.all, 'q'],
       ['Punti', 'Punti totali realizzati', '', v => int(v.total)],
-      ['Tiro', 'Realizzazione da 3', '', v => pct(v.pct3)],
+      ['Tiro', 'Canestri da 3', 'sul totale dei canestri realizzati', v => pct(v.pct3)],
       ['Falli', 'Falli medi a partita', '', v => dec(v.fouls), g.all],
-      ['Falli', 'Difese illegali', 'media per partita di campionato', v => pct(v.illegal), g.league],
-      ['Falli', 'Falli antisportivi', 'media per partita di campionato', v => pct(v.unsport), g.league],
-      ['Falli', 'Falli tecnici', 'media per partita di campionato', v => pct(v.tech), g.league]
+      ['Falli', 'Difese illegali', 'sul totale dei falli, partite di campionato', v => pct(v.illegal), g.league],
+      ['Falli', 'Falli antisportivi', 'sul totale dei falli, partite di campionato', v => pct(v.unsport), g.league],
+      ['Falli', 'Falli tecnici', 'sul totale dei falli, partite di campionato', v => pct(v.tech), g.league]
     ];
   }
   function stats(s) {
