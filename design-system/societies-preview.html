@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SP-IN · Società · anteprima</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="societies-tab.css">
+<link rel="stylesheet" href="manage.css">
+<style>
+  @font-face{font-family:"Archivo";font-weight:100 900;font-stretch:62% 125%;font-style:normal;font-display:swap;src:url(../fonts/archivo.woff2) format("woff2")}
+  @font-face{font-family:"JetBrains Mono";font-weight:100 800;font-display:swap;src:url(../fonts/jetbrains-mono.woff2) format("woff2")}
+  body{margin:0;padding:32px;background:var(--sunk);color:var(--ink);font-family:var(--font-body)}
+  h2.pv{font-size:var(--fs-15);color:var(--muted);font-weight:700;margin:32px 0 12px}
+  .row{display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start}
+  .phone{width:390px;background:var(--bg);border-radius:24px;overflow:hidden;box-shadow:var(--shadow-2);padding:20px 16px 40px;box-sizing:border-box}
+  .phone.page{background:var(--surface);padding:0 0 40px}
+  .pc{width:1440px;background:var(--bg);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-2);padding:28px 120px 48px;box-sizing:border-box}
+  .pc.page{background:var(--surface);padding:0 0 56px}
+  .theme{position:fixed;top:16px;right:16px;z-index:60}
+</style>
+</head>
+<body>
+<button class="btn theme" type="button" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Tema chiaro/scuro</button>
+<h1 style="font-size:var(--fs-24);margin:0 0 8px">Società · tab e pagina di gestione</h1>
+<p style="color:var(--muted);margin:0">Dati di esempio. Il tab mostra solo le società di cui l'utente fa parte come staff; "Apri la società" porta alla pagina di gestione (SPIN.manage.societyPage). PC da 900px di contenitore.</p>
+<h2 class="pv">Telefono · tab (ASD manager + allenatore), tab vuoto, pagina della società</h2>
+<div class="row"><div class="phone" id="tm"></div><div class="phone" id="te"></div><div class="phone page" id="pm"></div></div>
+<h2 class="pv">PC · tab</h2>
+<div class="pc" id="td"></div>
+<h2 class="pv">PC · pagina della società</h2>
+<div class="pc page" id="pd"></div>
+
+<script src="societies-tab.js"></script>
+<script src="manage.js"></script>
+<script>
+const L = 'event-poster-samples/';
+const T = {
+  rossa: { name: 'Squadra Rossa', short: 'Rossa', abbr: 'ROS', logo: L + 'rossa.png', color: '#B5121B' },
+  gialla: { name: 'Squadra Gialla', short: 'Gialla', abbr: 'GIA', logo: L + 'gialla.png', color: '#F5CF1F' },
+  blu: { name: 'Squadra Blu', short: 'Blu', abbr: 'BLU', logo: L + 'blu.png', color: '#1E3A78' },
+  imagna: { name: 'Imagna', abbr: 'IMA', logo: L + 'imagna.png', color: '#0E8A3A' }
+};
+const tab = {
+  create: { href: '#/societa/nuova' },
+  societies: [
+    { name: 'Baskin Bergamo', monogram: 'BB', color: '#1E3A78', city: 'Bergamo (BG)', role: 'ASD manager', manager: true,
+      todo: { count: 4, items: ['Verbale di nomina da caricare', '1 visita medica scaduta', '2 documenti in scadenza'], href: '#/societa/bb' },
+      docs: { done: 3, total: 4, issue: { state: 'crit', text: '1 da caricare' } },
+      affiliation: { state: 'ok', label: 'EISI · attiva 2026/27', sub: 'valida fino al 31/08/2027' },
+      teams: [{ team: T.rossa, athletes: 12 }, { team: T.gialla, athletes: 12 }, { team: T.blu, athletes: 11 }],
+      athleteDocs: { done: 30, total: 35 },
+      open: { href: '#/societa/bb' } },
+    { name: 'Valle Imagna Baskin', monogram: 'VI', color: '#0E8A3A', city: 'Sant’Omobono Terme (BG)', role: 'Allenatore · Imagna', manager: false,
+      myTeams: [{ team: T.imagna, sub: '10 atleti · Campionato Baskin · Girone B' }],
+      managedBy: 'La gestiscono 2 ASD manager: documenti, affiliazioni e squadre li curano loro.',
+      open: { href: '#/societa/vi' } }
+  ]
+};
+const society = {
+  society: { name: 'Baskin Bergamo', monogram: 'BB', color: '#1E3A78' },
+  kicker: 'Società che gestisci',
+  back: { label: 'Le mie società', href: '#/societa' },
+  edit: { attrs: { 'data-act': 'editSociety' } },
+  actions: [{ label: 'Crea una squadra', icon: 'plus', primary: true, href: '#/squadre/nuova' }, { label: 'Nuova affiliazione', href: '#' }],
+  addAffiliation: { label: 'Nuova', icon: 'plus', href: '#' },
+  addTeam: { label: 'Crea', icon: 'plus', href: '#/squadre/nuova' },
+  extras: { docs: '3 su 4 in regola', affiliations: '1', teams: '3 · 35 atleti', athleteDocs: '30 su 35 in regola' },
+  todo: { items: [
+    { state: 'crit', text: '**Verbale di nomina** del presidente e del consiglio · da caricare', href: '#' },
+    { state: 'warn', text: '**Documento d’identità del presidente** · scade il 30/11', href: '#' },
+    { state: 'crit', text: '**1 visita medica scaduta** · Squadra Rossa', href: '#' },
+    { state: 'warn', text: '**4 atleti** con documenti in scadenza o da caricare', href: '#' }] },
+  docs: [
+    { name: 'Atto costitutivo', state: 'ok', sub: 'Caricato il 12/09/2026', action: { label: 'Apri', href: '#' } },
+    { name: 'Statuto', state: 'ok', sub: 'Caricato il 12/09/2026', action: { label: 'Apri', href: '#' } },
+    { name: 'Documento d’identità del presidente', state: 'warn', sub: 'Scade il 30/11/2026', action: { label: 'Sostituisci', icon: 'upload', href: '#' } },
+    { name: 'Verbale di nomina del presidente e del consiglio direttivo', state: 'crit', sub: 'Da caricare', action: { label: 'Carica', icon: 'upload', primary: true, href: '#' } }],
+  affiliations: [{ name: 'EISI · Ente Italiano Sport Inclusivi', season: 'Stagione 2026/27 · valida fino al 31/08/2027', state: 'ok', stateLabel: 'Attiva',
+    steps: [{ label: 'Dati e documenti inviati', date: '12/09', done: true }, { label: 'Bonifico confermato', date: '15/09', done: true }, { label: 'Credenziali EISI ricevute', date: '20/09', done: true }],
+    facts: [{ value: 35, label: 'atleti tesserati' }, { value: 9, label: 'staff tesserati' }], notes: [{ state: 'warn', text: '1 ordine di tesseramento in corso' }] }],
+  teams: [{ team: T.rossa, athletes: 12, ok: 8, href: '#/squadre/rossa' }, { team: T.gialla, athletes: 12, ok: 12, href: '#/squadre/gialla' }, { team: T.blu, athletes: 11, ok: 10, href: '#/squadre/blu' }],
+  athleteDocs: {
+    summary: [{ label: 'Tessere EISI', done: 34, total: 35, issues: [{ state: 'warn', text: '1 ordine in corso' }] },
+      { label: 'Visite mediche valide', done: 32, total: 35, issues: [{ state: 'crit', text: '1 scaduta' }, { state: 'warn', text: '2 in scadenza' }] },
+      { label: 'Liberatorie firmate', done: 33, total: 35, issues: [{ state: 'warn', text: '2 da caricare' }] }],
+    issues: [
+      { num: 15, name: 'Matteo Brembilla', team: T.rossa, state: 'crit', text: 'Visita medica scaduta il 12/10/2026', href: '#' },
+      { num: 42, name: 'Giulia Rota', team: T.rossa, state: 'warn', text: 'Visita medica scade il 03/11/2026', href: '#' },
+      { num: 33, name: 'Pietro Ferrari', team: T.blu, state: 'warn', text: 'Visita medica scade il 15/11/2026', href: '#' },
+      { num: 26, name: 'Sofia Gamba', team: T.rossa, state: 'warn', text: 'Liberatoria da caricare', href: '#' },
+      { num: 58, name: 'Nicola Testa', team: T.rossa, state: 'warn', text: 'Liberatoria da caricare · tessera in ordine', href: '#' }] }
+};
+document.getElementById('tm').innerHTML = SPIN.societiesTab.render(tab);
+document.getElementById('te').innerHTML = SPIN.societiesTab.render({ create: tab.create, societies: [] });
+document.getElementById('td').innerHTML = SPIN.societiesTab.render(tab);
+document.getElementById('pm').innerHTML = SPIN.manage.societyPage(society);
+document.getElementById('pd').innerHTML = SPIN.manage.societyPage(society);
+</script>
+</body>
+</html>
