@@ -1,5 +1,5 @@
 /* SP-IN · Pagina di tornei e campionati in stile "Prima serata" (CompetitionPage)
-   Script classico, senza dipendenze. Espone window.SPIN.competitionPage:
+   Script classico; usa window.SPIN.core (spin-core.js, da caricare prima). Espone window.SPIN.competitionPage:
      render(data)        → HTML dell'intera pagina (testata, schede, contenuto della scheda attiva)
      hero(h)             → testata scura con fascia (arancio = campionato, verde = torneo), filigrana, chip,
                            info box "Struttura", stemmi, stato, vincitore
@@ -19,13 +19,10 @@
    SP-IN (2026-10-20): hero.topAction (HTML fidato) in alto a destra, per il pulsante "Modifica" dell'app. */
 (function () {
   'use strict';
+  // design system v2 (2026-10-22): utilità comuni da spin-core (window.SPIN.core, caricato prima)
+  const core = window.SPIN.core, esc = core.esc, onColor = core.onColor;
 
   const INK = '#14202B';
-  function rgb(h) { h = String(h).replace('#', ''); if (h.length === 3) h = h.replace(/./g, c => c + c); return [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16)); }
-  function lum(h) { return rgb(h).map(v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }).reduce((s, v, i) => s + v * [.2126, .7152, .0722][i], 0); }
-  function contrast(a, b) { const x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); }
-  function onColor(h) { return contrast(h, '#FFFFFF') >= contrast(h, INK) ? '#FFFFFF' : INK; }
-  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]); }
   function attrs(o) { return Object.keys(o || {}).map(k => ` ${esc(k)}="${esc(o[k])}"`).join(''); }
   function abbr(t) { return (t.abbr || String(t.short || t.name || '').normalize('NFD').replace(/[^A-Za-z]/g, '').slice(0, 3)).toUpperCase() || '—'; }
   function initials(n) { return String(n || '').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase(); }

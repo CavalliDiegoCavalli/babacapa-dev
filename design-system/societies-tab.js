@@ -1,5 +1,5 @@
 /* SP-IN · Tab "Società": le società di cui l'utente fa parte come staff (SocietiesTab)
-   Script classico, senza dipendenze. Espone window.SPIN.societiesTab:
+   Script classico; usa window.SPIN.core (spin-core.js, da caricare prima). Espone window.SPIN.societiesTab:
      render(data)      → HTML dell'intero tab: titolo, "Crea una società", "Le tue società", schede, nota
      card(s)           → scheda di una società
      onColor(hex)
@@ -10,13 +10,10 @@
    staff solo le proprie squadre e chi gestisce la società. Stile coerente con le pagine di gestione (Almanacco). */
 (function () {
   'use strict';
+  // design system v2 (2026-10-22): utilità comuni da spin-core (window.SPIN.core, caricato prima)
+  const core = window.SPIN.core, esc = core.esc, onColor = core.onColor;
 
   const INK = '#14202B';
-  function rgb(h) { h = String(h).replace('#', ''); if (h.length === 3) h = h.replace(/./g, c => c + c); return [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16)); }
-  function lum(h) { return rgb(h).map(v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }).reduce((s, v, i) => s + v * [.2126, .7152, .0722][i], 0); }
-  function contrast(a, b) { const x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); }
-  function onColor(h) { return contrast(h, '#FFFFFF') >= contrast(h, INK) ? '#FFFFFF' : INK; }
-  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]); }
   function attrs(o) { return Object.keys(o || {}).map(k => ` ${esc(k)}="${esc(o[k])}"`).join(''); }
   function initials(n) { return String(n || '').split(/\s+/).filter(w => /^[A-Za-zÀ-ÿ]/.test(w) && !/^(asd|ssd|a\.s\.d\.|s\.s\.d\.)$/i.test(w)).slice(0, 2).map(w => w[0]).join('').toUpperCase(); }
   function tag(o, cls, inner, extra) {

@@ -10,7 +10,7 @@
    Tutto il resto usa i token di tokens.css. Le misure da locandina sono locali (--cpx-*). */
 
 .cpx{
-  --cpx-skew:-12deg;--cpx-unskew:12deg;--cpx-col:440px;--cpx-gap:44px;
+  --cpx-skew:var(--skew);--cpx-unskew:var(--unskew);--cpx-col:440px;--cpx-gap:44px;
   --cpx-band:var(--brand-orange);
   container-type:inline-size;container-name:cpx;
   display:flex;flex-direction:column;
@@ -21,7 +21,7 @@
 .cpx :is(button,a):focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 
 /* ---------- testata ---------- */
-.cpx-hero{position:relative;overflow:hidden;background:var(--scorebox);color:#FFFFFF}
+.cpx-hero{position:relative;overflow:hidden;background:var(--scorebox);color:var(--on-stage)}
 .cpx-hero--torneo,.cpx-dlg--torneo{--cpx-band:var(--brand-green)}
 .cpx-hero-band{position:absolute;left:0;top:0;bottom:0;width:30%;background:var(--cpx-band);clip-path:polygon(0 0,100% 0,72% 100%,0 100%)}
 .cpx-hero-tex{position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.06) 0 2px,transparent 2px 14px)}
@@ -31,34 +31,34 @@
 .cpx-hero-in{position:relative;padding:12px 16px 24px;display:flex;flex-direction:column;gap:14px}
 .cpx-hero-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .cpx-back,.cpx-back-sp{width:44px;height:44px;flex:none}
-.cpx-back{border-radius:999px;border:0;padding:0;background:rgba(20,32,43,.82);color:#FFFFFF;display:grid;place-items:center;cursor:pointer;text-decoration:none}
+.cpx-back{border-radius:999px;border:0;padding:0;background:rgba(20,32,43,.82);color:var(--on-stage);display:grid;place-items:center;cursor:pointer;text-decoration:none}
 .cpx-back svg{width:22px;height:22px}
-.cpx-kind{padding:5px 12px;background:#FFFFFF;color:#14202B;transform:skewX(-10deg)}
+.cpx-kind{padding:5px 12px;background:var(--on-stage);color:var(--scorebox);transform:skewX(-10deg)}
 .cpx-kind b{display:block;transform:skewX(10deg);font-size:var(--fs-11);letter-spacing:.14em;text-transform:uppercase}
 .cpx-hero-tt{display:flex;flex-direction:column;gap:6px}
-.cpx-sub{font-size:var(--fs-11);font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#C9D0D6}
+.cpx-sub{font-size:var(--fs-11);font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--on-stage-muted)}
 .cpx-hero h1{margin:0;font-size:48px;line-height:.86;overflow-wrap:anywhere}
 .cpx-chips{display:flex;flex-wrap:wrap;gap:8px}
 .cpx-chip,.cpx-info{flex:none;padding:4px 10px;transform:skewX(-10deg)}
-.cpx-chip{border:1.5px solid rgba(255,255,255,.4);color:#FFFFFF}
+.cpx-chip{border:1.5px solid rgba(255,255,255,.4);color:var(--on-stage)}
 .cpx-chip{flex:0 1 auto;max-width:100%;box-sizing:border-box}.cpx-chip>span{white-space:normal}   /* SP-IN: "Modifica" in alto a destra della testata (solo la matita sotto 700 px) */
-.cpx-act{height:40px;width:40px;flex:none;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:var(--space-8);padding:0;border:0;border-radius:var(--radius-pill);background:rgba(255,255,255,.14);color:#FFFFFF;font:inherit;font-size:var(--fs-14);font-weight:700;cursor:pointer}
+.cpx-act{height:40px;width:40px;flex:none;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:var(--space-8);padding:0;border:0;border-radius:var(--radius-pill);background:rgba(255,255,255,.14);color:var(--on-stage);font:inherit;font-size:var(--fs-14);font-weight:700;cursor:pointer}
 .cpx-act svg{width:18px;height:18px}.cpx-act>span{display:none}
 @container cpx (min-width:700px){.cpx-act{width:auto;padding:0 var(--space-16)}.cpx-act>span{display:inline}}
 /* SP-IN: una chip lunga va a capo invece di uscire dallo schermo */
 .cpx-chip>span,.cpx-info>span{display:inline-flex;align-items:center;gap:6px;transform:skewX(10deg);font-size:var(--fs-11);font-weight:800;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
-.cpx-info{border:0;padding:4px 12px 4px 9px;background:#FFFFFF;color:#14202B;cursor:pointer;text-decoration:none}
+.cpx-info{border:0;padding:4px 12px 4px 9px;background:var(--on-stage);color:var(--scorebox);cursor:pointer;text-decoration:none}
 .cpx-info svg{width:15px;height:15px;color:#0077CC}
 @media (hover:hover){.cpx-info:hover{background:#DCEFFF}}
 .cpx-hero-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .cpx-hcrests{display:flex;padding-left:10px}
-.cpx-hcrest{width:34px;height:34px;margin-left:-10px;flex:none;border-radius:999px;background:var(--c-bg);box-shadow:0 0 0 2px #FFFFFF,0 4px 10px rgba(0,0,0,.2);overflow:hidden;display:grid;place-items:center}
+.cpx-hcrest{width:34px;height:34px;margin-left:-10px;flex:none;border-radius:999px;background:var(--c-bg);box-shadow:0 0 0 2px var(--on-stage),0 4px 10px rgba(0,0,0,.2);overflow:hidden;display:grid;place-items:center}
 .cpx-hcrest:nth-child(n+7){display:none}
-.cpx-status{display:inline-flex;padding:6px 14px;color:#FFFFFF;transform:skewX(-10deg);background:var(--primary-fill)}
+.cpx-status{display:inline-flex;padding:6px 14px;color:var(--on-stage);transform:skewX(-10deg);background:var(--primary-fill)}
 .cpx-status--ok{background:#007A3D}
 .cpx-status--muted{background:#5A6670}
 .cpx-status b{display:block;transform:skewX(10deg);font-size:var(--fs-12);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
-.cpx-champ{align-self:flex-start;display:flex;align-items:center;gap:12px;padding:10px 16px 10px 12px;background:#FFFFFF;color:#14202B;transform:skewX(-10deg);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.cpx-champ{align-self:flex-start;display:flex;align-items:center;gap:12px;padding:10px 16px 10px 12px;background:var(--on-stage);color:var(--scorebox);transform:skewX(-10deg);box-shadow:0 10px 30px rgba(0,0,0,.25)}
 .cpx-champ>*{transform:skewX(10deg)}
 .cpx-champ-c{width:36px;height:36px;border-radius:999px;background:var(--c-bg);box-shadow:0 0 0 2px var(--c-team);overflow:hidden;display:grid;place-items:center;flex:none}
 .cpx-champ-t{display:flex;flex-direction:column}
@@ -69,7 +69,7 @@
 
 /* stemmi (tutti) */
 .cpx-hcrest img,.cpx-crest img,.cpx-champ-c img{width:86%;height:86%;object-fit:contain}
-.cpx-hcrest b,.cpx-crest b,.cpx-champ-c b{font-size:11px;color:#14202B}
+.cpx-hcrest b,.cpx-crest b,.cpx-champ-c b{font-size:11px;color:var(--scorebox)}
 .cpx-crest{width:28px;height:28px;flex:none;border-radius:999px;background:var(--c-bg);box-shadow:0 0 0 2px var(--c-team);overflow:hidden;display:grid;place-items:center}
 
 /* ---------- corpo ---------- */
@@ -79,7 +79,7 @@
 .cpx-tab>span{display:block;transform:skewX(var(--cpx-unskew));white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 .18em .06em .06em}   /* SP-IN: spazio per la sporgenza del corsivo, che veniva tagliata */
 .cpx-tab[aria-selected="true"]{background:var(--ink);color:var(--surface);box-shadow:none}
 .cpx-sec{display:flex;align-items:center;gap:10px}
-.cpx-tag{flex:none;padding:5px 14px;background:var(--scorebox);color:#FFFFFF;transform:skewX(var(--cpx-skew))}
+.cpx-tag{flex:none;padding:5px 14px;background:var(--scorebox);color:var(--on-stage);transform:skewX(var(--cpx-skew))}
 .cpx-tag b{display:block;transform:skewX(var(--cpx-unskew));font-size:var(--fs-13);letter-spacing:.06em;white-space:nowrap}
 .cpx-rule{flex:1;height:2px;background:var(--line)}
 .cpx-sec-x{font-size:var(--fs-11);font-weight:700;color:var(--muted);white-space:nowrap}
@@ -131,7 +131,7 @@ td.cpx-c-team{text-align:left}
 .cpx-bug-t b{transform:skewX(var(--cpx-unskew));font-size:13px}
 .cpx-bug-t--a{background:var(--a);color:var(--a-on)}
 .cpx-bug-t--b{background:var(--b);color:var(--b-on)}
-.cpx-bug-mid{display:grid;place-items:center;padding:0 14px;background:#14202B;color:#FFFFFF;transform:skewX(var(--cpx-skew));font-family:var(--font-mono);font-size:16px;font-weight:700}
+.cpx-bug-mid{display:grid;place-items:center;padding:0 14px;background:var(--scorebox);color:var(--on-stage);transform:skewX(var(--cpx-skew));font-family:var(--font-mono);font-size:16px;font-weight:700}
 .cpx-bug-mid>span{transform:skewX(var(--cpx-unskew));display:inline-flex;gap:6px}
 .cpx-bug-sc i{font-style:normal;opacity:.5}
 .cpx-bug-sc .is-lost{opacity:.5}
@@ -183,12 +183,12 @@ td.cpx-c-team{text-align:left}
 /* ---------- dialog "Struttura" ---------- */
 .cpx-scrim{position:fixed;inset:0;z-index:50;background:rgba(20,32,43,.62);display:flex;align-items:flex-start;justify-content:center;padding:10vh 16px 16px;overflow:auto}
 .cpx-dlg{width:min(640px,100%);background:var(--surface);color:var(--ink);border-radius:6px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.35);display:flex;flex-direction:column;max-height:80vh}
-.cpx-dlg-h{position:relative;overflow:hidden;flex:none;background:#14202B;color:#FFFFFF;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.cpx-dlg-h{position:relative;overflow:hidden;flex:none;background:var(--scorebox);color:var(--on-stage);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .cpx-dlg-band{position:absolute;left:0;top:0;bottom:0;width:22%;background:var(--cpx-band,var(--brand-orange));clip-path:polygon(0 0,100% 0,70% 100%,0 100%)}
 .cpx-dlg-tt{position:relative;display:flex;flex-direction:column;gap:4px}
-.cpx-dlg-tt small{font-size:var(--fs-11);font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#C9D0D6}
+.cpx-dlg-tt small{font-size:var(--fs-11);font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--on-stage-muted)}
 .cpx-dlg-tt h2{margin:0;font-size:40px;line-height:.9}
-.cpx-dlg-x{position:relative;flex:none;width:40px;height:40px;border-radius:999px;border:0;padding:0;background:rgba(255,255,255,.14);color:#FFFFFF;display:grid;place-items:center;cursor:pointer}
+.cpx-dlg-x{position:relative;flex:none;width:40px;height:40px;border-radius:999px;border:0;padding:0;background:rgba(255,255,255,.14);color:var(--on-stage);display:grid;place-items:center;cursor:pointer}
 .cpx-dlg-x svg{width:22px;height:22px}
 .cpx-dlg-b{padding:18px 24px 26px;display:flex;flex-direction:column;gap:18px;overflow-y:auto}
 .cpx-st-sec{display:flex;flex-direction:column;gap:8px}

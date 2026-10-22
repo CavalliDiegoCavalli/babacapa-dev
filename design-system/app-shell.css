@@ -2,7 +2,10 @@
    Solo CSS sul markup che app.js genera già: header.pbar (.brand, .logo, .bt, .tnav, .acc-in, .tbav) e
    #app>nav.tabbar (a, .tbi, .tbav, .tbnm). Va caricato DOPO platform.css.
    Decisioni (Diego, 2026-10-21): su telefono niente barra in alto (platform.css la nasconde già sotto 900 px);
-   la barra dei tab è flottante, scura, con la sezione attiva in un riquadro bianco inclinato. */
+   la barra dei tab è flottante, scura, con la sezione attiva in un riquadro bianco inclinato.
+   Design system v2 (Diego, 2026-10-22): la barra dei tab è CHIARA (surface, filo e ombra) e la sezione attiva sta in un
+   riquadro inclinato `action` con il testo `on-action` (nero nel tema chiaro, bianco nel tema scuro). In Segreteria, mentre
+   si modifica, la barra lascia il posto alla barra delle azioni (body.is-editing, vedi DESIGN-SYSTEM-V2.md). */
 
 /* ---------- PC: barra in alto scura con le sezioni inclinate ---------- */
 @media (min-width:900px){
@@ -21,15 +24,18 @@
   .pbar .acc-in .tbav{background:var(--brand-orange);color:#14202B}
 }
 
-/* ---------- telefono: barra dei tab flottante scura ---------- */
+/* ---------- telefono: barra dei tab flottante chiara (v2) ---------- */
 @media (max-width:899px){
   #app>.tabbar{left:calc(14px + env(safe-area-inset-left,0px));right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));
     padding:6px 16px;gap:4px;align-items:center;border:0;border-radius:16px;
-    background:color-mix(in srgb,#14202B 94%,transparent);box-shadow:0 14px 34px rgba(20,32,43,.35),inset 0 0 0 1px rgba(255,255,255,.06)}
-  #app>.tabbar a{height:52px;padding:0;justify-content:center;gap:2px;color:#C9D0D6;font-size:var(--fs-11);font-weight:600}
-  #app>.tabbar a[aria-current="page"]{background:#FFFFFF;color:#14202B;font-weight:800;transform:skewX(-12deg)}
-  #app>.tabbar a[aria-current="page"]>*{transform:skewX(12deg)}
+    background:var(--surface);box-shadow:0 0 0 1px var(--line),var(--shadow-dialog)}
+  #app>.tabbar a{height:52px;padding:0;justify-content:center;gap:2px;color:var(--muted);font-size:var(--fs-11);font-weight:600}
+  #app>.tabbar a[aria-current="page"]{background:var(--action);color:var(--on-action);font-weight:800;transform:skewX(var(--skew))}
+  #app>.tabbar a[aria-current="page"]>*{transform:skewX(var(--unskew))}
   #app>.tabbar a svg{width:22px;height:22px}
-  #app>.tabbar .tbav{background:rgba(255,255,255,.16);color:#FFFFFF}
+  #app>.tabbar .tbav{background:var(--sunk);color:var(--ink)}
   #app>.tabbar a[aria-current="page"] .tbav{background:var(--primary-fill);color:var(--on-fill)}
+  /* Segreteria in modifica: niente barra dei tab, al suo posto la barra delle azioni (SPIN.core.ActionBar) */
+  body.is-editing #app>.tabbar{display:none}
+  .sp-actionbar--fixed{position:fixed;left:0;right:0;bottom:0;z-index:40;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 }

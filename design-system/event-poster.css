@@ -12,9 +12,9 @@
    tipografica di proposito: non vanno spostate in tokens.css né riusate altrove. */
 
 .ep{
-  --ep-skew:-12deg;
-  --ep-unskew:12deg;
-  --ep-white:#FFFFFF;           /* tabellone e linea tra le fasce: bianchi in entrambi i temi, come in TV */
+  --ep-skew:var(--skew);
+  --ep-unskew:var(--unskew);
+  --ep-white:var(--on-stage);           /* tabellone e linea tra le fasce: bianchi in entrambi i temi, come in TV */
   --ep-live:#C62828;
   --ep-hero-h:372px;            /* altezza testata */
   --ep-slab-h:340px;            /* altezza delle due fasce */
@@ -49,13 +49,13 @@
 
 /* barra superiore */
 .ep-top{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:var(--space-8);padding:var(--space-12) var(--space-16)}
-.ep-icon{width:44px;height:44px;flex:none;border:0;border-radius:var(--radius-pill);background:color-mix(in srgb,var(--scorebox) 78%,transparent);color:#FFFFFF;display:grid;place-items:center;cursor:pointer;text-decoration:none}
+.ep-icon{width:44px;height:44px;flex:none;border:0;border-radius:var(--radius-pill);background:color-mix(in srgb,var(--scorebox) 78%,transparent);color:var(--on-stage);display:grid;place-items:center;cursor:pointer;text-decoration:none}
 .ep-icon svg{width:22px;height:22px}
 .ep-icon--void{visibility:hidden}
-.ep-act{height:44px;width:44px;flex:none;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:var(--space-8);padding:0;border:0;border-radius:var(--radius-pill);background:color-mix(in srgb,var(--scorebox) 78%,transparent);color:#FFFFFF;font:inherit;font-size:var(--fs-14);font-weight:700;text-decoration:none;cursor:pointer}
+.ep-act{height:44px;width:44px;flex:none;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:var(--space-8);padding:0;border:0;border-radius:var(--radius-pill);background:color-mix(in srgb,var(--scorebox) 78%,transparent);color:var(--on-stage);font:inherit;font-size:var(--fs-14);font-weight:700;text-decoration:none;cursor:pointer}
 .ep-act svg{width:18px;height:18px}
 .ep-act>span{display:none}
-.ep-comp{display:inline-flex;align-items:center;gap:var(--space-8);min-width:0;padding:5px var(--space-12);background:var(--scorebox);color:#FFFFFF;transform:skewX(-10deg);text-decoration:none;font-size:var(--fs-11);font-weight:700;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.ep-comp{display:inline-flex;align-items:center;gap:var(--space-8);min-width:0;padding:5px var(--space-12);background:var(--scorebox);color:var(--on-stage);transform:skewX(-10deg);text-decoration:none;font-size:var(--fs-11);font-weight:700;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
 .ep-comp>*{transform:skewX(10deg)}
 .ep-comp>span:last-child{min-width:0;overflow:hidden;text-overflow:ellipsis}
 .ep-comp .ty{width:22px;height:22px;margin-left:calc(-1 * var(--space-8))}
@@ -65,7 +65,7 @@
 .ep-side{position:absolute;z-index:2;display:flex;flex-direction:column;gap:var(--space-12);max-width:52%}
 .ep-side--a{left:var(--space-20);top:76px;align-items:flex-start;text-align:left;color:var(--ep-a-on)}
 .ep-side--b{right:var(--space-20);top:128px;align-items:flex-end;text-align:right;flex-direction:column-reverse;color:var(--ep-b-on)}
-.ep-crest{width:var(--ep-crest);height:var(--ep-crest);flex:none;border-radius:var(--radius-round);background:var(--ep-crest-bg,#FFFFFF);overflow:hidden;display:grid;place-items:center;box-shadow:0 0 0 var(--ep-ring) var(--ep-ring-c,currentColor),0 8px 24px rgba(0,0,0,.28);text-decoration:none}
+.ep-crest{width:var(--ep-crest);height:var(--ep-crest);flex:none;border-radius:var(--radius-round);background:var(--ep-crest-bg,var(--on-stage));overflow:hidden;display:grid;place-items:center;box-shadow:0 0 0 var(--ep-ring) var(--ep-ring-c,currentColor),0 8px 24px rgba(0,0,0,.28);text-decoration:none}
 .ep-crest img{width:86%;height:86%;object-fit:contain;display:block}
 .ep-crest b{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;font-size:calc(var(--ep-crest) * .34);color:var(--ink)}
 .ep-crest--a{--ep-crest-bg:var(--ep-a-crest);--ep-ring-c:var(--ep-a-ring)}.ep-crest--b{--ep-crest-bg:var(--ep-b-crest);--ep-ring-c:var(--ep-b-ring)}
@@ -85,15 +85,15 @@
 .ep-bug-t{min-width:calc(var(--ep-bug-h) * 1.45);display:grid;place-items:center;padding:0 var(--space-12);font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;font-size:var(--ep-bug-ab)}
 .ep-bug-t--a{background:var(--ep-a);color:var(--ep-a-on)}
 .ep-bug-t--b{background:var(--ep-b);color:var(--ep-b-on)}
-.ep-bug-mid{min-width:calc(var(--ep-bug-h) * 2.4);display:flex;align-items:center;justify-content:center;padding:0 18px;background:var(--scorebox);color:#FFFFFF;font-family:var(--font-mono);font-weight:700;font-size:var(--ep-bug-mid);font-variant-numeric:tabular-nums}
+.ep-bug-mid{min-width:calc(var(--ep-bug-h) * 2.4);display:flex;align-items:center;justify-content:center;padding:0 18px;background:var(--scorebox);color:var(--on-stage);font-family:var(--font-mono);font-weight:700;font-size:var(--ep-bug-mid);font-variant-numeric:tabular-nums}
 .ep-bug-score{display:flex;align-items:center;gap:10px}
 .ep-bug-score i{font-style:normal;color:#5A6670}
 .ep-bug-score .is-lost{opacity:.5}
 
 /* sotto il tabellone: diretta, data e ora, luogo */
 .ep-info{display:flex;flex-direction:column;align-items:center;gap:6px;padding:var(--space-8) var(--space-16) 0;text-align:center}
-.ep-live{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;background:var(--ep-live);color:#FFFFFF;transform:skewX(-10deg);font-size:var(--fs-11);font-weight:800;letter-spacing:.12em;text-transform:uppercase}
-.ep-live::before{content:"";width:7px;height:7px;border-radius:var(--radius-pill);background:#FFFFFF}
+.ep-live{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;background:var(--ep-live);color:var(--on-stage);transform:skewX(-10deg);font-size:var(--fs-11);font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.ep-live::before{content:"";width:7px;height:7px;border-radius:var(--radius-pill);background:var(--on-stage)}
 .ep-when{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;font-size:var(--ep-when);text-transform:uppercase;color:var(--ink)}
 .ep-place{display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-13);font-weight:600;color:var(--muted);text-decoration:none}
 .ep-place svg{width:15px;height:15px;flex:none}
@@ -103,7 +103,7 @@
 .ep-col{display:flex;flex-direction:column;gap:var(--space-12);min-width:0}
 .ep-col--players{margin-top:6px}
 .ep-side3{display:none}
-.ep-tag{align-self:center;margin:0;padding:5px var(--space-16);background:var(--scorebox);color:#FFFFFF;transform:skewX(var(--ep-skew))}
+.ep-tag{align-self:center;margin:0;padding:5px var(--space-16);background:var(--scorebox);color:var(--on-stage);transform:skewX(var(--ep-skew))}
 .ep-tag>span{display:block;transform:skewX(var(--ep-unskew));font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;font-size:var(--fs-13);letter-spacing:.08em;text-transform:uppercase}
 
 /* riga numerica: casella casa · etichetta · casella ospite, nel primo colore delle squadre */

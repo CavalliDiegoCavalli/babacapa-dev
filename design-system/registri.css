@@ -1,0 +1,241 @@
+/* SP-IN · design system v2 (Diego, 2026-10-22): i due registri sulle pagine dell'app. Regole: docs/Design system/v2/DESIGN-SYSTEM-V2.md.
+   app.js (renderPub, 05-eventi.js) mette la classe sp e data-register ("tribuna" o "segreteria") sul contenitore della vista
+   (.wrap) e su body; main.page è il contenitore delle container query "sp" (una sola soglia: 900 px di contenitore).
+   Qui il markup di sempre (card, field, btn, chip, seg, empty, ainfo, sheet…) prende la forma v2; il markup nuovo usa
+   direttamente le classi .sp-* di spin-core.css. Il referto (#/referto, #/referti, styles.css) non ha registro: non cambia.
+   Va caricato dopo platform.css e i CSS dei componenti, prima di app-shell.css. */
+
+#app>.page{container-type:inline-size;container-name:sp}
+.wrap.sp{font-size:var(--fs-15);line-height:1.35}
+@container sp (min-width:700px){.wrap.sp:not(.wrap-ep){max-width:calc(var(--content-max) + 2 * var(--space-32))}}
+
+/* ---------- comune ai due registri: pulsanti inclinati, titoli, link indietro ---------- */
+/* il riquadro inclinato è il ::before, così testo e icone restano diritti senza cambiare il markup dei pulsanti */
+.sp[data-register] .btn{position:relative;isolation:isolate;height:40px;padding:0 var(--space-16);border:0;border-radius:var(--radius-0);background:none;color:var(--ink);box-shadow:none;
+  font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:16px;letter-spacing:0;gap:7px}
+.sp[data-register] .btn::before{content:"";position:absolute;inset:0;z-index:-1;transform:skewX(var(--skew));background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.sp[data-register] .btn svg{width:16px;height:16px}
+.sp[data-register] .btn.big{height:44px;padding:0 18px;font-size:17px}
+.sp[data-register] .btn:active:not([disabled]){transform:none}
+.sp[data-register] .btn:active:not([disabled])::before{filter:brightness(.92)}
+.sp[data-register] .btn:is(.primary,.go,.danger,.accent):hover:not([disabled]){filter:none}
+.sp[data-register] .btn.primary{color:var(--on-action)}
+.sp[data-register] .btn.primary::before{background:var(--action);box-shadow:none}
+.sp[data-register] .btn.go{color:var(--on-fill)}
+.sp[data-register] .btn.go::before{background:var(--ok-fill);box-shadow:none}
+.sp[data-register] .btn.accent{color:var(--accent-ink)}
+.sp[data-register] .btn.accent::before{background:var(--accent);box-shadow:none}
+.sp[data-register] .btn.danger{color:var(--crit)}
+.sp[data-register] .btn.danger::before{background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--crit)}
+.sp[data-register] .btn[disabled]{opacity:.4}
+/* "ghost" = link (Annulla, azioni secondarie): niente riquadro, testo normale */
+.sp[data-register] .btn.ghost{height:auto;min-height:40px;padding:0 var(--space-4);font-family:var(--font-body);font-style:normal;font-stretch:100%;font-weight:700;text-transform:none;font-size:var(--fs-14);color:var(--primary)}
+.sp[data-register] .btn.ghost::before{content:none}
+.sp[data-register] :is(a.btn,a.btn.primary){text-decoration:none}
+.sp[data-register] .h1{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:44px;line-height:.86;letter-spacing:0}
+@container sp (min-width:900px){.sp[data-register] .h1{font-size:64px}}
+.sp[data-register] .back{color:var(--ink)}
+.sp[data-register] .lnk,.sp[data-register] .alink{color:var(--primary)}
+.sp[data-register] .seg{display:inline-flex;border:0;border-radius:var(--radius-0);overflow:visible;background:none;padding:0;gap:0;box-shadow:inset 0 0 0 1.5px var(--ink)}
+.sp[data-register] .seg button{height:36px;padding:0 14px;border:0;border-radius:var(--radius-0);background:none;box-shadow:none;color:var(--ink);font-size:var(--fs-13);font-weight:700}
+.sp[data-register] .seg button[aria-pressed="true"]{background:var(--action);color:var(--on-action)}
+.sp[data-register] .seg.tabs{display:flex;width:100%}
+.sp[data-register] .seg.tabs button{flex:1;height:40px;font-size:var(--fs-14)}
+.sp[data-register] .seg.tabs button[aria-pressed="true"]{background:var(--action);color:var(--on-action);box-shadow:none}
+.sp[data-register] .empty{border:1px dashed var(--line-strong);border-radius:var(--radius-0);font-size:var(--fs-14);line-height:1.5}
+.sp[data-register] :is(.ainfo,.aerr){border-radius:var(--radius-0);background:var(--page);box-shadow:inset 4px 0 0 var(--muted);padding:10px 12px 10px 16px;font-size:var(--fs-13);line-height:1.45}
+.sp[data-register] .aerr{box-shadow:inset 4px 0 0 var(--crit)}
+
+/* ---------- Segreteria: sobria, colore solo per gli stati, niente card né ombre ---------- */
+body[data-register="segreteria"] #app>.page{background:var(--surface)}
+.sp[data-register="segreteria"]{background:var(--surface)}
+.sp[data-register="segreteria"] :is(.h2,.h3){font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:22px;line-height:.9;letter-spacing:0}
+/* card → sezione: filo ink da 2 px sopra, niente riquadro né ombra */
+.sp[data-register="segreteria"] .card{background:none;border:0;border-top:2px solid var(--ink);border-radius:var(--radius-0);box-shadow:none;padding:var(--space-16) 0 0}
+.sp[data-register="segreteria"] .card .card{border-top-width:1px;border-top-color:var(--line-soft)}
+/* campi: etichetta sopra, 44 px, bordo field-border, in modifica bordo ink e alone */
+.sp[data-register="segreteria"] :is(.field label,.flabel,.rolepick legend){font-size:var(--fs-13);font-weight:700;color:var(--ink)}
+.sp[data-register="segreteria"] .field :is(input,select,textarea){height:44px;border:1.5px solid var(--field-border);border-radius:var(--radius-2);background:var(--surface);color:var(--ink);font-size:var(--fs-15)}
+.sp[data-register="segreteria"] .field textarea{height:auto}
+.sp[data-register="segreteria"] .field :is(input,select,textarea):focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px var(--focus-ring)}
+.sp[data-register="segreteria"] .field :is(input,select,textarea)[aria-invalid="true"]{border-color:var(--crit)}
+.sp[data-register="segreteria"] .fgrid input{font-size:var(--fs-15)}
+.sp[data-register="segreteria"] :is(input[type="checkbox"],input[type="radio"]){accent-color:var(--action)}
+/* stati: icona + parola nel colore dello stato, mai riquadri pieni */
+.sp[data-register="segreteria"] .chip{height:auto;padding:0;border:0;border-radius:var(--radius-0);background:none;color:var(--muted);font-size:var(--fs-12);font-weight:700;gap:5px}
+.sp[data-register="segreteria"] .chip.ok{color:var(--ok)}
+.sp[data-register="segreteria"] .chip.warn{color:var(--warn)}
+.sp[data-register="segreteria"] .chip.crit{color:var(--crit)}
+.sp[data-register="segreteria"] .chip:is(.ok,.warn,.crit)::before{content:"";width:13px;height:13px;flex:none;background:currentColor;
+  -webkit-mask:var(--sp-ic-alert) center/contain no-repeat;mask:var(--sp-ic-alert) center/contain no-repeat}
+.sp[data-register="segreteria"] .chip.ok::before{-webkit-mask-image:var(--sp-ic-ok);mask-image:var(--sp-ic-ok)}
+:root{--sp-ic-ok:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E");
+  --sp-ic-alert:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 8v5M12 16.5h.01'/%3E%3Ccircle cx='12' cy='12' r='9.5'/%3E%3C/svg%3E")}
+/* tabelle: intestazioni in overline, righe divise da line-soft */
+.sp[data-register="segreteria"] .tbl{border:0;border-radius:var(--radius-0);background:none}
+.sp[data-register="segreteria"] .tbl th{background:none;border-bottom:1px solid var(--line);font-weight:800}
+.sp[data-register="segreteria"] .tbl td{border-top:0;border-bottom:1px solid var(--line-soft)}
+
+/* controlli (lista R, regole): icona + testo nel colore dello stato, righe divise da line-soft */
+.sp[data-register="segreteria"] .checks{display:flex;flex-direction:column;gap:0}
+.sp[data-register="segreteria"] .checks .ck{display:flex;align-items:flex-start;gap:var(--space-8);padding:7px 0;border-top:1px solid var(--line-soft);font-size:var(--fs-13);line-height:1.4;background:none}
+.sp[data-register="segreteria"] .ck .ic{flex:none;width:16px;height:16px;display:grid;place-items:center;border-radius:var(--radius-round);background:none;box-shadow:inset 0 0 0 1.5px currentColor;color:var(--ok);font-size:10px;font-weight:800}
+.sp[data-register="segreteria"] .ck.bad .ic{color:var(--crit)}.sp[data-register="segreteria"] .ck.wrn .ic{color:var(--warn)}
+.sp[data-register="segreteria"] .ck.bad{color:var(--ink)}
+/* avviso della fase beta: nota con il filo warn */
+.sp[data-register] .beta{border:0;border-radius:var(--radius-0);background:var(--page);box-shadow:inset 4px 0 0 var(--warn);font-size:var(--fs-13)}
+/* convocazione: righe dei giocatori, la casella convoca */
+.sp[data-register="segreteria"] .cvlist{gap:0}
+.sp[data-register="segreteria"] .cvrow{border:0;border-top:1px solid var(--line-soft);border-radius:var(--radius-0);background:none;padding:var(--space-8) 0}
+.sp[data-register="segreteria"] .cvrow.on{background:none;border-color:var(--line-soft)}
+.sp[data-register="segreteria"] .cvrow.on .atn{color:var(--ink)}
+.sp[data-register="segreteria"] .cvp input{accent-color:var(--action)}
+.sp[data-register="segreteria"] .cvnum input{border-radius:var(--radius-2)}
+.sp[data-register="segreteria"] .sp-seg>button{height:32px;padding:0 12px}
+.cv-acts{gap:var(--space-12)}
+.sp[data-register="segreteria"] .atn{border-radius:var(--radius-2)}
+
+/* angoli vivi quasi ovunque (raggio solo per i campi; tondi stemmi, avatar, interruttori, pallini) */
+.sp[data-register="segreteria"] :where(div,section,article,aside,nav,a,button,label,details,summary,span,small,b,li,ul,table,fieldset):where(:not([class*="crest"]):not([class*="avatar"]):not([class*="logo"]):not([class*="dot"]):not(.tbav):not(.sp-switch):not(.dsn):not(.ic):not(.sw):not(.ini):not(.sqseg)){border-radius:var(--radius-0)}
+.sp[data-register] .sp-input,.sp[data-register] .sp-box{border-radius:var(--radius-2)}
+/* procedura a passi di tornei e campionati: passo aperto con il filo ink, numeri in mono, fatti in ok */
+.sp[data-register="segreteria"] .dsteps{padding:var(--space-8) 0 0;gap:0}
+.sp[data-register="segreteria"] .dstep{padding:var(--space-8) var(--space-8) var(--space-8) var(--space-12);border-top:1px solid var(--line-soft)}
+.sp[data-register="segreteria"] .dstep:hover{background:var(--page)}
+.sp[data-register="segreteria"] .dstep.cur{background:none;box-shadow:inset 3px 0 0 var(--ink)}
+.sp[data-register="segreteria"] .dstep.cur .dst b{color:var(--ink)}
+.sp[data-register="segreteria"] .dsn{background:none;color:var(--muted);box-shadow:inset 0 0 0 1.5px var(--line-strong);font-family:var(--font-mono)}
+.sp[data-register="segreteria"] .dsn.ok{background:none;color:var(--ok);box-shadow:inset 0 0 0 1.5px var(--ok)}
+.sp[data-register="segreteria"] .dstep.cur .dsn{background:var(--action);color:var(--on-action);box-shadow:none}
+.sp[data-register="segreteria"] .dmf{background:none;border-top:1px solid var(--line-soft)}
+.sp[data-register="segreteria"] .dcki i{background:none!important;box-shadow:inset 0 0 0 1.5px currentColor;width:16px;height:16px;font-size:10px}
+.sp[data-register="segreteria"] .dcki.ok i{color:var(--ok)}.sp[data-register="segreteria"] .dcki.warn i{color:var(--warn)}.sp[data-register="segreteria"] .dcki.crit i{color:var(--crit)}
+@media (max-width:760px){.sp[data-register="segreteria"] .dsteps{flex-direction:row}.sp[data-register="segreteria"] .dstep{border-top:0}.sp[data-register="segreteria"] .dstep.cur{border-top:1px solid var(--line-soft)}}
+
+/* conflitti e avvisi del calendario: note con il filo dello stato, niente riquadri pieni */
+.sp[data-register="segreteria"] :is(.tclash,.twarn){background:var(--page);border:0;box-shadow:inset 4px 0 0 var(--crit)}
+.sp[data-register="segreteria"] .twarn{box-shadow:inset 4px 0 0 var(--warn)}
+
+/* ---------- Tribuna: coinvolgimento, card con ombra, colori delle squadre ---------- */
+.sp[data-register="tribuna"] .chip{border-radius:var(--radius-0)}
+.sp[data-register="tribuna"] .card{border:0;border-radius:var(--radius-4);box-shadow:var(--shadow-card)}
+.sp[data-register="tribuna"] :is(.h2,.h3){font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;letter-spacing:0}
+
+/* Profilo (pAccount), accesso, Sponsor: palco della Tribuna a tutta larghezza della colonna */
+.wrap.sp .sp-stage-band{right:0}
+.acx{display:flex;flex-direction:column;gap:var(--space-24)}
+.acx .sp-grid{gap:var(--space-24)}
+.acx-who{display:flex;align-items:center;gap:14px;flex-wrap:nowrap;padding-right:40px}
+.acx-ini{flex:none;width:64px;height:64px;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);transform:skewX(var(--skew))}
+.acx-ini b{transform:skewX(var(--unskew));font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;font-size:28px}
+.acx-nm{display:flex;flex-direction:column;gap:6px;min-width:0}
+.acx-nm b,.acx-tt{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:34px;line-height:.86;overflow-wrap:anywhere}
+.acx-nm small,.acx-p{color:var(--on-stage-muted);font-size:var(--fs-13);line-height:1.4}
+.acx-kick{display:block;margin-bottom:var(--space-8);font-size:var(--fs-11);font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--on-stage-muted)}
+.acx-tt{display:block;font-size:44px;padding-right:40px}
+.acx-p{margin:var(--space-12) 0 0;max-width:440px;padding-right:40px}
+@container sp (min-width:900px){.acx-nm b{font-size:44px}.acx-tt{font-size:64px}}
+.acx-ev{gap:10px}
+.sp-wall .sp-tile{min-width:0}
+button.sp-wrow{width:100%;border-left:0;border-right:0;border-bottom:0;background:none;font:inherit;text-align:left;cursor:pointer}
+.acx-del b{color:var(--crit)}
+.acx-out{align-self:flex-start;margin-top:var(--space-8);color:var(--crit)}
+.acx-mkt{padding:var(--space-12) 0;border-top:1px solid var(--line-soft);width:100%}
+.acx-mkt input{position:absolute;opacity:0;width:1px;height:1px}
+.acx-mkt:has(input:checked) .sp-switch{background:var(--action)}
+.acx-mkt:has(input:checked) .sp-switch::after{left:auto;right:3px}
+.acx-mkt:has(input:focus-visible) .sp-switch{outline:2px solid var(--focus);outline-offset:2px}
+.sp[data-register="tribuna"] .sp-sec{border-top-color:var(--ink)}
+.soonx{display:flex;justify-content:flex-start}
+.wrap.sp>.sp-stage:first-child,.wrap.sp>.acx:first-child>.sp-stage{margin:calc(-1 * var(--space-20)) calc(-1 * var(--space-16)) 0}
+@container sp (min-width:700px){.wrap.sp>.sp-stage:first-child,.wrap.sp>.acx:first-child>.sp-stage{margin:0}}
+/* accesso e registrazione: campi della Segreteria anche in Tribuna, un solo pulsante pieno */
+.sp[data-register] .auth .al>h2{display:none}
+.sp[data-register] .auth .card{max-width:560px}
+.sp[data-register] .auth .field label{font-size:var(--fs-13);font-weight:700;color:var(--ink)}
+.sp[data-register] .auth .field :is(input,select){height:44px;border:1.5px solid var(--field-border);border-radius:var(--radius-2)}
+.sp[data-register] .auth .field :is(input,select):focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px var(--focus-ring)}
+.sp[data-register] .auth .btn.primary{align-self:flex-start}
+
+/* ---------- finestre (#ov) delle pagine: angoli vivi; in Segreteria finestra di conferma come SPIN.core.Dialog ---------- */
+body[data-register] #ov .sheet{border-radius:var(--radius-0);box-shadow:0 0 0 1px var(--line),var(--shadow-dialog)}
+body[data-register] #ov .sheet .sh-h .who>b{font-family:var(--font-display)!important;font-weight:900;font-stretch:62%!important;font-style:italic;text-transform:uppercase;font-size:22px!important;line-height:.9}
+body[data-register] #ov .sheet .btn{position:relative;isolation:isolate;height:40px;padding:0 var(--space-16);border:0;border-radius:var(--radius-0);background:none;color:var(--ink);
+  font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:16px}
+body[data-register] #ov .sheet .btn::before{content:"";position:absolute;inset:0;z-index:-1;transform:skewX(var(--skew));background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--ink)}
+body[data-register] #ov .sheet .btn.primary{color:var(--on-action)}
+body[data-register] #ov .sheet .btn.primary::before{background:var(--action);box-shadow:none}
+body[data-register] #ov .sheet .btn.danger{color:var(--crit)}
+body[data-register] #ov .sheet .btn.danger::before{background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--crit)}
+body[data-register] #ov .sheet .btn.ghost{height:auto;min-height:40px;padding:0 var(--space-4);font-family:var(--font-body);font-style:normal;font-stretch:100%;font-weight:700;text-transform:none;font-size:var(--fs-14);color:var(--primary)}
+body[data-register] #ov .sheet .btn.ghost::before{content:none}
+body[data-register] #ov .sheet .btn[disabled]{opacity:.4}
+body[data-register] #ov .sheet .field :is(input,select,textarea){border:1.5px solid var(--field-border);border-radius:var(--radius-2)}
+body[data-register] #ov .sheet .field :is(input,select,textarea):focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px var(--focus-ring)}
+
+/* ---------- markup v2 dell'app (spHead, spField, spBar in 05-eventi.js) ---------- */
+.sp-head .back.sp-back{margin:0 0 0 calc(-1 * var(--space-4));padding:var(--space-4);color:var(--ink);gap:6px;font-size:var(--fs-13)}
+.sp-kicker{display:flex;align-items:center;gap:var(--space-8)}
+.sp-kicker .sp-dash{width:18px;height:5px}
+.sp-head-acts{gap:var(--space-8)}
+.sp-head p b{color:var(--ink)}
+.sp-input{position:relative}
+.sp-input :is(input,select,textarea){flex:1;min-width:0;height:100%;margin:0;padding:0;border:0;border-radius:var(--radius-0);background:none;box-shadow:none;outline:0;color:inherit;font:inherit;font-size:var(--fs-15)}
+.sp-input input::placeholder{color:var(--muted)}
+.sp-input select{-webkit-appearance:none;appearance:none;cursor:pointer;padding-right:26px}
+.sp-input select~.sp-ic{margin-left:-26px;pointer-events:none}
+.sp-input:focus-within{border-color:var(--ink);box-shadow:0 0 0 3px var(--focus-ring)}
+.sp-input:has(:is(input,select,textarea)[aria-invalid="true"]){border-color:var(--crit)}
+.sp-input .ef-crest:empty{display:none}
+.sp-btn[disabled]{opacity:.4;cursor:not-allowed}
+.sp-side>.sp-link{align-self:center;padding:var(--space-8)}
+.sp-pair>.sp-field{min-width:0}
+.sp[data-register] .sp-seg{max-width:100%;align-self:flex-start;flex-wrap:wrap}
+/* spin-core mostra .sp-only-pc con display:revert: la colonna laterale deve restare flex */
+@container sp (min-width:900px){:is(.sp-side,.sp-col,.sp-row).sp-only-pc{display:flex}}
+.sp[data-register] .sp-seg>button{color:var(--ink)}
+.sp[data-register] .sp-seg>button[aria-pressed="true"]{color:var(--on-action)}
+/* regole di partecipazione dentro una sezione: righe divise da line-soft, niente riquadri */
+.sp[data-register="segreteria"] .rules-ed summary{gap:var(--space-12);justify-content:space-between}
+.sp[data-register="segreteria"] .rules-ed[open] .ef-rbtn{visibility:hidden}
+.ef-rsum{gap:3px}.ef-rsum>b{font-size:var(--fs-14)}
+.sp[data-register="segreteria"] .rchk{border:0;border-top:1px solid var(--line-soft);border-radius:var(--radius-0);background:none;padding:var(--space-12) 0}
+.sp[data-register="segreteria"] .rgrp .lbl{color:var(--muted)}
+
+/* ---------- avvisi brevi (toast) delle pagine: sul palco, filo dello stato a sinistra ---------- */
+body[data-register] .toasts .toast{display:flex;align-items:center;gap:var(--space-12);border-radius:var(--radius-0);padding:var(--space-12) var(--space-16);background:var(--stage);color:var(--on-stage);
+  font-size:var(--fs-13);font-weight:600;text-align:left;box-shadow:inset 4px 0 0 var(--muted),var(--shadow-dialog)}
+body[data-register] .toasts .toast.ok{box-shadow:inset 4px 0 0 var(--ok-fill),var(--shadow-dialog)}
+body[data-register] .toasts .toast.warn{box-shadow:inset 4px 0 0 var(--warn-fill),var(--shadow-dialog)}
+body[data-register] .toasts .toast.crit{box-shadow:inset 4px 0 0 var(--crit-fill),var(--shadow-dialog)}
+body[data-register] .toasts .toast.ok::before{content:"";width:16px;height:16px;flex:none;background:var(--ok-on-stage);-webkit-mask:var(--sp-ic-ok) center/contain no-repeat;mask:var(--sp-ic-ok) center/contain no-repeat}
+
+/* ---------- barra delle azioni (telefono, Segreteria in modifica): sostituisce la barra dei tab ---------- */
+body.is-editing #app .page .wrap:has(.sp-actionbar--fixed){padding-bottom:calc(var(--space-40) + 132px + var(--kb))}
+body.is-editing #app .page .wrap:has(.sp-stickybar){padding-bottom:calc(var(--space-40) + var(--kb))}
+@media (max-width:899px){
+  .sp-stickybar{position:sticky;bottom:0;z-index:30;flex-wrap:nowrap;margin:0 calc(-1 * var(--space-16));padding:var(--space-12) var(--space-16) calc(14px + env(safe-area-inset-bottom,0px));
+    background:var(--surface);border-top:1px solid var(--line);box-shadow:var(--shadow-card)}
+  .sp-stickybar .btn.big{height:40px;font-size:16px}
+}
+.sp[data-register] .lnk svg{width:16px;height:16px;vertical-align:-3px}
+.sp[data-register] .seg button{white-space:normal;line-height:1.15;height:auto;min-height:36px}
+.sp[data-register] .seg:not(.tabs){flex-wrap:wrap;height:auto}
+/* filtri degli utenti: come Segmented (scelta su action), niente pillole */
+.sp[data-register="segreteria"] .ufilt{gap:0;box-shadow:inset 0 0 0 1.5px var(--ink);align-self:flex-start;width:max-content;max-width:100%}
+.sp[data-register] .search{height:44px;border:1.5px solid var(--field-border);border-radius:var(--radius-2)}
+.sp[data-register] .search:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px var(--focus-ring)}
+/* pulsanti nelle righe delle tabelle: piccoli */
+.sp[data-register] td .btn{height:34px;padding:0 12px;font-size:14px}
+/* menu della pagina utente (PC): voce aperta con il filo ink, niente riquadro */
+.sp[data-register] .acsi{border-radius:var(--radius-0)}
+.sp[data-register] .acsi[aria-current="page"]{background:none;box-shadow:inset 3px 0 0 var(--ink);border-color:transparent}
+.sp[data-register="segreteria"] .ufb{height:36px;padding:0 14px;border:0;border-radius:var(--radius-0);background:none;color:var(--ink);font-size:var(--fs-13);font-weight:700}
+.sp[data-register="segreteria"] .ufb[aria-pressed="true"],.sp[data-register="segreteria"] .ufb[aria-pressed="true"] b{background:var(--action);color:var(--on-action)}
+/* icone delle aree in riquadro inclinato a contorno (come WorkRow) */
+.sp[data-register="segreteria"] .rico{border-radius:var(--radius-0);background:none;box-shadow:inset 0 0 0 1.5px var(--ink);transform:skewX(var(--skew));color:var(--ink)}
+.sp[data-register="segreteria"] .rico>svg{transform:skewX(var(--unskew))}
+.sp[data-register="segreteria"] :is(.rp,.acb.card){border-radius:var(--radius-0)}
+.sp[data-register="segreteria"] .rp:has(input:checked){border-color:var(--ink);background:none}
+.sp-actionbar--fixed .sp-btn{flex:none}
+@media (min-width:900px){.sp-actionbar--fixed{display:none}}

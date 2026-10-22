@@ -6,7 +6,7 @@
    Tutto il resto usa i token di tokens.css. */
 
 .stx{
-  --stx-skew:-12deg;--stx-unskew:12deg;
+  --stx-skew:var(--skew);--stx-unskew:var(--unskew);
   container-type:inline-size;container-name:stx;
   display:flex;flex-direction:column;gap:var(--space-16);
   color:var(--ink);font-family:var(--font-body);
@@ -28,7 +28,7 @@
 .stx-create .stx-l{display:none}
 
 .stx-sec{display:flex;align-items:center;gap:10px}
-.stx-tag{flex:none;padding:5px 14px;background:var(--scorebox);color:#FFFFFF;transform:skewX(var(--stx-skew))}
+.stx-tag{flex:none;padding:5px 14px;background:var(--scorebox);color:var(--on-stage);transform:skewX(var(--stx-skew))}
 .stx-tag b{display:block;transform:skewX(var(--stx-unskew));font-size:var(--fs-13);letter-spacing:.06em;white-space:nowrap}
 .stx-rule{flex:1;height:2px;background:var(--line)}
 .stx-sec-x{font-size:var(--fs-11);font-weight:700;color:var(--muted);white-space:nowrap}
@@ -81,7 +81,7 @@
 .stx-st svg{flex:none;width:13px;height:13px}
 .stx-st--ok{color:var(--ok)}.stx-st--warn{color:var(--warn)}.stx-st--crit{color:var(--crit)}.stx-st--mut{color:var(--muted)}
 
-.stx-open{align-self:stretch;height:44px;display:grid;place-items:center;border:0;background:#14202B;color:#FFFFFF;text-decoration:none;transform:skewX(var(--stx-skew));cursor:pointer}
+.stx-open{align-self:stretch;height:44px;display:grid;place-items:center;border:0;background:var(--scorebox);color:var(--on-stage);text-decoration:none;transform:skewX(var(--stx-skew));cursor:pointer}
 .stx-open b{transform:skewX(var(--stx-unskew));font-size:var(--fs-17)}
 .stx-note{margin:0;font-size:var(--fs-12);color:var(--muted);line-height:1.5}
 .stx-empty{padding:var(--space-24);text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line-strong);line-height:1.5}

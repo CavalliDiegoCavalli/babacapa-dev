@@ -177,3 +177,62 @@
   --mono:var(--font-mono);
   --ease:cubic-bezier(.2,.8,.2,1);
 }
+
+/* ---------- design system v2 (2026-10-22): token nuovi, aggiunti senza cambiare quelli v1 ----------
+   Registri: data-register="tribuna" (tifoso) e data-register="segreteria" (addetti ai lavori). Vedi DESIGN-SYSTEM-V2.md. */
+:root{
+  --page:#f7f8fa;
+  --line-soft:#e7ebef;
+  --field-border:#848e97;
+  --action:#14202b;
+  --on-action:#ffffff;
+  --focus-ring:rgba(0,150,255,.28);
+  --stage:#14202b;
+  --on-stage:#ffffff;
+  --on-stage-muted:#c9d0d6;
+  --ok-on-stage:#2fc774;
+  --link-on-stage:#7cc4ff;
+  --type-league:#ff9300;
+  --type-cup:#00b050;
+  --type-friendly:#0096ff;
+  --shadow-card:0 1px 2px rgba(20,32,43,.06), 0 8px 20px rgba(20,32,43,.07);
+  --shadow-raise:0 4px 10px rgba(0,0,0,.2);
+  --shadow-dialog:0 18px 40px rgba(20,32,43,.18);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+  --page:#0e161d;
+  --line-soft:#1f2c38;
+  --field-border:#6b7a88;
+  --action:#e9ecef;
+  --on-action:#14202b;
+  --focus-ring:rgba(61,174,255,.35);
+  --stage:#0b1218;
+  --shadow-card:0 1px 2px rgba(0,0,0,.3), 0 8px 20px rgba(0,0,0,.35);
+  --shadow-raise:0 4px 10px rgba(0,0,0,.45);
+  --shadow-dialog:0 18px 40px rgba(0,0,0,.55);
+  }
+}
+:root[data-theme="dark"]{
+  --page:#0e161d;
+  --line-soft:#1f2c38;
+  --field-border:#6b7a88;
+  --action:#e9ecef;
+  --on-action:#14202b;
+  --focus-ring:rgba(61,174,255,.35);
+  --stage:#0b1218;
+  --shadow-card:0 1px 2px rgba(0,0,0,.3), 0 8px 20px rgba(0,0,0,.35);
+  --shadow-raise:0 4px 10px rgba(0,0,0,.45);
+  --shadow-dialog:0 18px 40px rgba(0,0,0,.55);
+}
+:root{
+  --radius-0:0;
+  --radius-2:2px;
+  --radius-4:4px;
+  --skew:-12deg;
+  --unskew:12deg;
+  --skew-band:-20deg;
+  --content-max:1200px;
+  --side-w:340px;
+  --bp-pc:900px;
+}

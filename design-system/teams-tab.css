@@ -7,7 +7,7 @@
    Tutto il resto usa i token di tokens.css. */
 
 .tmx{
-  --tmx-skew:-12deg;--tmx-unskew:12deg;
+  --tmx-skew:var(--skew);--tmx-unskew:var(--unskew);
   container-type:inline-size;container-name:tmx;
   display:flex;flex-direction:column;gap:var(--space-16);
   color:var(--ink);font-family:var(--font-body);
@@ -38,7 +38,7 @@
 
 /* ---------- titoli di sezione ---------- */
 .tmx-sec{display:flex;align-items:center;gap:10px}
-.tmx-tag{flex:none;padding:5px 14px;background:var(--scorebox);color:#FFFFFF;transform:skewX(var(--tmx-skew))}
+.tmx-tag{flex:none;padding:5px 14px;background:var(--scorebox);color:var(--on-stage);transform:skewX(var(--tmx-skew))}
 .tmx-tag b{display:block;transform:skewX(var(--tmx-unskew));font-size:var(--fs-13);letter-spacing:.06em;white-space:nowrap}
 .tmx-rule{flex:1;height:2px;background:var(--line)}
 .tmx-sec-x{font-size:var(--fs-11);font-weight:700;color:var(--muted);white-space:nowrap}
@@ -68,7 +68,7 @@
   position:relative;flex:none;overflow:hidden;height:var(--ch-h);background:var(--b);color:var(--b-on)}
 .tmx-ch-band{position:absolute;left:0;top:0;bottom:0;width:var(--ch-band);background:var(--a);clip-path:polygon(0 0,100% 0,70% 100%,0 100%)}
 .tmx-ch-wm{position:absolute;right:-6px;bottom:-22px;font-size:calc(var(--ch-name) * 2.75);line-height:1;opacity:.08;pointer-events:none}
-.tmx-ch-crest{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:var(--ch-crest);height:var(--ch-crest);border-radius:999px;background:var(--c-bg);box-shadow:0 0 0 2px #FFFFFF,0 4px 10px rgba(0,0,0,.2);overflow:hidden;display:grid;place-items:center}
+.tmx-ch-crest{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:var(--ch-crest);height:var(--ch-crest);border-radius:999px;background:var(--c-bg);box-shadow:0 0 0 2px var(--on-stage),0 4px 10px rgba(0,0,0,.2);overflow:hidden;display:grid;place-items:center}
 .tmx-ch-t{position:absolute;left:calc(var(--ch-band) + 4px);right:60px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:6px;min-width:0}
 .tmx-ch-t small{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.78;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tmx-ch-t>b{font-size:var(--ch-name);line-height:.86;overflow-wrap:anywhere}
@@ -104,7 +104,7 @@
 .tmx-lab{font-size:var(--fs-11);font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .tmx-l3s{display:flex;gap:6px}
 .tmx-l3{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border:0;background:var(--bg);color:var(--ink);text-decoration:none}
-.tmx-l3-r{width:26px;height:22px;display:grid;place-items:center;color:#FFFFFF;transform:skewX(var(--tmx-skew))}
+.tmx-l3-r{width:26px;height:22px;display:grid;place-items:center;color:var(--on-stage);transform:skewX(var(--tmx-skew))}
 .tmx-l3-r--v{background:var(--ok-fill)}.tmx-l3-r--p{background:var(--crit-fill,#C62828)}
 .tmx-l3-r b{transform:skewX(var(--tmx-unskew));font-family:var(--font-mono);font-size:13px}
 .tmx-l3-s{font-family:var(--font-mono);font-size:13px}
@@ -115,7 +115,7 @@
 .tmx-bug{flex:none;display:inline-flex;height:26px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.15))}
 .tmx-bug>span{display:grid;place-items:center;padding:0 8px;background:var(--x);color:var(--x-on);transform:skewX(var(--tmx-skew))}
 .tmx-bug>span b{transform:skewX(var(--tmx-unskew));font-size:13px}
-.tmx-bug>.tmx-bug-vs{background:#14202B;color:#FFFFFF}
+.tmx-bug>.tmx-bug-vs{background:var(--scorebox);color:var(--on-stage)}
 .tmx-bug-vs b{font-family:var(--font-mono);font-size:12px;font-weight:700}
 .tmx-nx-t{display:flex;flex-direction:column;min-width:0}
 .tmx-nx-t b{font-size:var(--fs-13)}
@@ -123,7 +123,7 @@
 .tmx-chev{position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--muted);display:grid}
 .tmx-chev svg{width:18px;height:18px}
 .tmx-acts{display:flex;gap:8px}
-.tmx-open{flex:1;height:44px;display:grid;place-items:center;border:0;background:#14202B;color:#FFFFFF;text-decoration:none;transform:skewX(var(--tmx-skew));cursor:pointer}
+.tmx-open{flex:1;height:44px;display:grid;place-items:center;border:0;background:var(--scorebox);color:var(--on-stage);text-decoration:none;transform:skewX(var(--tmx-skew));cursor:pointer}
 .tmx-open b{transform:skewX(var(--tmx-unskew));font-size:var(--fs-17)}
 
 /* ---------- dialog a foglio (telefono) ---------- */

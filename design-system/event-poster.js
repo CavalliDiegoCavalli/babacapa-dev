@@ -1,5 +1,5 @@
 /* SP-IN · Scheda evento "Prima serata" (EventPoster v2)
-   Script classico, senza dipendenze. Espone window.SPIN.eventPoster:
+   Script classico; usa window.SPIN.core (spin-core.js, da caricare prima). Espone window.SPIN.eventPoster:
      render(data)        → stringa HTML dell'<article class="ep">
      mount(el, data)     → scrive il markup dentro el
      teamColors(a, b)    → colori calcolati (utile per test)
@@ -13,14 +13,14 @@
    il secondo colore (altColor), in tutta la scheda; se manca o si confonde anche quello, resta il primo. */
 (function () {
   'use strict';
+  // design system v2 (2026-10-22): utilità comuni da spin-core (window.SPIN.core, caricato prima)
+  const core = window.SPIN.core, esc = core.esc, onColor = core.onColor;
 
   /* ---------- colore ---------- */
   const INK = '#14202B';
   function rgb(h) { h = String(h).replace('#', ''); if (h.length === 3) h = h.replace(/./g, c => c + c); return [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16)); }
   function lum(h) { return rgb(h).map(v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }).reduce((s, v, i) => s + v * [.2126, .7152, .0722][i], 0); }
   function contrast(a, b) { const x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); }
-  /* testo sul colore squadra: bianco o inchiostro, quello con più contrasto */
-  function onColor(h) { return contrast(h, '#FFFFFF') >= contrast(h, INK) ? '#FFFFFF' : INK; }
   function hue(h) { const [r, g, b] = rgb(h).map(v => v / 255); const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn; if (!d) return 0; const H = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; return (H * 60 + 360) % 360; }
   /* due colori "si confondono" se hanno tinta e luminosità vicine, o se sono entrambi molto scuri */
   function clash(a, b) {
@@ -40,7 +40,6 @@
   }
 
   /* ---------- testo ---------- */
-  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]); }
   function fmtNum(v) { return Number.isInteger(v) ? String(v) : Number(v).toLocaleString('it-IT', { minimumFractionDigits: 1, maximumFractionDigits: 1 }); }
   function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
   function when(iso, tz) {
