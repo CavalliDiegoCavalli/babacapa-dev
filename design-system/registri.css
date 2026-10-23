@@ -34,6 +34,7 @@
 /* "ghost" = link (Annulla, azioni secondarie): niente riquadro, testo normale */
 .sp[data-register] .btn.ghost{height:auto;min-height:40px;padding:0 var(--space-4);font-family:var(--font-body);font-style:normal;font-stretch:100%;font-weight:700;text-transform:none;font-size:var(--fs-14);color:var(--primary)}
 .sp[data-register] .btn.ghost::before{content:none}
+.sp[data-register] .btn.ghost.dsdel{color:var(--crit)}   /* "Elimina la bozza" della bozza a passi resta rossa (Diego, 2026-10-23) */
 .sp[data-register] :is(a.btn,a.btn.primary){text-decoration:none}
 .sp[data-register] .h1{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:44px;line-height:.86;letter-spacing:0}
 @container sp (min-width:900px){.sp[data-register] .h1{font-size:64px}}
@@ -47,6 +48,10 @@
 .sp[data-register] .seg.tabs button[aria-pressed="true"]{background:var(--action);color:var(--on-action);box-shadow:none}
 .sp[data-register] .empty{border:1px dashed var(--line-strong);border-radius:var(--radius-0);font-size:var(--fs-14);line-height:1.5}
 .sp[data-register] :is(.ainfo,.aerr){border-radius:var(--radius-0);background:var(--page);box-shadow:inset 4px 0 0 var(--muted);padding:10px 12px 10px 16px;font-size:var(--fs-13);line-height:1.45}
+.sp[data-register] .ainfo.warn{box-shadow:inset 4px 0 0 var(--warn)}
+/* eliminazione di un evento pubblicato (Diego, 2026-10-23): link rosso di admin e owner, scolorito e spento finché non c'è la richiesta */
+.sp-link.el-del{color:var(--crit)}
+.sp-link.el-del:disabled{color:var(--muted);opacity:.55;cursor:not-allowed}
 .sp[data-register] .aerr{box-shadow:inset 4px 0 0 var(--crit)}
 
 /* ---------- Segreteria: sobria, colore solo per gli stati, niente card né ombre ---------- */
