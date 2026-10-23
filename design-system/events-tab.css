@@ -107,6 +107,7 @@
 .evx-card--draft{flex-direction:row;align-items:center;gap:var(--space-12);padding:14px;border:2px dashed var(--warn);background:color-mix(in srgb,var(--warn-soft) 45%,var(--surface));box-shadow:none}
 .evx-draft-tag{flex:none;padding:3px 10px;background:var(--warn-fill);color:var(--on-fill);transform:skewX(-10deg)}
 .evx-draft-tag b{display:block;transform:skewX(10deg);font-size:var(--fs-11);letter-spacing:.1em;text-transform:uppercase}
+.evx-card--crit .evx-draft-tag{background:var(--crit-fill)}   /* SP-IN (2026-10-23): richieste di eliminazione */
 .evx-draft-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .evx-draft-t>b{font-size:var(--fs-17)}
 .evx-draft-t>span{font-size:var(--fs-12);color:var(--muted)}

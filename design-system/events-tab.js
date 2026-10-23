@@ -110,7 +110,7 @@
   }
   function draftCard(it) {
     const inner = `<span class="evx-draft-tag"><b>${esc(it.tag || 'Bozza')}</b></span><span class="evx-draft-t"><b>${esc(it.name)}</b>${it.info ? `<span>${esc(it.info)}</span>` : ''}</span><span class="evx-chev">${I.chev}</span>`;
-    return tag(it, 'evx-card evx-card--draft', inner);
+    return tag(it, 'evx-card evx-card--draft' + (it.tone === 'crit' ? ' evx-card--crit' : ''), inner);   // SP-IN (2026-10-23): tone crit = richiesta di eliminazione
   }
   function card(it) { return it.kind === 'stack' ? stackCard(it) : it.kind === 'draft' ? draftCard(it) : matchCard(it); }
 
