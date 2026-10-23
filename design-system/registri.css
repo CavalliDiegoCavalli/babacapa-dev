@@ -8,6 +8,9 @@
 #app>.page{container-type:inline-size;container-name:sp}
 .wrap.sp{font-size:var(--fs-15);line-height:1.35}
 @container sp (min-width:700px){.wrap.sp:not(.wrap-ep){max-width:calc(var(--content-max) + 2 * var(--space-32))}}
+/* pagina utente (profilo, Società, Squadre, Utenti, Impostazioni): su PC tutta la larghezza della pagina (Diego, 2026-10-23) */
+@container sp (min-width:700px){.wrap.sp:has(>.acx2){max-width:none}}
+@container sp (min-width:900px){.acx .sp-wall{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}}
 
 /* ---------- comune ai due registri: pulsanti inclinati, titoli, link indietro ---------- */
 /* il riquadro inclinato è il ::before, così testo e icone restano diritti senza cambiare il markup dei pulsanti */
