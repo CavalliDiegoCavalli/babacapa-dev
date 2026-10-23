@@ -133,9 +133,19 @@
     ${actions}
   </div>`;
   }
+  /* SP-IN (2026-10-23): senza accesso la scheda resta con stemma e nome nitidi; il resto (dati finti, dell'app) è sfocato
+     e inerte, con in evidenza l'invito a registrarsi. c.locked = {title, text, login, signup} (href o attrs). */
+  function lock(c, closable) {
+    const L = c.locked;
+    if (!L) return body(c, closable);
+    const btn = (o, cls, t) => o ? tag(o, cls, `<b>${esc(o.label || t)}</b>`) : '';
+    return `<div class="tmx-lock"><div class="tmx-lock-b" aria-hidden="true" inert>${body(c, closable)}</div>
+    <div class="tmx-lock-cta"><b class="tmx-lock-t">${esc(L.title || 'Registrati per vedere la squadra')}</b>${L.text ? `<p>${esc(L.text)}</p>` : ''}
+      <div class="tmx-lock-a">${btn(L.login, 'tmx-lock-in', 'Accedi')}${btn(L.signup, 'tmx-lock-up', 'Registrati')}</div></div></div>`;
+  }
   function card(c, o) {
     c = c || {}; o = o || {};
-    return `<section class="tmx-card" aria-label="${esc('Scheda di ' + ((c.team || {}).name || name(c.team || {})))}">${head(c, !!o.closable)}${body(c, !!o.closable)}</section>`;
+    return `<section class="tmx-card" aria-label="${esc('Scheda di ' + ((c.team || {}).name || name(c.team || {})))}">${head(c, !!o.closable)}${lock(c, !!o.closable)}</section>`;
   }
 
   /* ---------- dialog (telefono) ----------
@@ -150,7 +160,7 @@
   <div class="tmx-sheet" role="dialog" aria-modal="true" aria-label="${esc('Scheda di ' + (t.name || name(t)))}">
     <span class="tmx-grip" aria-hidden="true"></span>
     ${head(c, true)}
-    <div class="tmx-sheet-sc">${body(c, true)}</div>
+    <div class="tmx-sheet-sc">${lock(c, true)}</div>
   </div>
 </div>`;
   }

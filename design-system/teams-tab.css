@@ -155,3 +155,15 @@
   .tmx-aside .tmx-ch-crest{left:16px}
   .tmx-aside .tmx-ch-t{right:70px}
 }
+
+/* ---------- SP-IN (2026-10-23): scheda sfocata per chi non ha l'accesso (tab In campo) ---------- */
+.tmx-lock{position:relative}
+.tmx-lock-b{filter:blur(7px);opacity:.75;pointer-events:none;user-select:none}
+.tmx-lock-cta{position:absolute;inset:var(--space-16);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--space-12);text-align:center;padding:var(--space-16);background:color-mix(in srgb,var(--surface) 82%,transparent);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.tmx-lock-t{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:var(--fs-24);line-height:1;padding-right:.1em}
+.tmx-lock-cta p{margin:0;max-width:34ch;font-size:var(--fs-14);color:var(--muted)}
+.tmx-lock-a{display:flex;gap:var(--space-8);flex-wrap:wrap;justify-content:center}
+.tmx-lock-in,.tmx-lock-up{height:44px;padding:0 var(--space-16);display:grid;place-items:center;border:0;text-decoration:none;transform:skewX(var(--tmx-skew));cursor:pointer}
+.tmx-lock-in{background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.tmx-lock-up{background:var(--primary-fill);color:var(--on-fill)}
+.tmx-lock-in b,.tmx-lock-up b{transform:skewX(var(--tmx-unskew));font-size:var(--fs-15)}
