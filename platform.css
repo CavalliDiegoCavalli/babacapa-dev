@@ -587,6 +587,7 @@ a.alink2{color:var(--ink);text-decoration:none}
 /* Pagina pubblicata di tornei e campionati (2026-10-20, design-system/competition-page.css): parti proprie dell'app */
 .cpx-main>.ainfo,.cpx-main>.aerr,.cpx-main>.tmiss{margin:0}
 .cpx-editbar{display:flex;align-items:center;gap:var(--space-12);flex-wrap:wrap}
+.cpx-editacts{display:flex;align-items:center;gap:var(--space-8);flex-wrap:wrap;margin-left:auto}
 .cpx-rules{display:flex;flex-direction:column;gap:var(--space-12)}
 .cpx-where{margin:0;color:var(--muted)}.cpx-where a{display:inline-flex;align-items:center;gap:var(--space-8)}.cpx-where svg{width:18px;height:18px}
 .cpx-teams{display:flex;flex-direction:column;gap:var(--space-12)}

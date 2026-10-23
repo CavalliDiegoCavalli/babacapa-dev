@@ -52,6 +52,8 @@
 /* eliminazione di un evento pubblicato (Diego, 2026-10-23): link rosso di admin e owner, scolorito e spento finché non c'è la richiesta */
 .sp-link.el-del{color:var(--crit)}
 .sp-link.el-del:disabled{color:var(--muted);opacity:.55;cursor:not-allowed}
+.btn.el-btn,.sp[data-register] .btn.el-btn{color:var(--crit)}
+.btn.el-btn:disabled,.sp[data-register] .btn.el-btn:disabled{color:var(--muted);opacity:.55;cursor:not-allowed}
 .sp[data-register] .aerr{box-shadow:inset 4px 0 0 var(--crit)}
 
 /* ---------- Segreteria: sobria, colore solo per gli stati, niente card né ombre ---------- */
