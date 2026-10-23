@@ -142,7 +142,8 @@ body[data-register="segreteria"] #app>.page{background:var(--surface)}
      e, se è più alta della finestra, scorre da sola senza trascinare la pagina (overscroll-behavior). Si ferma dove parte (margine di .wrap), così non si
      sposta nemmeno all'inizio. 68px = barra in alto
      su PC (app-shell.css) */
-  .acx2 .acx-nav{top:var(--space-32);max-height:calc(100dvh - 68px - var(--space-48));overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding-right:var(--space-4)}
+  .acx2 .acx-nav{top:var(--space-32);max-height:calc(100dvh - 68px - var(--space-48));overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;
+    padding:0 var(--space-4) 0 var(--space-8);margin-left:calc(-1 * var(--space-8))}   /* lo scorrimento ritaglia: spazio a sinistra per i riquadri inclinati delle icone, senza spostare la barra */
   .acx2 .acmain>a.back.acback{display:none}
 }
 /* tab Squadre dentro la pagina utente su PC: colonna più stretta (barra a sinistra), ma anteprima della squadra sempre a destra */
