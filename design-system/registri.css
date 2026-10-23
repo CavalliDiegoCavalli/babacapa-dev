@@ -138,6 +138,11 @@ body[data-register="segreteria"] #app>.page{background:var(--surface)}
 @container sp (min-width:900px){
   .acx2{display:grid;grid-template-columns:var(--side-w) minmax(0,1fr);gap:var(--space-32) 48px;align-items:start}
   .acx2 .acx-nav,.acx2:not(.acx2--home) .acx-nav{display:flex;order:0;position:sticky;top:var(--space-16)}
+  /* Diego, 2026-10-23: barra e contenuto scorrono ognuno per conto suo. La barra resta ferma mentre scorre la pagina (.page)
+     e, se è più alta della finestra, scorre da sola senza trascinare la pagina (overscroll-behavior). Si ferma dove parte (margine di .wrap), così non si
+     sposta nemmeno all'inizio. 68px = barra in alto
+     su PC (app-shell.css) */
+  .acx2 .acx-nav{top:var(--space-32);max-height:calc(100dvh - 68px - var(--space-48));overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding-right:var(--space-4)}
   .acx2 .acmain>a.back.acback{display:none}
 }
 /* tab Squadre dentro la pagina utente su PC: colonna più stretta (barra a sinistra), ma anteprima della squadra sempre a destra */
