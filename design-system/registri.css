@@ -124,7 +124,35 @@ body[data-register="segreteria"] #app>.page{background:var(--surface)}
 /* Profilo (pAccount), accesso, Sponsor: palco della Tribuna a tutta larghezza della colonna */
 .wrap.sp .sp-stage-band{right:0}
 .acx{display:flex;flex-direction:column;gap:var(--space-24)}
-.acx .sp-grid{gap:var(--space-24)}
+/* pagina utente (2026-10-23): su PC la barra a sinistra con "Il tuo lavoro" (o "La tua passione") e "Account", sempre
+   visibile in profilo, Società, Squadre, Utenti e Impostazioni; sul telefono il menu sta sotto il profilo e altrove non c'è */
+.acx2{display:flex;flex-direction:column;gap:var(--space-24);min-width:0}
+.acx-nav{display:flex;flex-direction:column;gap:var(--space-24);min-width:0}
+.acx2--home .acx-nav{order:2}
+.acx2:not(.acx2--home) .acx-nav{display:none}
+.acx-body{display:flex;flex-direction:column;gap:var(--space-16);min-width:0}
+.acx-nav .sp-wrow[aria-current="page"]{box-shadow:inset 3px 0 0 var(--ink);padding-left:var(--space-12);background:var(--page)}
+@container sp (min-width:900px){
+  .acx2{display:grid;grid-template-columns:var(--side-w) minmax(0,1fr);gap:var(--space-32) 48px;align-items:start}
+  .acx2 .acx-nav,.acx2:not(.acx2--home) .acx-nav{display:flex;order:0;position:sticky;top:var(--space-16)}
+  .acx2 .acmain>a.back.acback{display:none}
+}
+/* tab Squadre dentro la pagina utente su PC: colonna più stretta (barra a sinistra), ma anteprima della squadra sempre a destra */
+@container sp (min-width:900px){
+  .acx2 .tmx-head{flex-direction:row;align-items:center;gap:18px;flex-wrap:wrap}
+  .acx2 .tmx-cols{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;align-items:start}
+  .acx2 .tmx-cols--one{grid-template-columns:minmax(0,1fr)}
+  .acx2 .tmx-wall{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .acx2 .tmx-hint{display:none}
+  .acx2 .tmx-aside{display:flex;flex-direction:column;gap:14px;position:sticky;top:var(--space-16)}
+  .acx2 .tmx-aside .tmx-ch-crest{left:16px}
+  .acx2 .tmx-aside .tmx-ch{--ch-h:150px;--ch-band:120px;--ch-crest:72px;--ch-name:34px}
+  .acx2 .tmx-aside .tmx-ch-t{left:132px;right:60px}
+  .acx2 .tmx-tools{flex:1;min-width:240px}
+}
+.imp-f{gap:var(--space-16)}
+.imp-r{flex-wrap:nowrap;align-items:center}
+.imp-f .sp-hint{margin:0}
 .acx-who{display:flex;align-items:center;gap:14px;flex-wrap:nowrap;padding-right:40px}
 .acx-ini{flex:none;width:64px;height:64px;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);transform:skewX(var(--skew))}
 .acx-ini b{transform:skewX(var(--unskew));font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;font-size:28px}
