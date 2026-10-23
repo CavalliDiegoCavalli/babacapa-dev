@@ -286,3 +286,22 @@ body.is-editing #app .page .wrap:has(.sp-stickybar){padding-bottom:calc(var(--sp
 .sp[data-register="segreteria"] .rp:has(input:checked){border-color:var(--ink);background:none}
 .sp-actionbar--fixed .sp-btn{flex:none}
 @media (min-width:900px){.sp-actionbar--fixed{display:none}}
+
+/* ---------- finestra della gara di tornei e campionati (Diego, 2026-10-23): Segreteria ---------- */
+#ov .sheet .tpx{display:flex;flex-direction:column;gap:var(--space-16)}
+#ov .sheet .tpx .sh-h{margin:0}
+.tpx [hidden]{display:none!important}   /* "Un altro indirizzo": campo e indirizzo nascosti finché non servono */
+.tpx-lock{display:flex;align-items:center;gap:6px;margin:0;color:var(--muted)}
+.tpx-lock svg{flex:none}
+.tpx .sp-pair>.sp-field,.tpx .sp-form>*{min-width:0}
+.sp-choices{border:0;margin:0;padding:0;display:flex;flex-direction:column;min-width:0}
+.sp-choices>legend{padding:0;margin:0 0 var(--space-8)}
+.sp-choice{display:flex;gap:var(--space-12);align-items:flex-start;padding:10px var(--space-12) 10px 0;border-top:1px solid var(--line-soft);cursor:pointer}
+.sp-choice:last-child{border-bottom:1px solid var(--line-soft)}
+.sp-choice input{flex:none;width:18px;height:18px;margin:1px 0 0;accent-color:var(--ink)}
+.sp-choice>span{display:flex;flex-direction:column;gap:2px;line-height:1.35;min-width:0}
+.sp-choice b{font-size:var(--fs-14)}
+.sp-choice small{font-size:var(--fs-12);color:var(--muted)}
+.sp-choice:has(input:checked){box-shadow:inset 3px 0 0 var(--ink);padding-left:var(--space-12)}
+.sp-choice:has(input:focus-visible){outline:2px solid var(--focus);outline-offset:-2px}
+.tpx-f{align-items:center;gap:var(--space-8);flex-wrap:wrap;padding-top:var(--space-4)}
