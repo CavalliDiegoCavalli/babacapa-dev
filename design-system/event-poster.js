@@ -112,6 +112,18 @@
     return `<div class="ep-form" role="group" aria-label="${esc(r.label)}: ${esc(H.short || H.name)} ${esc(names(r.home))}; ${esc(A.short || A.name)} ${esc(names(r.away))}">
       <span class="ep-form-l">${esc(r.label)}${r.sub ? ' · ' + esc(r.sub) : ''}</span>${formLine(H, r.home, 'a')}${formLine(A, r.away, 'b')}</div>`;
   }
+  /* SP-IN 2026-10-26: riga dei tempi (kind 'periods'), per squadra un elenco di 4 numeri (1°…4° tempo) o null */
+  function periodLine(t, list, s) {
+    const items = Array.isArray(list) && list.length
+      ? list.map((v, i) => `<span class="ep-fm ep-per" title="${i + 1}° tempo: ${v == null ? '—' : fmtNum(+v)}"><span><b>${i + 1}°</b><span>${v == null ? NONE : fmtNum(+v)}</span></span></span>`).join('')
+      : `<span class="ep-fm is-empty"><span>${NONE}</span></span>`;
+    return `<div class="ep-form-line ep-form-line--${s}"><b class="ep-abbr">${esc(abbr(t))}</b>${items}</div>`;
+  }
+  function periodsRow(r, H, A) {
+    const txt = l => Array.isArray(l) && l.length ? l.map((v, i) => `${i + 1}° tempo ${v == null ? 'nessun dato' : fmtNum(+v)}`).join(', ') : 'nessun dato';
+    return `<div class="ep-form" role="group" aria-label="${esc(r.label)}: ${esc(H.short || H.name)} ${esc(txt(r.home))}; ${esc(A.short || A.name)} ${esc(txt(r.away))}">
+      <span class="ep-form-l">${esc(r.label)}${r.sub ? ' · ' + esc(r.sub) : ''}</span>${periodLine(H, r.home, 'a')}${periodLine(A, r.away, 'b')}</div>`;
+  }
   function card(t, p, s) {
     if (!p || !p.name) return `<div class="ep-card ep-card--${s} is-empty">${NONE}</div>`;
     return `<div class="ep-card ep-card--${s}">
@@ -133,6 +145,7 @@
   function isPlayer(r) { return r && (r.kind === 'player' || r.kind === 'text'); }
   function anyRow(r, H, A) {
     if (r.kind === 'form') return formRow(r, H, A);
+    if (r.kind === 'periods') return periodsRow(r, H, A);
     if (r.kind === 'player') return playerRow(r, H, A);
     if (r.kind === 'text') return textRow(r);
     return numRow(r);

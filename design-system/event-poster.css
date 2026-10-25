@@ -133,6 +133,10 @@
 .ep-form-line--a .ep-fm.w{background:var(--ep-a);border-color:var(--ep-a);color:var(--ep-a-on)}
 .ep-form-line--b .ep-fm.w{background:var(--ep-b);border-color:var(--ep-b);color:var(--ep-b-on)}
 .ep-fm.is-empty{border-style:dashed}
+/* SP-IN 2026-10-26: riga dei tempi, il numero del tempo piccolo e il valore in evidenza */
+.ep-fm.ep-per{color:var(--ink)}
+.ep-fm.ep-per b{font-size:var(--fs-11);font-weight:800;color:var(--muted)}
+.ep-fm.ep-per span span{font-size:var(--fs-14)}
 
 /* protagonisti: due schede per riga, bordo e numero nel primo colore della squadra */
 .ep-players{display:flex;flex-direction:column;gap:var(--space-8)}
