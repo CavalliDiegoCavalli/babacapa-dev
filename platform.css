@@ -480,7 +480,11 @@ a.alink2{color:var(--ink);text-decoration:none}
 .rcx-sign,.rcx-none{margin:0;font-size:var(--fs-13);color:var(--muted)}
 .rcx-share{gap:var(--space-8)}
 .rcx-org{display:flex;align-items:center;gap:var(--space-12);flex-wrap:wrap;padding:var(--space-8) 0;border-bottom:1px solid var(--line)}
-.rcx-ed textarea{width:100%;resize:vertical;font:inherit;line-height:1.5}
+/* campi della revisione: il riquadro (.sp-input, alto 44 px nel kit) cresce con il testo, che va a capo e resta dentro */
+.rcx-ed .sp-input:has(textarea){height:auto;align-items:stretch;padding:var(--space-8) var(--space-12)}
+.rcx-ed textarea.rcx-grow{display:block;width:100%;height:auto;min-height:calc(1.5em * 2);resize:none;overflow:hidden;font:inherit;font-size:var(--fs-15);line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;box-sizing:border-box}
+.rcx-ed #rc_s{min-height:calc(1.5em * 3)}
+.rcx-ed #rc_b{min-height:calc(1.5em * 14)}
 .rcx-cks{display:flex;flex-direction:column;border-top:1px solid var(--line)}
 .rcx-ck{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-2) var(--space-12);padding:var(--space-8) 0;border-bottom:1px solid var(--line)}
 .rcx-ck>.sp-st{grid-row:span 2;align-self:start}
