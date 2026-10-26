@@ -93,7 +93,8 @@
   function lbl(r) { return `<span class="ep-lbl"><b>${esc(r.label)}</b>${r.sub ? `<small>${esc(r.sub)}</small>` : ''}</span>`; }
   function numRow(r) {
     const x = r.home == null ? null : +r.home, y = r.away == null ? null : +r.away;
-    const lowA = x != null && y != null && x < y, lowB = x != null && y != null && y < x;
+    /* SP-IN 2026-10-26: con better 'low' (falli) è più chiaro il valore più alto */
+    const inv = r.better === 'low', lowA = x != null && y != null && (inv ? x > y : x < y), lowB = x != null && y != null && (inv ? y > x : y < x);
     const v = (n, lo, s) => `<span class="ep-val ep-val--${s}${lo ? ' is-low' : ''}"><b>${n == null ? '—' : fmtNum(n)}</b></span>`;
     return `<div class="ep-row">${v(x, lowA, 'a')}<span class="ep-row-l">${lbl(r)}</span>${v(y, lowB, 'b')}</div>`;
   }
@@ -141,8 +142,20 @@
     return `<div class="ep-players"><span class="ep-form-l">${esc(r.label)}${r.sub ? ' · ' + esc(r.sub) : ''}</span><div class="ep-cards">` +
       `<div class="ep-card ep-card--a ep-card--html">${r.home || NONE}</div><div class="ep-card ep-card--b ep-card--html">${r.away || NONE}</div></div></div>`;
   }
-  /* le righe "giocatore" (player e text) vanno nella colonna Protagonisti, le altre in Statistiche */
-  function isPlayer(r) { return r && (r.kind === 'player' || r.kind === 'text'); }
+  /* SP-IN 2026-10-26: ultime partite (kind 'streak') accanto alle statistiche, dal lato della squadra: tre riquadri V/P
+     sulla stessa riga, il più recente verso il centro e più grande; V pieno nel colore della squadra, P bianco col bordo */
+  function streak(r, list, s) {
+    const l = (Array.isArray(list) ? list : []).slice(-3), slots = [0, 1, 2].map(i => ({ x: l[i - (3 - l.length)], k: i + 1 }));
+    const box = o => {
+      if (!o.x) return `<span class="ep-st ep-st--${o.k} is-empty" aria-hidden="true"></span>`;
+      const win = !!o.x.w, tip = o.x.title || [win ? 'Vinta' : 'Persa', o.x.score, o.x.opp ? 'contro ' + o.x.opp : ''].filter(Boolean).join(' ');
+      return `<span class="ep-st ep-st--${o.k}${win ? ' is-w' : ''}" title="${esc(tip)}" role="img" aria-label="${esc(tip)}"><b>${win ? 'V' : 'P'}</b></span>`;
+    };
+    return `<div class="ep-players ep-streak-w"><span class="ep-form-l">${esc(r.label)}${r.sub ? ' · ' + esc(r.sub) : ''}</span>` +
+      `<div class="ep-streak ep-streak--${s}">${(s === 'a' ? slots : slots.slice().reverse()).map(box).join('')}</div></div>`;
+  }
+  /* le righe "giocatore" (player e text) e le ultime partite (streak) vanno ai lati delle statistiche, le altre al centro */
+  function isPlayer(r) { return r && (r.kind === 'player' || r.kind === 'text' || r.kind === 'streak'); }
   function anyRow(r, H, A) {
     if (r.kind === 'form') return formRow(r, H, A);
     if (r.kind === 'periods') return periodsRow(r, H, A);
@@ -173,10 +186,11 @@
     ].join(';');
     const rows = Array.isArray(d.statRows) ? d.statRows : legacyRows(d);
     const statsHtml = rows.filter(r => !isPlayer(r)).map(r => anyRow(r, H, A)).join('');
-    const playersHtml = rows.filter(isPlayer).map(r => anyRow(r, H, A)).join('');
+    const playersHtml = rows.some(isPlayer);
     /* PC (Diego, 2026-10-20): simmetria verticale, statistiche al centro e i migliori realizzatori di ciascuna squadra dal
-       suo lato (casa a sinistra, ospite a destra); sotto 1280 px resta "Protagonisti" sotto le statistiche */
-    const sideCol = s => rows.filter(isPlayer).map(r => `<div class="ep-players"><span class="ep-form-l">${esc(r.label)}${r.sub ? ' · ' + esc(r.sub) : ''}</span>` +
+       suo lato (casa a sinistra, ospite a destra). SP-IN 2026-10-26 (Diego): anche le ultime partite stanno ai lati; sotto
+       1280 px le due colonne laterali stanno sotto le statistiche, casa a sinistra e ospite a destra */
+    const sideCol = s => rows.filter(isPlayer).map(r => r.kind === 'streak' ? streak(r, s === 'a' ? r.home : r.away, s) : `<div class="ep-players"><span class="ep-form-l">${esc(r.label)}${r.sub ? ' · ' + esc(r.sub) : ''}</span>` +
       (r.kind === 'text' ? `<div class="ep-card ep-card--${s} ep-card--html">${(s === 'a' ? r.home : r.away) || NONE}</div>` : card(s === 'a' ? H : A, s === 'a' ? r.home : r.away, s)) + '</div>').join('');
     const cta = d.cta && (d.cta.label || (live ? 'Segui il referto live' : final ? 'Vedi il referto' : 'Segui l’evento'));
     const comp = esc([d.competition, d.round].filter(Boolean).join(' · '));
@@ -206,9 +220,8 @@
 </div>
 ${statsHtml || playersHtml ? `<div class="ep-body">
   ${statsHtml ? `<section class="ep-col ep-col--stats" aria-label="Statistiche"><h3 class="ep-tag"><span>Statistiche</span></h3>${statsHtml}${d.statsNote ? `<small class="ep-note">${esc(d.statsNote)}</small>` : ''}</section>` : ''}
-  ${playersHtml ? `<section class="ep-col ep-col--players" aria-label="Protagonisti"><h3 class="ep-tag"><span>Protagonisti</span></h3>${playersHtml}</section>
-  <section class="ep-col ep-side3 ep-side3--a" aria-label="Migliori realizzatori: ${esc(H.short || H.name)}">${sideCol('a')}</section>
-  <section class="ep-col ep-side3 ep-side3--b" aria-label="Migliori realizzatori: ${esc(A.short || A.name)}">${sideCol('b')}</section>` : ''}
+  ${playersHtml ? `<section class="ep-col ep-side3 ep-side3--a" aria-label="${esc(H.short || H.name)}">${sideCol('a')}</section>
+  <section class="ep-col ep-side3 ep-side3--b" aria-label="${esc(A.short || A.name)}">${sideCol('b')}</section>` : ''}
 </div>` : ''}
 ${cta ? `<footer class="ep-actions">
   ${d.cta.act ? `<button type="button" class="ep-cta" data-act="${esc(d.cta.act)}" data-id="${esc(d.cta.id || '')}"><span>${esc(cta)}</span></button>` : `<a class="ep-cta" href="${esc(d.cta.href || '#')}"><span>${esc(cta)}</span></a>`}
