@@ -116,14 +116,14 @@
 .ep-side3--b .ep-card-v{flex-direction:row-reverse}
 .ep-side3--b .ep-card-n{max-width:100%}
 /* ultime partite: tre riquadri sulla stessa riga, il più recente verso il centro e più grande, dentro la colonna */
-.ep-streak{display:flex;align-items:center;gap:6cqi;padding:0 4cqi}
+.ep-streak{display:flex;align-items:center;gap:4cqi;padding:0 2cqi}
 .ep-streak--a{justify-content:flex-end}.ep-streak--b{justify-content:flex-start}
-.ep-st{flex:none;box-sizing:border-box;display:grid;place-items:center;aspect-ratio:1;transform:skewX(var(--ep-skew));background:var(--ep-white);border:max(2px,1.2cqi) solid var(--ep-c);color:var(--scorebox)}
+.ep-st{flex:none;box-sizing:border-box;display:grid;place-items:center;transform:skewX(var(--ep-skew));background:var(--ep-white);border:2px solid var(--ep-c);color:var(--scorebox);
+  /* SP-IN 2026-10-26 (Diego): il più grande come il riquadro dei numeri delle statistiche, gli altri via via più piccoli; dentro la colonna anche sul telefono */
+  --ep-stw:min(calc(var(--ep-row-h) * 1.7),36cqi);--k:1;width:calc(var(--ep-stw) * var(--k));height:calc(var(--ep-stw) / 1.7 * var(--k))}
 .ep-streak--a .ep-st{--ep-c:var(--ep-a)}.ep-streak--b .ep-st{--ep-c:var(--ep-b)}
-.ep-st>b{transform:skewX(var(--ep-unskew));font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;line-height:1}
-.ep-st--1{width:20cqi}.ep-st--1>b{font-size:11cqi}
-.ep-st--2{width:25cqi}.ep-st--2>b{font-size:14cqi}
-.ep-st--3{width:31cqi}.ep-st--3>b{font-size:18cqi}
+.ep-st>b{transform:skewX(var(--ep-unskew));font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;line-height:1;font-size:calc(var(--ep-stw) / 1.7 * var(--k) * .6)}
+.ep-st--1{--k:.64}.ep-st--2{--k:.8}.ep-st--3{--k:1}
 .ep-streak--a .ep-st.is-w{background:var(--ep-a);color:var(--ep-a-on)}
 .ep-streak--b .ep-st.is-w{background:var(--ep-b);color:var(--ep-b-on)}
 .ep-st.is-empty{background:none;border-style:dashed;border-color:var(--line-strong)}
