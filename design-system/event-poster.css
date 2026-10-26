@@ -159,6 +159,8 @@
 .ep-fm.is-empty{border-style:dashed}
 /* SP-IN 2026-10-26: riga dei tempi, il numero del tempo piccolo e il valore in evidenza */
 .ep-fm.ep-per{color:var(--ink)}
+/* SP-IN 2026-10-26 (Diego): contorno di ogni tempo nel colore della propria squadra, come le ultime 3 */
+.ep-form-line--a .ep-fm.ep-per{border-color:var(--ep-a)}.ep-form-line--b .ep-fm.ep-per{border-color:var(--ep-b)}
 .ep-fm.ep-per b{font-size:var(--fs-11);font-weight:800;color:var(--muted)}
 .ep-fm.ep-per span span{font-size:var(--fs-14)}
 
