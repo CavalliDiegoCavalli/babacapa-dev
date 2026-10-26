@@ -350,6 +350,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .thead .tbcol{display:flex;flex-direction:column;gap:var(--space-4)}
 .thead .tbcol .tbtn{height:clamp(30px,4.2vh,36px);justify-content:center}
 .tnote .ndot{width:8px;height:8px;border-radius:var(--radius-round);background:var(--primary);display:inline-block}
+.ntlist{list-style:none;margin:0;padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-8);max-height:46vh;overflow-y:auto}
+.ntlist li{display:flex;flex-direction:column;gap:var(--space-4)}
+.ntlist .ntfix{padding:var(--space-8) var(--space-12);background:var(--sunk);border-radius:var(--radius-md);font-size:var(--fs-14);line-height:1.4}
+.ntlist .ntfix small{color:var(--muted);font-size:var(--fs-12)}
 .pk[disabled]{opacity:.55;cursor:not-allowed;background:var(--bg)}
 .pk .vr.xo{color:var(--crit)}
 .sgalt{display:block;margin-top:var(--space-4);padding:0;height:auto;min-height:32px;font-size:var(--fs-13);color:var(--primary);text-align:left;white-space:normal}
@@ -717,9 +721,6 @@ body{font-stretch:100%;-webkit-font-smoothing:antialiased}
 .der button.miss{background:var(--crit-soft);border-color:var(--crit);color:var(--crit)}
 .der button{height:30px}
 /* firma dell'allenatore sulla lista: come le firme di fine partita */
-.lpad2{display:flex;flex-direction:column;gap:var(--space-8)}
-.lpad2 .sgrow{grid-template-columns:1fr;border-top:0;padding:0;gap:var(--space-12)}
-.lpad2.signed{border-color:var(--ok)}
 /* dialog della panchina: il pulsante resta in luce come la card del giocatore */
 .thead .tbtn.hl{position:relative;z-index:30;background:var(--surface);box-shadow:0 0 0 4px var(--A),0 10px 30px rgba(0,0,0,.35)}
 .tB .thead .tbtn.hl{box-shadow:0 0 0 4px var(--B),0 10px 30px rgba(0,0,0,.35)}
