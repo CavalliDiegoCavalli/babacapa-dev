@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SP-IN · Guida al referto · anteprima</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="referto-guide.css">
+<style>
+  @font-face{font-family:"Archivo";font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url(../fonts/archivo.woff2) format("woff2")}
+  @font-face{font-family:"JetBrains Mono";font-weight:100 800;font-display:swap;src:url(../fonts/jetbrains-mono.woff2) format("woff2")}
+  /* finto referto: solo per provare la guida (le schermate vere sono quelle dell'app) */
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:var(--font-body)}
+  .pv-bar{height:60px;display:flex;align-items:center;gap:16px;padding:0 16px;background:var(--surface);border-bottom:1px solid var(--line)}
+  .pv-bar b{font-size:17px}.pv-bar small{display:block;font-size:12px;color:var(--muted)}
+  .pv-clock{margin-left:auto;font-family:var(--font-mono);font-size:26px}
+  .pv-steps{display:flex;gap:10px;align-items:center;padding:6px 14px;border-radius:999px}
+  .pv-steps span{display:inline-flex;gap:6px;align-items:center;font-weight:700;color:var(--muted)}
+  .pv-steps i{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--line);font-style:normal;font-size:12px;color:var(--ink)}
+  .pv-steps .on{color:var(--primary)}.pv-steps .on i{background:var(--primary-fill);color:#fff}
+  .pv-main{padding:24px;display:grid;gap:16px}
+  .pv-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px}
+  .pv-2{grid-template-columns:1fr 280px}.pv-3{grid-template-columns:150px 1fr 300px}
+  .pv-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .pv-tile{height:90px;border-radius:12px;background:var(--bg);border:1px solid var(--line);display:grid;place-items:center;font-weight:800}
+  .pv-hist div{padding:10px 0;border-top:1px solid var(--line);font-size:14px}
+  .pv-top{display:flex;gap:8px;margin-left:auto}
+  .pv-wrap{max-width:720px;margin:24px auto;display:grid;gap:16px}
+  .pv-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+  .pv-sw{position:fixed;right:12px;bottom:12px;z-index:5}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="pv-sw"><button class="btn" type="button" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Tema chiaro/scuro</button></div>
+<script src="referto-guide.js"></script>
+<script>
+  const G = SPIN.refGuide, app = document.getElementById('app'), UID = 'demo';
+  const bar = (t, s, right) => `<div class="pv-bar"><span style="color:var(--primary);font-weight:700">‹ Referti</span><span><b>${t}</b><small>${s}</small></span>${right || ''}<span class="pv-clock">14:30</span></div>`;
+  const stepper = n => `<div class="pv-steps" data-guida="stepper">${['Gara', 'Squadre', 'Quintetti'].map((t, i) => `<span class="${i <= n ? 'on' : ''}"><i>${i + 1}</i>${t}</span>`).join('<span>—</span>')}</div>`;
+  const SCREENS = {
+    'prep-gara': () => bar('Prepara il referto', 'Squadra A – Squadra B', stepper(0)) + `<div class="pv-main pv-2"><div class="pv-card" style="height:420px"><h2 style="margin:0">Dati della gara</h2></div><div class="pv-card" style="height:420px">Regole della gara</div></div>`,
+    'prep-squadre': () => bar('Prepara il referto', 'Squadra A – Squadra B', stepper(1)) + `<div class="pv-main pv-2"><div class="pv-card" style="height:520px">Lista R · Arancio</div><div class="pv-card" data-guida="cosa-manca" style="align-self:start"><small style="letter-spacing:.12em;font-weight:700;color:var(--muted)">COSA MANCA · ARANCIO</small><p style="margin:8px 0 0">10/10 ok · Lista pronta</p></div></div>`,
+    'prep-quintetti': () => bar('Prepara il referto', 'Squadra A – Squadra B', stepper(2)) + `<div class="pv-main pv-2"><div class="pv-card" data-guida="quintetto"><b>Quintetto · Arancio</b><div class="pv-tiles" style="margin-top:12px">${'123456'.split('').map(n => `<div class="pv-tile">${n}</div>`).join('')}</div></div><div class="pv-card">Quintetto · Verde</div></div>`,
+    'live': () => bar('Gara 000', '1° tempo', `<span class="pv-top" data-guida="fine-tempo"><button class="btn">Chiudi il tempo</button><button class="btn">Referto</button></span>`) + `<div class="pv-main pv-3"><div style="display:grid;gap:10px;align-content:start"><div class="pv-tile" data-guida="giocatore-in-campo">11</div><div class="pv-tile">12</div><div class="pv-tile">21</div></div><div class="pv-card pv-hist" data-guida="cronologia"><b>Cronologia</b><div>14:31 · #11 canestro · 2–0</div><div>14:33 · #23 fallo</div></div><div class="pv-card">Panchina</div></div>`,
+    'firme': () => bar('Raccogli le firme', 'Gara 000 · Arancio 41 – 38 Verde') + `<div class="pv-main pv-2" style="grid-template-columns:380px 1fr"><div class="pv-card" style="height:520px">Referto</div><div class="pv-card" data-guida="firme"><b>Chi firma</b>${['1° arbitro', '2° arbitro', 'Refertista', 'Cronometrista', 'Capitano · Arancio', 'Vicecapitano · Verde'].map(r => `<div class="pv-row"><span>${r}</span><button class="btn">Tocca per firmare</button></div>`).join('')}</div></div>`,
+    'consegna': () => bar('Consegna del referto', 'Gara 000 · Arancio 41 – 38 Verde') + `<div class="pv-wrap"><div class="pv-card" data-guida="consegna"><h2 style="margin:0 0 8px">Quasi fatto</h2>${['Controlli del referto', 'Firme', 'Salvato sul dispositivo', 'Caricamento sulla piattaforma · 64%'].map(r => `<div class="pv-row">${r}</div>`).join('')}</div></div>`,
+    'consegnato': () => bar('Referto consegnato', 'Gara 000 · Arancio 41 – 38 Verde') + `<div class="pv-wrap"><div class="pv-card" style="background:var(--scorebox);color:#fff"><b style="font-size:22px">Referto consegnato</b></div>${G.voteHTML()}</div>`
+  };
+  const show = k => { app.innerHTML = SCREENS[k](); const v = app.querySelector('.rgd-vote'); if (v) G.bindVote(v, {}, true); };
+
+  function welcome(auto) {
+    app.innerHTML = bar('Referto Baskin', 'Squadra A – Squadra B') + G.welcomeHTML({ auto, muted: !!G.prefs.get(UID).mute });
+    G.bindWelcome(app, {
+      start: tour,
+      demo: () => show('prep-gara'),
+      skip: () => show('prep-gara'),
+      mute: on => G.prefs.set(UID, { mute: on })
+    });
+  }
+  function tour() {
+    G.start({
+      prepare: s => show(s.screen),
+      onExit: reason => {
+        if (reason !== 'done') return show('prep-gara');
+        G.prefs.set(UID, { done: true });
+        const box = document.createElement('div'); box.innerHTML = G.endHTML(); document.body.appendChild(box);
+        G.bindEnd(box, { again: () => { box.remove(); tour(); }, go: () => { box.remove(); show('prep-gara'); } });
+      }
+    });
+  }
+  welcome(location.hash !== '#profilo');
+</script>
+</body>
+</html>
