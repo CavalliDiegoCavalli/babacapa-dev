@@ -459,6 +459,34 @@ a.alink2{color:var(--ink);text-decoration:none}
 .ep-sec .varb{border-top:0;padding-top:0}.ep-sec .varl{display:none}
 .ep-end{padding-top:var(--space-24);border-top:1px solid var(--line)}
 @container ep (min-width:1280px){.ep-more{gap:var(--space-32);padding:var(--space-32) var(--space-40) 0}}
+/* Racconto della gara (1.32.7, Diego 2026-10-26): articolo nella scheda evento dopo le statistiche; striscia di Segreteria
+   per chi gestisce l'evento; finestra di revisione con i controlli (10-racconto-gara.js) */
+.rcx-art{display:flex;flex-direction:column;gap:var(--space-12);min-width:0}
+.rcx-kick{font-size:var(--fs-12);font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--warn)}
+.rcx-title{margin:0;font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:var(--fs-30);line-height:1;text-wrap:balance;padding-right:var(--space-4)}
+.rcx-dek{margin:0;font-size:var(--fs-17);line-height:1.45;font-weight:600;max-width:62ch}
+.rcx-by{margin:0;font-size:var(--fs-13);color:var(--muted);border-top:1px solid var(--line);padding-top:var(--space-8)}
+.rcx-body{display:flex;flex-direction:column;gap:var(--space-12)}
+.rcx-body p{margin:0;max-width:65ch;line-height:1.62;font-size:var(--fs-15)}
+.rcx-facts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border-top:2px solid var(--ink)}
+.rcx-facts>div{display:flex;flex-direction:column;gap:var(--space-4);padding:var(--space-12) 0;min-width:0}
+.rcx-facts>div+div{border-left:1px solid var(--line);padding-left:var(--space-16)}
+.rcx-facts h4{margin:0 0 var(--space-4);font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:var(--fs-17);line-height:1;padding-right:var(--space-4)}
+.rcx-facts ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:var(--space-2);font-variant-numeric:tabular-nums}
+.rcx-facts li{display:flex;justify-content:space-between;gap:var(--space-8);font-size:var(--fs-14)}
+.rcx-facts small{color:var(--muted);font-size:var(--fs-12)}
+.rcx-next{display:flex;flex-direction:column;gap:var(--space-4);padding:var(--space-12) var(--space-16);background:var(--sunk);font-size:var(--fs-14)}
+.rcx-next b{font-size:var(--fs-12);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.rcx-sign,.rcx-none{margin:0;font-size:var(--fs-13);color:var(--muted)}
+.rcx-share{gap:var(--space-8)}
+.rcx-org{display:flex;align-items:center;gap:var(--space-12);flex-wrap:wrap;padding:var(--space-8) 0;border-bottom:1px solid var(--line)}
+.rcx-ed textarea{width:100%;resize:vertical;font:inherit;line-height:1.5}
+.rcx-cks{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.rcx-ck{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-2) var(--space-12);padding:var(--space-8) 0;border-bottom:1px solid var(--line)}
+.rcx-ck>.sp-st{grid-row:span 2;align-self:start}
+.rcx-ck small{color:var(--muted);font-size:var(--fs-13);line-height:1.4}
+.rcx-ck mark{background:var(--crit-soft);color:var(--crit);font-weight:700;padding:0 var(--space-2)}
+@container ep (min-width:700px){.rcx-title{font-size:var(--fs-42)}}
 /* campionati nell'elenco Eventi (1.12): card verdi gara per gara; collegamento dalla gara al torneo o al campionato */
 .evcard.camp .evd{background:var(--warn-soft)}
 .evcard.camp .evd b{color:var(--accent-hover)}
