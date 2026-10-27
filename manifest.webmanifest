@@ -1,7 +1,7 @@
 {
-  "name": "SP-IN DEV",
-  "short_name": "SP-IN DEV",
-  "description": "Versione di prova di SP-IN, per i tester. Gli eventi creati sono veri: usare nomi di prova.",
+  "name": "Babacapa DEV",
+  "short_name": "Babacapa DEV",
+  "description": "Versione di prova di Babacapa, per i tester. Gli eventi creati sono veri: usare nomi di prova.",
   "lang": "it",
   "id": "./",
   "start_url": "./",

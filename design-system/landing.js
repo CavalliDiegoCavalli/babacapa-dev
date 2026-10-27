@@ -45,7 +45,7 @@
      Unità del disegno: 1 = 5 cm, quindi 560 × 300. */
   function court(o) {
     o = o || {};
-    const label = o.label || 'Campo da Baskin: due canestri frontali e, a metà campo sulle linee laterali, due canestri laterali alti e bassi con l’area semicircolare del pivot';
+    const label = o.label || 'Campo da basket inclusivo: due canestri frontali e, a metà campo sulle linee laterali, due canestri laterali alti e bassi con l’area semicircolare del pivot';
     const hoop = (x, y, side) => `<circle class="lpx-hp" cx="${x}" cy="${y}" r="7"/>${side ? `<circle class="lpx-hp-lo" cx="${x}" cy="${y}" r="3"/>` : ''}`;
     return `<svg class="lpx-court${o.className ? ' ' + esc(o.className) : ''}" viewBox="0 0 568 308" role="img" aria-label="${esc(label)}">
   <g transform="translate(4 4)">
@@ -96,7 +96,7 @@
   /* ---------- numeri ---------- */
   function numbers(list) {
     if (!list || !list.length) return '';
-    return `<div class="lpx-nums-wrap"><ul class="lpx-nums" aria-label="Il Baskin in numeri">${list.map(n => `<li><b>${esc(n.value)}</b><span>${esc(n.label)}</span><small>${esc(n.sub || '')}</small></li>`).join('')}</ul></div>`;
+    return `<div class="lpx-nums-wrap"><ul class="lpx-nums" aria-label="Il basket inclusivo in numeri">${list.map(n => `<li><b>${esc(n.value)}</b><span>${esc(n.label)}</span><small>${esc(n.sub || '')}</small></li>`).join('')}</ul></div>`;
   }
 
   /* ---------- ruoli ---------- */
@@ -143,7 +143,7 @@
   function pillars(p) {
     if (!p || !p.items) return '';
     const ic = [I.team, I.star, I.trophy, I.heart], col = ['var(--brand-orange)', 'var(--brand-blue)', 'var(--brand-green)', 'var(--brand-orange)'];
-    return `<section class="lpx-pil">${sec(p.title || 'I pilastri del Baskin')}<div class="lpx-pil-g">${p.items.map((x, i) => `<div class="lpx-pil-c"><b class="lpx-pil-n" aria-hidden="true">${String(i + 1).padStart(2, '0')}</b><span class="lpx-pil-i" style="color:${col[i % 4]}"><span>${ic[i % 4]}</span></span><b class="lpx-pil-h">${esc(x.title)}</b><span>${esc(x.text)}</span></div>`).join('')}</div></section>`;
+    return `<section class="lpx-pil">${sec(p.title || 'I pilastri del basket inclusivo')}<div class="lpx-pil-g">${p.items.map((x, i) => `<div class="lpx-pil-c"><b class="lpx-pil-n" aria-hidden="true">${String(i + 1).padStart(2, '0')}</b><span class="lpx-pil-i" style="color:${col[i % 4]}"><span>${ic[i % 4]}</span></span><b class="lpx-pil-h">${esc(x.title)}</b><span>${esc(x.text)}</span></div>`).join('')}</div></section>`;
   }
 
   function render(d) {

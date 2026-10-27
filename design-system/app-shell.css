@@ -21,6 +21,8 @@
   .tnav a[aria-current="page"]{background:#FFFFFF;color:#14202B}
   @media (hover:hover){.tnav a:not([aria-current="page"]):hover{background:rgba(255,255,255,.1);color:#FFFFFF}}
   .pbar .btn.ghost{color:#FFFFFF}
+  /* Babacapa (Diego, 2026-10-27): la sezione Home è il solo simbolo delle corsie */
+  .tnav a.tnav-ic .tbi{display:flex}.tnav a.tnav-ic svg{width:26px;height:26px}
   .pbar .acc-in .tbav{background:var(--brand-orange);color:#14202B}
 }
 
@@ -33,6 +35,7 @@
   #app>.tabbar a[aria-current="page"]{background:var(--action);color:var(--on-action);font-weight:800;transform:skewX(var(--skew))}
   #app>.tabbar a[aria-current="page"]>*{transform:skewX(var(--unskew))}
   #app>.tabbar a svg{width:22px;height:22px}
+  #app>.tabbar a.tb-ic svg{width:30px;height:30px}   /* Babacapa (2026-10-27): Home col solo simbolo delle corsie */
   #app>.tabbar .tbav{background:var(--sunk);color:var(--ink)}
   #app>.tabbar a[aria-current="page"] .tbav{background:var(--primary-fill);color:var(--on-fill)}
   /* Segreteria in modifica: niente barra dei tab, al suo posto la barra delle azioni (SPIN.core.ActionBar) */

@@ -30,7 +30,7 @@
   function court(w) {
     const h = Math.round(w * 308 / 568);
     const hoop = (x, y, side) => `<circle cx="${x}" cy="${y}" r="7" class="rgd-hp"/>${side ? `<circle cx="${x}" cy="${y}" r="3" class="rgd-hp-lo"/>` : ''}`;
-    return `<svg class="rgd-court" viewBox="0 0 568 308" width="${w}" height="${h}" role="img" aria-label="Campo da Baskin"><g transform="translate(4 4)">
+    return `<svg class="rgd-court" viewBox="0 0 568 308" width="${w}" height="${h}" role="img" aria-label="Campo da basket inclusivo"><g transform="translate(4 4)">
 <rect class="rgd-cf" x="0" y="0" width="560" height="300" rx="6"/>
 <g class="rgd-cl"><path d="M280 0V300"/><circle cx="280" cy="150" r="36"/>
 <path d="M0 101H116V199H0"/><path d="M116 114A36 36 0 0 1 116 186"/><path d="M560 101H444V199H560"/><path d="M444 114A36 36 0 0 0 444 186"/>
@@ -49,7 +49,7 @@ ${hoop(31.5, 150)}${hoop(528.5, 150)}${hoop(280, 12, true)}${hoop(280, 288, true
      (rgTexts nel motore del referto). */
   const COPY = {
     kicker: 'Benvenuto',
-    title: 'Guida alla compilazione del referto di gara del Baskin',
+    title: 'Guida alla compilazione del referto di gara',   // Babacapa (2026-10-27): niente "Baskin" nei testi dell'app
     lead: 'Prepari le liste, segni ogni azione con un tocco e chiudi la gara con il referto pronto da firmare. I controlli del regolamento lavorano per te.',
     duration: '2', durationUnit: 'min', durationLabel: 'la guida',
     phases: [
