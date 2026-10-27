@@ -103,3 +103,17 @@
 .rgd-ov{position:fixed;inset:0;z-index:900;display:flex;flex-direction:column;padding:var(--top-pad,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);background:var(--bg)}
 .rgd-ov>.appbar{flex:none}
 .rgd-note-ph{max-width:640px;margin:var(--space-24) auto;padding:0 var(--space-16)}
+
+/* SP-IN (2026-10-27, Diego): pulsante "Guida" accanto a quello che avvia il referto (Compila, Continua la preparazione,
+   Riprendi). Insieme occupano lo spazio del solo pulsante principale; la guida è stretta e nei colori opposti (fondo chiaro,
+   testo e bordo nel colore del principale). --rg-c: colore del pulsante principale. */
+.rgd-row{display:flex;gap:var(--space-8);align-items:stretch;min-width:0}
+.rgd-row>.btn:first-child{flex:1;min-width:0}
+.btn.rgd-btn{flex:none;gap:6px;padding:0 var(--space-12);background:var(--surface);color:var(--rg-c,var(--primary-fill));border:2px solid var(--rg-c,var(--primary-fill))}
+.btn.rgd-btn svg{width:18px;height:18px}
+.btn.rgd-btn.rgd-btn--ok{--rg-c:var(--ok-fill)}
+/* registri della v2 (pagina dell'evento): pulsanti inclinati, il fondo è nel ::before; il principale pieno è --action o --ok-fill */
+.sp[data-register] .btn.rgd-btn{color:var(--action);border:0;background:none}
+.sp[data-register] .btn.rgd-btn::before{background:var(--surface);box-shadow:inset 0 0 0 2px var(--action)}
+.sp[data-register] .btn.rgd-btn.rgd-btn--ok{color:var(--ok-fill)}
+.sp[data-register] .btn.rgd-btn.rgd-btn--ok::before{box-shadow:inset 0 0 0 2px var(--ok-fill)}

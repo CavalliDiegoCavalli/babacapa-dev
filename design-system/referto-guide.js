@@ -43,7 +43,10 @@ ${hoop(31.5, 150)}${hoop(528.5, 150)}${hoop(280, 12, true)}${hoop(280, 288, true
   }
 
   /* ---------- testi (approvati da Diego, canvas "Referto · benvenuto e guida all'uso") ----------
-     SP-IN (2026-10-26): "quarto" al posto di "tempo" (decisione di Diego del 2026-10-26: quarti in tutta l'app e nel referto). */
+     SP-IN (2026-10-27, Diego): i testi seguono le schermate e le etichette del referto ("quarto", "Chiudi", "Annulla",
+     "Correggi", "Stato", "In coda per la piattaforma"…). Ogni parola in grassetto di un passo deve comparire nella schermata
+     di quel passo (lo controlla strumenti/prova-guida.js). Referto Training cambia i testi che parlano della piattaforma
+     (rgTexts nel motore del referto). */
   const COPY = {
     kicker: 'Benvenuto',
     title: 'Guida alla compilazione del referto di gara del Baskin',
@@ -53,16 +56,16 @@ ${hoop(31.5, 150)}${hoop(528.5, 150)}${hoop(280, 12, true)}${hoop(280, 288, true
       { title: 'Prepara', sub: 'Prima della gara, al tavolo.', icon: 'list',
         items: ['Dati della gara e arbitri', 'Liste R delle due squadre: il riquadro <b>Cosa manca</b> controlla le regole', 'I sei giocatori che iniziano'] },
       { title: 'Segna', sub: 'Durante la gara, un tocco per azione.', icon: 'hand',
-        items: ['Tocca un giocatore in campo: tiri, canestri, falli', 'Tocca un giocatore in panchina per farlo entrare', 'Hai sbagliato? <b>Correggi</b> in cronologia'] },
+        items: ['Tocca un giocatore in campo: tiri, canestri, falli', 'Tocca un giocatore in panchina per farlo entrare', 'Hai sbagliato? <b>Annulla</b> o <b>Correggi</b> in cronologia'] },
       { title: 'Chiudi e firma', sub: 'A fine quarto e a fine gara.', icon: 'flag',
-        items: ['<b>Chiudi il quarto</b> quando suona la sirena', 'Raccogli le <b>firme</b> di arbitri, refertista e capitani', 'Attendi il <b>caricamento</b> e lascia un voto sul referto'] }
+        items: ['A ogni sirena tocca <b>Chiudi</b> il quarto', 'Raccogli le <b>firme</b> di arbitri, refertista, cronometrista e squadre', 'Attendi il <b>caricamento</b> e lascia un voto sul referto'] }
     ],
     start: 'Inizia la guida', demo: 'Prova con una gara di esempio', skip: 'Salta, so già come fare',
     mute: 'Non mostrare più all’apertura',
     where: 'Puoi rivedere la guida quando vuoi dal <b>Tuo profilo › Guida al referto</b>.',
     endTitle: 'Sei pronto per la gara',
     endText: 'Prepara, segna, chiudi, firma e consegna. Se hai un dubbio, rivedi la guida dal <b>Tuo profilo › Guida al referto</b>.',
-    endAgain: 'Rivedi la guida', endGo: 'Vai al referto'
+    endAgain: 'Rivedi la guida', endGo: 'Chiudi la guida'   // SP-IN (2026-10-27): era "Vai al referto"
   };
 
   /* screen = schermata del referto che l'app deve mostrare (in modalità guida, con la gara di esempio)
@@ -71,31 +74,31 @@ ${hoop(31.5, 150)}${hoop(528.5, 150)}${hoop(280, 12, true)}${hoop(280, 288, true
   const STEPS = [
     { id: 'passi', screen: 'prep-gara', target: 'stepper', place: 'bottom', icon: 'list',
       title: 'Tre passi per preparare la gara',
-      text: 'Gara, Squadre e Quintetti. Il passo completato diventa verde; puoi tornare indietro quando vuoi, fino al fischio d’inizio.' },
+      text: '<b>Gara</b>, <b>Squadre</b> e <b>Quintetti</b>. Il passo completato diventa verde con la spunta; puoi tornarci quando vuoi, fino all’inizio della gara.' },
     { id: 'regole', screen: 'prep-squadre', target: 'cosa-manca', place: 'left', icon: 'check',
       title: 'Verifica automatica delle regole',
-      text: 'Mentre scrivi la lista R, questo riquadro controlla le regole: numero di giocatori, ruoli, quota femminile, capitano. Quando è tutto verde la squadra è pronta.' },
+      text: 'Mentre scrivi la lista R, <b>Cosa manca</b> controlla le regole: numero di giocatori, ruoli, uomini e donne, numeri di maglia, capitano e vicecapitano. Quando compare <b>Lista pronta</b> la squadra è pronta.' },
     { id: 'quintetti', screen: 'prep-quintetti', target: 'quintetto', place: 'bottom', icon: 'hand',
       title: 'Quintetti iniziali',
-      text: 'Tocca i sei giocatori del quintetto iniziale. I requisiti in alto diventano verdi man mano; quelli mancanti saranno cerchiati in rosso sul referto.' },
+      text: 'Tocca i 6 giocatori che iniziano. I requisiti in campo diventano verdi man mano; sul referto il quintetto iniziale sarà cerchiato in rosso.' },
     { id: 'tocco', screen: 'live', target: 'giocatore-in-campo', place: 'right', icon: 'hand',
       title: 'Un tocco per ogni azione',
-      text: 'Tocca un giocatore in campo per segnare tiri, canestri e falli. Tocca un giocatore in panchina per farlo entrare.' },
+      text: 'Tocca un giocatore <b>In campo</b> per segnare tiri, canestri e falli. Tocca un giocatore in <b>Panchina</b> per farlo entrare.' },
     { id: 'correggi', screen: 'live', target: 'cronologia', place: 'right', icon: 'undo',
       title: 'Hai sbagliato? Si corregge',
-      text: 'Ogni azione finisce in cronologia con l’ora e il punteggio. <b>Correggi</b> la modifica o la toglie: il referto si aggiorna da solo.' },
+      text: 'Ogni azione finisce in <b>Cronologia</b> con il quarto, l’ora e il punteggio. Subito dopo, <b>Annulla</b> la toglie; più tardi <b>Correggi</b> la barra con la sigla dell’arbitro. Il referto si aggiorna da solo.' },
     { id: 'fine-tempo', screen: 'live', target: 'fine-tempo', place: 'bottom', icon: 'flag',
       title: 'Fine quarto e referto',
-      text: '<b>Chiudi il quarto</b> quando suona la sirena. In <b>Referto</b> vedi in ogni momento il modulo ufficiale; dopo il 4° quarto si passa alle firme.' },
+      text: 'A ogni sirena tocca <b>Chiudi</b> il quarto e scegli i quintetti del quarto successivo. In <b>Referto</b> vedi in ogni momento il modulo ufficiale. Dopo il 4° quarto controlli il punteggio e dichiari la partita conclusa.' },
     { id: 'firme', screen: 'firme', target: 'firme', place: 'left', icon: 'doc',
       title: 'Le firme',
-      text: 'Dopo il 4° quarto si raccolgono le firme di arbitri, refertista, cronometrista e capitani. Tocca <b>Tocca per firmare</b>, firma con il dito e conferma. Se il capitano non può, firma il vicecapitano.' },
+      text: 'Firmano gli arbitri, il refertista, il cronometrista e, per ogni squadra, l’allenatore (o il vice, o il capitano). <b>Tocca per firmare</b>, firma con il dito e conferma. Poi <b>Consegna il referto firmato</b>.' },
     { id: 'caricamento', screen: 'consegna', target: 'consegna', place: 'bottom', icon: 'check',
-      title: 'Controllo e caricamento',
-      text: 'Il referto ripassa controlli e firme, si salva sul tablet e si carica sulla piattaforma. Aspetta la spunta verde: senza rete resta al sicuro e si ricarica dopo.' },
+      title: 'Consegna e caricamento',
+      text: 'Consegnato il referto, lo <b>Stato</b> mostra partita conclusa, firme, PDF salvato sul dispositivo e invio alla piattaforma. Senza rete resta <b>In coda per la piattaforma</b> e parte da solo quando torna la connessione.' },
     { id: 'voto', screen: 'consegnato', target: 'voto', place: 'top', icon: 'star',
       title: 'Com’è andata?',
-      text: 'A consegna fatta dai un voto al referto e dicci cosa ha funzionato. Due tocchi, oppure <b>Non ora</b>.' }
+      text: 'Caricato il referto, dai un voto e dicci cosa ha funzionato. Due tocchi, oppure <b>Non ora</b>.' }
   ];
 
   /* ---------- preferenze per utente ---------- */
