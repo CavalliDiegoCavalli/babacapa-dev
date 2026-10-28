@@ -1087,12 +1087,31 @@ a.back svg{width:22px;height:22px}
 @media (hover:hover){a.back:hover{background:var(--sunk);color:var(--ink)}}
 a.back:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .acmain>a.back.acback{margin:calc(-1 * var(--space-12)) 0 calc(-1 * var(--space-12)) calc(-1 * var(--space-12))}
+/* Colori della squadra in v2 (Diego, 2026-10-28, pSqStyle in 15-): campioni quadrati inclinati, colori rapidi per entrambi i colori */
+.sqs2 .sp-sec>:not(.sp-sec-h){margin-top:var(--space-12)}
+.sqs-sws{display:flex;gap:var(--space-24);flex-wrap:wrap}
+.sqs-sw{position:relative;display:flex;align-items:center;gap:var(--space-12);cursor:pointer}
+.sqs-sw input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.sqs-chip{width:48px;height:48px;transform:skewX(var(--skew));box-shadow:0 0 0 1.5px var(--line)}
+.sqs-hex{color:var(--muted);font-variant-numeric:tabular-nums}
+.sqs-pal{display:flex;flex-direction:column;gap:var(--space-8)}
+.sqs-pal-r{display:flex;gap:var(--space-4);flex-wrap:wrap;padding-left:var(--space-4)}
+.sqs-p{width:34px;height:34px;padding:0;border:0;border-radius:var(--radius-0);transform:skewX(var(--skew));box-shadow:0 0 0 1.5px var(--line);cursor:pointer}
+.sqs-p.on{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--ink)}
+.sqprev2{max-width:520px}
 /* iPhone, app nativa (Diego, 2026-10-28): l'app arriva fino in cima e in fondo allo schermo, sotto la barra di stato
-   (visibile) e la barra Home; la fascia della tacca all'inizio della pagina ha il colore di ciò che c'è sotto (--nat-tint,
-   natTop in 24-) e scorre via con la pagina. Solo con la barra dei tab: il referto resta com'è. */
+   (visibile, sovrapposta) e la barra Home. --nat-sat = altezza della tacca, scritta da natTop (24-); nelle prove si imposta a mano.
+   Pagine normali: lo spazio della tacca è l'inizio della pagina, nel suo stesso colore, e scorre via con lei. Pagine scure a
+   tutta larghezza (Home, scheda evento, tornei e campionati): il loro fondo sale fin sotto l'ora. Solo con la barra dei tab:
+   il referto resta com'è. */
 .nat-iphone #app:has(>.tabbar){padding-top:0;padding-bottom:0}
-.nat-iphone #app:has(>.tabbar)>.page::before{content:"";display:block;height:env(safe-area-inset-top,0px);background:var(--nat-tint,transparent)}
+.nat-iphone #app:has(>.tabbar)>.page{padding-top:var(--nat-sat,0px)}
+.nat-iphone #app:has(>.tabbar)>.page:has(>.wrap-ep:not(.wrap-mgx)){padding-top:0}
+.nat-iphone .lpx-hero{padding-top:calc(22px + var(--nat-sat,0px))}
+.nat-iphone .cpx-hero-in{padding-top:calc(12px + var(--nat-sat,0px))}
+.nat-iphone .ep{padding-top:var(--nat-sat,0px)}
+.nat-iphone :is(.ep-slab,.ep-tex){top:calc(-1 * var(--nat-sat,0px));height:calc(var(--ep-slab-h) + var(--nat-sat,0px))}
 @media (max-width:899px){
   :root.nat-iphone{--tabh:calc(72px + var(--space-12) + env(safe-area-inset-bottom,0px))}
-  .nat-iphone .evx-sticky{margin-top:calc(-1 * var(--space-20) - env(safe-area-inset-top,0px));padding-top:calc(var(--space-20) + env(safe-area-inset-top,0px))}
+  .nat-iphone .evx-sticky{top:calc(-1 * var(--nat-sat,0px));margin-top:calc(-1 * var(--space-20) - var(--nat-sat,0px));padding-top:calc(var(--space-20) + var(--nat-sat,0px))}
 }
