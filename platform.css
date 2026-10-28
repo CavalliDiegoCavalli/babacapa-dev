@@ -1087,3 +1087,12 @@ a.back svg{width:22px;height:22px}
 @media (hover:hover){a.back:hover{background:var(--sunk);color:var(--ink)}}
 a.back:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .acmain>a.back.acback{margin:calc(-1 * var(--space-12)) 0 calc(-1 * var(--space-12)) calc(-1 * var(--space-12))}
+/* iPhone, app nativa (Diego, 2026-10-28): l'app arriva fino in cima e in fondo allo schermo, sotto la barra di stato
+   (visibile) e la barra Home; la fascia della tacca all'inizio della pagina ha il colore di ciò che c'è sotto (--nat-tint,
+   natTop in 24-) e scorre via con la pagina. Solo con la barra dei tab: il referto resta com'è. */
+.nat-iphone #app:has(>.tabbar){padding-top:0;padding-bottom:0}
+.nat-iphone #app:has(>.tabbar)>.page::before{content:"";display:block;height:env(safe-area-inset-top,0px);background:var(--nat-tint,transparent)}
+@media (max-width:899px){
+  :root.nat-iphone{--tabh:calc(72px + var(--space-12) + env(safe-area-inset-bottom,0px))}
+  .nat-iphone .evx-sticky{margin-top:calc(-1 * var(--space-20) - env(safe-area-inset-top,0px));padding-top:calc(var(--space-20) + env(safe-area-inset-top,0px))}
+}
