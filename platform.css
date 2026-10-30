@@ -270,6 +270,7 @@ a.maplink svg{color:var(--primary)}
 
 /* ---------- Utenti (dalla 1.7, admin e owner) ---------- */
 .tbi{position:relative;display:inline-flex}
+.ufilts{display:flex;flex-direction:column;gap:var(--space-8);margin-bottom:var(--space-12)}
 .ufilt{display:flex;flex-wrap:wrap;gap:var(--space-8)}
 .ufb{height:38px;padding:0 var(--space-16);border-radius:var(--radius-pill);border:1px solid var(--line);background:var(--surface);color:var(--muted);font:inherit;font-weight:700;font-size:var(--fs-14);cursor:pointer}
 .ufb b{color:var(--ink);margin-left:var(--space-2)}
