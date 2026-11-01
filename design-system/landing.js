@@ -7,6 +7,7 @@
      cta(c)            → invito "Vederlo dal vivo" con i prossimi eventi
      pillars(p)        → i pilastri numerati 01–04
      court(opts)       → SVG del campo da Baskin (regolamento: campo da basket + 2 canestri laterali a metà campo)
+     animate(svg, o)   → SP-IN (2026-11-01): gara simulata in continuo sul campo disegnato da court(); { stop, pause }
    Contratto dei dati: LANDING-BASKIN.md, sezione 4. Ogni link o pulsante accetta `href` oppure `attrs`
    (oggetto di attributi su un <button>), così l'app collega i propri gestori.
    Decisioni (Diego, 2026-10-21): proposta 1 "Prima serata"; il nome dello sport è "Baskin"; nessun riferimento a
@@ -151,6 +152,267 @@
     return `<div class="lpx">${hero(d.hero)}${numbers(d.numbers)}<div class="lpx-main">${roles(d.roles)}${cta(d.cta)}${pillars(d.pillars)}</div></div>`;
   }
 
+  /* ---------- gara animata sul campo (SP-IN 2026-11-01, richiesta di Diego) ----------
+     Simulazione continua e decorativa di una gara di basket inclusivo, coerente con il regolamento (Rev. 20):
+     6 giocatori per squadra (Diego: 1, 3, 3, 4, 5, 5 e 2, 3, 3, 4, 5, 5); il pivot di ogni squadra resta nell'area del
+     canestro laterale alla destra di chi attacca, non è marcato e riceve la palla consegnata da un compagno che entra
+     nell'area dopo un palleggio; nelle aree laterali entra solo chi porta la palla al pivot; i 3 tirano al canestro
+     laterale da fuori area marcati dai 3 avversari; 4 e 5 tirano ai canestri frontali, marcati dai pari ruolo. La
+     squadra A attacca a destra e ha il pivot in basso, la B il contrario. Ogni 3 tiri cambia il colore di una squadra,
+     a turno, tra giallo, verde, rosso, blu, nero e bianco (Diego), mai troppo simile all'altra. Niente punteggio né dati: solo
+     movimento. Velocità in unità del disegno (1 = 5 cm) al secondo. Si ferma fuori schermo e con la scheda nascosta;
+     con "riduci movimento" i giocatori restano fermi nello schieramento. */
+  function animate(svg, o) {
+    o = o || {};
+    if (!svg || svg.__lpxAnim) return svg && svg.__lpxAnim;
+    const NS = 'http://www.w3.org/2000/svg', W = 560, H = 300;
+    const root = svg.querySelector('g') || svg;
+    const layer = document.createElementNS(NS, 'g');
+    layer.setAttribute('class', 'lpx-anim'); layer.setAttribute('aria-hidden', 'true'); root.appendChild(layer);
+    const mk = (n, a, p) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); (p || layer).appendChild(e); return e; };
+    const rnd = (a, b) => a + Math.random() * (b - a), pick = l => l[Math.floor(Math.random() * l.length)];
+    const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+    const other = t => t === 'A' ? 'B' : 'A';
+    const mir = p => ({ x: W - p.x, y: H - p.y });
+    const HOOP = { A: { main: { x: 528.5, y: 150 }, side: { x: 280, y: 288 } }, B: { main: { x: 31.5, y: 150 }, side: { x: 280, y: 12 } } };
+    const IN = { A: -1, B: 1 };   // verso del campo rispetto al canestro laterale della squadra (A: in su)
+    const AREA = [{ x: 280, y: 0 }, { x: 280, y: 300 }], AR = 64;   // aree laterali (3 m) con un margine per il corpo
+    // posizioni d'attacco della squadra A (la B le ha specchiate)
+    const SPOT = { p: { x: 280, y: 264 }, r3a: { x: 338, y: 210 }, r3b: { x: 392, y: 268 }, f4: { x: 400, y: 138 }, f5a: { x: 452, y: 62 }, f5b: { x: 502, y: 232 } };
+    const SLOTS = { A: [['p', 1], ['r3a', 3], ['r3b', 3], ['f4', 4], ['f5a', 5], ['f5b', 5]], B: [['p', 2], ['r3a', 3], ['r3b', 3], ['f4', 4], ['f5a', 5], ['f5b', 5]] };
+    // colori delle squadre (Diego, 2026-11-01): giallo, verde, rosso, blu (più scuro del campo), nero, bianco
+    const COL = ['#ffd23f', '#2bb673', '#d7263d', '#1c3faa', '#111111', '#ffffff'];
+    const ink = c => { const n = parseInt(c.slice(1), 16), l = (0.299 * (n >> 16) + 0.587 * (n >> 8 & 255) + 0.114 * (n & 255)) / 255; return l > 0.6 ? '#14202b' : '#ffffff'; };
+    const C = { A: COL[2], B: COL[0] }; let shots = 0, turn = 'A';
+    const SPEED = { 1: 16, 2: 28, 3: 64, 4: 100, 5: 130 };   // velocità massime; il pivot di ruolo 1 si sposta solo per il tiro
+    const ACC = { 1: 40, 2: 70, 3: 150, 4: 240, 5: 300 };   // accelerazioni: partenze e frenate non sono istantanee
+    const spot = (t, s) => t === 'A' ? SPOT[s] : mir(SPOT[s]);
+
+    // giocatori
+    const P = [];
+    ['A', 'B'].forEach(t => SLOTS[t].forEach(([s, r]) => {
+      const g = mk('g', { class: 'lpx-pl lpx-pl--' + t });
+      const ci = mk('circle', { r: 9 }, g), tx = mk('text', { y: 3.4 }, g); tx.textContent = r;
+      const at = spot(t, s);
+      P.push({ t, s, r, el: g, ci, txt: tx, x: at.x, y: at.y, tx: at.x, ty: at.y, vx: 0, vy: 0, jx: 0, jy: 0, jt: 0 });
+    }));
+    function paint() { P.forEach(p => { p.ci.style.fill = C[p.t]; p.txt.style.fill = ink(C[p.t]); }); if (o.onColors) o.onColors(Object.assign({}, C)); }
+    // distanza tra colori in Lab (ΔE 1976): le due squadre devono restare ben distinguibili
+    const lab = c => { const n = parseInt(c.slice(1), 16), f = v => { v /= 255; return v > 0.04045 ? Math.pow((v + 0.055) / 1.055, 2.4) : v / 12.92; };
+      const R = f(n >> 16), G = f(n >> 8 & 255), Bl = f(n & 255), q = v => v > 0.008856 ? Math.cbrt(v) : 7.787 * v + 16 / 116;
+      const X = q((R * 0.4124 + G * 0.3576 + Bl * 0.1805) / 0.95047), Y = q(R * 0.2126 + G * 0.7152 + Bl * 0.0722), Z = q((R * 0.0193 + G * 0.1192 + Bl * 0.9505) / 1.08883);
+      return [116 * Y - 16, 500 * (X - Y), 200 * (Y - Z)]; };
+    const dE = (a, b) => { const x = lab(a), y = lab(b); return Math.hypot(x[0] - y[0], x[1] - y[1], x[2] - y[2]); };
+    function recolor() {   // ogni 3 tiri, a turno, una squadra prende un colore nuovo, lontano da quello dell'altra
+      const t = turn; turn = other(t);
+      const ok = COL.filter(c => c !== C[t] && dE(c, C[other(t)]) > 55);
+      if (ok.length) { C[t] = pick(ok); paint(); }
+    }
+    const team = t => P.filter(p => p.t === t);
+    const pl = (t, s) => P.find(p => p.t === t && p.s === s);
+    const shadow = mk('ellipse', { class: 'lpx-bs', rx: 4.5, ry: 2.2 });
+    const ball = mk('circle', { class: 'lpx-ball', r: 4.2 });
+    const flash = mk('circle', { class: 'lpx-flash', r: 7, cx: 280, cy: 150, style: 'display:none' });
+    const B = { owner: null, x: 0, y: 0, z: 0, fly: null, loose: null, flashT: -9, flashAt: { x: 0, y: 0 } };
+
+    // tempo della simulazione e attese
+    let T = 0, off = 'A', alive = true, run = false, paused = false, last = 0, mode = 'set';
+    const waits = [];
+    const wait = s => new Promise(r => waits.push({ at: T + s, r }));
+    const until = (fn, max) => new Promise(r => waits.push({ fn, r, at: T + (max || 8) }));
+    const arrive = (p, max) => until(() => dist(p, { x: p.tx, y: p.ty }) < 2.5, max || 4);
+    const go = (p, at) => { p.tx = clamp(at.x, 12, W - 12); p.ty = clamp(at.y, 12, H - 12); };   // dentro il campo (rimesse con i piedi sulla linea): niente esce dal disegno inclinato
+
+    function fly(to, dur, h, cb) {   // to: punto o giocatore (la palla lo insegue)
+      B.fly = { fx: B.x, fy: B.y, fz: B.z, to, t0: T, dur, h, cb }; B.owner = null; B.loose = null;
+    }
+    const flyP = (to, dur, h) => new Promise(r => fly(to, dur, h, r));
+    async function pass(a, b) {
+      const d = dist(a, b); await flyP(b, 0.12 + d / 340, 4 + d * 0.06); B.owner = b;
+    }
+    async function shoot(p, hoop, pm, h, dur) {
+      if (++shots % 3 === 0) setTimeout(recolor, 0);
+      B.owner = null; await wait(0.18);
+      await flyP(hoop, dur, h);
+      if (Math.random() < pm) {
+        B.flashT = T; B.flashAt = hoop; B.z = 0; await wait(0.35); return 'made';
+      }
+      const dir = hoop.x > 280 ? -1 : hoop.x < 280 ? 1 : 0, vy = hoop.y < 150 ? 1 : -1;
+      const R = hoop.y === 150 ? { x: hoop.x + dir * rnd(20, 55), y: hoop.y + rnd(-45, 45) } : { x: hoop.x + rnd(-55, 55), y: hoop.y + vy * rnd(72, 95) };
+      await flyP(R, 0.45, 12);
+      return 'miss';
+    }
+    // rimbalzo: corrono i due più vicini di ogni squadra (i pivot no); prende la palla il primo che arriva
+    async function rebound() {
+      B.loose = { vx: rnd(-14, 14), vy: rnd(-14, 14) };
+      const ch = ['A', 'B'].flatMap(t => team(t).filter(p => p.s !== 'p').sort((a, b) => dist(a, B) - dist(b, B)).slice(0, 2));
+      mode = 'loose'; let got = null;
+      await until(() => { ch.forEach(p => go(p, B)); got = ch.find(p => dist(p, B) < 7); return !!got; }, 6);
+      if (!got) got = ch[0];
+      B.owner = got; B.loose = null; mode = 'set'; return got;
+    }
+    function jitterOff(t) {
+      team(t).forEach(p => {
+        if (T < p.jt) return; p.jt = T + rnd(0.9, 3.4);
+        if (p.s === 'p') { const k = p.r === 1 ? 0 : 7; p.jx = rnd(-k, k); p.jy = rnd(-k, k); return; }
+        const cut = Math.random() < 0.25, k = cut ? 46 : rnd(8, 28);   // ogni tanto un taglio deciso, di solito piccoli aggiustamenti
+        p.jx = rnd(-k, k); p.jy = rnd(-k, k); p.eff = cut ? 1 : rnd(0.45, 0.9);
+      });
+    }
+    function placeOffense(t, hold) {
+      team(t).forEach(p => { if (p === hold || p.lock) return; const s = spot(t, p.s); go(p, { x: s.x + p.jx, y: s.y + p.jy }); });
+    }
+    function guard() {   // difesa a uomo per ruolo; i pivot restano nella loro area
+      if (mode === 'loose') return;
+      const d = other(off);
+      team(d).forEach(p => {
+        if (p.s === 'p') { const s = spot(d, 'p'); go(p, { x: s.x + p.jx * 0.5, y: s.y + p.jy * 0.5 }); return; }
+        const m = pl(off, p.s), tg = p.r === 3 ? HOOP[off].side : HOOP[off].main;
+        // il difensore vede l'attaccante con un ritardo di reazione (e ne anticipa un po' la corsa), cambia distanza nel
+        // tempo e si stacca in aiuto quando il suo uomo è lontano dalla palla
+        if (!p.seen || T >= p.rt) { p.rt = T + rnd(0.18, 0.55); p.seen = { x: m.x + m.vx * rnd(0.1, 0.35), y: m.y + m.vy * rnd(0.1, 0.35) }; if (Math.random() < 0.3) p.k = rnd(16, 30); }
+        const far = dist(m, B) > 150, k = mode === 'inbound' ? 60 : far ? (p.k || 22) + 22 : (p.k || 22);
+        const v = { x: tg.x - p.seen.x, y: tg.y - p.seen.y }, l = Math.hypot(v.x, v.y) || 1;
+        go(p, { x: p.seen.x + v.x / l * k + p.jx * 0.25, y: p.seen.y + v.y / l * k + p.jy * 0.25 });
+      });
+    }
+
+    // azioni dell'attacco
+    async function pivotPlay(c) {   // palla portata al pivot dentro l'area, poi tiro al canestro laterale alto
+      const h = HOOP[off].side, s = IN[off], pv = pl(off, 'p');
+      go(c, { x: h.x + rnd(-14, 14), y: h.y + s * 78 }); await arrive(c, 4);
+      c.carry = true; go(c, { x: pv.x + rnd(-6, 6), y: pv.y + s * 13 }); await arrive(c, 3);
+      await flyP(pv, 0.22, 2); B.owner = pv;
+      c.lock = true; const out = { x: h.x + rnd(-40, 40), y: h.y + s * 84 }; go(c, out);
+      until(() => dist(c, out) < 4, 3).then(() => { c.carry = false; c.lock = false; });
+      // il pivot esce per tirare: a volte appena fuori dalla linea continua (3 m), a volte da quella tratteggiata (3,70 m).
+      // Il ruolo 2 a volte di fronte, a volte di lato (a 90°), nella metà dell'area lontana dal canestro frontale
+      // d'attacco, così è rivolto verso di esso (Diego, 2026-11-01); il ruolo 1 tira solo di fronte al canestro
+      const ctr = { x: 280, y: s < 0 ? 300 : 0 }, rad = Math.random() < 0.5 ? 66 : 80, side90 = pv.r === 2 && Math.random() < 0.5;
+      const a = side90 ? (off === 'A' ? -1 : 1) * 1.42 : rnd(-0.1, 0.1);
+      await wait(rnd(0.2, 0.5)); go(pv, { x: ctr.x + Math.sin(a) * rad, y: ctr.y + s * Math.cos(a) * rad }); await arrive(pv, 6);
+      await wait(rnd(0.3, 0.7));
+      return { r: await shoot(pv, h, 0.58, 14, 0.6), side: true };
+    }
+    async function r3Shot(c) {   // il 3 riceve fuori area e tira al canestro laterale
+      const r3 = c.r === 3 ? c : pick(team(off).filter(p => p.r === 3)), h = HOOP[off].side, s = IN[off];
+      if (c !== r3) { await pass(c, r3); c = r3; }
+      const a = rnd(-0.9, 0.9);
+      go(c, { x: h.x + Math.sin(a) * 74, y: h.y + s * Math.cos(a) * 74 }); await arrive(c, 4); await wait(0.25);
+      return { r: await shoot(c, h, 0.45, 22, 0.75), side: true };
+    }
+    async function mainShot(c) {   // 4 o 5: penetrazione e appoggio, oppure tiro da fuori
+      if (c.r < 4) { const to = pick(team(off).filter(p => p.r >= 4)); await pass(c, to); c = to; }
+      const h = HOOP[off].main, dx = h.x > 280 ? -1 : 1;
+      if (Math.random() < 0.55) {
+        go(c, { x: h.x + dx * 24, y: h.y + rnd(-14, 14) }); await arrive(c, 4);
+        return { r: await shoot(c, h, 0.62, 14, 0.5), side: false };
+      }
+      const a = rnd(-1.1, 1.1);
+      go(c, { x: h.x + dx * Math.cos(a) * 138, y: h.y + Math.sin(a) * 138 }); await arrive(c, 4); await wait(0.3);
+      return { r: await shoot(c, h, 0.36, 40, 0.95), side: false };
+    }
+    async function possession(hold) {
+      mode = 'set';
+      const fwd = spot(off, hold.s);
+      go(hold, fwd); await until(() => dist(hold, fwd) < 6 || T < 0, 5);
+      for (let i = 0, n = 1 + Math.floor(rnd(0, 3)); i < n; i++) {
+        await wait(rnd(0.35, 0.9));
+        const to = pick(team(off).filter(p => p !== hold && p.s !== 'p'));
+        await pass(hold, to); hold = to;
+      }
+      await wait(rnd(0.2, 0.6));
+      const x = Math.random();
+      return x < 0.38 ? pivotPlay(hold) : x < 0.58 ? r3Shot(hold) : mainShot(hold);
+    }
+    // rimessa: dal fondo dopo un canestro frontale, dalla linea laterale dopo i tiri al canestro laterale
+    async function inbound(t, side) {
+      off = t; mode = 'inbound';
+      const back = HOOP[other(t)].main, s = IN[t];
+      const ib = pl(t, 'r3b');
+      const at = side ? { x: 280 - (t === 'A' ? 72 : -72), y: t === 'A' ? -3 : H + 3 } : { x: back.x + (back.x > 280 ? 14 : -14), y: back.y + 34 * s };
+      B.owner = null; B.loose = null; await flyP(at, 0.5, 6);
+      ib.lock = true; go(ib, at);
+      await until(() => dist(ib, at) < 4, 5); B.owner = ib; await wait(0.45);
+      const rc = pl(t, 'f5a'); await pass(ib, rc); ib.lock = false; mode = 'set';
+      return rc;
+    }
+
+    async function game() {
+      let hold = pl('A', 'f5a'); B.owner = hold; B.x = hold.x; B.y = hold.y;
+      while (alive) {
+        let res = await possession(hold);
+        while (alive && res.r === 'miss') {
+          const got = await rebound();
+          if (got.t !== off) { off = got.t; hold = got; mode = 'set'; res = null; break; }
+          res = await mainShot(got);
+        }
+        if (!alive) break;
+        if (res) hold = await inbound(other(off), res.side);
+      }
+    }
+
+    // movimento, palla e disegno
+    function step(dt) {
+      T += dt;
+      jitterOff('A'); jitterOff('B');
+      if (mode !== 'loose') placeOffense(off, B.owner && B.owner.t === off ? B.owner : null);
+      guard();
+      P.forEach(p => {
+        // velocità desiderata verso il bersaglio (rallenta arrivando), raggiunta con un'accelerazione limitata
+        const dx = p.tx - p.x, dy = p.ty - p.y, d = Math.hypot(dx, dy);
+        if (T >= (p.et || 0)) { p.et = T + rnd(1, 3); if (!p.eff || Math.random() < 0.5) p.eff = rnd(0.55, 1); }
+        const eff = d > 110 ? 1 : (p.eff || 0.8), want = d < 0.4 ? 0 : Math.min(SPEED[p.r] * eff, d * 2.6);
+        const ax = (d ? dx / d : 0) * want - p.vx, ay = (d ? dy / d : 0) * want - p.vy, al = Math.hypot(ax, ay), A = ACC[p.r] * dt;
+        if (al > A) { p.vx += ax / al * A; p.vy += ay / al * A; } else { p.vx += ax; p.vy += ay; }
+        p.x = clamp(p.x + p.vx * dt, 12, W - 12); p.y = clamp(p.y + p.vy * dt, 12, H - 12);
+        if (p.s !== 'p' && !p.carry) AREA.forEach(a => {   // fuori dalle aree laterali: si scivola lungo il bordo
+          const ex = p.x - a.x, ey = p.y - a.y, e = Math.hypot(ex, ey);
+          if (e < AR) { const k = AR / (e || 1); p.x = a.x + (e ? ex * k : AR); p.y = a.y + (e ? ey * k : (a.y ? -AR : AR));
+            const nx = ex / (e || 1), ny = ey / (e || 1), vn = p.vx * nx + p.vy * ny; if (vn < 0) { p.vx -= vn * nx; p.vy -= vn * ny; } }
+        });
+      });
+      if (B.fly) {
+        const f = B.fly, k = Math.min(1, (T - f.t0) / f.dur), to = f.to;
+        B.x = f.fx + (to.x - f.fx) * k; B.y = f.fy + (to.y - f.fy) * k; B.z = f.fz * (1 - k) + 4 * f.h * k * (1 - k);
+        if (k >= 1) { B.fly = null; B.z = 0; f.cb && f.cb(); }
+      } else if (B.owner) {
+        const p = B.owner, mv = Math.hypot(p.tx - p.x, p.ty - p.y) > 3;
+        const tg = HOOP[p.t].main, l = Math.hypot(tg.x - p.x, tg.y - p.y) || 1;
+        B.x = p.x + (tg.x - p.x) / l * 7; B.y = p.y + (tg.y - p.y) / l * 7 + 2;
+        B.z = mv && p.s !== 'p' ? Math.abs(Math.sin(T * 9)) * 7 : 5;   // palleggio in corsa, palla in mano da fermo
+      } else if (B.loose) {
+        B.x += B.loose.vx * dt; B.y += B.loose.vy * dt; B.loose.vx *= 0.97; B.loose.vy *= 0.97; B.z = Math.abs(Math.sin(T * 7)) * 3;
+        AREA.forEach(q => { const ex = B.x - q.x, ey = B.y - q.y, e = Math.hypot(ex, ey); if (e < AR + 6) { B.x = q.x + ex / (e || 1) * (AR + 6); B.y = q.y + ey / (e || 1) * (AR + 6); } });   // la palla vagante esce dall'area: nessuno può entrarci
+      }
+      B.x = clamp(B.x, 5, W - 5); B.y = clamp(B.y, 5, H - 5);
+      for (let i = waits.length - 1; i >= 0; i--) { const w = waits[i]; if ((w.fn && w.fn()) || T >= w.at) { waits.splice(i, 1); w.r(); } }
+    }
+    function draw() {
+      P.forEach(p => p.el.setAttribute('transform', `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`));
+      ball.setAttribute('cx', B.x.toFixed(1)); ball.setAttribute('cy', (B.y - B.z * 0.7).toFixed(1)); ball.setAttribute('r', (4.2 + B.z * 0.06).toFixed(2));
+      shadow.setAttribute('cx', B.x.toFixed(1)); shadow.setAttribute('cy', (B.y + 1.5).toFixed(1)); shadow.setAttribute('opacity', Math.max(0.12, 0.45 - B.z * 0.01).toFixed(2));
+      const fk = (T - B.flashT) / 0.6;
+      flash.style.display = fk >= 0 && fk < 1 ? '' : 'none';
+      if (fk >= 0 && fk < 1) { flash.setAttribute('cx', B.flashAt.x); flash.setAttribute('cy', B.flashAt.y); flash.setAttribute('r', (7 + fk * 18).toFixed(1)); flash.setAttribute('opacity', (1 - fk).toFixed(2)); }
+    }
+    function frame(now) {
+      if (!alive) return;
+      if (!svg.isConnected) { stop(); return; }
+      if (run && !paused) { const dt = last ? Math.min(0.05, (now - last) / 1000) : 0; last = now; step(dt); draw(); }
+      requestAnimationFrame(frame);
+    }
+    function stop() { alive = false; if (io) io.disconnect(); document.removeEventListener('visibilitychange', vis); }
+    let seen = true; const vis = () => { run = seen && !document.hidden; last = 0; };
+    const io = 'IntersectionObserver' in window ? new IntersectionObserver(e => { seen = e[0].isIntersecting; vis(); }) : null;
+    if (io) io.observe(svg); document.addEventListener('visibilitychange', vis);
+    const still = o.still || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+    paint(); B.owner = pl('A', 'f5a'); step(0); draw();
+    if (!still) { vis(); game().catch(() => {}); requestAnimationFrame(frame); }
+    return (svg.__lpxAnim = { stop, pause: v => { paused = !!v; last = 0; } });
+  }
+
   window.SPIN = window.SPIN || {};
-  window.SPIN.landing = { render, hero, numbers, roles, cta, pillars, court, onColor };
+  window.SPIN.landing = { render, hero, numbers, roles, cta, pillars, court, animate, onColor };
 })();

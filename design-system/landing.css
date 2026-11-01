@@ -39,6 +39,12 @@
 .lpx-dash{stroke-dasharray:7 6;stroke-width:2}
 .lpx-hp{fill:var(--on-stage);stroke:var(--scorebox);stroke-width:3.5}
 .lpx-hp-lo{fill:var(--scorebox)}
+/* SP-IN (2026-11-01): gara animata sul campo (SPIN.landing.animate); i colori delle squadre li mette il JS */
+.lpx-pl circle{stroke:var(--scorebox);stroke-width:1.6;transition:fill .6s}
+.lpx-pl text{font-family:var(--font-display);font-weight:900;font-style:italic;font-stretch:62%;font-size:10px;text-anchor:middle;transition:fill .6s}
+.lpx-ball{fill:var(--brand-orange);stroke:var(--scorebox);stroke-width:1.2}
+.lpx-bs{fill:var(--scorebox)}
+.lpx-flash{fill:none;stroke:var(--brand-orange);stroke-width:3}
 
 /* bottoni */
 .lpx-btn{flex:none;display:inline-flex;align-items:center;height:48px;padding:0 22px;border:0;transform:skewX(var(--lpx-skew));text-decoration:none;cursor:pointer;font-size:19px}
