@@ -177,7 +177,7 @@
     const mir = p => ({ x: W - p.x, y: H - p.y });
     const HOOP = { A: { main: { x: 528.5, y: 150 }, side: { x: 280, y: 288 } }, B: { main: { x: 31.5, y: 150 }, side: { x: 280, y: 12 } } };
     const IN = { A: -1, B: 1 };   // verso del campo rispetto al canestro laterale della squadra (A: in su)
-    const AREA = [{ x: 280, y: 0 }, { x: 280, y: 300 }], AR = 64;   // aree laterali (3 m) con un margine per il corpo
+    const AREA = [{ x: 280, y: 0 }, { x: 280, y: 300 }], AR = 68;   // aree laterali (3 m) con un margine per il corpo
     // posizioni d'attacco della squadra A (la B le ha specchiate)
     const SPOT = { p: { x: 280, y: 264 }, r3a: { x: 338, y: 210 }, r3b: { x: 392, y: 268 }, f4: { x: 400, y: 138 }, f5a: { x: 452, y: 62 }, f5b: { x: 502, y: 232 } };
     const SLOTS = { A: [['p', 1], ['r3a', 3], ['r3b', 3], ['f4', 4], ['f5a', 5], ['f5b', 5]], B: [['p', 2], ['r3a', 3], ['r3b', 3], ['f4', 4], ['f5a', 5], ['f5b', 5]] };
@@ -193,7 +193,8 @@
     const P = [];
     ['A', 'B'].forEach(t => SLOTS[t].forEach(([s, r]) => {
       const g = mk('g', { class: 'lpx-pl lpx-pl--' + t });
-      const ci = mk('circle', { r: 9 }, g), tx = mk('text', { y: 3.4 }, g); tx.textContent = r;
+      // giocatori e palla +50% (Diego, 2026-11-02)
+      const ci = mk('circle', { r: 13.5 }, g), tx = mk('text', { y: 5.1 }, g); tx.textContent = r;
       const at = spot(t, s);
       P.push({ t, s, r, el: g, ci, txt: tx, x: at.x, y: at.y, tx: at.x, ty: at.y, vx: 0, vy: 0, jx: 0, jy: 0, jt: 0 });
     }));
@@ -211,8 +212,8 @@
     }
     const team = t => P.filter(p => p.t === t);
     const pl = (t, s) => P.find(p => p.t === t && p.s === s);
-    const shadow = mk('ellipse', { class: 'lpx-bs', rx: 4.5, ry: 2.2 });
-    const ball = mk('circle', { class: 'lpx-ball', r: 4.2 });
+    const shadow = mk('ellipse', { class: 'lpx-bs', rx: 6.8, ry: 3.3 });
+    const ball = mk('circle', { class: 'lpx-ball', r: 6.3 });
     const flash = mk('circle', { class: 'lpx-flash', r: 7, cx: 280, cy: 150, style: 'display:none' });
     const B = { owner: null, x: 0, y: 0, z: 0, fly: null, loose: null, flashT: -9, flashAt: { x: 0, y: 0 } };
 
@@ -222,7 +223,7 @@
     const wait = s => new Promise(r => waits.push({ at: T + s, r }));
     const until = (fn, max) => new Promise(r => waits.push({ fn, r, at: T + (max || 8) }));
     const arrive = (p, max) => until(() => dist(p, { x: p.tx, y: p.ty }) < 2.5, max || 4);
-    const go = (p, at) => { p.tx = clamp(at.x, 12, W - 12); p.ty = clamp(at.y, 12, H - 12); };   // dentro il campo (rimesse con i piedi sulla linea): niente esce dal disegno inclinato
+    const go = (p, at) => { p.tx = clamp(at.x, 16, W - 16); p.ty = clamp(at.y, 16, H - 16); };   // dentro il campo (rimesse con i piedi sulla linea): niente esce dal disegno inclinato
 
     function fly(to, dur, h, cb) {   // to: punto o giocatore (la palla lo insegue)
       B.fly = { fx: B.x, fy: B.y, fz: B.z, to, t0: T, dur, h, cb }; B.owner = null; B.loose = null;
@@ -271,8 +272,8 @@
         const m = pl(off, p.s), tg = p.r === 3 ? HOOP[off].side : HOOP[off].main;
         // il difensore vede l'attaccante con un ritardo di reazione (e ne anticipa un po' la corsa), cambia distanza nel
         // tempo e si stacca in aiuto quando il suo uomo è lontano dalla palla
-        if (!p.seen || T >= p.rt) { p.rt = T + rnd(0.18, 0.55); p.seen = { x: m.x + m.vx * rnd(0.1, 0.35), y: m.y + m.vy * rnd(0.1, 0.35) }; if (Math.random() < 0.3) p.k = rnd(16, 30); }
-        const far = dist(m, B) > 150, k = mode === 'inbound' ? 60 : far ? (p.k || 22) + 22 : (p.k || 22);
+        if (!p.seen || T >= p.rt) { p.rt = T + rnd(0.18, 0.55); p.seen = { x: m.x + m.vx * rnd(0.1, 0.35), y: m.y + m.vy * rnd(0.1, 0.35) }; if (Math.random() < 0.3) p.k = rnd(24, 38); }
+        const far = dist(m, B) > 150, k = mode === 'inbound' ? 60 : far ? (p.k || 30) + 22 : (p.k || 30);
         const v = { x: tg.x - p.seen.x, y: tg.y - p.seen.y }, l = Math.hypot(v.x, v.y) || 1;
         go(p, { x: p.seen.x + v.x / l * k + p.jx * 0.25, y: p.seen.y + v.y / l * k + p.jy * 0.25 });
       });
@@ -366,7 +367,7 @@
         const eff = d > 110 ? 1 : (p.eff || 0.8), want = d < 0.4 ? 0 : Math.min(SPEED[p.r] * eff, d * 2.6);
         const ax = (d ? dx / d : 0) * want - p.vx, ay = (d ? dy / d : 0) * want - p.vy, al = Math.hypot(ax, ay), A = ACC[p.r] * dt;
         if (al > A) { p.vx += ax / al * A; p.vy += ay / al * A; } else { p.vx += ax; p.vy += ay; }
-        p.x = clamp(p.x + p.vx * dt, 12, W - 12); p.y = clamp(p.y + p.vy * dt, 12, H - 12);
+        p.x = clamp(p.x + p.vx * dt, 16, W - 16); p.y = clamp(p.y + p.vy * dt, 16, H - 16);
         if (p.s !== 'p' && !p.carry) AREA.forEach(a => {   // fuori dalle aree laterali: si scivola lungo il bordo
           const ex = p.x - a.x, ey = p.y - a.y, e = Math.hypot(ex, ey);
           if (e < AR) { const k = AR / (e || 1); p.x = a.x + (e ? ex * k : AR); p.y = a.y + (e ? ey * k : (a.y ? -AR : AR));
@@ -380,19 +381,19 @@
       } else if (B.owner) {
         const p = B.owner, mv = Math.hypot(p.tx - p.x, p.ty - p.y) > 3;
         const tg = HOOP[p.t].main, l = Math.hypot(tg.x - p.x, tg.y - p.y) || 1;
-        B.x = p.x + (tg.x - p.x) / l * 7; B.y = p.y + (tg.y - p.y) / l * 7 + 2;
+        B.x = p.x + (tg.x - p.x) / l * 10.5; B.y = p.y + (tg.y - p.y) / l * 10.5 + 3;
         B.z = mv && p.s !== 'p' ? Math.abs(Math.sin(T * 9)) * 7 : 5;   // palleggio in corsa, palla in mano da fermo
       } else if (B.loose) {
         B.x += B.loose.vx * dt; B.y += B.loose.vy * dt; B.loose.vx *= 0.97; B.loose.vy *= 0.97; B.z = Math.abs(Math.sin(T * 7)) * 3;
         AREA.forEach(q => { const ex = B.x - q.x, ey = B.y - q.y, e = Math.hypot(ex, ey); if (e < AR + 6) { B.x = q.x + ex / (e || 1) * (AR + 6); B.y = q.y + ey / (e || 1) * (AR + 6); } });   // la palla vagante esce dall'area: nessuno può entrarci
       }
-      B.x = clamp(B.x, 5, W - 5); B.y = clamp(B.y, 5, H - 5);
+      B.x = clamp(B.x, 7, W - 7); B.y = clamp(B.y, 7, H - 7);
       for (let i = waits.length - 1; i >= 0; i--) { const w = waits[i]; if ((w.fn && w.fn()) || T >= w.at) { waits.splice(i, 1); w.r(); } }
     }
     function draw() {
       P.forEach(p => p.el.setAttribute('transform', `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`));
-      ball.setAttribute('cx', B.x.toFixed(1)); ball.setAttribute('cy', (B.y - B.z * 0.7).toFixed(1)); ball.setAttribute('r', (4.2 + B.z * 0.06).toFixed(2));
-      shadow.setAttribute('cx', B.x.toFixed(1)); shadow.setAttribute('cy', (B.y + 1.5).toFixed(1)); shadow.setAttribute('opacity', Math.max(0.12, 0.45 - B.z * 0.01).toFixed(2));
+      ball.setAttribute('cx', B.x.toFixed(1)); ball.setAttribute('cy', (B.y - B.z * 0.7).toFixed(1)); ball.setAttribute('r', (6.3 + B.z * 0.09).toFixed(2));
+      shadow.setAttribute('cx', B.x.toFixed(1)); shadow.setAttribute('cy', (B.y + 2.2).toFixed(1)); shadow.setAttribute('opacity', Math.max(0.12, 0.45 - B.z * 0.01).toFixed(2));
       const fk = (T - B.flashT) / 0.6;
       flash.style.display = fk >= 0 && fk < 1 ? '' : 'none';
       if (fk >= 0 && fk < 1) { flash.setAttribute('cx', B.flashAt.x); flash.setAttribute('cy', B.flashAt.y); flash.setAttribute('r', (7 + fk * 18).toFixed(1)); flash.setAttribute('opacity', (1 - fk).toFixed(2)); }
