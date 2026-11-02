@@ -1151,6 +1151,32 @@ a.back:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .fx-ta .sp-input:has(textarea){height:auto;align-items:stretch;padding:var(--space-8) var(--space-12)}
 .fx-ta textarea{display:block;width:100%;min-height:calc(1.5em * 4);resize:vertical;line-height:1.5}
 @container sp (min-width:900px){.fx-kpis{grid-template-columns:repeat(4,minmax(0,1fr))}}
+/* stagione (1.34 F2) */
+.fx-states{display:flex;flex-wrap:wrap;gap:var(--space-4) 0;font-size:var(--fs-13);margin:var(--space-8) 0 var(--space-16)}
+.fx-states span{display:inline-flex;align-items:center;gap:var(--space-8);padding:var(--space-4) var(--space-12) var(--space-4) 0;color:var(--muted)}
+.fx-states span::after{content:"";width:18px;height:2px;background:var(--line-strong)}
+.fx-states span:last-child::after{display:none}
+.fx-states span.fx-ok,.fx-states span.fx-cur{color:var(--ink)}
+.fx-states span.fx-cur{font-weight:700}
+.fx-states i{width:10px;height:10px;transform:skewX(var(--skew));box-shadow:inset 0 0 0 2px currentColor;display:inline-block}
+.fx-states span.fx-ok i{background:var(--ink);box-shadow:none}
+.fx-states span.fx-cur i{background:var(--action);box-shadow:none}
+.fx-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-8);margin:0 0 var(--space-24)}
+.fx-steps a{display:block;border-top:4px solid var(--line);padding-top:var(--space-8);font-size:var(--fs-12);color:var(--muted);text-decoration:none;min-width:0;overflow-wrap:anywhere}
+.fx-steps a b{display:block;font-family:var(--font-mono);font-size:var(--fs-11)}
+.fx-steps a.fx-ok{border-color:var(--ink);color:var(--ink)}
+.fx-steps a.fx-cur{border-color:var(--primary);color:var(--ink);font-weight:700}
+.fx-lv{display:flex;align-items:flex-end;gap:var(--space-12)}
+.fx-lv .sp-field{flex:1;min-width:0}
+.fx-lv>.fx-num{padding-bottom:var(--space-12)}
+.fx-req{display:flex;flex-wrap:wrap;align-items:flex-end;gap:var(--space-8) var(--space-12);padding:var(--space-4) 0 var(--space-12);border-bottom:1px solid var(--line-soft)}
+.fx-req>.sp-choice{flex:1 1 260px;border:0}
+.fx-req>.sp-field{flex:0 1 200px}
+.fx-req.is-off .sp-choice b{color:var(--muted)}
+.fx-avv{display:flex;flex-direction:column;gap:var(--space-8);margin-bottom:var(--space-16)}
+.fx-avv .sp-note{align-items:center;flex-wrap:wrap}
+.fpx-ul{margin:0;padding-left:var(--space-20);font-size:var(--fs-14);line-height:1.6}
+@container sp (min-width:900px){.fx-steps a{font-size:var(--fs-13)}}
 /* pagine pubbliche della federazione e della sezione (1.34 F1, Tribuna) */
 .fpx{display:flex;flex-direction:column;min-width:0}
 .fpx .sp-stage{padding:var(--space-24) var(--space-16)}
