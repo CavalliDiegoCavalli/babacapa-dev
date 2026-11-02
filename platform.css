@@ -1143,3 +1143,7 @@ a.back:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .fx-file input{position:absolute;inset:0;opacity:0;cursor:pointer}
 .sp-seg>button[disabled]{opacity:.4;cursor:not-allowed}
 @container sp (min-width:900px){.fx-kpis{grid-template-columns:repeat(4,minmax(0,1fr))}}
+/* motore comune "Nuova federazione" (anche nel portale admin): modulo a due colonne su PC */
+.fm-form{display:grid;grid-template-columns:1fr;gap:var(--space-16)}
+.fm-acts{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-12)}
+@container sp (min-width:900px){.fm-form{grid-template-columns:1fr 1fr}.fm-form .fm-wide{grid-column:1 / -1}}
