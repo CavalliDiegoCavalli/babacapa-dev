@@ -1119,3 +1119,27 @@ a.back:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 /* Versione minima dell'app nativa (1.33.3): schermata "Aggiorna Babacapa" sopra tutto, finché non si aggiorna dallo store */
 .vminx{position:fixed;inset:0;z-index:1100;overflow:auto;background:var(--page);padding:calc(env(safe-area-inset-top,0px) + var(--space-24)) var(--space-16) calc(env(safe-area-inset-bottom,0px) + var(--space-24));display:flex;flex-direction:column;justify-content:center;gap:var(--space-24)}
 .vminx>*{width:100%;max-width:720px;margin:0 auto}
+
+/* ---------- Federazioni (1.34, fase F0: Diego, 2026-11-02; 26-federazione.js, mockup "Babacapa Federazione" v7) ----------
+   Righe a capo invece di tabelle: niente scorrimento orizzontale dal telefono al PC. */
+.fx-row{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-8) var(--space-12);padding:var(--space-12) 0;border-top:1px solid var(--line-soft);color:var(--ink);text-decoration:none;min-width:0}
+.fx-row>.sp-grow b{font-size:var(--fs-14)}
+.fx-row>.sp-grow small{font-size:var(--fs-12);color:var(--muted);overflow-wrap:anywhere}
+.fx-link .sp-chev{display:grid}
+.fx-found{display:flex;flex-direction:column;box-shadow:0 0 0 1px var(--line);padding:0 var(--space-12)}
+.fx-found>.fx-row:first-child{border-top:0}
+.fx-kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-16) var(--space-20)}
+.fx-kpi{border-top:2px solid var(--ink);padding-top:var(--space-8);display:flex;flex-direction:column;gap:var(--space-2);min-width:0}
+.fx-kpi b{font-family:var(--font-mono);font-size:var(--fs-30);font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+.fx-kpi span{font-size:var(--fs-13)}
+.fx-kpi small{font-size:var(--fs-12);color:var(--muted)}
+.fx-lbl{font-size:var(--fs-13);font-weight:700;margin:0 0 var(--space-8)}
+.fx-sez{display:flex;flex-direction:column;padding:var(--space-8) 0;border-top:1px solid var(--line)}
+.fx-sez-h{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-8) var(--space-12);padding:var(--space-4) 0}
+.fx-sez .fx-row{padding-left:var(--space-12)}
+.fx-add{display:flex;flex-wrap:wrap;align-items:flex-end;gap:var(--space-12);padding-top:var(--space-12)}
+.fx-add .sp-field{flex:1;min-width:200px}
+.fx-file{position:relative;overflow:hidden;cursor:pointer}
+.fx-file input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.sp-seg>button[disabled]{opacity:.4;cursor:not-allowed}
+@container sp (min-width:900px){.fx-kpis{grid-template-columns:repeat(4,minmax(0,1fr))}}
