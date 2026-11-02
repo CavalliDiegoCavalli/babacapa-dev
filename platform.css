@@ -1151,6 +1151,23 @@ a.back:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .fx-ta .sp-input:has(textarea){height:auto;align-items:stretch;padding:var(--space-8) var(--space-12)}
 .fx-ta textarea{display:block;width:100%;min-height:calc(1.5em * 4);resize:vertical;line-height:1.5}
 @container sp (min-width:900px){.fx-kpis{grid-template-columns:repeat(4,minmax(0,1fr))}}
+/* pagine pubbliche della federazione e della sezione (1.34 F1, Tribuna) */
+.fpx{display:flex;flex-direction:column;min-width:0}
+.fpx .sp-stage{padding:var(--space-24) var(--space-16)}
+.fpx-h{display:flex;align-items:center;gap:var(--space-16);min-width:0;padding-right:var(--space-40);box-sizing:border-box;max-width:calc(var(--content-max) + 2 * var(--space-32));margin:0 auto;width:100%}
+.fpx-h small{font-family:var(--font-mono);font-size:var(--fs-11);letter-spacing:.06em;text-transform:uppercase;opacity:.8}
+.fpx-h h1{margin:0;font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:clamp(34px,7vw,56px);line-height:.9;text-wrap:balance;overflow-wrap:anywhere;padding-right:var(--space-8)}
+.fpx-h p{margin:0;font-size:var(--fs-14);opacity:.85}
+.fpx-in{width:100%;max-width:calc(var(--content-max) + 2 * var(--space-32));margin:0 auto;padding:var(--space-24) var(--space-16) 0;box-sizing:border-box}
+.fpx-p{margin:0;font-size:var(--fs-14);line-height:1.55;max-width:68ch}
+.fpx-sezs{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-8)}
+.fpx-sez{display:flex;flex-direction:column;gap:var(--space-2);padding:var(--space-12) var(--space-16);background:var(--surface);color:var(--ink);text-decoration:none;box-shadow:var(--shadow-card),inset 4px 0 0 var(--primary)}
+.fpx-sez b{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:22px;padding-right:var(--space-4)}
+.fpx-sez span{font-size:var(--fs-13)}
+.fpx-sez small{font-size:var(--fs-12);color:var(--muted)}
+.fpx-fed{display:flex;align-items:center;gap:var(--space-12);color:inherit;text-decoration:none}
+.fpx-fed small{display:block;font-size:var(--fs-12);color:var(--muted)}
+@container sp (min-width:900px){.fpx .sp-stage{padding:var(--space-32)}.fpx-h{padding-right:calc(4 * var(--space-48))}.fpx-in{padding:var(--space-32) var(--space-32) 0}.fpx-sezs{grid-template-columns:repeat(3,minmax(0,1fr))}}
 /* motore comune "Nuova federazione" (anche nel portale admin): modulo a due colonne su PC */
 .fm-form{display:grid;grid-template-columns:1fr;gap:var(--space-16)}
 .fm-acts{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-12)}
