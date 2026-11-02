@@ -1142,6 +1142,14 @@ a.back:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .fx-file{position:relative;overflow:hidden;cursor:pointer}
 .fx-file input{position:absolute;inset:0;opacity:0;cursor:pointer}
 .sp-seg>button[disabled]{opacity:.4;cursor:not-allowed}
+.fx-chips{display:flex;flex-wrap:wrap;gap:var(--space-8)}
+.fx-chip{display:inline-flex;align-items:center;gap:var(--space-4);font-size:var(--fs-13);padding:var(--space-4) var(--space-8);box-shadow:inset 0 0 0 1px var(--line-strong)}
+.fx-chip button{display:grid;place-items:center;width:20px;height:20px;margin:-2px -4px -2px 0;padding:0;border:0;background:none;color:var(--muted);cursor:pointer}
+.fx-chip button:hover{color:var(--crit)}
+.fx-num{font-family:var(--font-mono);font-size:var(--fs-12);color:var(--muted);white-space:nowrap}
+.fx-list>.fx-row:first-child{border-top:0}
+.fx-ta .sp-input:has(textarea){height:auto;align-items:stretch;padding:var(--space-8) var(--space-12)}
+.fx-ta textarea{display:block;width:100%;min-height:calc(1.5em * 4);resize:vertical;line-height:1.5}
 @container sp (min-width:900px){.fx-kpis{grid-template-columns:repeat(4,minmax(0,1fr))}}
 /* motore comune "Nuova federazione" (anche nel portale admin): modulo a due colonne su PC */
 .fm-form{display:grid;grid-template-columns:1fr;gap:var(--space-16)}
