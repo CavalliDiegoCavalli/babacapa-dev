@@ -351,6 +351,15 @@ a.maplink svg{color:var(--primary)}
 .pleg li b{font-size:var(--fs-13);font-weight:700;color:var(--ink);white-space:nowrap}
 .beta{display:flex;gap:var(--space-12);align-items:flex-start;padding:var(--space-12) var(--space-16);border-radius:var(--radius-md);border:2px solid var(--warn);background:var(--warn-soft);line-height:1.45;font-size:var(--fs-14);color:var(--ink)}
 .beta .chip{flex:none;margin-top:var(--space-2)}
+/* Diego, 2026-11-03: il banner Beta è una fisarmonica chiusa (details), si apre al tocco */
+details.beta{display:block}
+details.beta>summary{display:flex;gap:var(--space-12);align-items:center;cursor:pointer;list-style:none;-webkit-user-select:none;user-select:none}
+details.beta>summary::-webkit-details-marker{display:none}
+details.beta>summary .chip{margin-top:0}
+details.beta .beta-t{flex:1}
+details.beta>summary .sp-ic{flex:none;transition:transform .15s}
+details.beta[open]>summary .sp-ic{transform:rotate(180deg)}
+details.beta .beta-p{margin:var(--space-8) 0 0}
 .rcard{display:flex;flex-direction:column;align-items:center;gap:var(--space-8)}
 .rcard .h3{margin:0;align-self:flex-start}
 .rcard>.sub{align-self:flex-start}

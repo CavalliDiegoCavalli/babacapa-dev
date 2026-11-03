@@ -28,8 +28,10 @@
 
 /* ---------- telefono: barra dei tab flottante chiara (v2) ---------- */
 @media (max-width:899px){
-  #app>.tabbar{left:calc(14px + env(safe-area-inset-left,0px));right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));
-    padding:6px 16px;gap:4px;align-items:center;border:0;border-radius:16px;
+  /* Diego, 2026-11-03: dal fondo dello schermo la stessa distanza che dai lati (anche sopra la barra di Home dell'iPhone) e
+     angoli tondi come quelli dello schermo: con 64 px di altezza il raggio dello schermo (circa 40-55 px) diventa la capsula */
+  #app>.tabbar{left:calc(14px + env(safe-area-inset-left,0px));right:calc(14px + env(safe-area-inset-right,0px));bottom:14px;
+    padding:6px 22px;gap:4px;align-items:center;border:0;border-radius:32px;
     background:var(--surface);box-shadow:0 0 0 1px var(--line),var(--shadow-dialog)}
   #app>.tabbar a{height:52px;padding:0;justify-content:center;gap:2px;color:var(--muted);font-size:var(--fs-11);font-weight:600}
   #app>.tabbar a[aria-current="page"]{background:var(--action);color:var(--on-action);font-weight:800;transform:skewX(var(--skew))}
@@ -39,6 +41,6 @@
   #app>.tabbar .tbav{background:var(--sunk);color:var(--ink)}
   #app>.tabbar a[aria-current="page"] .tbav{background:var(--primary-fill);color:var(--on-fill)}
   /* Segreteria in modifica: niente barra dei tab, al suo posto la barra delle azioni (SPIN.core.ActionBar) */
-  body.is-editing #app>.tabbar{display:none}
+  body.is-editing #app>.tabbar,body.acx-sheet #app>.tabbar{display:none}
   .sp-actionbar--fixed{position:fixed;left:0;right:0;bottom:0;z-index:40;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 }

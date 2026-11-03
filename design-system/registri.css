@@ -146,9 +146,11 @@ body[data-register="segreteria"] #app>.page{background:var(--surface)}
    mentre l'elenco scorre; ogni voce si apre in una finestra dal basso che scorre per conto suo (accShell in 05-eventi.js) */
 .acx-top{position:sticky;top:0;z-index:5;margin:calc(-1 * var(--space-20)) calc(-1 * var(--space-16)) 0}
 .acx2--home .acx-body>.sp-stage{display:none}
+/* app iPhone: la pagina parte sotto la barra di stato (padding di .page), il riquadro fermo la copre come .evx-sticky */
+.nat-iphone .acx-top{top:calc(-1 * var(--nat-sat,0px));margin-top:calc(-1 * var(--space-20) - var(--nat-sat,0px));padding-top:var(--nat-sat,0px);background:var(--stage)}
 .acx2--list .acx-body{display:none}
 .acx-scrim{position:fixed;inset:0;z-index:36;background:rgba(10,16,22,.45)}
-.acx2--sheet .acx-body{position:fixed;left:0;right:0;bottom:0;top:calc(var(--top-pad) + var(--space-24));z-index:37;
+.acx2--sheet .acx-body{position:fixed;left:0;right:0;bottom:0;top:calc(max(var(--top-pad),var(--nat-sat,0px)) + var(--space-24));z-index:37;
   overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:var(--page);box-shadow:var(--shadow-dialog);
   padding:0 max(var(--space-16),env(safe-area-inset-right,0px)) calc(var(--space-40) + env(safe-area-inset-bottom,0px)) max(var(--space-16),env(safe-area-inset-left,0px))}
 .acx2--in .acx-body{animation:acxup .2s ease-out}
