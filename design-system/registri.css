@@ -141,20 +141,41 @@ body[data-register="segreteria"] #app>.page{background:var(--surface)}
    visibile in profilo, Società, Squadre, Utenti e Impostazioni; sul telefono il menu sta sotto il profilo e altrove non c'è */
 .acx2{display:flex;flex-direction:column;gap:var(--space-24);min-width:0}
 .acx-nav{display:flex;flex-direction:column;gap:var(--space-24);min-width:0}
-.acx2--home .acx-nav{order:2}
-.acx2:not(.acx2--home) .acx-nav{display:none}
 .acx-body{display:flex;flex-direction:column;gap:var(--space-16);min-width:0}
-.acx-nav .sp-wrow[aria-current="page"]{box-shadow:inset 3px 0 0 var(--ink);padding-left:var(--space-12);background:var(--page)}
+/* telefono (Diego, 2026-11-03): il Profilo è l'elenco dei menu sotto il riquadro con sigla, nome, email e ruoli, fermo in alto
+   mentre l'elenco scorre; ogni voce si apre in una finestra dal basso che scorre per conto suo (accShell in 05-eventi.js) */
+.acx-top{position:sticky;top:0;z-index:5;margin:calc(-1 * var(--space-20)) calc(-1 * var(--space-16)) 0}
+.acx2--home .acx-body>.sp-stage{display:none}
+.acx2--list .acx-body{display:none}
+.acx-scrim{position:fixed;inset:0;z-index:36;background:rgba(10,16,22,.45)}
+.acx2--sheet .acx-body{position:fixed;left:0;right:0;bottom:0;top:calc(var(--top-pad) + var(--space-24));z-index:37;
+  overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:var(--page);box-shadow:var(--shadow-dialog);
+  padding:0 max(var(--space-16),env(safe-area-inset-right,0px)) calc(var(--space-40) + env(safe-area-inset-bottom,0px)) max(var(--space-16),env(safe-area-inset-left,0px))}
+.acx2--in .acx-body{animation:acxup .2s ease-out}
+.acx2--in .acx-scrim{animation:acxfade .18s ease-out}
+@keyframes acxfade{from{opacity:0}}
+@keyframes acxup{from{transform:translateY(32px)}}
+@media (prefers-reduced-motion:reduce){.acx2--in :is(.acx-body,.acx-scrim){animation:none}}
+.acx-shbar{position:sticky;top:0;z-index:6;display:flex;justify-content:flex-end;margin:0 calc(-1 * var(--space-16));padding:var(--space-8) var(--space-8) 0;background:var(--page)}
+.acx-sht{flex:1;align-self:center;padding-left:var(--space-8);font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:28px;line-height:.9}
+.acx-x{display:grid;place-items:center;width:44px;height:44px;color:var(--ink)}
+.acx-x svg{width:22px;height:22px}
+.acx2:not(.acx2--list) .acx-nav .sp-wrow[aria-current="page"]{box-shadow:inset 3px 0 0 var(--ink);padding-left:var(--space-12);background:var(--page)}
 @container sp (min-width:900px){
   .acx2{display:grid;grid-template-columns:var(--side-w) minmax(0,1fr);gap:var(--space-32) 48px;align-items:start}
-  .acx2 .acx-nav,.acx2:not(.acx2--home) .acx-nav{display:flex;order:0;position:sticky;top:var(--space-16)}
+  .acx2 .acx-nav{display:flex;order:0;position:sticky;top:var(--space-16)}
+  /* su PC niente elenco a sé né finestra: barra a sinistra e contenuto accanto, il riquadro del profilo solo in Impostazioni */
+  .acx-top,.acx-scrim,.acx-shbar{display:none}
+  .acx2--home .acx-body>.sp-stage{display:block}
+  .acx2--list .acx-body{display:flex}
+  .acx2--list .acx-nav .sp-wrow[aria-current="page"]{box-shadow:inset 3px 0 0 var(--ink);padding-left:var(--space-12);background:var(--page)}
+  .acx2--sheet .acx-body{position:static;overflow:visible;background:none;box-shadow:none;padding:0;animation:none}
   /* Diego, 2026-10-23: barra e contenuto scorrono ognuno per conto suo. La barra resta ferma mentre scorre la pagina (.page)
      e, se è più alta della finestra, scorre da sola senza trascinare la pagina (overscroll-behavior). Si ferma dove parte (margine di .wrap), così non si
      sposta nemmeno all'inizio. 68px = barra in alto
      su PC (app-shell.css) */
   .acx2 .acx-nav{top:var(--space-32);max-height:calc(100dvh - 68px - var(--space-48));overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;
     padding:0 var(--space-4) 0 var(--space-8);margin-left:calc(-1 * var(--space-8))}   /* lo scorrimento ritaglia: spazio a sinistra per i riquadri inclinati delle icone, senza spostare la barra */
-  .acx2 .acmain>a.back.acback{display:none}
 }
 /* tab Squadre dentro la pagina utente su PC: colonna più stretta (barra a sinistra), ma anteprima della squadra sempre a destra */
 @container sp (min-width:900px){
