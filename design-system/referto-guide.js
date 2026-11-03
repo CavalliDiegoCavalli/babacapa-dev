@@ -226,11 +226,12 @@ ${hoop(31.5, 150)}${hoop(528.5, 150)}${hoop(280, 12, true)}${hoop(280, 288, true
     if (T.el && T.el.scrollIntoView) T.el.scrollIntoView({ block: 'nearest', inline: 'nearest' });
     const last = i === tot - 1;
     const card = T.layer.querySelector('.rgd-card');
-    card.setAttribute('aria-label', `Guida, passo ${i + 1} di ${tot}`);
+    const lbl = T.o.label ? T.o.label(i, tot, s) : `Guida · ${i + 1} di ${tot}`; // SP-IN (2026-11-03): occhiello del tour e delle guide per ruolo
+    card.setAttribute('aria-label', lbl.replace(' · ', ', passo '));
     card.innerHTML = `<span class="rgd-arrow" aria-hidden="true"></span>
-  <header><span class="rgd-step">Guida · ${i + 1} di ${tot}</span><button type="button" class="rgd-exit" data-rgd="exit">Esci</button></header>
+  <header><span class="rgd-step">${esc(lbl)}</span><button type="button" class="rgd-exit" data-rgd="exit">Esci</button></header>
   <div class="rgd-body">${s.icon ? `<span class="rgd-ic">${ico(s.icon, 20)}</span>` : ''}<div><h2>${esc(s.title)}</h2><p>${s.text}</p></div></div>
-  <footer><span class="rgd-dots" aria-hidden="true">${T.o.steps.map((_, k) => `<i${k === i ? ' class="on"' : ''}></i>`).join('')}</span>
+  <footer><span class="rgd-dots" aria-hidden="true">${(d => Array.from({ length: d.n }, (_, k) => `<i${k === d.k ? ' class="on"' : ''}></i>`).join(''))(T.o.dots ? T.o.dots(i, s) : { n: tot, k: i })}</span>
     <span class="rgd-btns">${i ? '<button type="button" class="btn" data-rgd="back">Indietro</button>' : ''}${last ? '<button type="button" class="btn go" data-rgd="done">Fine</button>' : `<button type="button" class="btn primary" data-rgd="next">Avanti ${ico('right', 16, 2.4)}</button>`}</span></footer>`;
     if (T.ro) T.ro.disconnect();
     if (T.el && window.ResizeObserver) { T.ro = new ResizeObserver(() => T && place()); T.ro.observe(T.el); }
@@ -247,6 +248,7 @@ ${hoop(31.5, 150)}${hoop(528.5, 150)}${hoop(280, 12, true)}${hoop(280, 288, true
     const spot = T.layer.querySelector('.rgd-spot'), card = T.layer.querySelector('.rgd-card'), arrow = card.querySelector('.rgd-arrow');
     const vw = window.innerWidth, vh = window.innerHeight;
     const s = T.o.steps[T.i];
+    if (T.el && !T.el.isConnected) { T.el = T.o.find(s); if (T.ro) { T.ro.disconnect(); if (T.el) T.ro.observe(T.el); } } // SP-IN (2026-11-03): la pagina si è ridisegnata
     card.style.width = Math.min(s.width || (s.text.length > 150 ? 420 : 380), vw - 2 * M) + 'px';
     const cw = card.offsetWidth, ch = card.offsetHeight;
     const r0 = T.el && T.el.getBoundingClientRect();

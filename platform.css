@@ -1119,3 +1119,27 @@ a.back:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 /* Versione minima dell'app nativa (1.33.3): schermata "Aggiorna Babacapa" sopra tutto, finché non si aggiorna dallo store */
 .vminx{position:fixed;inset:0;z-index:1100;overflow:auto;background:var(--page);padding:calc(env(safe-area-inset-top,0px) + var(--space-24)) var(--space-16) calc(env(safe-area-inset-bottom,0px) + var(--space-24));display:flex;flex-direction:column;justify-content:center;gap:var(--space-24)}
 .vminx>*{width:100%;max-width:720px;margin:0 auto}
+/* Tour dell'app e guide per ruolo (2026-11-03, 25-tour-guide.js) */
+.prvbar{flex:none;display:flex;align-items:center;gap:var(--space-12);padding:var(--space-4) var(--space-16);background:var(--crit-fill);color:var(--on-fill);font-size:var(--fs-13);position:relative;z-index:5}
+.prvbar-t{flex:1;min-width:0}
+.prvbar-t b{text-transform:uppercase;letter-spacing:.08em}
+.prvbar-x{flex:none;font:inherit;font-weight:700;color:inherit;background:transparent;border:0;padding:var(--space-4) 0;text-decoration:underline;cursor:pointer}
+.tgx{position:fixed;inset:0;z-index:1050;display:flex;align-items:center;justify-content:center;padding:var(--space-16)}
+.tgx-scrim{position:absolute;inset:0;background:rgba(20,32,43,.66)}
+.tgx .tgx-card{position:relative;width:100%;max-width:420px}
+.tgx-card h2{margin:0;font-size:var(--fs-20);font-weight:800;line-height:1.2}
+.tgx-card p{margin:0;font-size:var(--fs-15);line-height:1.45;color:var(--ink)}
+.tgx-card footer{display:flex;justify-content:flex-end;gap:var(--space-12);flex-wrap:wrap}
+.tgx-mute{margin-top:var(--space-4)}
+.tgl{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;align-self:stretch;width:100%;text-align:left}
+.tgl-i{display:flex;align-items:baseline;gap:var(--space-12);padding:var(--space-12) 0;border-bottom:1px solid var(--line)}
+.tgl-i b{flex:1;min-width:0}
+.tgl-i small{color:var(--muted)}
+.tgg-l{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:var(--space-12)}
+.tgg{display:flex;flex-direction:column;gap:var(--space-4);padding:var(--space-16);border:1px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none}
+.tgg b{font-size:var(--fs-17)}
+.tgg small{color:var(--muted)}
+.tgg-s{font-size:var(--fs-14);line-height:1.4;color:var(--muted)}
+.tgg-st{font-size:var(--fs-11);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:var(--space-4)}
+.tgg-st.is-ok{color:var(--ok)}
+.tgg:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
