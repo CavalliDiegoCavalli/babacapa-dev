@@ -1212,3 +1212,28 @@ a.back:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .fx-chk{width:20px;height:20px;margin:0;accent-color:var(--action);flex:none}
 .fx-isf .sp-field{flex:0 1 240px;min-width:0}
 .fx-isf .sp-seg{flex-wrap:wrap}
+/* Federazioni, fase F6 (1.34.0-dev.10): numeri della stagione, grafici in CSS con scala lineare dal massimo della serie */
+.fx-chart{display:flex;flex-direction:column;gap:var(--space-8)}
+.fx-leg{display:flex;flex-wrap:wrap;gap:var(--space-16);font-size:var(--fs-12);color:var(--muted)}
+.fx-leg span{display:inline-flex;align-items:center;gap:var(--space-8)}
+.fx-leg i{display:inline-block;width:var(--space-8);height:var(--space-8)}
+.fx-cm{background:var(--primary)}
+.fx-cf{background:var(--type-league)}
+.fx-pyr{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:var(--space-4) var(--space-8);align-items:center;font-size:var(--fs-12)}
+.fx-pyr .fx-l,.fx-pyr .fx-r{display:flex;align-items:center;gap:var(--space-8);min-width:0}
+.fx-pyr .fx-l{justify-content:flex-end}
+.fx-pyr i{display:block;height:var(--space-16);min-width:1px}
+.fx-pyr em,.fx-bars em,.fx-cols em{font-style:normal;font-family:var(--font-mono);font-variant-numeric:tabular-nums;color:var(--ink)}
+.fx-age{text-align:center;font-family:var(--font-mono);font-size:var(--fs-11);color:var(--muted);white-space:nowrap}
+.fx-bars{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--space-8) var(--space-12);align-items:center;font-size:var(--fs-13)}
+.fx-bars>span{overflow-wrap:anywhere}
+.fx-bars i{display:block;height:var(--space-12);min-width:1px;background:var(--ink)}
+.fx-bars small{grid-column:1/-1;margin-top:calc(-1 * var(--space-4));font-size:var(--fs-12);color:var(--muted)}
+.fx-cols{display:flex;align-items:flex-end;gap:var(--space-12);height:150px;padding-top:var(--space-16);border-bottom:1px solid var(--line-strong)}
+.fx-cols div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:var(--space-4);height:100%;min-width:0}
+.fx-cols i{display:block;width:100%;max-width:56px;background:var(--line-strong)}
+.fx-cols div:last-child i{background:var(--ink)}
+.fx-cols em{font-size:var(--fs-12)}
+.fx-colx{display:flex;gap:var(--space-12);margin-top:var(--space-4)}
+.fx-colx span{flex:1;min-width:0;text-align:center;font-family:var(--font-mono);font-size:var(--fs-11);color:var(--muted);overflow-wrap:anywhere}
+.fx-nkpis{margin:var(--space-20) 0 var(--space-8)}
