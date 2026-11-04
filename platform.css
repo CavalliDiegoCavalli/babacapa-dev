@@ -1179,3 +1179,10 @@ a.back:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .uadd .uaw{grid-column:1/-1}
 .uchk{display:block;margin-top:var(--space-4);font-size:var(--fs-13)}
 .ainv{background:var(--sunk);padding:var(--space-12)}
+/* Società del profilo (1.33.7-dev.4): righe come le Squadre, con i loghi delle squadre sovrapposti e gli atleti */
+.socp-meta{display:flex;flex-direction:column;align-items:flex-end;gap:var(--space-4);flex:none}
+.socp-crests{display:inline-flex;align-items:center}
+.socp-crests .sp-crest{box-shadow:0 0 0 2px var(--c,var(--ink)),0 0 0 3px var(--surface)}
+.socp-crests .sp-crest+.sp-crest{margin-left:-6px}
+.socp-crests small{margin-left:var(--space-4)}
+.socp-n{white-space:nowrap}
