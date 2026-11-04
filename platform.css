@@ -1186,3 +1186,9 @@ a.back:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .socp-crests .sp-crest+.sp-crest{margin-left:-6px}
 .socp-crests small{margin-left:var(--space-4)}
 .socp-n{white-space:nowrap}
+/* telefono: fino a 10 loghi non stanno accanto al nome, vanno sotto (1.33.7-dev.5) */
+@media (max-width:600px){
+  .socp-row{flex-wrap:wrap;row-gap:var(--space-8)}
+  .socp-row>.sp-chev{order:2}
+  .socp-meta{order:3;flex:1 0 100%;flex-direction:row;align-items:center;justify-content:space-between;padding-left:48px}
+}
