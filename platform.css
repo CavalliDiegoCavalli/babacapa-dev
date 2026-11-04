@@ -349,17 +349,6 @@ a.maplink svg{color:var(--primary)}
 .pleg li i{width:12px;height:12px;border-radius:var(--radius-xs);align-self:center}
 .pleg li span{color:var(--ink);white-space:nowrap}
 .pleg li b{font-size:var(--fs-13);font-weight:700;color:var(--ink);white-space:nowrap}
-.beta{display:flex;gap:var(--space-12);align-items:flex-start;padding:var(--space-12) var(--space-16);border-radius:var(--radius-md);border:2px solid var(--warn);background:var(--warn-soft);line-height:1.45;font-size:var(--fs-14);color:var(--ink)}
-.beta .chip{flex:none;margin-top:var(--space-2)}
-/* Diego, 2026-11-03: il banner Beta è una fisarmonica chiusa (details), si apre al tocco */
-details.beta{display:block}
-details.beta>summary{display:flex;gap:var(--space-12);align-items:center;cursor:pointer;list-style:none;-webkit-user-select:none;user-select:none}
-details.beta>summary::-webkit-details-marker{display:none}
-details.beta>summary .chip{margin-top:0}
-details.beta .beta-t{flex:1}
-details.beta>summary .sp-ic{flex:none;transition:transform .15s}
-details.beta[open]>summary .sp-ic{transform:rotate(180deg)}
-details.beta .beta-p{margin:var(--space-8) 0 0}
 .rcard{display:flex;flex-direction:column;align-items:center;gap:var(--space-8)}
 .rcard .h3{margin:0;align-self:flex-start}
 .rcard>.sub{align-self:flex-start}
@@ -1152,3 +1141,38 @@ a.back:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .tgg-st{font-size:var(--fs-11);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:var(--space-4)}
 .tgg-st.is-ok{color:var(--ok)}
 .tgg:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+/* Società, squadre nuove e inviti (Diego, 2026-11-04, 1.33.7) */
+.sosub{display:inline-flex;flex-wrap:wrap;gap:var(--space-12);align-items:center}
+.sopage .sp-main{display:flex;flex-direction:column;gap:var(--space-32)}
+.somiss,.soro{gap:var(--space-12);align-items:center;flex-wrap:wrap}
+.soro{background:var(--sunk);padding:var(--space-8) var(--space-12);color:var(--muted);font-size:var(--fs-13)}
+.sostf{display:flex;flex-direction:column;gap:var(--space-12)}
+.sotm{gap:var(--space-8);align-items:center;color:inherit;text-decoration:none}
+.ivbox{display:flex;flex-direction:column;gap:var(--space-8)}
+.ivrow{gap:var(--space-12);align-items:center;padding:var(--space-8) 0;border-bottom:1px solid var(--line-soft)}
+.ivrow .sp-col{gap:2px;min-width:0}
+.ivrow small{color:var(--muted)}
+.ivalt{margin:var(--space-4) 0 0}
+.ivsel{display:flex;flex-direction:column;gap:var(--space-4);margin-top:var(--space-12)}
+.ivsel .overline{color:var(--muted);font-size:var(--fs-11);font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.sqncol .label{font-size:var(--fs-13)}
+.ivok,.uchk.ok{color:var(--ok)}
+.ivno,.uchk.no{color:var(--crit)}
+.ivok,.ivno{display:flex;gap:var(--space-4);align-items:center}
+.ivdlg,.sodlg{display:flex;flex-direction:column;gap:var(--space-20)}
+.ivfoot{gap:var(--space-16);align-items:center}
+.sodel{gap:var(--space-16);align-items:center;border-top:1px solid var(--line-soft);padding-top:var(--space-16)}
+.sologo,.sqnlogo{gap:var(--space-16);align-items:center}
+.socom{position:relative}
+.socomL{border:1px solid var(--line-strong);background:var(--surface);box-shadow:var(--shadow-dialog);margin-top:var(--space-4);display:flex;flex-direction:column}
+.socomL[hidden]{display:none!important}
+.socomL button{display:flex;justify-content:space-between;gap:var(--space-12);padding:var(--space-8) var(--space-12);border:0;background:none;text-align:left;font:inherit;color:var(--ink);cursor:pointer}
+.socomL button:hover,.socomL button:focus{background:var(--sunk)}
+.sqncols{gap:var(--space-24);flex-wrap:wrap}
+.sqncol{gap:var(--space-8);align-items:center;cursor:pointer}
+.sqncol input[type=color]{width:var(--space-32);height:var(--space-32);padding:0;border:1px solid var(--line);background:none}
+.sqminv{display:flex;flex-direction:column;gap:var(--space-8);margin-top:var(--space-12)}
+.uadd{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-12)}
+.uadd .uaw{grid-column:1/-1}
+.uchk{display:block;margin-top:var(--space-4);font-size:var(--fs-13)}
+.ainv{background:var(--sunk);padding:var(--space-12)}

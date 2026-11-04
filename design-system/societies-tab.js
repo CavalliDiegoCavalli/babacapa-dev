@@ -59,6 +59,14 @@
     let body = '';
     /* SP-IN (2026-10-21): stato della società ancora in lettura (s.loading), per non mostrare "Tutto in regola" prima dei dati */
     if (s.manager && s.loading) body = `<div class="stx-todo stx-todo--wait"><span class="stx-mut">${esc(typeof s.loading === 'string' ? s.loading : 'Lettura della società…')}</span></div>`;
+    /* SP-IN (2026-11-04): dalla 1.33.7 la società non ha documenti né affiliazioni: squadre e ASD manager (s.simple) */
+    else if (s.manager && s.simple) {
+      const tm = s.teams || [];
+      body = `<div class="stx-facts">
+        ${fact('Squadre', `<span class="stx-crests">${tm.slice(0, 5).map((x, i) => crest(x.team || x, i)).join('')}</span><b class="stx-n">${tm.length}</b>`, s.teamsSub ? `<small class="stx-mut">${esc(s.teamsSub)}</small>` : '')}
+        ${fact('ASD manager', `<b class="stx-n">${esc(s.managers || 0)}</b>`)}
+      </div>`;
+    }
     else if (s.manager) {
       const t = s.todo;
       const todo = t && t.count ? tag(t, 'stx-todo', `${st('warn', '')}<span class="stx-grow"><b class="stx-todo-t">${esc(t.title || 'Da sistemare')}</b> <span class="stx-mut">· ${esc(t.count)} ${t.count === 1 ? 'cosa' : 'cose'}</span>${(t.items || []).length ? `<br><small>${t.items.map(esc).join(' · ')}</small>` : ''}</span><span class="stx-chev">${I.chev}</span>`)
