@@ -76,7 +76,9 @@
   </section>`;
   }
 
-  /* ---------- intestazione ---------- */
+  /* ---------- intestazione ----------
+     SP-IN (2026-11-05): sigla accanto al nome (i.sigla), pulsante piccolo accanto al nome (i.after, es. "Storico" dell'atleta),
+     riga di testo sotto il nome (i.line) e sottotitolo con la società (i.club) prima del campo (i.place) */
   function intro(i) {
     i = i || {};
     const mark = i.society
@@ -86,8 +88,9 @@
     return `<div class="mgx-intro mgx-o-intro">
     ${i.back ? tag(i.back, 'mgx-back', `${I.left}<span>${esc(i.back.label)}</span>`) : ''}
     ${i.kicker ? `<span class="mgx-kick">${esc(i.kicker)}</span>` : ''}
-    <div class="mgx-name">${mark}<h1>${esc(i.title)}</h1>${edit}</div>
-    ${i.place ? `<p class="mgx-place">${I.pin}<span>${esc(i.place)}</span></p>` : ''}
+    <div class="mgx-name">${mark}<h1>${esc(i.title)}</h1>${i.sigla ? `<span class="mgx-sigla" title="Sigla">${esc(i.sigla)}</span>` : ''}${i.after ? btn(Object.assign({}, i.after), true) : ''}${edit}</div>
+    ${i.line ? `<p class="mgx-place mgx-line">${esc(i.line)}</p>` : ''}
+    ${i.club || i.place ? `<p class="mgx-place">${i.club ? `<span class="mgx-club">${esc(i.club)}</span>` : ''}${i.place ? `${I.pin}<span>${esc(i.place)}</span>` : ''}</p>` : ''}
     ${(i.actions || []).length ? `<div class="mgx-acts">${i.actions.map(a => btn(a)).join('')}</div>` : ''}
   </div>`;
   }
@@ -179,8 +182,11 @@
       ['Falli', 'Falli tecnici', 'sul totale dei falli, partite di campionato', v => pct(v.tech), g.league]
     ];
   }
+  /* SP-IN (2026-11-05): s.columns = [{ label, v: Valori }] sostituisce Squadra + Ruolo 1…5 (scheda dell'atleta: atleta,
+     media del ruolo, media della squadra); la prima colonna è quella in evidenza e la sola sul telefono */
   function stats(s) {
     s = s || {};
+    if (s.columns) return statsCols(s);
     const T = s.team || {}, R = s.roles || {}, rows = statRows(s.games);
     let tb = '', grp = null;
     rows.forEach(([gr, lab, det, f, n]) => {
@@ -201,6 +207,28 @@
     return `<div class="mgx-stats">
     <table class="mgx-tbl mgx-stbl mgx-wide"><thead><tr><th><span class="mgx-sr">Statistica</span></th><th class="mgx-team">Squadra</th>${[1, 2, 3, 4, 5].map(r => `<th>Ruolo ${r}</th>`).join('')}</tr></thead><tbody>${tb}</tbody></table>
     <div class="mgx-narrow">${li}<small class="mgx-note">${esc(s.narrowNote || 'Le statistiche per ruolo sono nella vista PC.')}</small></div>
+  </div>`;
+  }
+
+  function statsCols(s) {
+    const C = s.columns, rows = statRows(s.games), T = C[0].v || {};
+    let tb = '', grp = null;
+    rows.forEach(([gr, lab, det, f, n]) => {
+      if (gr !== grp) { grp = gr; tb += `<tr class="mgx-grp"><th colspan="${C.length + 1}" scope="colgroup">${esc(gr)}</th></tr>`; }
+      tb += `<tr><th scope="row">${esc(lab)}${det ? ` <small class="mgx-mut">· ${esc(det)}</small>` : ''}${games(n)}</th>${C.map((c, k) => `<td${k ? '' : ' class="mgx-team"'}>${f(c.v || {})}</td>`).join('')}</tr>`;
+    });
+    let li = ''; grp = null;
+    rows.forEach(([gr, lab, det, f, n, kind]) => {
+      if (gr !== grp) { grp = gr; li += `<div class="mgx-st-g">${esc(gr)}</div>`; }
+      if (kind === 'q') {
+        if (det.startsWith('1')) li += `<div class="mgx-st-r mgx-st-r--q"><span class="mgx-mut">Punti medi per quarto${games(n)}</span><div class="mgx-qs">${[0, 1, 2, 3].map(k => `<span><small>${k + 1}° quarto</small><b>${dec((T.q || [])[k])}</b></span>`).join('')}</div></div>`;
+        return;
+      }
+      li += `<div class="mgx-st-r"><span class="mgx-mut">${esc(lab)}${det ? `<br><small>${esc(det)}</small>` : ''}${games(n)}</span><b>${f(T)}</b></div>`;
+    });
+    return `<div class="mgx-stats">
+    <table class="mgx-tbl mgx-stbl mgx-wide"><thead><tr><th><span class="mgx-sr">Statistica</span></th>${C.map((c, k) => `<th${k ? '' : ' class="mgx-team"'}>${esc(c.label)}</th>`).join('')}</tr></thead><tbody>${tb}</tbody></table>
+    <div class="mgx-narrow">${li}${s.narrowNote ? `<small class="mgx-note">${esc(s.narrowNote)}</small>` : ''}</div>
   </div>`;
   }
 
@@ -269,7 +297,7 @@
      telefono (classi mgx-o-*). */
   function page(kind, d, main, side) {
     const c = d.color || (d.team && d.team.color) || INK;
-    return `<div class="mgx mgx--${kind}" style="--c:${esc(c)};--c-on:${onColor(c)}">
+    return `<div class="mgx mgx--${kind}${d.cls ? ' ' + d.cls : ''}" style="--c:${esc(c)};--c-on:${onColor(c)}">
   <div class="mgx-grid">
     ${main.intro}${main.todo}
     <div class="mgx-main">${main.cols.join('')}</div>
@@ -283,12 +311,15 @@
   function teamPage(d) {
     d = d || {};
     const t = d.team || {}, c = t.color || INK, x = d.extras || {};
-    const i = intro({ team: t, title: t.name, kicker: d.kicker, back: d.back, place: d.place, edit: d.edit, actions: d.actions });
+    const i = intro({ team: t, title: t.name, sigla: d.sigla, club: d.club, kicker: d.kicker, back: d.back, place: d.place, edit: d.edit, actions: d.actions });
     const ath = sec({ key: 'ath', title: 'Atleti', extra: x.athletes, extraWide: true, action: d.addAthlete, inner: athletes(d.athletes, c) });
     const stf = sec({ key: 'stf', title: 'Staff', extra: x.staff, extraWide: true, action: d.addStaff, inner: staff(d.staff) });
-    const sts = sec({ key: 'sts', title: 'Statistiche', extra: 'squadra e per ruolo', extraWide: true, extraNarrow: 'della squadra', inner: stats(d.stats) });
+    const sts = d.stats === null ? '' : sec({ key: 'sts', title: 'Statistiche', extra: 'squadra e per ruolo', extraWide: true, extraNarrow: 'della squadra', inner: stats(d.stats) });
     const evs = sec({ key: 'evs', title: 'Eventi', extra: x.events, extraWide: true, inner: events(d.events) });
-    return page('team', { color: c }, { intro: i, todo: todo(d.todo), cols: [ath, sts] }, [stf, evs]);
+    /* SP-IN (2026-11-05, Diego): senza "Da sistemare" (d.todo null) l'intestazione prende tutta la riga; d.statsFirst mette
+       le statistiche prima degli atleti, anche sul telefono */
+    return page('team', { color: c, cls: [d.todo ? '' : 'mgx--notodo', d.statsFirst ? 'mgx--stfirst' : ''].filter(Boolean).join(' ') },
+      { intro: i, todo: d.todo ? todo(d.todo) : '', cols: d.statsFirst ? [sts, ath] : [ath, sts] }, [stf, evs]);
   }
 
   /* d = { society: { name, monogram?, color }, kicker, back, edit, actions: [btn], todo: { items }, docs: [], affiliations: [],
@@ -305,5 +336,5 @@
   }
 
   window.SPIN = window.SPIN || {};
-  window.SPIN.manage = { teamPage, societyPage, intro, todo, section: sec, athletes, staff, stats, events, docs, affiliations, teams, athleteDocs, onColor };
+  window.SPIN.manage = { teamPage, societyPage, intro, todo, section: sec, athletes, staff, stats, events, page, docs, affiliations, teams, athleteDocs, onColor };
 })();

@@ -207,3 +207,12 @@
 }
 /* SP-IN (2026-10-21): intestazione dell'affiliazione che apre la sua pagina */
 .mgx-aff-h--lk{width:100%;border:0;background:none;color:inherit;font:inherit;text-align:left;text-decoration:none;cursor:pointer}
+/* SP-IN (2026-11-05, Diego): sigla accanto al nome, società nel sottotitolo prima del campo, pagina della squadra senza
+   "Da sistemare" (l'intestazione prende tutta la riga) e con le statistiche prima degli atleti */
+.mgx-place{flex-wrap:wrap}
+.mgx-club{font-weight:700;margin-right:var(--space-8)}
+.mgx-sigla{flex:none;padding:2px var(--space-8);box-shadow:inset 0 0 0 1.5px var(--c);font-family:var(--display);font-stretch:var(--display-w);font-weight:800;font-size:var(--fs-14);letter-spacing:.08em;color:var(--ink)}
+.mgx--stfirst .mgx-o-sts{order:3}.mgx--stfirst .mgx-o-ath{order:4}
+@container mgx (min-width:900px){
+  .mgx--notodo .mgx-o-intro{grid-column:1/-1}
+}
