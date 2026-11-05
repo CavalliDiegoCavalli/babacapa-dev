@@ -71,7 +71,7 @@
     const x = s.extra ? `<span class="mgx-sec-x${s.extraWide ? ' mgx-wide' : ''}">${esc(s.extra)}</span>` : '';
     const xs = s.extraNarrow ? `<span class="mgx-sec-x mgx-narrow">${esc(s.extraNarrow)}</span>` : '';
     return `<section class="mgx-sec mgx-o-${esc(s.key || 'x')}"${s.id ? ` id="${esc(s.id)}"` : ''}>
-    <div class="mgx-sec-h"><h2>${esc(s.title)}</h2><span class="mgx-dash" aria-hidden="true"></span>${x}${xs}<span class="mgx-grow"></span>${s.action ? `<span class="mgx-wide">${btn(s.action, true)}</span>` : ''}</div>
+    <div class="mgx-sec-h"><h2>${esc(s.title)}</h2><span class="mgx-dash" aria-hidden="true"></span>${x}${xs}<span class="mgx-grow"></span>${s.action ? `<span class="mgx-sec-a">${btn(s.action, true)}</span>` : ''}</div>
     ${s.inner || ''}
   </section>`;
   }
@@ -82,7 +82,7 @@
      apre le mappe */
   function intro(i) {
     i = i || {};
-    const mark = i.society
+    const mark = i.mark ? i.mark : i.society
       ? `<span class="mgx-mono" style="--c:${esc(i.color || INK)}" aria-hidden="true"><b>${esc(i.monogram || initials(i.title))}</b></span>`
       : crest(i.team || { name: i.title, color: i.color }, 'mgx-crest');
     const edit = i.edit ? tag(i.edit, 'mgx-edit', `<span>${I.pencil}<b>${esc(i.edit.label || 'Modifica')}</b></span>`, ` aria-label="${esc(i.edit.ariaLabel || 'Modifica ' + (i.society ? 'la società' : 'la squadra'))}"`) : '';
@@ -126,23 +126,25 @@
     const role = a => a.role != null ? a.role : Math.floor(Number(a.num) / 10);
     const rows = list.map(a => {
       const [mk, mt, ms] = medTxt(a.medical);
-      const link = a.href || a.attrs ? tag(a, 'mgx-rowlink', `<span class="mgx-sr">Apri ${esc(a.name)}</span>${I.chev}`) : '';
-      return `<tr><td><b class="mgx-num">${esc(a.num)}</b></td><td><b>${esc(a.name)}</b></td><td class="mgx-mut">Ruolo ${esc(role(a))}</td><td>${cardCell(a)}</td>
-        <td>${st(mk, mt)}${ms ? `<small class="mgx-sub">${esc(ms)}</small>` : ''}</td><td>${a.release === 'ok' ? st('ok', 'Firmata') : st('warn', 'Da caricare')}</td><td class="mgx-r">${link}</td></tr>`;
+      /* SP-IN (2026-11-05, Diego): la scheda dell'atleta si apre dal nome, niente ">" in fondo alla riga */
+      const nm = a.href || a.attrs ? tag(a, 'mgx-alink', `<b>${esc(a.name)}</b>`) : `<b>${esc(a.name)}</b>`;
+      return `<tr><td><b class="mgx-num">${esc(a.num)}</b></td><td>${nm}</td><td class="mgx-mut">Ruolo ${esc(role(a))}</td><td>${cardCell(a)}</td>
+        <td>${st(mk, mt)}${ms ? `<small class="mgx-sub">${esc(ms)}</small>` : ''}</td><td>${a.release === 'ok' ? st('ok', 'Firmata') : st('warn', 'Da caricare')}</td></tr>`;
     }).join('');
     const items = list.map(a => {
       const [mk, mt] = medTxt(a.medical), iss = [];
       if (!(a.card && a.card.number)) iss.push(st(a.card && a.card.state || 'warn', a.card && a.card.text ? 'Tessera: ' + a.card.text.toLowerCase() : 'Tessera in ordine'));
       if (mk === 'warn' || mk === 'crit') iss.push(st(mk, 'Visita ' + mt));
       if (a.release !== 'ok') iss.push(st('warn', 'Liberatoria da caricare'));
+      const nm = a.href || a.attrs ? tag(a, 'mgx-alink', `<b>${esc(a.name)}</b>`) : `<b>${esc(a.name)}</b>`;
       const inner = `<b class="mgx-num">${esc(a.num)}</b><span class="mgx-grow mgx-col">
-          <b>${esc(a.name)} <small class="mgx-mut">· Ruolo ${esc(role(a))}</small></b>
+          <span>${nm} <small class="mgx-mut">· Ruolo ${esc(role(a))}</small></span>
           ${a.card && a.card.number ? `<small class="mgx-mut">Tessera <span class="mgx-mono-t">${esc(a.card.number)}</span></small>` : ''}
-          ${iss.length ? `<span class="mgx-iss">${iss.join('')}</span>` : st('ok', 'Documenti in regola')}</span>${chev()}`;
-      return a.href || a.attrs ? tag(a, 'mgx-li', inner) : `<div class="mgx-li">${inner}</div>`;
+          ${iss.length ? `<span class="mgx-iss">${iss.join('')}</span>` : st('ok', 'Documenti in regola')}</span>`;
+      return `<div class="mgx-li">${inner}</div>`;
     }).join('');
     return `<div class="mgx-ath" style="--c:${esc(color || INK)}">
-    <table class="mgx-tbl mgx-wide"><thead><tr><th>#</th><th>Atleta</th><th>Ruolo</th><th>Tessera</th><th>Visita medica</th><th>Liberatoria</th><th><span class="mgx-sr">Apri</span></th></tr></thead><tbody>${rows}</tbody></table>
+    <table class="mgx-tbl mgx-wide"><thead><tr><th>#</th><th>Atleta</th><th>Ruolo</th><th>Tessera</th><th>Visita medica</th><th>Liberatoria</th></tr></thead><tbody>${rows}</tbody></table>
     <div class="mgx-narrow">${items}</div>
   </div>`;
   }
@@ -241,9 +243,15 @@
     const hc = H.color || INK, ac = A.color || INK;
     return `<span class="mgx-bug${date ? ' mgx-bug--d' : ''}" aria-hidden="true"><span style="--x:${esc(hc)};--x-on:${onColor(hc)}"><b>${esc(abbr(H))}</b></span><span class="mgx-bug-m">${date ? `<small>${esc(date)}</small>` : ''}<b>${esc(time || '—')}</b></span><span style="--x:${esc(ac)};--x-on:${onColor(ac)}"><b>${esc(abbr(A))}</b></span></span>`;
   }
+  /* SP-IN (2026-11-05, Diego): con e.when la gara è la miniatura "SIG vs SIG", sotto il giorno per esteso ("giovedì
+     5 novembre") e sotto il pulsante della convocazione (e.conv.action) */
   function events(list) {
     list = list || [];
     if (!list.length) return '<div class="mgx-empty">Nessun evento in programma.</div>';
+    if (list[0].when) return list.map(e => {
+      const H = e.home || {}, A = e.away || {}, title = `${H.name || ''} – ${A.name || ''}`;
+      return `<div class="mgx-ev mgx-ev--c">${tag(e, 'mgx-ev-a', bug(H, A, 'vs'), ` aria-label="${esc(`${title}, ${e.when}`)}" title="${esc(title)}"`)}<span class="mgx-ev-d">${esc(e.when)}</span>${e.conv && e.conv.action ? `<span>${btn(e.conv.action, true)}</span>` : ''}</div>`;
+    }).join('');
     return list.map(e => {
       const H = e.home || {}, A = e.away || {}, title = `${H.short || H.name || ''} – ${A.short || A.name || ''}`;
       const cv = e.conv;
