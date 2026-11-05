@@ -1251,3 +1251,8 @@ a.back:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .atx-num i{font-style:inherit}
 .atx-num i.lt{text-shadow:0 0 1px var(--ink),0 0 1px var(--ink),0 0 1px var(--ink)}
 @container mgx (min-width:900px){.mgx .mgx-crest.atx-num>b{font-size:calc(var(--fs-20) * 3.2)}}
+/* Staff della società (Diego, 2026-11-05): righe che aprono il ruolo del membro, come lo Staff delle squadre */
+.sostf{width:100%;border:0;border-bottom:1px solid var(--line-soft);background:none;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.sostf:hover,.sostf:focus-visible{background:var(--sunk)}
+.sostf .sp-col{align-items:flex-start}
+.soplus{min-width:var(--space-32);justify-content:center}
