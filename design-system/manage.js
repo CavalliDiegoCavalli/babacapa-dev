@@ -253,7 +253,7 @@
       /* SP-IN (2026-11-05): a sinistra, centrati, miniatura grande, giorno e luogo (e.place, che con e.placeHref apre le
          mappe); a destra "Convoca" */
       const pl = e.place ? (e.placeHref ? `<a class="mgx-ev-p" href="${esc(e.placeHref)}"${/^https/.test(e.placeHref) ? ' target="_blank" rel="noopener"' : ''} aria-label="${esc('Apri ' + e.place + ' nelle mappe')}">${I.pin}<span>${esc(e.place)}</span></a>` : `<span class="mgx-ev-p">${I.pin}<span>${esc(e.place)}</span></span>`) : '';
-      return `<div class="mgx-ev mgx-ev--c"><div class="mgx-ev-m">${tag(e, 'mgx-ev-a', bug(H, A, 'vs'), ` aria-label="${esc(`${title}, ${e.when}`)}" title="${esc(title)}"`)}<span class="mgx-ev-d">${esc(e.when)}</span>${pl}</div>${e.conv && e.conv.action ? `<span class="mgx-ev-b">${btn(e.conv.action, true)}</span>` : ''}</div>`;
+      return `<div class="mgx-ev mgx-ev--c"><div class="mgx-ev-m">${tag(e, 'mgx-ev-a', bug(H, A, 'vs'), ` aria-label="${esc(`${title}, ${e.when}`)}" title="${esc(title)}"`)}<span class="mgx-ev-d">${esc(e.when)}${e.time ? ' · ' + esc(e.time) : ''}</span>${pl}</div>${e.conv && e.conv.action ? `<span class="mgx-ev-b">${btn(e.conv.action, true)}</span>` : ''}</div>`;
     }).join('');
     return list.map(e => {
       const H = e.home || {}, A = e.away || {}, title = `${H.short || H.name || ''} – ${A.short || A.name || ''}`;
