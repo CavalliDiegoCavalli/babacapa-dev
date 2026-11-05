@@ -78,7 +78,8 @@
 
   /* ---------- intestazione ----------
      SP-IN (2026-11-05): sigla accanto al nome (i.sigla), pulsante piccolo accanto al nome (i.after, es. "Storico" dell'atleta),
-     riga di testo sotto il nome (i.line) e sottotitolo con la società (i.club) prima del campo (i.place) */
+     riga di testo sotto il nome (i.line) e sottotitolo con la società (i.club) prima del campo (i.place), che con i.placeHref
+     apre le mappe */
   function intro(i) {
     i = i || {};
     const mark = i.society
@@ -90,7 +91,7 @@
     ${i.kicker ? `<span class="mgx-kick">${esc(i.kicker)}</span>` : ''}
     <div class="mgx-name">${mark}<h1>${esc(i.title)}</h1>${i.sigla ? `<span class="mgx-sigla" title="Sigla">${esc(i.sigla)}</span>` : ''}${i.after ? btn(Object.assign({}, i.after), true) : ''}${edit}</div>
     ${i.line ? `<p class="mgx-place mgx-line">${esc(i.line)}</p>` : ''}
-    ${i.club || i.place ? `<p class="mgx-place">${i.club ? `<span class="mgx-club">${esc(i.club)}</span>` : ''}${i.place ? `${I.pin}<span>${esc(i.place)}</span>` : ''}</p>` : ''}
+    ${i.club || i.place ? `<p class="mgx-place">${i.club ? `<span class="mgx-club">${esc(i.club)}</span>` : ''}${i.place ? (i.placeHref ? `<a class="mgx-map" href="${esc(i.placeHref)}"${/^https/.test(i.placeHref) ? ' target="_blank" rel="noopener"' : ''} aria-label="${esc('Apri ' + i.place + ' nelle mappe')}">${I.pin}<span>${esc(i.place)}</span></a>` : `${I.pin}<span>${esc(i.place)}</span>`) : ''}</p>` : ''}
     ${(i.actions || []).length ? `<div class="mgx-acts">${i.actions.map(a => btn(a)).join('')}</div>` : ''}
   </div>`;
   }
@@ -235,9 +236,10 @@
   /* ---------- squadra: eventi con convocazione ----------
      Evento = { home: Team, away: Team, day, time, comp, href|attrs,
                 conv: { state: 'ok'|'warn'|'crit', label, sub, action: { label, primary?, href|attrs } } } */
-  function bug(H, A, time) {
+  /* SP-IN (2026-11-05, Diego): sopra l'ora il giorno della gara ("sab 8 nov", e.date) */
+  function bug(H, A, time, date) {
     const hc = H.color || INK, ac = A.color || INK;
-    return `<span class="mgx-bug" aria-hidden="true"><span style="--x:${esc(hc)};--x-on:${onColor(hc)}"><b>${esc(abbr(H))}</b></span><span class="mgx-bug-m"><b>${esc(time || '—')}</b></span><span style="--x:${esc(ac)};--x-on:${onColor(ac)}"><b>${esc(abbr(A))}</b></span></span>`;
+    return `<span class="mgx-bug${date ? ' mgx-bug--d' : ''}" aria-hidden="true"><span style="--x:${esc(hc)};--x-on:${onColor(hc)}"><b>${esc(abbr(H))}</b></span><span class="mgx-bug-m">${date ? `<small>${esc(date)}</small>` : ''}<b>${esc(time || '—')}</b></span><span style="--x:${esc(ac)};--x-on:${onColor(ac)}"><b>${esc(abbr(A))}</b></span></span>`;
   }
   function events(list) {
     list = list || [];
@@ -245,7 +247,7 @@
     return list.map(e => {
       const H = e.home || {}, A = e.away || {}, title = `${H.short || H.name || ''} – ${A.short || A.name || ''}`;
       const cv = e.conv;
-      const head = tag(e, 'mgx-ev-a', `${bug(H, A, e.time)}<span class="mgx-col mgx-min"><b>${esc(title)}</b><small class="mgx-mut mgx-ell">${esc([e.day, e.comp].filter(Boolean).join(' · '))}</small></span>`, ` aria-label="${esc(`${title}, ${e.day || ''} ore ${e.time || ''}`)}"`);
+      const head = tag(e, 'mgx-ev-a', `${bug(H, A, e.time, e.date)}<span class="mgx-col mgx-min"><b>${esc(title)}</b><small class="mgx-mut mgx-ell">${esc([e.day, e.comp].filter(Boolean).join(' · '))}</small></span>`, ` aria-label="${esc(`${title}, ${e.day || e.date || ''} ore ${e.time || ''}`)}"`);
       return `<div class="mgx-ev">${head}${cv ? `<div class="mgx-ev-c"><span class="mgx-col">${st(cv.state || 'warn', cv.label)}${cv.sub ? `<small class="mgx-mut">${esc(cv.sub)}</small>` : ''}</span>${btn(cv.action, true)}</div>` : ''}</div>`;
     }).join('');
   }
@@ -311,14 +313,14 @@
   function teamPage(d) {
     d = d || {};
     const t = d.team || {}, c = t.color || INK, x = d.extras || {};
-    const i = intro({ team: t, title: t.name, sigla: d.sigla, club: d.club, kicker: d.kicker, back: d.back, place: d.place, edit: d.edit, actions: d.actions });
+    const i = intro({ team: t, title: t.name, sigla: d.sigla, club: d.club, kicker: d.kicker, back: d.back, place: d.place, placeHref: d.placeHref, edit: d.edit, actions: d.actions });
     const ath = sec({ key: 'ath', title: 'Atleti', extra: x.athletes, extraWide: true, action: d.addAthlete, inner: athletes(d.athletes, c) });
     const stf = sec({ key: 'stf', title: 'Staff', extra: x.staff, extraWide: true, action: d.addStaff, inner: staff(d.staff) });
     const sts = d.stats === null ? '' : sec({ key: 'sts', title: 'Statistiche', extra: 'squadra e per ruolo', extraWide: true, extraNarrow: 'della squadra', inner: stats(d.stats) });
-    const evs = sec({ key: 'evs', title: 'Eventi', extra: x.events, extraWide: true, inner: events(d.events) });
+    const evs = sec({ key: 'evs', title: 'Prossimi eventi', extra: x.events, extraWide: true, inner: events(d.events) });
     /* SP-IN (2026-11-05, Diego): senza "Da sistemare" (d.todo null) l'intestazione prende tutta la riga; d.statsFirst mette
        le statistiche prima degli atleti, anche sul telefono */
-    return page('team', { color: c, cls: [d.todo ? '' : 'mgx--notodo', d.statsFirst ? 'mgx--stfirst' : ''].filter(Boolean).join(' ') },
+    return page('team', { color: c, cls: [d.todo ? '' : 'mgx--notodo', d.statsFirst ? 'mgx--stfirst' : '', d.fix ? 'mgx--fix' : ''].filter(Boolean).join(' ') },
       { intro: i, todo: d.todo ? todo(d.todo) : '', cols: d.statsFirst ? [sts, ath] : [ath, sts] }, [stf, evs]);
   }
 

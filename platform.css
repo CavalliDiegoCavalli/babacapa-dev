@@ -1194,10 +1194,24 @@ a.back:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 }
 /* Modifica della squadra (1.33.7-dev.6, Diego 2026-11-05): sigla in maiuscolo, un campo da gioco per riga con l'etichetta accanto */
 .sqsig{text-transform:uppercase;letter-spacing:.12em;font-weight:800}
-.sqfc{gap:var(--space-12);align-items:flex-end;flex-wrap:wrap}
-.sqfc>.sp-field:first-child{flex:1 1 280px;min-width:0}
+/* 2026-11-05 (Diego): via e numero, comune, etichetta (menu Partita, Allenamento, Altro…) sulla stessa riga; sotto l'esito
+   della verifica dell'indirizzo o le proposte */
+.sqfcampi{display:flex;flex-direction:column;gap:var(--space-16)}
+.sqfcampi>div:not(.sqfc-w){align-self:flex-start}
+.sqfc-w{display:flex;flex-direction:column;gap:var(--space-4)}
+.sqfc{gap:var(--space-12);align-items:flex-end;flex-wrap:nowrap}
+.sqfc>.sp-field{min-width:0}
+.sqfc>.sp-field:first-child{flex:1 1 auto}
 .sqfc>.sp-field:nth-child(2){flex:0 1 180px}
-.sqfc-x{padding-bottom:var(--space-12)}
+.sqfc>.sp-field:nth-child(3){flex:0 0 160px}
+.sqfc>.sp-field:nth-child(4):not(:last-child),.sqfc>.sp-field:nth-child(4):last-child{flex:0 1 150px}
+.sqfc select{width:100%;appearance:none;-webkit-appearance:none;background:none;border:0;font:inherit;color:inherit;padding-right:var(--space-24);cursor:pointer}
+.sqfc-x{flex:none;padding-bottom:var(--space-12)}
+.sqfc-st:empty{display:none}
+.sqfsug{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--space-4) var(--space-12)}
+@media (max-width:760px){.sqfc{flex-wrap:wrap}.sqfc>.sp-field:first-child{flex-basis:100%}}
+.sqfcols{display:flex;flex-direction:column;gap:var(--space-16);margin-top:var(--space-16)}
+.sqfcol{display:flex;flex-direction:column;gap:var(--space-8)}
 /* Scheda dell'atleta (1.33.7-dev.6, Diego 2026-11-05): due colonne come la pagina della squadra (SPIN.manage); sul telefono
    intestazione, statistiche, segreteria. Statistiche avanzate in arrivo: il campo del basket inclusivo della landing nei
    colori della Segreteria, sfocato, con il riquadro sopra */
@@ -1205,7 +1219,6 @@ a.back:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .mgx-line{color:var(--muted)}
 .atseg{margin-top:0}
 .atseg>label{color:var(--muted)}
-.attess{width:100%;min-width:0;height:var(--space-32);padding:0 var(--space-8);border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);font:inherit;font-family:var(--mono);letter-spacing:.04em}
 .mgx-o-seg .libc{margin-top:var(--space-16)}
 .atx-adv{position:relative;margin-top:var(--space-24);overflow:hidden}
 .atx-adv-c{filter:blur(4px);opacity:.75;pointer-events:none}
