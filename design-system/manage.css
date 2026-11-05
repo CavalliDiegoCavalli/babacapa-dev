@@ -237,7 +237,18 @@
 .mgx-alink{color:inherit;text-decoration:none;border:0;padding:0;background:none;font:inherit;cursor:pointer}
 .mgx-alink:hover b,.mgx-alink:focus-visible b{text-decoration:underline;text-underline-offset:3px}
 .mgx-li{cursor:default}
-.mgx-ev--c{align-items:flex-start;gap:6px}
+.mgx-ev--c{flex-direction:row;align-items:center;gap:12px}
+.mgx-ev-m{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.mgx-ev--c .mgx-ev-a{justify-content:center;width:100%}
+.mgx-ev--c .mgx-bug{height:44px;width:100%;max-width:280px}
+.mgx-ev--c .mgx-bug>span{flex:1}
+.mgx-ev--c .mgx-bug>.mgx-bug-m{flex:0 0 auto;padding:0 12px}
+.mgx-ev--c .mgx-bug>span b{font-size:20px}
+.mgx-ev--c .mgx-bug-m b{font-size:14px}
+.mgx-ev-p{display:inline-flex;align-items:center;justify-content:center;gap:4px;max-width:100%;font-size:var(--fs-13);color:var(--ink);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:3px}
+.mgx-ev-p span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mgx-ev-p svg{flex:none;width:14px;height:14px}
+.mgx-ev-b{flex:none}
 .mgx-ev--c .mgx-bug-m b{font-family:var(--font-display);font-style:italic;font-weight:900;text-transform:uppercase}
 .mgx-ev-d{display:block;font-size:var(--fs-14);color:var(--muted)}
 .mgx-ev-d::first-letter{text-transform:uppercase}

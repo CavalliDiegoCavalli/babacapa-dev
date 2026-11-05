@@ -1244,11 +1244,10 @@ a.back:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .atx-adv-b b{font-family:var(--display);font-stretch:var(--display-w);font-size:var(--fs-20);text-transform:uppercase}
 .atx-adv-b span{font-size:var(--fs-12);font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .atstate .arow{flex-wrap:wrap}
-/* Numero dell'atleta al posto dello stemma (Diego, 2026-11-05): logo della squadra sfocato dietro, decina nel primo colore e
-   unità nel secondo; i colori chiari hanno il contorno scuro per leggersi sul bianco */
+/* Numero dell'atleta al posto dello stemma (Diego, 2026-11-05): decina nel primo colore e unità nel secondo, grande quanto lo
+   stemma; i colori chiari hanno il contorno scuro per leggersi sul bianco */
 .atx-num{position:relative}
-.atx-num-bg{position:absolute;inset:-15%;width:130%;height:130%;object-fit:contain;filter:blur(5px);opacity:.4}
-.atx-num>b{position:relative;display:flex;font-family:var(--display);font-stretch:var(--display-w);font-weight:900;font-style:italic;font-size:calc(var(--fs-20) * 1.5);line-height:1;letter-spacing:-.02em}
+.mgx .mgx-crest.atx-num>b{position:relative;display:flex;font-family:var(--display);font-stretch:var(--display-w);font-weight:900;font-style:italic;font-size:calc(var(--fs-20) * 1.7);line-height:1;letter-spacing:-.04em;transform:translateX(-.04em)}
 .atx-num i{font-style:inherit}
 .atx-num i.lt{text-shadow:0 0 1px var(--ink),0 0 1px var(--ink),0 0 1px var(--ink)}
-@container mgx (min-width:900px){.atx-num>b{font-size:calc(var(--fs-20) * 2.6)}}
+@container mgx (min-width:900px){.mgx .mgx-crest.atx-num>b{font-size:calc(var(--fs-20) * 3.2)}}
