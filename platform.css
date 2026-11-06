@@ -1256,3 +1256,8 @@ a.back:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .sostf:hover,.sostf:focus-visible{background:var(--sunk)}
 .sostf .sp-col{align-items:flex-start}
 .soplus{min-width:var(--space-32);justify-content:center}
+
+/* Live (1.34.0-dev.14): iscrizione del refertista alla compilazione del referto, nel riquadro del referto della scheda */
+.lvi{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-12);margin-top:var(--space-12);padding-top:var(--space-12);border-top:1px solid var(--line)}
+.lvi-t{flex:1 1 240px;display:flex;gap:var(--space-8);align-items:flex-start;font-size:var(--fs-14);color:var(--muted)}
+.lvi-t svg{flex:none;width:18px;height:18px;color:var(--ok)}

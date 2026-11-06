@@ -390,4 +390,12 @@
 .lv [hidden]{display:none!important}
 .lv-empty{padding:24px 8px;text-align:center;font-size:var(--fs-14);color:var(--lv-mut2)}
 
+/* attesa (Diego, 2026-11-06): referto aperto, formazioni di ingresso non ancora confermate */
+.lv-tk.lv-tk-wait{background:var(--lv-stage);color:var(--lv-white)}
+.lv-wait-teams{display:flex;align-items:center;gap:18px}
+.lv-wait-teams .lv-crest-l{box-shadow:0 0 0 3px var(--lv-c),0 8px 20px rgba(0,0,0,.25)}
+.lv-wait-vs{font-size:28px;font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;opacity:.8}
+.lv-wait-p{margin:0;font-size:22px;font-weight:800;font-stretch:62%;font-style:italic;text-transform:uppercase;letter-spacing:.04em}
+.lv-tablet .lv-wait-p{font-size:30px}
+
 @media (prefers-reduced-motion: reduce){.lv *,.lv *::before,.lv *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}

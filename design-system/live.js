@@ -9,7 +9,9 @@
        opts.onInfo(code)                                 apertura di una spiegazione (i) (metriche)
      g (la gara, dalla fotografia del tablet): {fase:'gioco'|'pausa'|'fine', q, ev:[…], lu:{q:{A:[…],B:[…]}}, gioc:{A:[{n,r}],B:[…]}, nomi:{A:{n:nome},B:{…}}}
        azione: {i, q, t:'A'|'B', y:'score'|'foul'|'cfoul'|'to'|'sub', n, p, k, w, o (esce), e (entra), own, h:'hh:mm'}
-       fase 'pausa' con q = quarto appena finito; 'fine' = gara chiusa dal refertista.
+       fase 'pausa' con q = quarto appena finito; 'fine' = gara chiusa dal refertista; 'attesa' = referto aperto, formazioni
+       di ingresso non ancora confermate (Diego, 2026-11-06: "La gara sta per iniziare. Preparati per lo spettacolo!").
+     demo(el, opts) → controller della demo (gara del mockup che si ripete; opts.teams con i colori della gara vera)
    load() mostra lo stato senza animazioni (ingresso nel Live o arrivo a metà gara); push() mette in coda solo quello che è
    cambiato e lo mostra un evento alla volta con le durate della specifica (sez. 4 e 5). L'animazione degli eventi si vede
    solo nella vista Live (sul tablet sempre); le pagine a tutto schermo in ogni vista. Fine quarto e Fine gara restano finché
@@ -124,7 +126,8 @@
   /* ---------- momenti da mostrare passando da (n0, ph0) alla gara g ---------- */
   function moments(n0, ph0, g) {
     const out = [], ev = g.ev || [];
-    let k = ph0.k, q = ph0.q;
+    if (g.fase === 'attesa') return out;   // referto aperto, formazioni non ancora confermate: niente da mostrare
+    let k = ph0.k === 'attesa' ? 'pausa' : ph0.k, q = ph0.k === 'attesa' ? 0 : ph0.q;
     const reach = (k2, q2) => {
       for (let guard = 0; guard < 20 && !(k === k2 && q === q2); guard++) {
         if (k2 === 'fine') { if (k === 'gioco' && q < q2) { out.push({ k: 'endq', q }); k = 'pausa'; continue; } if (k === 'pausa' && q < q2) { q++; out.push({ k: 'start', q }); k = 'gioco'; continue; } out.push({ k: 'final', q: q2 }); k = 'fine'; q = q2; break; }
@@ -148,12 +151,13 @@
   }
   function quartersHtml(s) {
     const live = s.ck === 'gioco';
+    if (s.ck === 'attesa') return Array.from({ length: 4 }, (_, j) => `<span class="lv-qb lv-is-next"><span><small>${ql(j + 1)}</small><b>—</b></span></span>`).join('');
     return Array.from({ length: s.nq }, (_, j) => j + 1).map(q => {
       const done = q < s.cq || (q === s.cq && !live), cur = q === s.cq && live;
       return `<span class="lv-qb ${cur ? 'lv-is-cur' : done ? 'lv-is-done' : 'lv-is-next'}"><span><small>${ql(q)}</small><b>${done || cur ? s.qp.A[q - 1] + '–' + s.qp.B[q - 1] : '—'}</b></span></span>`;
     }).join('');
   }
-  function statusTxt(s) { return s.ck === 'fine' ? 'Fine gara' : s.ck === 'pausa' ? (s.cq === 2 ? 'Intervallo' : 'Fine ' + qn(s.cq)) : qn(s.cq); }
+  function statusTxt(s) { return s.ck === 'attesa' ? 'Prima della gara' : s.ck === 'fine' ? 'Fine gara' : s.ck === 'pausa' ? (s.cq === 2 ? 'Intervallo' : 'Fine ' + qn(s.cq)) : qn(s.cq); }
   function bestOf(s, T, t) {
     let bn = null, bp = -1;
     Object.keys(s.pts[t]).forEach(k => { if (s.pts[t][k] > bp) { bp = s.pts[t][k]; bn = k; } });
@@ -246,6 +250,11 @@ ${court.map(x => row(x, true, false)).join('')}${bench.map((x, k) => row(x, fals
       return `<div class="lv-tk lv-tk-to ${tc(t)}" role="status"><div class="lv-tk-tex"></div><div class="lv-tk-in">
 <div class="lv-up lv-to-team" style="animation-delay:.15s">${crest(T[t], 'lv-crest-l')}<b class="lv-fg-n">${esc(T[t].name)}</b></div><h2 class="lv-tk-title">Time out</h2>${bug(.55)}</div></div>`;
     }
+    if (kind === 'wait') {
+      return `<div class="lv-tk lv-tk-thin lv-tk-wait" role="status"><div class="lv-tk-tex"></div><div class="lv-tk-sa"></div><div class="lv-tk-sb"></div><div class="lv-tk-in">
+<div class="lv-up lv-wait-teams" style="animation-delay:.15s"><span class="lv-t-a">${crest(T.A, 'lv-crest-l')}</span><b class="lv-wait-vs">vs</b><span class="lv-t-b">${crest(T.B, 'lv-crest-l')}</span></div>
+<h2 class="lv-tk-title">La gara sta per iniziare</h2><p class="lv-wait-p lv-up" style="animation-delay:.55s">Preparati per lo spettacolo!</p></div></div>`;
+    }
     if (kind === 'q') {
       return `<div class="lv-tk" role="status"><div class="lv-tk-sa"></div><div class="lv-tk-sb"></div><div class="lv-tk-in">
 <div class="lv-up" style="animation-delay:.15s"><span class="lv-tk-kick lv-t-n"><span>${s.cq === 2 ? 'Intervallo' : 'Pausa'}</span></span></div><h2 class="lv-tk-title">Fine ${esc(qn(s.cq))}</h2>${bug(.55)}
@@ -279,7 +288,7 @@ ${court.map(x => row(x, true, false)).join('')}${bench.map((x, k) => row(x, fals
     const tablet = () => !!(mq && mq.matches);
     el.innerHTML = `<div class="lv" style="--lv-a:${C.a};--lv-a-on:${C.aOn};--lv-b:${C.b};--lv-b-on:${C.bOn}">
 <section class="lv-hero" aria-label="Tabellone"><div class="lv-slab lv-slab-a"></div><div class="lv-slab lv-slab-b"></div><div class="lv-tex-w"><div class="lv-tex"></div></div><div class="lv-glint"></div>
-<div class="lv-top"><button class="lv-xbtn" type="button" data-lv-exit><span>${SV.back}Esci dal live</span></button><span class="lv-live" data-lv="pill"><span><i class="lv-dot"></i><span data-lv="pillt">In diretta</span></span></span></div>
+<div class="lv-top"><button class="lv-xbtn" type="button" data-lv-exit><span>${SV.back}${opts.demo ? 'Esci dalla demo' : 'Esci dal live'}</span></button><span class="lv-live" data-lv="pill"><span><i class="lv-dot"></i><span data-lv="pillt">In diretta</span></span></span></div>
 ${T2.map(t => `<div class="lv-side lv-side-${t === 'A' ? 'a' : 'b'} ${tc(t)}" style="--lv-ring:${t === 'A' ? C.aRing : C.bRing}">${crest(T[t])}<span class="lv-tteam"><span class="lv-kk">${t === 'A' ? 'In casa' : 'Ospiti'}</span><b class="lv-tname" style="--k:${nameScale(T[t].name)}">${esc(T[t].name)}</b></span></div>`).join('')}
 <div data-lv="bug"></div></section>
 <div class="lv-strip"><div class="lv-info" data-lv="info"></div><div class="lv-qs" data-lv="qs"></div></div>
@@ -305,7 +314,7 @@ ${T2.map(t => `<div class="lv-side lv-side-${t === 'A' ? 'a' : 'b'} ${tc(t)}" st
       if (dead) return;
       const s = snap(G, disp.n, disp.ph);
       const ended = s.ck === 'fine';
-      $('pill').className = 'lv-live' + (ended ? ' lv-is-end' : ''); $('pillt').textContent = ended ? 'Conclusa' : 'In diretta';
+      $('pill').className = 'lv-live' + (ended ? ' lv-is-end' : ''); $('pillt').textContent = opts.demo ? 'Demo' : ended ? 'Conclusa' : 'In diretta';
       /* tabellone: le cifre entrano dal basso quando cambiano, la sigla di chi ha segnato lampeggia */
       const pop = {}, fl = {};
       T2.forEach(t => { if (lastSc[t] !== null && s.sc[t] !== lastSc[t]) { popN[t]++; pop[t] = popN[t] % 2 ? 'lv-pop1' : 'lv-pop2'; fl[t] = popN[t] % 2 ? 'lv-fl1' : 'lv-fl2'; } lastSc[t] = s.sc[t]; });
@@ -358,8 +367,9 @@ ${T2.map(t => `<div class="lv-side lv-side-${t === 'A' ? 'a' : 'b'} ${tc(t)}" st
     /* stato senza animazioni: ingresso nel Live, arrivo a metà gara, correzioni del refertista */
     function load(g) {
       clearTimeout(timer); queue = []; playing = null; G = g; ovEl.innerHTML = '';
-      disp = { n: (g.ev || []).length, ph: { k: g.fase, q: g.q } }; feedLen = 0; lastSc = { A: null, B: null };
+      disp = { n: (g.ev || []).length, ph: g.fase === 'attesa' ? { k: 'attesa', q: 0 } : { k: g.fase, q: g.q } }; feedLen = 0; lastSc = { A: null, B: null };
       layout(); const s = paint();
+      if (!gate && g.fase === 'attesa') { const m = { k: 'wait', persist: true, typ: 'wait' }; playing = m; show(m, 'wait', s); return; }
       if (!gate && (g.fase === 'pausa' || g.fase === 'fine')) { const m = { k: g.fase === 'fine' ? 'final' : 'endq', q: g.q, persist: true }; m.typ = g.fase === 'fine' ? 'end' : 'q'; playing = m; show(m, m.typ, s); }
     }
     function push(g) {
@@ -401,12 +411,49 @@ ${T2.map(t => `<div class="lv-side lv-side-${t === 'A' ? 'a' : 'b'} ${tc(t)}" st
     if (mq) (mq.addEventListener ? mq.addEventListener('change', onMq) : mq.addListener(onMq));
     layout(); paint();
     return {
-      load, push,
+      load, push, idle: () => !queue.length && (!playing || !!playing.persist) && !paused,
       gate(k) { gate = k || ''; layout(); },
       destroy() { dead = true; clearTimeout(timer); root.removeEventListener('click', onClick); document.removeEventListener('keydown', onKey); if (mq) (mq.removeEventListener ? mq.removeEventListener('change', onMq) : mq.removeListener(onMq)); el.innerHTML = ''; }
     };
   }
 
+  /* ---------- demo (Diego, 2026-11-06): la gara del mockup tra due squadre inventate nei colori della gara vera ---------- */
+  const DM = { A: { 11: 'Marco Rinaldi', 31: 'Sara Galli', 41: 'Luca Ferri', 42: 'Giulia Conti', 51: 'Andrea Moretti', 52: 'Chiara Bruno', 12: 'Paolo Villa', 34: 'Nina Rota', 43: 'Rita Marchetti', 44: 'Elena Costa', 53: 'Fabio Testa', 55: 'Davide Fontana' },
+    B: { 21: 'Roberto Greco', 32: 'Francesca Marini', 33: 'Ugo Neri', 43: 'Irene Lombardi', 53: 'Tommaso Barbieri', 54: 'Nicola Serra', 22: 'Valeria Gatti', 24: 'Alessio Sala', 35: 'Martina Pellegrini', 44: 'Giorgio Riva', 45: 'Oscar Leone', 56: 'Katia Ricci' } };
+  const DC = { A: [11, 31, 41, 42, 51, 52], B: [21, 32, 33, 43, 53, 54] }, DB_ = { A: [12, 34, 43, 44, 53, 55], B: [22, 24, 35, 44, 45, 56] };
+  const DR = [['start'], ['score', 'A', 52, 2], ['score', 'B', 53, 2], ['score', 'A', 11, 3], ['foul', 'B', 43, 'P1'], ['score', 'A', 41, 1], ['score', 'B', 21, 2], ['sub', 'A', 42, 44], ['score', 'B', 54, 2], ['score', 'A', 31, 2], ['score', 'A', 44, 2], ['endq'],
+    ['start'], ['score', 'B', 32, 2], ['score', 'B', 53, 2], ['score', 'B', 43, 2], ['to', 'A'], ['score', 'A', 51, 2], ['foul', 'A', 51, 'P'], ['sub', 'B', 33, 35], ['score', 'B', 35, 2], ['score', 'A', 11, 3], ['foul', 'B', 54, 'L2'], ['score', 'A', 52, 1], ['score', 'A', 52, 1], ['score', 'A', 41, 2], ['endq'],
+    ['start', [['A', 41, 34]]], ['score', 'B', 21, 2], ['score', 'A', 34, 2], ['score', 'B', 54, 2], ['foul', 'A', 44, 'U1'], ['score', 'B', 53, 1], ['score', 'A', 52, 2], ['score', 'B', 53, 3], ['to', 'B'], ['score', 'A', 11, 3], ['endq'],
+    ['start', [['B', 21, 22]]], ['score', 'B', 22, 2], ['score', 'A', 31, 2], ['foul', 'B', 32, 'T1'], ['score', 'A', 31, 1], ['foul', 'B', 43, 'D'], ['sub', 'B', 43, 45], ['score', 'B', 45, 2], ['sub', 'A', 52, 55], ['score', 'A', 55, 2], ['score', 'B', 53, 2], ['score', 'A', 51, 2], ['final']];
+  function demoGame(upto) {
+    const g = { fase: 'gioco', q: 1, ev: [], lu: {}, gioc: { A: [], B: [] }, nomi: DM };
+    T2.forEach(t => { g.gioc[t] = DC[t].concat(DB_[t]).map(n => ({ n: String(n), r: Math.floor(n / 10) })); });
+    const oc = { A: DC.A.slice(), B: DC.B.slice() }, now = new Date(); let q = 0, id = 1, m = now.getHours() * 60 + now.getMinutes();
+    for (let k = 0; k < upto && k < DR.length; k++) {
+      const r = DR[k]; m += k % 3 ? 1 : 2; const h = String(Math.floor(m / 60) % 24).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0');
+      if (r[0] === 'start') { q++; (r[1] || []).forEach(w => { oc[w[0]][oc[w[0]].indexOf(w[1])] = w[2]; }); g.lu[q] = { A: oc.A.map(String), B: oc.B.map(String) }; g.fase = 'gioco'; g.q = q; continue; }
+      if (r[0] === 'endq') { g.fase = 'pausa'; g.q = q; continue; }
+      if (r[0] === 'final') { g.fase = 'fine'; g.q = q; continue; }
+      const e = { i: id++, q, t: r[1], y: r[0], h };
+      if (r[0] === 'score') { e.n = String(r[2]); e.p = r[3]; } else if (r[0] === 'foul') { e.n = String(r[2]); e.k = r[3]; } else if (r[0] === 'sub') { e.o = String(r[2]); e.e = String(r[3]); oc[r[1]][oc[r[1]].indexOf(r[2])] = r[3]; }
+      g.ev.push(e);
+    }
+    return g;
+  }
+  function demo(el, opts) {
+    const ctl = mount(el, Object.assign({}, opts, { demo: true, gate: '' }));
+    let k = 1, t = 0, dead = false;
+    const step = () => {
+      if (dead) return;
+      if (!ctl.idle()) { t = setTimeout(step, 400); return; }
+      if (k >= DR.length) { t = setTimeout(() => { if (dead) return; k = 1; ctl.load(demoGame(1)); t = setTimeout(step, 1500); }, 8000); return; }
+      k++; ctl.push(demoGame(k));
+      t = setTimeout(step, DR[k - 1][0] === 'endq' ? 3500 : 900);
+    };
+    ctl.load(demoGame(1)); t = setTimeout(step, 1500);
+    return Object.assign({}, ctl, { destroy() { dead = true; clearTimeout(t); ctl.destroy(); } });
+  }
+
   window.SPIN = window.SPIN || {};
-  window.SPIN.live = { mount, snap, moments, shortName };
+  window.SPIN.live = { mount, demo, demoGame, snap, moments, shortName };
 })();
