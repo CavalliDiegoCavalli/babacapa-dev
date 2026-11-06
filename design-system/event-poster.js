@@ -178,7 +178,8 @@
      il pulsante rosso LIVE con il pallino che pulsa e sotto solo il quarto in corso (niente sottotitolo, ora o punteggio) */
   function liveBox(b) {
     /* SP-IN 2026-11-06 (Diego): prima della gara, se la gara supporta il Live (un refertista iscritto) o no */
-    if (b.kind === 'pronto') return `<section class="ep-livebox ep-livebox--pre" aria-label="Diretta"><p class="ep-livepre"><b>Questa gara supporta la funzione Live.</b> Connettiti a inizio gara</p><a class="ep-livedemo" href="${esc(b.demoHref || '#')}"><span>Guarda una demo</span></a></section>`;
+    /* SP-IN (2026-11-06, Diego): niente demo; al posto del pulsante un avviso della stessa forma col solo contorno rosso */
+    if (b.kind === 'pronto') return `<section class="ep-livebox ep-livebox--pre" aria-label="Diretta"><p class="ep-livepre"><b>Questa gara supporta la funzione Live.</b></p><span class="ep-livesoon"><span>La live inizierà all'inizio della gara</span></span></section>`;
     if (b.kind === 'no') return `<section class="ep-livebox ep-livebox--no" aria-label="Diretta"><p class="ep-livepre">Questa gara non supporta la funzione Live</p></section>`;
     return `<section class="ep-livebox" aria-label="Diretta"><a class="ep-livebtn" href="${esc(b.href || '#')}"><span><i class="ep-livedot" aria-hidden="true"></i>Live</span></a><b class="ep-livelbl">${esc(b.label || '')}</b></section>`;
   }

@@ -373,7 +373,8 @@ ${T2.map(t => `<div class="lv-side lv-side-${t === 'A' ? 'a' : 'b'} ${tc(t)}" st
       if (!gate && g.fase === 'attesa') { const m = { k: 'wait', persist: true, typ: 'wait' }; playing = m; show(m, 'wait', s); return; }
       if (!gate && (g.fase === 'pausa' || g.fase === 'fine')) { const m = { k: g.fase === 'fine' ? 'final' : 'endq', q: g.q, persist: true }; m.typ = g.fase === 'fine' ? 'end' : 'q'; playing = m; show(m, m.typ, s); }
     }
-    function push(g) {
+    function push(g, o) {
+      const back = !!(o && o.rientro);
       const old = G.ev || [], nev = g.ev || [];
       for (let i = 0; i < disp.n; i++) if (!nev[i] || nev[i].i !== old[i].i || JSON.stringify(nev[i]) !== JSON.stringify(old[i])) { load(g); return; }
       G = g; queue = moments(disp.n, disp.ph, g);
@@ -382,10 +383,15 @@ ${T2.map(t => `<div class="lv-side lv-side-${t === 'A' ? 'a' : 'b'} ${tc(t)}" st
          ancora (l'ultima, dopo l'ultimo evento) */
       const fresh = nev.slice(old.length), z = fresh.reduce((a, e) => e.z ? Math.min(a, e.z) : a, Infinity);
       const pages = queue.filter(m => m.k !== 'ev').length;
-      if (fresh.length > 2 || Date.now() / 1000 - z > 15 || pages > 1) {
+      /* rientro nell'app (Diego, 2026-11-06): stessa regola, e l'ultimo evento si anima solo se è degli ultimi 5 s;
+         l'animazione rimasta a metà si chiude */
+      if (back || fresh.length > 2 || Date.now() / 1000 - z > 15 || pages > 1) {
         const li = queue.map(m => m.k).lastIndexOf('ev'), tail = queue.slice(li + 1);
-        queue.slice(0, Math.max(li, 0)).forEach(apply);
-        queue = (li >= 0 ? [queue[li]] : []).concat(tail.length ? [tail[tail.length - 1]] : []);
+        const le = li >= 0 ? (g.ev || [])[queue[li].i] : null, keep = li >= 0 && (!back || (le && le.z && Date.now() / 1000 - le.z <= 5));
+        queue.slice(0, keep ? li : li + 1).forEach(apply);
+        queue = (keep ? [queue[li]] : []).concat(tail.length ? [tail[tail.length - 1]] : []);
+        const pe = playing && playing.k === 'ev' ? G.ev[playing.i] : null, recent = !!(pe && pe.z && Date.now() / 1000 - pe.z <= 5);
+        if (back && playing && !playing.persist && (keep || !recent)) { clearTimeout(timer); ovEl.innerHTML = ''; playing = null; }
       }
       if (playing && playing.persist && queue.length) leave();
       else if (!playing) pump();
