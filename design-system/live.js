@@ -8,14 +8,15 @@
        opts.onExit()                                     "Esci dal live" e "Vai alla scheda della gara"
        opts.onInfo(code)                                 apertura di una spiegazione (i) (metriche)
      g (la gara, dalla fotografia del tablet): {fase:'gioco'|'pausa'|'fine', q, ev:[…], lu:{q:{A:[…],B:[…]}}, gioc:{A:[{n,r}],B:[…]}, nomi:{A:{n:nome},B:{…}}}
-       azione: {i, q, t:'A'|'B', y:'score'|'foul'|'cfoul'|'to'|'sub', n, p, k, w, o (esce), e (entra), own, h:'hh:mm'}
+       azione: {i, q, t:'A'|'B', y:'score'|'foul'|'cfoul'|'to'|'sub', n, p, k, w, o (esce), e (entra), own, h:'hh:mm', z: secondi dell'azione (regola di recupero)}
        fase 'pausa' con q = quarto appena finito; 'fine' = gara chiusa dal refertista; 'attesa' = referto aperto, formazioni
        di ingresso non ancora confermate (Diego, 2026-11-06: "La gara sta per iniziare. Preparati per lo spettacolo!").
      demo(el, opts) → controller della demo (gara del mockup che si ripete; opts.teams con i colori della gara vera)
    load() mostra lo stato senza animazioni (ingresso nel Live o arrivo a metà gara); push() mette in coda solo quello che è
    cambiato e lo mostra un evento alla volta con le durate della specifica (sez. 4 e 5). L'animazione degli eventi si vede
    solo nella vista Live (sul tablet sempre); le pagine a tutto schermo in ogni vista. Fine quarto e Fine gara restano finché
-   non arriva altro. La (i) ferma il Live finché non si torna. */
+   non arriva altro. La (i) ferma il Live finché non si torna. Regola di recupero (1.34.0-dev.17): più di 2 eventi insieme o il
+   più vecchio di più di 15 s prima → tutto subito, animato solo l'ultimo, pagine a tutto schermo solo se valgono ancora. */
 (function () {
   'use strict';
   const core = window.SPIN.core, esc = core.esc;
@@ -376,6 +377,16 @@ ${T2.map(t => `<div class="lv-side lv-side-${t === 'A' ? 'a' : 'b'} ${tc(t)}" st
       const old = G.ev || [], nev = g.ev || [];
       for (let i = 0; i < disp.n; i++) if (!nev[i] || nev[i].i !== old[i].i || JSON.stringify(nev[i]) !== JSON.stringify(old[i])) { load(g); return; }
       G = g; queue = moments(disp.n, disp.ph, g);
+      /* regola di recupero (Diego, 2026-11-06, LIVE.md sez. 13): più di 2 eventi insieme o il più vecchio di più di 15 s
+         prima → tutto aggiornato subito, animato solo l'ultimo evento; delle pagine a tutto schermo solo quella che vale
+         ancora (l'ultima, dopo l'ultimo evento) */
+      const fresh = nev.slice(old.length), z = fresh.reduce((a, e) => e.z ? Math.min(a, e.z) : a, Infinity);
+      const pages = queue.filter(m => m.k !== 'ev').length;
+      if (fresh.length > 2 || Date.now() / 1000 - z > 15 || pages > 1) {
+        const li = queue.map(m => m.k).lastIndexOf('ev'), tail = queue.slice(li + 1);
+        queue.slice(0, Math.max(li, 0)).forEach(apply);
+        queue = (li >= 0 ? [queue[li]] : []).concat(tail.length ? [tail[tail.length - 1]] : []);
+      }
       if (playing && playing.persist && queue.length) leave();
       else if (!playing) pump();
       if (!queue.length && !playing) paint();
