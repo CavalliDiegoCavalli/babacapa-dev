@@ -208,6 +208,7 @@
     const place = placeTxt ? (d.venue.href
       ? `<a class="ep-place" href="${esc(d.venue.href)}"${d.venue.ext ? ' target="_blank" rel="noopener"' : ''} aria-label="Apri ${esc(d.venue.name)} nelle mappe">${I.pin}<span>${placeTxt}</span></a>`
       : `<span class="ep-place">${I.pin}<span>${placeTxt}</span></span>`) : '';
+    /* SP-IN 2026-11-06 (Diego, 1.34.2): nell'app nativa data e ora sono un pulsante (whenAct) che salva la gara nel calendario */
     const whenTxt = [[w.day, w.date].filter(Boolean).join(' '), w.time ? 'ore ' + w.time : ''].filter(Boolean).join(' · ');
     const liveTxt = ['Live', [d.live && d.live.period, d.live && d.live.clock].filter(Boolean).join(' ')].filter(Boolean).join(' · ');
     const title = `${H.name} contro ${A.name}`;
@@ -225,7 +226,7 @@
 </header>
 <div class="ep-info">
   ${live && !d.liveBlock ? `<span class="ep-live">${esc(liveTxt)}</span>` : ''}
-  <b class="ep-when${d.start || d.when ? '' : ' is-tbd'}">${esc(whenTxt)}</b>
+  ${d.whenAct ? `<button type="button" class="ep-when ep-when--btn" data-act="${esc(d.whenAct.act)}" data-id="${esc(d.whenAct.id)}" aria-label="Salva nel calendario: ${esc(whenTxt)}">${I.cal || ''}<span>${esc(whenTxt)}</span></button>` : `<b class="ep-when${d.start || d.when ? '' : ' is-tbd'}">${esc(whenTxt)}</b>`}
   ${place}
 </div>
 ${d.liveBlock ? liveBox(d.liveBlock) : ''}

@@ -1263,3 +1263,10 @@ a.back:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .lvi-f input{width:22px;height:22px;flex:none}
 .lvi-f span{display:flex;flex-direction:column;font-weight:700;color:var(--ink)}
 .lvi-f small{font-weight:400;color:var(--muted)}
+/* Tirare per aggiornare (1.34.2, solo app nativa: 04-guscio-accesso.js, PTR) */
+.ptr{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + var(--space-8));z-index:60;width:40px;height:40px;display:flex;align-items:center;justify-content:center;
+  border-radius:var(--radius-round);background:var(--surface);color:var(--muted);box-shadow:var(--shadow-2);pointer-events:none;transform:translate(-50%,0)}
+.ptr svg{width:22px;height:22px}
+.ptr.is-go{color:var(--primary)}
+.ptr.is-spin svg{animation:ptrspin .7s linear infinite}
+@keyframes ptrspin{to{transform:rotate(360deg)}}

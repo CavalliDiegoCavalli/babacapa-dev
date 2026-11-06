@@ -95,6 +95,10 @@
 .ep-live{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;background:var(--ep-live);color:var(--on-stage);transform:skewX(-10deg);font-size:var(--fs-11);font-weight:800;letter-spacing:.12em;text-transform:uppercase}
 .ep-live::before{content:"";width:7px;height:7px;border-radius:var(--radius-pill);background:var(--on-stage)}
 .ep-when{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;font-size:var(--ep-when);text-transform:uppercase;color:var(--ink)}
+/* SP-IN 2026-11-06 (1.34.2): nell'app nativa data e ora salvano la gara nel calendario */
+.ep-when--btn{display:inline-flex;align-items:center;gap:var(--space-8);margin:0;padding:var(--space-4) 0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ep-when--btn svg{width:1em;height:1em;flex:none;color:var(--primary)}
+.ep-when--btn:active{opacity:.6}
 .ep-place{display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-13);font-weight:600;color:var(--muted);text-decoration:none}
 .ep-place svg{width:15px;height:15px;flex:none}
 
