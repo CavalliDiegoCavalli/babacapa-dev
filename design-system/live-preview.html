@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Babacapa · Live · anteprima</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="live.css">
+<style>
+  @font-face{font-family:"Archivo";font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url(../fonts/archivo.woff2) format("woff2")}
+  @font-face{font-family:"JetBrains Mono";font-weight:100 800;font-display:swap;src:url(../fonts/jetbrains-mono.woff2) format("woff2")}
+  body{margin:0;background:var(--bg)}
+</style>
+</head>
+<body>
+<div id="lv"></div>
+<script src="spin-core.js"></script>
+<script src="event-poster.js"></script>
+<script src="live.js"></script>
+<script>
+/* Gara simulata del mockup (docs/Live/mockup/Main.dc.html, RAW) nel formato della fotografia del tablet.
+   ?fino=N mostra lo stato dopo N righe senza animazioni; ?passo=ms gioca la gara con le animazioni; ?gate=login|web */
+const NM={A:{11:'Marco Rinaldi',31:'Sara Galli',41:'Luca Ferri',42:'Giulia Conti',51:'Andrea Moretti',52:'Chiara Bruno',12:'Paolo Villa',43:'Rita Marchetti',44:'Elena Costa',53:'Fabio Testa',55:'Davide Fontana'},
+  B:{21:'Roberto Greco',32:'Francesca Marini',43:'Irene Lombardi',53:'Tommaso Barbieri',54:'Nicola Serra',22:'Valeria Gatti',24:'Alessio Sala',35:'Martina Pellegrini',44:'Giorgio Riva',45:'Oscar Leone',56:'Katia Ricci'}};
+const COURT={A:[11,31,41,42,51,52],B:[21,32,33,43,53,54]},BENCH={A:[12,34,43,44,53,55],B:[22,24,35,44,45,56]};
+const RAW=[['start'],['score','A',52,2],['score','B',53,2],['score','A',11,3],['foul','B',43,'P1'],['score','A',41,1],['score','B',21,2],['sub','A',42,44],['score','B',54,2],['score','A',31,2],['score','A',44,2],['endq'],
+  ['start'],['score','B',32,2],['score','B',53,2],['score','B',43,2],['to','A'],['score','A',51,2],['foul','A',51,'P'],['sub','B',33,35],['score','B',35,2],['score','A',11,3],['foul','B',54,'L2'],['score','A',52,1],['score','A',52,1],['score','A',41,2],['endq'],
+  ['start',[['A',41,34]]],['score','B',21,2],['score','A',34,2],['score','B',54,2],['foul','A',44,'U1'],['score','B',53,1],['score','A',52,2],['score','B',53,3],['to','B'],['score','A',11,3],['endq'],
+  ['start',[['B',21,22]]],['score','B',22,2],['score','A',31,2],['foul','B',32,'T1'],['score','A',31,1],['foul','B',43,'D'],['sub','B',43,45],['score','B',45,2],['sub','A',52,55],['score','A',55,2],['score','B',53,2],['score','A',51,2],['final']];
+function game(upto){
+  const g={fase:'gioco',q:1,ev:[],lu:{},gioc:{A:[],B:[]},nomi:NM};
+  ['A','B'].forEach(t=>g.gioc[t]=COURT[t].concat(BENCH[t]).map(n=>({n:String(n),r:String(n)[0]})));
+  const oc={A:COURT.A.slice(),B:COURT.B.slice()};let q=0,id=1,m=17*60+30;
+  for(let k=0;k<upto&&k<RAW.length;k++){const r=RAW[k];m+=k%3?1:2;const h=String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+    if(r[0]==='start'){q++;(r[1]||[]).forEach(w=>{oc[w[0]][oc[w[0]].indexOf(w[1])]=w[2]});g.lu[q]={A:oc.A.slice(),B:oc.B.slice()};g.fase='gioco';g.q=q;continue}
+    if(r[0]==='endq'){g.fase='pausa';g.q=q;continue}
+    if(r[0]==='final'){g.fase='fine';g.q=q;continue}
+    const e={i:id++,q,t:r[1],y:r[0],h};
+    if(r[0]==='score'){e.n=String(r[2]);e.p=r[3]}else if(r[0]==='foul'){e.n=String(r[2]);e.k=r[3]}else if(r[0]==='sub'){e.o=String(r[2]);e.e=String(r[3]);oc[r[1]][oc[r[1]].indexOf(r[2])]=r[3]}
+    g.ev.push(e)}
+  return g;
+}
+const P=new URLSearchParams(location.search);
+const L=SPIN.live.mount(document.getElementById('lv'),{teams:{A:{name:'Leoni',full:'ASD Leoni Basket Inclusivo',sig:'LEO',color:'#1f5fd1'},B:{name:'Falchi',full:'Polisportiva Falchi',sig:'FAL',color:'#f2c200'}},
+  gate:P.get('gate')||'',links:{login:'#',register:'#',app:'#',store:'#'},onExit:()=>alert('Esci dal live')});
+const fino=+(P.get('fino')||RAW.length),passo=+(P.get('passo')||0);
+L.load(game(passo?1:fino));window.LV=L;
+if(passo){let k=1;const go=()=>{if(k>=RAW.length)return;k++;L.push(game(k));setTimeout(go,passo)};setTimeout(go,passo)}
+</script>
+</body>
+</html>

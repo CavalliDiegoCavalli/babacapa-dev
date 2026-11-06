@@ -225,3 +225,15 @@
   .ep-fm{height:40px}
   .ep-actions{display:none}
 }
+
+/* SP-IN 2026-11-06 (Diego, Live per i tifosi, docs/Live/LIVE.md sez. 2): blocco LIVE al posto delle statistiche durante la gara */
+.ep-livebox{position:relative;display:flex;flex-direction:column;align-items:center;gap:var(--space-12);margin:18px var(--space-16) 0;padding:22px 18px 20px;background:var(--surface);box-shadow:var(--shadow-1),inset 0 4px 0 var(--ep-live);text-align:center;overflow:hidden}
+.ep-livebtn{position:relative;width:100%;max-width:340px;height:76px;display:grid;place-items:center;background:var(--ep-live);color:var(--on-stage);transform:skewX(var(--ep-skew));text-decoration:none;box-shadow:0 12px 28px rgba(198,40,40,.4);animation:ep-skPulse 2.2s ease-in-out infinite}
+.ep-livebtn>span{display:inline-flex;align-items:center;gap:14px;transform:skewX(var(--ep-unskew));font-family:var(--font-display);font-size:48px;line-height:1;font-weight:900;font-stretch:62%;font-style:italic;letter-spacing:.06em;text-transform:uppercase}
+.ep-livedot{position:relative;width:14px;height:14px;border-radius:50%;background:var(--on-stage);animation:ep-pulse 1.2s ease-in-out infinite}
+.ep-livedot::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--on-stage);animation:ep-ripple 1.2s ease-out infinite}
+.ep-livelbl{font-family:var(--font-display);font-size:19px;line-height:1;font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;color:var(--ink)}
+@keyframes ep-skPulse{0%,100%{box-shadow:0 12px 28px rgba(198,40,40,.4)}50%{box-shadow:0 12px 40px rgba(198,40,40,.75)}}
+@keyframes ep-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.6);opacity:.55}}
+@keyframes ep-ripple{0%{transform:scale(1);opacity:.85}100%{transform:scale(3.2);opacity:0}}
+@media (prefers-reduced-motion: reduce){.ep-livebtn,.ep-livedot,.ep-livedot::after{animation:none}}

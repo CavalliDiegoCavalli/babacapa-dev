@@ -174,6 +174,12 @@
     return rows;
   }
 
+  /* SP-IN 2026-11-06 (Diego, Live per i tifosi, docs/Live/LIVE.md sez. 2): durante la gara, al posto delle statistiche,
+     il pulsante rosso LIVE con il pallino che pulsa e sotto solo il quarto in corso (niente sottotitolo, ora o punteggio) */
+  function liveBox(b) {
+    return `<section class="ep-livebox" aria-label="Diretta"><a class="ep-livebtn" href="${esc(b.href || '#')}"><span><i class="ep-livedot" aria-hidden="true"></i>Live</span></a><b class="ep-livelbl">${esc(b.label || '')}</b></section>`;
+  }
+
   /* ---------- render ---------- */
   function render(d) {
     const H = d.home, A = d.away, C = teamColors(H, A);
@@ -214,10 +220,11 @@
   ${bug(H, A, d, hasScore, lostA, lostB, w)}
 </header>
 <div class="ep-info">
-  ${live ? `<span class="ep-live">${esc(liveTxt)}</span>` : ''}
+  ${live && !d.liveBlock ? `<span class="ep-live">${esc(liveTxt)}</span>` : ''}
   <b class="ep-when${d.start || d.when ? '' : ' is-tbd'}">${esc(whenTxt)}</b>
   ${place}
 </div>
+${d.liveBlock ? liveBox(d.liveBlock) : ''}
 ${statsHtml || playersHtml ? `<div class="ep-body">
   ${statsHtml ? `<section class="ep-col ep-col--stats" aria-label="Statistiche"><h3 class="ep-tag"><span>Statistiche</span></h3>${statsHtml}${d.statsNote ? `<small class="ep-note">${esc(d.statsNote)}</small>` : ''}</section>` : ''}
   ${playersHtml ? `<section class="ep-col ep-side3 ep-side3--a" aria-label="${esc(H.short || H.name)}">${sideCol('a')}</section>
