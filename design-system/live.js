@@ -441,6 +441,8 @@ ${T2.map(t => `<div class="lv-side lv-side-${t === 'A' ? 'a' : 'b'} ${tc(t)}" st
     return g;
   }
   function demo(el, opts) {
+    /* Diego, 2026-11-06: la demo solo nell'app nativa e con l'accesso; altrimenti sfocata sotto il riquadro (opts.gate) */
+    if (opts.gate) { const c = mount(el, Object.assign({}, opts, { demo: true })); c.load(demoGame(24)); return c; }
     const ctl = mount(el, Object.assign({}, opts, { demo: true, gate: '' }));
     let k = 1, t = 0, dead = false;
     const step = () => {
