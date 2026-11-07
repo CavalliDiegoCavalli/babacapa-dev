@@ -480,6 +480,8 @@ a.alink2{color:var(--ink);text-decoration:none}
 .rcx-next b{font-size:var(--fs-12);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .rcx-sign,.rcx-none{margin:0;font-size:var(--fs-13);color:var(--muted)}
 .rcx-share{gap:var(--space-8)}
+/* Risultato inserito dall'organizzatore (1.34.3) */
+.rsx{display:flex;align-items:center;gap:var(--space-12);flex-wrap:wrap}
 .rcx-org{display:flex;align-items:center;gap:var(--space-12);flex-wrap:wrap;padding:var(--space-8) 0;border-bottom:1px solid var(--line)}
 /* campi della revisione: il riquadro (.sp-input, alto 44 px nel kit) cresce con il testo, che va a capo e resta dentro */
 .rcx-ed .sp-input:has(textarea){height:auto;align-items:stretch;padding:var(--space-8) var(--space-12)}
