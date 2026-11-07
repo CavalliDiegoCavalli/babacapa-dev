@@ -93,6 +93,8 @@
 .lpx-cta-ev{display:flex;flex-direction:column;gap:8px;width:100%}
 .lpx-cta-ev .lpx-rule{background:rgba(255,255,255,.18)}
 .lpx-cta-ev .lpx-tag{background:var(--on-stage);color:var(--scorebox)}
+/* SP-IN (2026-11-07): pulsante sotto i prossimi eventi */
+.lpx-cta-more{display:flex;justify-content:flex-end;margin-top:var(--space-8)}
 .lpx-ev{position:relative;display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;padding:12px 36px 12px 12px;border:0;border-radius:4px;background:rgba(255,255,255,.06);box-shadow:inset 4px 0 0 var(--ty);color:var(--on-stage);text-align:left;text-decoration:none;cursor:pointer}
 @media (hover:hover){.lpx-ev:hover{background:rgba(255,255,255,.12)}}
 .lpx-ev-band{flex:none;display:flex;align-items:center;gap:8px}

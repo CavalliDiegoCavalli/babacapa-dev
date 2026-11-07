@@ -131,11 +131,13 @@
   function cta(c) {
     if (!c) return '';
     const evs = (c.events || []).slice(0, 3);
+    /* SP-IN (2026-11-07, Diego): il pulsante sta sotto i prossimi eventi (nel testo solo se non ce ne sono) */
+    const b = c.button ? btn(c.button, 'lpx-btn--acc', c.button.label || 'Vedi gli eventi') : '';
     return `<section class="lpx-cta">
   <span class="lpx-cta-band" aria-hidden="true"></span><span class="lpx-tex" aria-hidden="true"></span>
   <div class="lpx-cta-in">
-    <div class="lpx-cta-t"><b>${esc(c.title)}</b>${c.sub ? `<span>${esc(c.sub)}</span>` : ''}${c.button ? btn(c.button, 'lpx-btn--acc', c.button.label || 'Vedi gli eventi') : ''}</div>
-    ${evs.length ? `<div class="lpx-cta-ev">${sec(c.eventsTitle || 'Prossimi eventi')}${evs.map(evRow).join('')}</div>` : ''}
+    <div class="lpx-cta-t"><b>${esc(c.title)}</b>${c.sub ? `<span>${esc(c.sub)}</span>` : ''}${evs.length ? '' : b}</div>
+    ${evs.length ? `<div class="lpx-cta-ev">${sec(c.eventsTitle || 'Prossimi eventi')}${evs.map(evRow).join('')}${b ? `<div class="lpx-cta-more">${b}</div>` : ''}</div>` : ''}
   </div>
 </section>`;
   }
