@@ -34,6 +34,8 @@
 
   const I = {
     plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
+    /* SP-IN (2026-11-09): coppa del pulsante Competizioni */
+    cup: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>',
     clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
     thumb: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg>',
     pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',
@@ -45,6 +47,8 @@
   const TYPES = { amichevole: 'Amichevole', torneo: 'Torneo', campionato: 'Campionato' };
 
   /* ---------- intestazione ---------- */
+  /* SP-IN (2026-11-09, Diego): h.comps = {label, attrs}: dopo Prossimi e l'orologio, separato da una barra, il pulsante
+     Competizioni (sotto 900 px solo la coppa, sopra coppa e scritta) che apre l'elenco delle competizioni */
   function header(h) {
     h = h || {};
     const seg = h.seg || {}, nx = seg.next || {}, ps = seg.past || {};
@@ -58,6 +62,7 @@
     <div class="evx-seg" role="group" aria-label="Quali eventi">
       ${tag(nx, 'evx-s evx-s--next', `<span>${esc(nx.label || 'Prossimi')}${nx.count != null ? `<small>${esc(nx.count)}</small>` : ''}</span>`, ` aria-pressed="${!ps.pressed}"`)}
       ${tag(ps, 'evx-s evx-s--past', `<span>${I.clock}</span>`, ` aria-pressed="${!!ps.pressed}" aria-label="${esc(ps.label || 'Già giocati')}" title="${esc(ps.label || 'Già giocati')}"`)}
+      ${h.comps ? `<span class="evx-csep" aria-hidden="true"></span>${tag(h.comps, 'evx-s evx-s--comps', `<span>${I.cup}<b class="evx-cl">${esc(h.comps.label || 'Competizioni')}</b></span>`, ` aria-haspopup="dialog" aria-label="${esc(h.comps.label || 'Competizioni')}" title="${esc(h.comps.label || 'Competizioni')}"`)}` : ''}
     </div>
     ${fl ? `<span class="evx-sep" aria-hidden="true"></span><div class="evx-filters" role="group" aria-label="Filtra gli eventi">${fl}</div>` : ''}
   </div>

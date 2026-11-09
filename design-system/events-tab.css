@@ -36,6 +36,11 @@
 .evx-s--past{flex:none;width:60px;padding:0}
 .evx-s--past>span{display:grid;place-items:center}
 .evx-s svg{width:20px;height:20px}
+/* SP-IN (2026-11-09, Diego): pulsante Competizioni separato dai filtri temporali da una barra; sotto 900 px solo la coppa */
+.evx-csep{flex:none;align-self:center;width:2px;height:30px;margin:0 var(--space-4);background:var(--line)}
+.evx-s--comps{flex:none;width:60px;padding:0}
+.evx-s--comps>span{display:inline-flex;align-items:center;gap:8px}
+.evx-cl{display:none;font:inherit}
 .evx-filters{display:flex;gap:6px;padding:0 var(--space-4)}
 .evx-f{flex:1 1 0;min-width:0;height:36px;padding:0 6px;border:1.5px solid var(--line-strong);background:transparent;color:var(--ink);transform:skewX(var(--evx-skew));cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
 .evx-f>span{display:block;transform:skewX(var(--evx-unskew));font-size:var(--fs-11);font-weight:800;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -151,6 +156,8 @@
   .evx-bar{flex-direction:row;align-items:center;gap:20px;padding:0 var(--space-4)}
   .evx-sep{display:block;width:2px;height:30px;background:var(--line);flex:none}
   .evx-s--next{flex:none;padding:0 22px}
+  .evx-s--comps{width:auto;padding:0 18px}
+  .evx-cl{display:inline}
   .evx-filters{padding:0}
   .evx-f{flex:none;padding:0 var(--space-16)}
   .evx-f>span{font-size:var(--fs-13)}
