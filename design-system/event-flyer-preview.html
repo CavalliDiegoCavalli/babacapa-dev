@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Babacapa · Locandina · anteprima</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  @font-face{font-family:"Archivo";font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url(../fonts/archivo.woff2) format("woff2")}
+  body{margin:0;background:var(--sunk,#eef1f4);font-family:var(--font-body)}
+  main{max-width:820px;margin:0 auto;padding:16px}
+  canvas{display:block;width:100%;height:auto;box-shadow:0 4px 24px rgba(0,0,0,.18);background:#fff}
+  p{color:var(--muted,#5b6b78);font-size:14px}
+</style>
+</head>
+<body>
+<main>
+<p>Locandina A4 della gara (SPIN.eventFlyer, docs/Locandine/LOCANDINE.md): esempio Almenno – Bergamo Blu del 15/11/2026, la prima approvata da Diego. <button type="button" id="pdf">Scarica il PDF</button></p>
+<canvas id="cv"></canvas>
+</main>
+<script src="../vendor/pdf-lib.min.js"></script>
+<script src="spin-core.js"></script>
+<script src="event-poster.js"></script>
+<script src="event-flyer.js"></script>
+<script>
+const LOGO='https://wmmopqodvfnqcarsedxa.supabase.co/storage/v1/object/public/loghi/';
+const H={name:'ALMENNO BASKIN VALLE IMAGNA',abbr:'ALM',logo:LOGO+'f23016c5-7148-42e8-866b-9a195ee394f9/logo.png',color:'#11963a',altColor:'#0d2b57'};
+const A={name:'BASKIN BERGAMO BLU',abbr:'BGB',logo:LOGO+'4960dac9-2de8-486b-be4c-794a996c7622/logo.png',color:'#2a3864',altColor:'#0c949b'};
+const K=SPIN.eventPoster.teamColors(H,A);
+window.FLYER={kind:'campionato',competition:'Sezione territoriale Lombardia Est · 2026/2027',
+  home:Object.assign({},H,SPIN.eventFlyer.split(H.name),{color:K.a,ring:K.aRing}),away:Object.assign({},A,SPIN.eventFlyer.split(A.name),{color:K.b,ring:K.bRing}),
+  when:{day:'Domenica',date:'15 · 11 · 26',time:'9:00'},venue:{name:'PalaLemine',address:'Via Montale 24, Almenno San Bartolomeo (BG)'},androidSoon:true};
+window.FLYER_DONE=SPIN.eventFlyer.draw(document.getElementById('cv'),FLYER,150);
+document.getElementById('pdf').onclick=async()=>{const b=await SPIN.eventFlyer.pdf(FLYER),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='Locandina.pdf';a.click()};
+</script>
+</body>
+</html>

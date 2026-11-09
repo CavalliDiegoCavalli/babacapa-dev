@@ -328,3 +328,9 @@ body.is-editing #app .page .wrap:has(.sp-stickybar){padding-bottom:calc(var(--sp
 .sp-choice:has(input:checked){box-shadow:inset 3px 0 0 var(--ink);padding-left:var(--space-12)}
 .sp-choice:has(input:focus-visible){outline:2px solid var(--focus);outline-offset:-2px}
 .tpx-f{align-items:center;gap:var(--space-8);flex-wrap:wrap;padding-top:var(--space-4)}
+/* Convocazione (1.34.4, Diego 2026-11-09): su PC e tablet intestazione e avvisi fermi, le due colonne scorrono ognuna per conto
+   suo, alte quanto lo spazio sotto l'intestazione (--cvx-h, lo calcola cvxFix); i pulsanti inclinati non vanno tagliati */
+@container sp (min-width:900px){
+  .cvx-grid{height:var(--cvx-h,auto);align-items:stretch}
+  .cvx-grid>.sp-main,.cvx-grid>.sp-side{min-height:0;overflow-y:auto;overscroll-behavior:contain;margin:0 calc(-1 * var(--space-8));padding:0 var(--space-8) var(--space-32)}
+}
