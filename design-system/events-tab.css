@@ -36,11 +36,30 @@
 .evx-s--past{flex:none;width:60px;padding:0}
 .evx-s--past>span{display:grid;place-items:center}
 .evx-s svg{width:20px;height:20px}
+/* SP-IN (2026-11-11, Diego): tendina Prossimi / Già giocati (header.seg.menu); la scelta resta sempre in pieno */
+.evx-dd{position:relative;flex:1;min-width:0;display:flex}
+.evx-dd>summary{list-style:none;flex:1;background:var(--ink);color:var(--surface)}
+.evx-dd>summary::-webkit-details-marker{display:none}
+.evx-dd>summary>span{align-items:center;justify-content:space-between;width:100%}
+.evx-dd>summary svg{width:18px;height:18px;transition:transform .15s}
+.evx-dd[open]>summary svg{transform:rotate(180deg)}
+.evx-dd-m{position:absolute;top:calc(100% + 6px);left:0;z-index:30;min-width:240px;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--ink);box-shadow:var(--shadow-3)}
+.evx-dd:not([open]) .evx-dd-m{display:none}
+.evx-dd-o{display:flex;align-items:center;justify-content:space-between;gap:var(--space-8);min-height:48px;padding:0 var(--space-12) 0 var(--space-16);border:0;background:transparent;color:var(--ink);text-align:left;cursor:pointer}
+.evx-dd-o+.evx-dd-o{border-top:1px solid var(--line)}
+.evx-dd-o>span{display:flex;align-items:baseline;gap:var(--space-8)}
+.evx-dd-o b{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:var(--fs-17)}
+.evx-dd-o small{font-size:var(--fs-12);color:var(--muted)}
+.evx-dd-o svg{width:18px;height:18px;flex:none;color:var(--primary)}
+.evx-dd-o:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
 /* SP-IN (2026-11-09, Diego): pulsante Competizioni separato dai filtri temporali da una barra; sotto 900 px solo la coppa */
 .evx-csep{flex:none;align-self:center;width:2px;height:30px;margin:0 var(--space-4);background:var(--line)}
 .evx-s--comps{flex:none;width:60px;padding:0}
 .evx-s--comps>span{display:inline-flex;align-items:center;gap:8px}
 .evx-cl{display:none;font:inherit}
+/* SP-IN (2026-11-11, Diego): con la tendina la coppa ha la scritta anche sotto 900 px */
+.evx-seg:has(.evx-dd) .evx-s--comps{width:auto;padding:0 var(--space-16)}
+.evx-seg:has(.evx-dd) .evx-cl{display:inline}
 .evx-filters{display:flex;gap:6px;padding:0 var(--space-4)}
 .evx-f{flex:1 1 0;min-width:0;height:36px;padding:0 6px;border:1.5px solid var(--line-strong);background:transparent;color:var(--ink);transform:skewX(var(--evx-skew));cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
 .evx-f>span{display:block;transform:skewX(var(--evx-unskew));font-size:var(--fs-11);font-weight:800;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -180,6 +199,9 @@
   .evx-bar{flex-direction:row;align-items:center;gap:20px;padding:0 var(--space-4)}
   .evx-sep{display:block;width:2px;height:30px;background:var(--line);flex:none}
   .evx-s--next{flex:none;padding:0 22px}
+  .evx-dd{flex:none}
+  .evx-dd>summary{min-width:190px}
+  .evx-dd>summary>span{gap:var(--space-12)}
   .evx-s--comps{width:auto;padding:0 18px}
   .evx-cl{display:inline}
   .evx-filters{padding:0}

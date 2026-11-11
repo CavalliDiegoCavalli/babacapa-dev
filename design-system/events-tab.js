@@ -8,8 +8,9 @@
      competitions(list)    → solo riquadro "Competizioni"
    Contratto dei dati: TAB-EVENTI.md, sezione 4. Ogni elemento interattivo accetta `attrs` (oggetto di attributi,
    es. {"data-act": "evseg", "data-v": "1"}) così l'app collega i propri gestori senza cambiare il componente.
-   Decisioni di design (Diego, 2026-10-20): niente dati live; selettore "Prossimi" + orologio (già giocati);
-   filtri multipli senza "Tutti" (nessun filtro attivo = tutti), pollice "Le mie squadre" per primo; niente ricerca;
+   Decisioni di design (Diego, 2026-10-20): niente dati live; selettore "Prossimi" + orologio (già giocati; dal 2026-11-11
+   tendina con header.seg.menu); filtri senza "Tutti" (nessun filtro attivo = tutti; dal 2026-11-11 a scelta singola, la
+   decide l'app), pollice "Le mie squadre" per primo; niente ricerca;
    colori delle squadre sempre il primo colore; su PC selettore e filtri su una riga, calendario sopra "Competizioni".
    Correzioni di Diego del 2026-10-20 (SP-IN): niente titolo se header.title è vuoto; "Prossimi" senza numero se manca
    count; colori di fasce e stemmi con le regole della scheda evento (SPIN.eventPoster.teamColors: ospite al secondo colore
@@ -39,6 +40,8 @@
     clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
     thumb: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg>',
     pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',
+    down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>',
     chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>',
     left: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>',
     shoe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 15h12a2 2 0 0 0 2-2 2 2 0 0 0-1.5-1.9L16 10l-2-4h-2.5l-1 2H9a1 1 0 0 0-1 1z"/><path d="M8 18.5h14"/><path d="M12.5 9.5h2"/><path d="M13 12h2.5"/><path d="M2 9h4"/><path d="M1 12h5"/><path d="M3 15h3"/></svg>',
@@ -60,8 +63,8 @@
   ${h.title || create || h.titleExtra ? `<div class="evx-title">${h.title ? `<h1>${esc(h.title)}</h1>` : ''}${h.titleExtra ? `<span class="evx-title-x">${h.titleExtra}</span>` : ''}${create}</div>` : ''}
   <div class="evx-bar">
     <div class="evx-seg" role="group" aria-label="Quali eventi">
-      ${tag(nx, 'evx-s evx-s--next', `<span>${esc(nx.label || 'Prossimi')}${nx.count != null ? `<small>${esc(nx.count)}</small>` : ''}</span>`, ` aria-pressed="${!ps.pressed}"`)}
-      ${tag(ps, 'evx-s evx-s--past', `<span>${I.clock}</span>`, ` aria-pressed="${!!ps.pressed}" aria-label="${esc(ps.label || 'Già giocati')}" title="${esc(ps.label || 'Già giocati')}"`)}
+      ${seg.menu ? dropdown(nx, ps) : `${tag(nx, 'evx-s evx-s--next', `<span>${esc(nx.label || 'Prossimi')}${nx.count != null ? `<small>${esc(nx.count)}</small>` : ''}</span>`, ` aria-pressed="${!ps.pressed}"`)}
+      ${tag(ps, 'evx-s evx-s--past', `<span>${I.clock}</span>`, ` aria-pressed="${!!ps.pressed}" aria-label="${esc(ps.label || 'Già giocati')}" title="${esc(ps.label || 'Già giocati')}"`)}`}
       ${h.comps ? `<span class="evx-csep" aria-hidden="true"></span>${tag(h.comps, 'evx-s evx-s--comps', `<span>${I.cup}<b class="evx-cl">${esc(h.comps.label || 'Competizioni')}</b></span>`, ` aria-haspopup="dialog" aria-label="${esc(h.comps.label || 'Competizioni')}" title="${esc(h.comps.label || 'Competizioni')}"`)}` : ''}
     </div>
     ${fl ? `<span class="evx-sep" aria-hidden="true"></span><div class="evx-filters" role="group" aria-label="Filtra gli eventi">${fl}</div>` : ''}
@@ -69,6 +72,19 @@
   ${h.extra ? `<div class="evx-extra">${h.extra}</div>` : ''}
 </div>`;
   }
+
+  /* SP-IN (2026-11-11, Diego, proposta 4 del mockup): con seg.menu il selettore è una tendina che dice sempre cosa si sta
+     guardando ("Prossimi" o "Già giocati") e si apre con le due scelte; nx.hint e ps.hint = riga piccola accanto alla scelta */
+  function dropdown(nx, ps) {
+    const cur = ps.pressed ? ps : nx;
+    const opt = (o, on, def) => tag(o, 'evx-dd-o', `<span><b>${esc(o.label || def)}</b>${o.hint ? `<small>${esc(o.hint)}</small>` : ''}</span>${on ? I.check : ''}`, ` role="menuitemradio" aria-checked="${on}"`);
+    return `<details class="evx-dd"><summary class="evx-s evx-s--next" aria-haspopup="menu"><span>${esc(cur.label || (ps.pressed ? 'Già giocati' : 'Prossimi'))}${I.down}</span></summary>
+      <div class="evx-dd-m" role="menu">${opt(nx, !ps.pressed, 'Prossimi')}${opt(ps, !!ps.pressed, 'Già giocati')}</div></details>`;
+  }
+  // la tendina aperta si chiude toccando fuori
+  document.addEventListener('click', e => {
+    document.querySelectorAll('details.evx-dd[open]').forEach(d => { if (!d.contains(e.target)) d.removeAttribute('open'); });
+  });
 
   /* ---------- card ---------- */
   /* contorno dello stemma: l'altro colore della squadra (come nella scheda evento), o il colore del testo sulla fascia */
