@@ -60,20 +60,26 @@
 .evx-rule{flex:1;height:2px;background:var(--line)}
 .evx-count{font-size:var(--fs-11);font-weight:700;color:var(--muted);white-space:nowrap}
 /* SP-IN (2026-11-11, Diego): agenda con la data a sinistra (colonna del giorno + card), separatore del mese.
-   Dentro la riga le card sono più compatte e senza freccia sul telefono, per lasciare spazio ai nomi. */
-.evx-month{display:flex;align-items:baseline;gap:10px}
+   Dentro la riga le card sono più compatte e senza freccia sul telefono, per lasciare spazio ai nomi.
+   Scorrendo il mese resta fermo sotto l'intestazione dell'app (--evx-top) finché finisce la sua sezione, la colonna del
+   giorno resta ferma sotto il mese finché finisce la sua riga (Diego, 2026-11-11). La linea verticale è della riga. */
+.evx{--evx-mh:48px}
+.evx-msec{display:flex;flex-direction:column}
+.evx-days{display:flex;flex-direction:column;gap:20px;padding-top:var(--space-8)}
+.evx-month{position:sticky;top:var(--evx-top,0px);z-index:4;height:var(--evx-mh);box-sizing:border-box;margin:0;display:flex;align-items:center;gap:10px;background:var(--bg);font:inherit}
 .evx-month b{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:30px;line-height:.9}
 .evx-month span{font-family:var(--font-mono);font-size:var(--fs-13);font-weight:700;color:var(--muted)}
-.evx-month i{flex:1;align-self:center;height:2px;background:var(--ink)}
-.evx-group.evx-row{display:grid;grid-template-columns:var(--evx-rail) minmax(0,1fr);gap:var(--space-12);
+.evx-month i{flex:1;height:2px;background:var(--ink)}
+.evx-group.evx-row{position:relative;display:grid;grid-template-columns:var(--evx-rail) minmax(0,1fr);gap:var(--space-12);
+  scroll-margin-top:calc(var(--evx-top,0px) + var(--evx-mh) + var(--space-8));
   --evx-rail:54px;--evx-band-h:68px;--evx-crest:40px;--evx-bug-h:30px;--evx-bug-ab:14px;--evx-bug-mid:15px;--evx-name:19px}
-.evx-rail{display:flex;flex-direction:column;align-items:center;gap:2px;margin:0;padding-top:2px;font:inherit}
+.evx-group.evx-row::before{content:"";position:absolute;left:calc(var(--evx-rail) / 2 - 1px);top:0;bottom:0;width:2px;background:var(--line)}
+.evx-rail{position:sticky;top:calc(var(--evx-top,0px) + var(--evx-mh) + var(--space-8));z-index:3;align-self:start;display:flex;flex-direction:column;align-items:center;gap:2px;margin:0;padding:2px 0 var(--space-8);background:var(--bg);font:inherit}
 .evx-rail small{font-size:var(--fs-12);font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .evx-rail b,.evx-mo{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;color:var(--ink)}
 .evx-rail b{font-size:50px;line-height:.85}
 .evx-mo{font-size:21px;line-height:.9;letter-spacing:.01em}
 .evx-rel{margin-top:6px;padding:2px 6px;background:var(--accent);color:var(--accent-ink);transform:skewX(var(--evx-skew));font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
-.evx-vl{flex:1;width:2px;min-height:20px;margin-top:var(--space-8);background:var(--line)}
 .evx-cards{display:flex;flex-direction:column;gap:10px;min-width:0}
 .evx-row .evx-body{padding:9px 12px 11px;gap:var(--space-8)}
 .evx-row .evx-chev{display:none}
@@ -191,6 +197,7 @@
   .evx-group.evx-row{--evx-rail:72px;--evx-band-h:92px;--evx-crest:54px;--evx-bug-h:38px;--evx-bug-ab:16px;--evx-bug-mid:18px;--evx-name:24px;gap:var(--space-16)}
   .evx-rail b{font-size:64px}
   .evx-mo{font-size:27px}
+  .evx-cols{--evx-mh:58px}
   .evx-month b{font-size:40px}
   .evx-row .evx-card--match .evx-body,.evx-row .evx-card--stack .evx-body{padding:0 18px 0 20px;gap:var(--space-20)}
   .evx-row .evx-chev{display:grid}

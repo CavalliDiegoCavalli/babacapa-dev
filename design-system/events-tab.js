@@ -127,18 +127,24 @@
      giorno in una colonna (giorno, numero grande, mese grande quanto il numero e nello stesso colore, "Tra 3 gg" solo sul
      primo giorno) unita da una linea, con le card a destra; g.month = {name, year} apre il mese con un separatore.
      I gruppi senza date (Bozze, Richieste di eliminazione) restano con l'etichetta scura. */
+  /* SP-IN (2026-11-11, Diego): scorrendo, il mese resta fermo in alto finché non arriva il mese dopo e la colonna del giorno
+     resta ferma sotto il mese finché scorrono le sue card (position: sticky dentro la sezione del mese e la riga del giorno).
+     L'app mette in --evx-top dove finisce la sua intestazione ferma. */
   function rail(d, label) {
-    return `<h3 class="evx-rail"${label ? ` aria-label="${esc(label)}"` : ''}><small>${esc(d.wd)}</small><b>${esc(d.n)}</b><span class="evx-mo">${esc(d.mo)}</span>${d.rel ? `<span class="evx-rel">${esc(d.rel)}</span>` : ''}<span class="evx-vl" aria-hidden="true"></span></h3>`;
+    return `<h3 class="evx-rail"${label ? ` aria-label="${esc(label)}"` : ''}><small>${esc(d.wd)}</small><b>${esc(d.n)}</b><span class="evx-mo">${esc(d.mo)}</span>${d.rel ? `<span class="evx-rel">${esc(d.rel)}</span>` : ''}</h3>`;
   }
   function list(groups, empty) {
     if (!groups || !groups.length) return `<div class="evx-empty">${esc(empty || 'Nessun evento.')}</div>`;
-    return groups.map(g => {
+    let out = '', open = false;
+    groups.forEach(g => {
       const id = g.id ? ` id="${esc(g.id)}"` : '', items = (g.items || []).map(card).join('');
-      const month = g.month ? `<div class="evx-month"><b>${esc(g.month.name)}</b>${g.month.year ? `<span>${esc(g.month.year)}</span>` : ''}<i aria-hidden="true"></i></div>` : '';
-      return month + (g.date
+      if (g.month || (!g.date && open)) { if (open) out += '</div></section>'; open = false; }
+      if (g.month) { out += `<section class="evx-msec"><h2 class="evx-month"><b>${esc(g.month.name)}</b>${g.month.year ? `<span>${esc(g.month.year)}</span>` : ''}<i aria-hidden="true"></i></h2><div class="evx-days">`; open = true; }
+      out += g.date
         ? `<section class="evx-group evx-row"${id}>${rail(g.date, g.day)}<div class="evx-cards">${items}</div></section>`
-        : `<section class="evx-group"${id}>${dayTag(g.day, g.count)}${items}</section>`);
-    }).join('');
+        : `<section class="evx-group"${id}>${dayTag(g.day, g.count)}${items}</section>`;
+    });
+    return out + (open ? '</div></section>' : '');
   }
 
   /* ---------- colonna laterale ---------- */
