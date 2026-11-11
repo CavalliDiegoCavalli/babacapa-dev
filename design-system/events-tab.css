@@ -57,9 +57,7 @@
 .evx-s--comps{flex:none;width:60px;padding:0}
 .evx-s--comps>span{display:inline-flex;align-items:center;gap:8px}
 .evx-cl{display:none;font:inherit}
-/* SP-IN (2026-11-11, Diego): con la tendina la coppa ha la scritta anche sotto 900 px */
-.evx-seg:has(.evx-dd) .evx-s--comps{width:auto;padding:0 var(--space-16)}
-.evx-seg:has(.evx-dd) .evx-cl{display:inline}
+/* SP-IN (2026-11-11, Diego, dev.4): anche con la tendina sotto 900 px solo la coppa; la tendina prende il resto della riga */
 .evx-filters{display:flex;gap:6px;padding:0 var(--space-4)}
 .evx-f{flex:1 1 0;min-width:0;height:36px;padding:0 6px;border:1.5px solid var(--line-strong);background:transparent;color:var(--ink);transform:skewX(var(--evx-skew));cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
 .evx-f>span{display:block;transform:skewX(var(--evx-unskew));font-size:var(--fs-11);font-weight:800;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
