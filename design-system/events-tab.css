@@ -59,6 +59,24 @@
 .evx-tag b{display:block;transform:skewX(var(--evx-unskew));font-size:var(--fs-14);letter-spacing:.06em}
 .evx-rule{flex:1;height:2px;background:var(--line)}
 .evx-count{font-size:var(--fs-11);font-weight:700;color:var(--muted);white-space:nowrap}
+/* SP-IN (2026-11-11, Diego): agenda con la data a sinistra (colonna del giorno + card), separatore del mese.
+   Dentro la riga le card sono più compatte e senza freccia sul telefono, per lasciare spazio ai nomi. */
+.evx-month{display:flex;align-items:baseline;gap:10px}
+.evx-month b{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:30px;line-height:.9}
+.evx-month span{font-family:var(--font-mono);font-size:var(--fs-13);font-weight:700;color:var(--muted)}
+.evx-month i{flex:1;align-self:center;height:2px;background:var(--ink)}
+.evx-group.evx-row{display:grid;grid-template-columns:var(--evx-rail) minmax(0,1fr);gap:var(--space-12);
+  --evx-rail:54px;--evx-band-h:68px;--evx-crest:40px;--evx-bug-h:30px;--evx-bug-ab:14px;--evx-bug-mid:15px;--evx-name:19px}
+.evx-rail{display:flex;flex-direction:column;align-items:center;gap:2px;margin:0;padding-top:2px;font:inherit}
+.evx-rail small{font-size:var(--fs-12);font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.evx-rail b,.evx-mo{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;color:var(--ink)}
+.evx-rail b{font-size:50px;line-height:.85}
+.evx-mo{font-size:21px;line-height:.9;letter-spacing:.01em}
+.evx-rel{margin-top:6px;padding:2px 6px;background:var(--accent);color:var(--accent-ink);transform:skewX(var(--evx-skew));font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.evx-vl{flex:1;width:2px;min-height:20px;margin-top:var(--space-8);background:var(--line)}
+.evx-cards{display:flex;flex-direction:column;gap:10px;min-width:0}
+.evx-row .evx-body{padding:9px 12px 11px;gap:var(--space-8)}
+.evx-row .evx-chev{display:none}
 .evx-empty{padding:var(--space-24);text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line-strong)}
 
 .evx-card{display:flex;flex-direction:column;width:100%;box-sizing:border-box;padding:0;border:0;text-align:left;background:var(--surface);color:inherit;text-decoration:none;border-radius:4px;overflow:hidden;cursor:pointer;box-shadow:0 1px 2px rgba(20,32,43,.06),0 8px 20px rgba(20,32,43,.07);transition:box-shadow .12s var(--ease),transform .12s var(--ease)}
@@ -169,4 +187,12 @@
   .evx-card--stack .evx-sband{height:92px;border-radius:4px 0 0 4px}
   .evx-card--stack .evx-body{padding:0 18px 0 20px;gap:var(--space-20)}
   .evx-side{display:flex;flex-direction:column;gap:20px}
+  /* SP-IN (2026-11-11): su PC colonna della data più larga, card alla misura di sempre e con la freccia */
+  .evx-group.evx-row{--evx-rail:72px;--evx-band-h:92px;--evx-crest:54px;--evx-bug-h:38px;--evx-bug-ab:16px;--evx-bug-mid:18px;--evx-name:24px;gap:var(--space-16)}
+  .evx-rail b{font-size:64px}
+  .evx-mo{font-size:27px}
+  .evx-month b{font-size:40px}
+  .evx-row .evx-card--match .evx-body,.evx-row .evx-card--stack .evx-body{padding:0 18px 0 20px;gap:var(--space-20)}
+  .evx-row .evx-chev{display:grid}
+  .evx-row :is(.evx-card--match,.evx-card--stack){grid-template-columns:min(340px,50%) minmax(0,1fr)}
 }

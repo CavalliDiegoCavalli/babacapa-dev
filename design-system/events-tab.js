@@ -123,9 +123,22 @@
   function dayTag(text, extra) {
     return `<div class="evx-day"><span class="evx-tag"><b>${esc(text)}</b></span><span class="evx-rule"></span>${extra ? `<span class="evx-count">${esc(extra)}</span>` : ''}</div>`;
   }
+  /* SP-IN (2026-11-11, Diego, proposta 3 del mockup): agenda con la data a sinistra. g.date = {wd, n, mo, rel} mette il
+     giorno in una colonna (giorno, numero grande, mese grande quanto il numero e nello stesso colore, "Tra 3 gg" solo sul
+     primo giorno) unita da una linea, con le card a destra; g.month = {name, year} apre il mese con un separatore.
+     I gruppi senza date (Bozze, Richieste di eliminazione) restano con l'etichetta scura. */
+  function rail(d, label) {
+    return `<h3 class="evx-rail"${label ? ` aria-label="${esc(label)}"` : ''}><small>${esc(d.wd)}</small><b>${esc(d.n)}</b><span class="evx-mo">${esc(d.mo)}</span>${d.rel ? `<span class="evx-rel">${esc(d.rel)}</span>` : ''}<span class="evx-vl" aria-hidden="true"></span></h3>`;
+  }
   function list(groups, empty) {
     if (!groups || !groups.length) return `<div class="evx-empty">${esc(empty || 'Nessun evento.')}</div>`;
-    return groups.map(g => `<section class="evx-group"${g.id ? ` id="${esc(g.id)}"` : ''}>${dayTag(g.day, g.count)}${(g.items || []).map(card).join('')}</section>`).join('');
+    return groups.map(g => {
+      const id = g.id ? ` id="${esc(g.id)}"` : '', items = (g.items || []).map(card).join('');
+      const month = g.month ? `<div class="evx-month"><b>${esc(g.month.name)}</b>${g.month.year ? `<span>${esc(g.month.year)}</span>` : ''}<i aria-hidden="true"></i></div>` : '';
+      return month + (g.date
+        ? `<section class="evx-group evx-row"${id}>${rail(g.date, g.day)}<div class="evx-cards">${items}</div></section>`
+        : `<section class="evx-group"${id}>${dayTag(g.day, g.count)}${items}</section>`);
+    }).join('');
   }
 
   /* ---------- colonna laterale ---------- */
