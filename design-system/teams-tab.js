@@ -11,7 +11,12 @@
    Decisioni (Diego, 2026-10-21): proposta 5; su telefono il muro mostra tutte le squadre e la scheda si apre in un
    dialog; la testata della scheda usa il PRIMO colore (fascia con lo stemma) e il SECONDO colore (fondo), mai il grigio
    scuro; statistiche come nella scheda evento: punti medi a partita non di campionato e di campionato, miglior
-   realizzatore, miglior realizzatore da 3, V/P delle ultime 3 partite, più il prossimo evento. Niente dati live. */
+   realizzatore, miglior realizzatore da 3, V/P delle ultime 3 partite, più il prossimo evento. Niente dati live.
+   SP-IN (2026-11-12, Diego): nessuna linea colorata sotto le caselle; la casella di una squadra seguita prende il primo
+   colore con la filigrana obliqua e lo stemma in evidenza; il "segui" è un cuore (non più il pollice); nella scheda
+   atleti (totale e per ruolo), punti medi a partita (tutte le gare), punti medi per ruolo, % dei punti da 3, poi le ultime
+   3 partite e il prossimo evento; il nome della squadra si adatta su al massimo 3 righe senza spezzare le parole (fit);
+   senza accesso il contenuto è poco sfocato sotto "Diventa tifoso per seguire le tue squadre preferite". */
 (function () {
   'use strict';
   // design system v2 (2026-10-22): utilità comuni da spin-core (window.SPIN.core, caricato prima)
@@ -33,7 +38,7 @@
   const I = {
     plus: `<svg ${SV} stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>`,
     search: `<svg ${SV}><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>`,
-    thumb: `<svg ${SV}><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg>`,
+    heart: `<svg ${SV}><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21.2l8.8-8.8a5.5 5.5 0 0 0 0-7.8z"/></svg>`,
     chev: `<svg ${SV}><path d="m9 18 6-6-6-6"/></svg>`,
     close: `<svg ${SV}><path d="M6 6l12 12M18 6L6 18"/></svg>`
   };
@@ -49,7 +54,7 @@
   function follow(f, t, cls) {
     if (!f) return '';
     const on = !!f.pressed, lab = (on ? 'Segui già ' : 'Segui ') + (t.name || name(t));
-    return tag(f, `tmx-follow ${cls || ''}`, `<span>${I.thumb}</span>`, ` aria-pressed="${on}" aria-label="${esc(f.label || lab)}" title="${on ? 'La segui' : 'Segui'}"`);
+    return tag(f, `tmx-follow ${cls || ''}`, `<span>${I.heart}</span>`, ` aria-pressed="${on}" aria-label="${esc(f.label || lab)}" title="${on ? 'La segui' : 'Segui'}"`);
   }
 
   /* ---------- intestazione ---------- */
@@ -58,7 +63,7 @@
     const s = h.search || {}, m = h.mine;
     const create = h.create ? tag(h.create, 'tmx-create', `<span>${I.plus}<b class="tmx-l">${esc(h.create.label || 'Registra una squadra')}</b><b class="tmx-s">${esc(h.create.short || 'Registra')}</b></span>`) : '';
     const search = h.search === false ? '' : `<label class="tmx-search"><span>${I.search}<input type="search" placeholder="${esc(s.placeholder || 'Cerca una squadra o una società')}" aria-label="${esc(s.label || 'Cerca una squadra o una società')}" value="${esc(s.value || '')}"${attrs(s.attrs)}></span></label>`;
-    const mine = m ? tag(m, 'tmx-mine', `<span>${I.thumb}</span>`, ` aria-pressed="${!!m.pressed}" aria-label="${esc(m.label || 'Solo le squadre che segui')}" title="Le mie squadre"`) : '';
+    const mine = m ? tag(m, 'tmx-mine', `<span>${I.heart}</span>`, ` aria-pressed="${!!m.pressed}" aria-label="${esc(m.label || 'Solo le squadre che segui')}" title="Le mie squadre"`) : '';
     return `<div class="tmx-head">
   <div class="tmx-title">${h.title === '' ? '' : `<h1>${esc(h.title || 'Squadre')}</h1>`}${create}</div>
   ${search || mine ? `<div class="tmx-tools">${search}${mine}</div>` : ''}
@@ -67,9 +72,9 @@
 
   /* ---------- muro degli stemmi ---------- */
   function tile(t) {
-    const sel = !!t.selected;
-    return tag(t, 'tmx-tile', `${crest(t, 'tmx-crest')}<b class="tmx-tile-n">${esc(name(t))}</b>${t.followed ? `<span class="tmx-tile-f" title="La segui">${I.thumb}</span>` : ''}`,
-      ` style="--c:${esc(t.color || INK)}" aria-current="${sel}" aria-label="${esc((t.name || name(t)) + (t.followed ? ', la segui' : ''))}"`);
+    const sel = !!t.selected, f = !!t.followed, c = t.color || INK;
+    return tag(t, 'tmx-tile' + (f ? ' tmx-tile--f' : ''), `${f ? '<span class="tmx-tex" aria-hidden="true"></span>' : ''}${crest(t, 'tmx-crest')}<b class="tmx-tile-n">${esc(name(t))}</b>${f ? `<span class="tmx-tile-f" title="La segui">${I.heart}</span>` : ''}`,
+      ` style="--c:${esc(c)};--c-on:${onColor(c)}" aria-current="${sel}" aria-label="${esc((t.name || name(t)) + (f ? ', la segui' : ''))}"`);
   }
   function wall(teams, empty) {
     const list = (teams || []).slice().sort((a, b) => name(a).localeCompare(name(b), 'it'));
@@ -88,12 +93,21 @@
     <span class="tmx-ch-band" aria-hidden="true"></span><span class="tmx-tex" aria-hidden="true"></span>
     <b class="tmx-ch-wm" aria-hidden="true">${esc(abbr(t))}</b>
     ${crest(t, 'tmx-ch-crest')}
-    <span class="tmx-ch-t"><small>Squadra${c.athletes != null ? ` · ${esc(c.athletes)} atleti` : ''}</small><b>${esc(name(t))}</b></span>
+    <span class="tmx-ch-t"><small>Squadra</small><b>${esc(name(t))}</b></span>
     <span class="tmx-ch-r">${right}</span>
   </div>`;
   }
-  function avg(label, sub, v) {
-    return `<div class="tmx-avg"><span>${esc(label)}<br><b>${esc(sub)}</b></span><b class="tmx-avg-v">${dec(v)}</b></div>`;
+  function avg(label, v) {
+    return `<div class="tmx-avg"><span>${esc(label)}</span><b class="tmx-avg-v">${esc(v)}</b></div>`;
+  }
+  function pct(v) { return v == null || v === '' ? '—' : Number(v).toLocaleString('it-IT', { maximumFractionDigits: 1 }) + '%'; }
+  /* SP-IN (2026-11-12): atleti e punti medi a partita per ruolo, una colonna per ruolo (1–5) */
+  function roles(list) {
+    if (!list || !list.length) return '';
+    const row = (lab, f) => `<tr><th scope="row">${esc(lab)}</th>${list.map(r => `<td>${esc(f(r))}</td>`).join('')}</tr>`;
+    return `<div class="tmx-blk"><span class="tmx-lab" aria-hidden="true">Per ruolo</span><table class="tmx-rt" aria-label="Atleti e punti a partita per ruolo">
+      <thead><tr><th scope="col"><span class="tmx-vh">Ruolo</span></th>${list.map(r => `<th scope="col"><span><b>${esc(r.role)}</b></span></th>`).join('')}</tr></thead>
+      <tbody>${row('Atleti', r => num(r.athletes))}${row('Punti a partita', r => dec(r.ppg))}</tbody></table></div>`;
   }
   function player(label, p, value, unit, t) {
     if (!p) return '';
@@ -126,7 +140,9 @@
     const actions = open ? `<div class="tmx-acts">${open}</div>` : '';   // "Apri la squadra" solo a chi può aprirla (Diego, 2026-10-21)
     return `<div class="tmx-cb">
     ${sec(c.statsTitle || 'Statistiche')}
-    <div class="tmx-avgs" style="--a:${esc(t.color || INK)}">${avg('Punti medi a partita', 'non di campionato', s.ppgOther)}${avg('Punti medi a partita', 'di campionato', s.ppgLeague)}</div>
+    <div class="tmx-stx" style="--a:${esc(t.color || INK)};--a-on:${onColor(t.color || INK)}">
+    <div class="tmx-avgs">${avg('Atleti', num(c.athletes))}${avg('Punti a partita', dec(s.ppg))}${avg('Punti da 3', pct(s.pct3))}</div>
+    ${roles(s.roles)}</div>
     <div class="tmx-pls">${player('Miglior realizzatore', c.top, c.top && c.top.points, c.top && c.top.perGame != null ? `punti · ${dec(c.top.perGame)} a gara` : 'punti', t)}${player('Miglior realizzatore da 3', c.top3, c.top3 && c.top3.made, 'canestri da 3', t)}</div>
     ${last3(c.last)}
     ${nextEv(c.next)}
@@ -140,7 +156,7 @@
     if (!L) return body(c, closable);
     const btn = (o, cls, t) => o ? tag(o, cls, `<b>${esc(o.label || t)}</b>`) : '';
     return `<div class="tmx-lock"><div class="tmx-lock-b" aria-hidden="true" inert>${body(c, closable)}</div>
-    <div class="tmx-lock-cta"><b class="tmx-lock-t">${esc(L.title || 'Registrati per vedere la squadra')}</b>${L.text ? `<p>${esc(L.text)}</p>` : ''}
+    <div class="tmx-lock-cta"><b class="tmx-lock-t">${esc(L.title || 'Diventa tifoso per seguire le tue squadre preferite')}</b>${L.text ? `<p>${esc(L.text)}</p>` : ''}
       <div class="tmx-lock-a">${btn(L.login, 'tmx-lock-in', 'Accedi')}${btn(L.signup, 'tmx-lock-up', 'Registrati')}</div></div></div>`;
   }
   function card(c, o) {
@@ -175,12 +191,37 @@
     return `<div class="tmx">
   ${header(d.header)}
   <div class="tmx-cols${aside ? '' : ' tmx-cols--one'}">
-    <div class="tmx-main">${sec(d.wallTitle || 'Tutte le squadre', wallSub)}${wall(teams, d.empty)}${d.hint === false ? '' : `<small class="tmx-hint">Tocca una squadra per vedere la sua scheda. <span>${I.thumb}</span> = la segui</small>`}</div>
+    <div class="tmx-main">${sec(d.wallTitle || 'Tutte le squadre', wallSub)}${wall(teams, d.empty)}${d.hint === false ? '' : `<small class="tmx-hint">Tocca una squadra per vedere la sua scheda. <span>${I.heart}</span> = la segui</small>`}</div>
     ${aside}
   </div>
 </div>`;
   }
 
+  /* SP-IN (2026-11-12): il nome nella testata della scheda sta su al massimo 3 righe senza spezzare le parole: si parte
+     dal corpo del CSS e si rimpicciolisce finché righe e parole ci stanno (come fitEp della scheda evento) */
+  function fitName(n) {
+    n.style.fontSize = '';
+    let fs = parseFloat(getComputedStyle(n).fontSize) || 40;
+    for (let i = 0; i < 30 && fs > 12; i++) {
+      const lh = parseFloat(getComputedStyle(n).lineHeight) || fs * .86;
+      if (n.scrollWidth <= n.clientWidth + 1 && n.offsetHeight <= lh * 3 + 2) return;
+      fs *= .92; n.style.fontSize = fs + 'px';
+    }
+  }
+  const RO = typeof ResizeObserver === 'function' ? new ResizeObserver(es => es.forEach(e => {
+    const w = Math.round(e.contentRect.width); if (e.target.__tmxW === w) return; e.target.__tmxW = w; const n = e.target.querySelector(':scope>b'); if (n) fitName(n);
+  })) : null;
+  function fit(root) { (root || document).querySelectorAll('.tmx-ch-t>b').forEach(n => { if (RO && !n.__tmxRO) { n.__tmxRO = 1; RO.observe(n.parentNode); } fitName(n); }); }
+  if (typeof document !== 'undefined' && typeof MutationObserver === 'function') {
+    const start = () => {
+      new MutationObserver(ms => { if (ms.some(m => [...m.addedNodes].some(x => x.nodeType === 1 && (x.matches('.tmx-ch') || x.querySelector('.tmx-ch'))))) fit(); })
+        .observe(document.body, { childList: true, subtree: true });
+      fit();
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => fit());
+    };
+    if (document.body) start(); else document.addEventListener('DOMContentLoaded', start);
+  }
+
   window.SPIN = window.SPIN || {};
-  window.SPIN.teamsTab = { render, header, wall, card, dialog, abbr, onColor };
+  window.SPIN.teamsTab = { render, header, wall, card, dialog, abbr, onColor, fit };
 })();

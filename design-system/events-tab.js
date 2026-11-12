@@ -38,7 +38,8 @@
     /* SP-IN (2026-11-09): coppa del pulsante Competizioni */
     cup: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>',
     clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
-    thumb: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg>',
+    /* SP-IN (2026-11-12, Diego): il segui è un cuore (prima il pollice) */
+    heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21.2l8.8-8.8a5.5 5.5 0 0 0 0-7.8z"/></svg>',
     pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',
     down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>',
     check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>',
@@ -57,7 +58,7 @@
     const seg = h.seg || {}, nx = seg.next || {}, ps = seg.past || {};
     const create = h.create ? tag(h.create, 'evx-create', `<span>${I.plus}${esc(h.create.label || 'Crea evento')}</span>`) : '';
     const fl = (h.filters || []).map(f => f.key === 'mine'
-      ? tag(f, 'evx-f evx-f--mine', `<span>${I.thumb}</span>`, ` aria-pressed="${!!f.pressed}" aria-label="${esc(f.label || 'Le mie squadre')}" title="${esc(f.label || 'Le mie squadre')}"`)
+      ? tag(f, 'evx-f evx-f--mine', `<span>${I.heart}</span>`, ` aria-pressed="${!!f.pressed}" aria-label="${esc(f.label || 'Le mie squadre')}" title="${esc(f.label || 'Le mie squadre')}"`)
       : tag(f, 'evx-f', `<span>${esc(f.label || TYPES[f.key] || f.key)}</span>`, ` aria-pressed="${!!f.pressed}"`)).join('');
     return `<div class="evx-head">
   ${h.title || create || h.titleExtra ? `<div class="evx-title">${h.title ? `<h1>${esc(h.title)}</h1>` : ''}${h.titleExtra ? `<span class="evx-title-x">${h.titleExtra}</span>` : ''}${create}</div>` : ''}

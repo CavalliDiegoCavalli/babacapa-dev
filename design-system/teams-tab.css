@@ -49,7 +49,13 @@
 .tmx-wall{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:10px;background:var(--sunk);border-radius:4px}
 .tmx-tile{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px 10px;border:0;background:var(--surface);color:var(--ink);text-decoration:none;border-radius:4px;box-shadow:0 1px 2px rgba(20,32,43,.06);cursor:pointer;min-width:0;transition:box-shadow .12s var(--ease),transform .12s var(--ease)}
 @media (hover:hover){.tmx-tile:hover{box-shadow:var(--shadow-2);transform:translateY(-2px)}}
-.tmx-tile[aria-current="true"]{box-shadow:inset 0 -4px 0 var(--c),0 8px 20px rgba(20,32,43,.12)}
+/* SP-IN (2026-11-12, Diego): nessuna linea colorata sotto le caselle; la squadra seguita ha il primo colore con la
+   filigrana obliqua, lo stemma resta in evidenza con il contorno nel colore del testo */
+.tmx-tile--f{background:var(--c);color:var(--c-on);overflow:hidden}
+.tmx-tile--f .tmx-tex{background:repeating-linear-gradient(115deg,color-mix(in srgb,var(--c-on) 12%,transparent) 0 2px,transparent 2px 14px)}
+.tmx-tile--f :is(.tmx-crest,.tmx-tile-n){position:relative}
+.tmx-tile--f .tmx-crest{box-shadow:0 0 0 2px var(--c-on),0 4px 12px rgba(0,0,0,.35)}
+.tmx-tile--f .tmx-tile-f{color:var(--c-on)}
 .tmx-tile-n{max-width:100%;font-size:var(--fs-14);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tmx-tile-f{position:absolute;right:7px;top:6px;color:var(--primary);display:grid}
 .tmx-tile-f svg{width:14px;height:14px;fill:currentColor}
@@ -71,7 +77,7 @@
 .tmx-ch-crest{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:var(--ch-crest);height:var(--ch-crest);border-radius:999px;background:var(--c-bg);box-shadow:0 0 0 2px var(--on-stage),0 4px 10px rgba(0,0,0,.2);overflow:hidden;display:grid;place-items:center}
 .tmx-ch-t{position:absolute;left:calc(var(--ch-band) + 4px);right:60px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:6px;min-width:0}
 .tmx-ch-t small{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.78;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tmx-ch-t>b{font-size:var(--ch-name);line-height:.86;overflow-wrap:anywhere}
+.tmx-ch-t>b{font-size:var(--ch-name);line-height:.86;overflow-wrap:normal;word-break:normal;hyphens:none;padding-right:.1em}   /* SP-IN (2026-11-12): al massimo 3 righe, parole intere (SPIN.teamsTab.fit) */
 .tmx-ch-r{position:absolute;right:14px;top:14px;display:flex;align-items:center;gap:8px}
 .tmx-dlg .tmx-ch-t{right:112px}   /* SP-IN (2026-10-21): nel dialog pollice e X a destra */
 .tmx-close{width:40px;height:40px;border-radius:999px;border:0;background:color-mix(in srgb,var(--b-on) 16%,transparent);color:var(--b-on);display:grid;place-items:center;cursor:pointer}
@@ -88,8 +94,18 @@
 .tmx-avgs{display:flex;gap:8px}
 .tmx-avg{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;padding:12px 12px 10px;background:var(--bg);box-shadow:inset 4px 0 0 var(--a)}
 .tmx-avg>span{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);line-height:1.25}
-.tmx-avg>span b{color:var(--ink)}
-.tmx-avg-v{font-family:var(--font-mono);font-size:30px;line-height:1}
+.tmx-avg-v{font-family:var(--font-mono);font-size:26px;line-height:1;white-space:nowrap}
+/* SP-IN (2026-11-12): statistiche della scheda, atleti e punti per ruolo */
+.tmx-stx{display:flex;flex-direction:column;gap:14px}
+.tmx-avg{padding:10px 10px 8px}
+.tmx-rt{width:100%;border-collapse:collapse;table-layout:fixed;font-variant-numeric:tabular-nums}
+.tmx-rt th,.tmx-rt td{padding:6px 2px;text-align:center}
+.tmx-rt :is(tbody th,thead th:first-child){width:32%;text-align:left;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);line-height:1.2}
+.tmx-rt thead th>span{display:inline-grid;place-items:center;min-width:28px;height:24px;padding:0 6px;background:var(--a);color:var(--a-on);transform:skewX(var(--tmx-skew))}
+.tmx-rt thead th>span b{transform:skewX(var(--tmx-unskew));font-family:var(--font-mono);font-size:13px}
+.tmx-rt td{font-family:var(--font-mono);font-size:16px;font-weight:700}
+.tmx-rt tbody tr{border-top:1px solid var(--line)}
+.tmx-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .tmx-pl{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
 .tmx-pl-n{flex:none;width:40px;height:40px;display:grid;place-items:center;background:var(--a);color:var(--a-on);transform:skewX(var(--tmx-skew))}
 .tmx-pl-n b{transform:skewX(var(--tmx-unskew));font-family:var(--font-mono);font-size:16px}
@@ -149,6 +165,7 @@
   .tmx-cols--one{grid-template-columns:minmax(0,1fr)}
   .tmx-wall{grid-template-columns:repeat(5,minmax(0,1fr));padding:14px}
   .tmx-crest{width:64px;height:64px}
+  .tmx-tile[aria-current="true"]{box-shadow:0 8px 20px rgba(20,32,43,.18)}
   .tmx-hint{display:none}
   .tmx-aside{display:flex;flex-direction:column;gap:14px;position:sticky;top:var(--space-16)}
   .tmx-aside .tmx-ch{--ch-h:168px;--ch-band:150px;--ch-crest:84px;--ch-name:54px}
@@ -158,10 +175,9 @@
 
 /* ---------- SP-IN (2026-10-23): scheda sfocata per chi non ha l'accesso (tab In campo) ---------- */
 .tmx-lock{position:relative}
-.tmx-lock-b{filter:blur(7px);opacity:.75;pointer-events:none;user-select:none}
-.tmx-lock-cta{position:absolute;inset:var(--space-16);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--space-12);text-align:center;padding:var(--space-16);background:color-mix(in srgb,var(--surface) 82%,transparent);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.tmx-lock-b{filter:blur(3px);opacity:.85;pointer-events:none;user-select:none}   /* SP-IN (2026-11-12): poco sfocato */
+.tmx-lock-cta{position:absolute;left:var(--space-16);right:var(--space-16);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--space-12);text-align:center;padding:var(--space-24) var(--space-16);background:color-mix(in srgb,var(--surface) 92%,transparent);box-shadow:inset 0 0 0 1.5px var(--ink),var(--shadow-2)}
 .tmx-lock-t{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:var(--fs-24);line-height:1;padding-right:.1em}
-.tmx-lock-cta p{margin:0;max-width:34ch;font-size:var(--fs-14);color:var(--muted)}
 .tmx-lock-a{display:flex;gap:var(--space-8);flex-wrap:wrap;justify-content:center}
 .tmx-lock-in,.tmx-lock-up{height:44px;padding:0 var(--space-16);display:grid;place-items:center;border:0;text-decoration:none;transform:skewX(var(--tmx-skew));cursor:pointer}
 .tmx-lock-in{background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
