@@ -60,7 +60,8 @@
 .tmx-tile-f{position:absolute;right:7px;top:6px;color:var(--primary);display:grid}
 .tmx-tile-f svg{width:14px;height:14px;fill:currentColor}
 .tmx-crest{flex:none;width:56px;height:56px;border-radius:999px;background:var(--c-bg);box-shadow:0 0 0 2px var(--c-ring),0 4px 10px rgba(0,0,0,.2);overflow:hidden;display:grid;place-items:center}
-.tmx-crest img,.tmx-ch-crest img{width:100%;height:100%;object-fit:contain}   /* Diego, 2026-11-12: lo stemma riempie il cerchio, nelle sue proporzioni */
+.tmx-crest{position:relative}   /* .tmx-ch-crest è già position:absolute */
+.tmx-crest img,.tmx-ch-crest img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:50% 50%}   /* Diego, 2026-11-12/13: lo stemma riempie il cerchio, nelle sue proporzioni, sempre al centro (in griglia gli stemmi più alti che larghi scendevano) */
 .tmx-crest b,.tmx-ch-crest b{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;color:var(--c-ring);font-size:22px}
 .tmx-hint{font-size:var(--fs-12);color:var(--muted);text-align:center}
 .tmx-hint span{display:inline-grid;vertical-align:-2px;color:var(--primary)}
