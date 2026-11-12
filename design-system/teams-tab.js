@@ -73,8 +73,9 @@
   /* ---------- muro degli stemmi ---------- */
   function tile(t) {
     const sel = !!t.selected, f = !!t.followed, c = t.color || INK;
+    const c2 = t.altColor && t.altColor.toLowerCase() !== c.toLowerCase() ? t.altColor : onColor(c);   // cerchio della squadra seguita: secondo colore
     return tag(t, 'tmx-tile' + (f ? ' tmx-tile--f' : ''), `${f ? '<span class="tmx-tex" aria-hidden="true"></span>' : ''}${crest(t, 'tmx-crest')}<b class="tmx-tile-n">${esc(name(t))}</b>${f ? `<span class="tmx-tile-f" title="La segui">${I.heart}</span>` : ''}`,
-      ` style="--c:${esc(c)};--c-on:${onColor(c)}" aria-current="${sel}" aria-label="${esc((t.name || name(t)) + (f ? ', la segui' : ''))}"`);
+      ` style="--c:${esc(c)};--c-on:${onColor(c)};--c2:${esc(c2)}" aria-current="${sel}" aria-label="${esc((t.name || name(t)) + (f ? ', la segui' : ''))}"`);
   }
   function wall(teams, empty) {
     const list = (teams || []).slice().sort((a, b) => name(a).localeCompare(name(b), 'it'));

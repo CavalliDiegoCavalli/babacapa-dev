@@ -54,13 +54,13 @@
 .tmx-tile--f{background:var(--c);color:var(--c-on);overflow:hidden}
 .tmx-tile--f .tmx-tex{background:repeating-linear-gradient(115deg,color-mix(in srgb,var(--c-on) 12%,transparent) 0 2px,transparent 2px 14px)}
 .tmx-tile--f :is(.tmx-crest,.tmx-tile-n){position:relative}
-.tmx-tile--f .tmx-crest{box-shadow:0 0 0 2px var(--c-on),0 4px 12px rgba(0,0,0,.35)}
+.tmx-tile--f .tmx-crest{box-shadow:0 0 0 2px var(--c2),0 4px 12px rgba(0,0,0,.35)}   /* Diego, 2026-11-12: seguita = cerchio nel secondo colore */
 .tmx-tile--f .tmx-tile-f{color:var(--c-on)}
 .tmx-tile-n{max-width:100%;font-size:var(--fs-14);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tmx-tile-f{position:absolute;right:7px;top:6px;color:var(--primary);display:grid}
 .tmx-tile-f svg{width:14px;height:14px;fill:currentColor}
 .tmx-crest{flex:none;width:56px;height:56px;border-radius:999px;background:var(--c-bg);box-shadow:0 0 0 2px var(--c-ring),0 4px 10px rgba(0,0,0,.2);overflow:hidden;display:grid;place-items:center}
-.tmx-crest img,.tmx-ch-crest img{width:86%;height:86%;object-fit:contain}
+.tmx-crest img,.tmx-ch-crest img{width:100%;height:100%;object-fit:contain}   /* Diego, 2026-11-12: lo stemma riempie il cerchio, nelle sue proporzioni */
 .tmx-crest b,.tmx-ch-crest b{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;color:var(--c-ring);font-size:22px}
 .tmx-hint{font-size:var(--fs-12);color:var(--muted);text-align:center}
 .tmx-hint span{display:inline-grid;vertical-align:-2px;color:var(--primary)}
@@ -97,7 +97,7 @@
 .tmx-avg-v{font-family:var(--font-mono);font-size:26px;line-height:1;white-space:nowrap}
 /* SP-IN (2026-11-12): statistiche della scheda, atleti e punti per ruolo */
 .tmx-stx{display:flex;flex-direction:column;gap:14px}
-.tmx-avg{padding:10px 10px 8px}
+.tmx-avg{padding:10px 10px 8px;justify-content:space-between}   /* Diego, 2026-11-12: testi in alto, numeri in basso */
 .tmx-rt{width:100%;border-collapse:collapse;table-layout:fixed;font-variant-numeric:tabular-nums}
 .tmx-rt th,.tmx-rt td{padding:6px 2px;text-align:center}
 .tmx-rt :is(tbody th,thead th:first-child){width:32%;text-align:left;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);line-height:1.2}
