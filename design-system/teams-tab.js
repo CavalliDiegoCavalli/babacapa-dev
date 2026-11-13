@@ -118,14 +118,17 @@
   }
   function last3(list) {
     if (!list || !list.length) return '';
+    /* SP-IN (2026-11-13, Diego, proposta 3 del mockup https://claude.ai/artifact/6ZgTQbxN8xuMT8uJW5yBVC): una riga di tre
+       pillole inclinate, verdi o rosse, dalla più vecchia; dentro esito e punteggio, sotto sigla dell'avversaria e data (g.date) */
     const it = list.slice(-3).map(g => {
-      const o = g.opp || {}, oc = o.color || INK, w = g.result === 'V';
-      const inner = `<span class="tmx-l3-r tmx-l3-r--${w ? 'v' : 'p'}" title="${w ? 'Vinta' : 'Persa'}"><b>${w ? 'V' : 'P'}</b></span><b class="tmx-l3-s">${esc(g.score || '')}</b>
-        <span class="tmx-l3-o">vs <span style="--o:${esc(oc)};--o-on:${onColor(oc)}"><b>${esc(abbr(o))}</b></span></span>`;
-      const lab = `${w ? 'Vinta' : 'Persa'} ${g.score || ''} contro ${o.name || name(o)}`;
-      return g.href || g.attrs ? tag(g, 'tmx-l3', inner, ` aria-label="${esc(lab)}"`) : `<span class="tmx-l3" aria-label="${esc(lab)}">${inner}</span>`;
+      const o = g.opp || {}, w = g.result === 'V';
+      const inner = `<span class="tmx-l3-i"><span class="tmx-l3-t"><b class="tmx-l3-r">${w ? 'V' : 'P'}</b><b class="tmx-l3-s">${esc(g.score || '')}</b></span>
+        <small class="tmx-l3-o">vs <b>${esc(abbr(o))}</b>${g.date ? ` · ${esc(g.date)}` : ''}</small></span>`;
+      const lab = `${w ? 'Vinta' : 'Persa'} ${g.score || ''} contro ${o.name || name(o)}${g.date ? ', ' + g.date : ''}`;
+      const cls = `tmx-l3 tmx-l3--${w ? 'v' : 'p'}`;
+      return g.href || g.attrs ? tag(g, cls, inner, ` aria-label="${esc(lab)}"`) : `<span class="${cls}" aria-label="${esc(lab)}">${inner}</span>`;
     }).join('');
-    return `<div class="tmx-blk"><span class="tmx-lab">Ultime 3 partite</span><div class="tmx-l3s">${it}</div></div>`;
+    return `<div class="tmx-blk"><span class="tmx-l3h"><span class="tmx-lab">Ultime 3 partite</span><small>dalla più vecchia →</small></span><div class="tmx-l3s">${it}</div></div>`;
   }
   function nextEv(n) {
     if (!n) return '';
