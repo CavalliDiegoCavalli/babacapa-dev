@@ -339,7 +339,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 
 /* gara e firme: dimensioni proporzionali all'altezza */
 .live{gap:clamp(var(--space-8),1.4vh,var(--space-12));padding:clamp(var(--space-8),1.4vh,var(--space-12))}
-.team{gap:clamp(var(--space-4),1vh,var(--space-12));padding:clamp(var(--space-8),1.3vh,var(--space-12));overflow:hidden}
+.team{gap:clamp(var(--space-4),1vh,var(--space-12));padding:clamp(var(--space-8),1.3vh,var(--space-12));overflow:hidden auto;overscroll-behavior:contain}
 
 
 
@@ -458,7 +458,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .bench.many .tile.sm{min-height:clamp(44px,6.6vh,60px);padding:var(--space-4) var(--space-8);gap:var(--space-2)}
 .bench.many .tile.sm .big{font-size:clamp(var(--fs-20),3vh,var(--fs-24))}
 .bench.many .tile.sm .pn{font-size:var(--fs-11)}
-.team:has(.bench.many){overflow:auto}
 @media (max-width:1020px){.bench.many{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .lpad{max-width:640px;width:100%}
 .lpad canvas{height:150px}
