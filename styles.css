@@ -391,6 +391,8 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .prow .der button{max-width:100%}
 @container (max-width: 900px){.prow{grid-template-columns:58px minmax(0,1fr) 80px 84px 100px 34px}}
 @container (max-width: 560px){.prow{grid-template-columns:52px minmax(0,1fr) auto 34px}}
+/* M/F e Cap/VK riempiono la loro colonna: il pulsante scelto è colorato tutto, a destra come a sinistra (Diego, 2026-11-13) */
+.prow .seg button{flex:1 1 0}
 
 /* barra di stato e orologio */
 .rv{padding-top:var(--top-pad)}
