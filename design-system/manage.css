@@ -252,3 +252,10 @@
 .mgx-ev--c .mgx-bug-m b{font-family:var(--font-display);font-style:italic;font-weight:900;text-transform:uppercase}
 .mgx-ev-d{display:block;font-size:var(--fs-14);color:var(--muted)}
 .mgx-ev-d::first-letter{text-transform:uppercase}
+/* SP-IN (2026-11-13): giocatori provvisori aggiunti dal refertista, avviso sopra gli atleti e riga evidenziata */
+.mgx-provbox{display:flex;align-items:center;gap:var(--space-12);border:2px solid var(--warn);background:var(--surface);padding:var(--space-12) var(--space-16);margin:0 0 var(--space-12);font-size:var(--fs-15);line-height:1.4}
+.mgx-provbox .agp-bang{width:22px;height:22px;flex:none;color:var(--warn)}
+.mgx-provbox .mgx-btn{flex:none}
+.mgx-tbl tr.mgx-prov td{background:var(--warn-soft)}
+.mgx-li.mgx-prov{background:var(--warn-soft)}
+@media (max-width:700px){.mgx-provbox{flex-wrap:wrap}}

@@ -77,6 +77,10 @@ ${hoop(31.5, 150)}${hoop(528.5, 150)}${hoop(280, 12, true)}${hoop(280, 288, true
     { id: 'regole', screen: 'prep-squadre', target: 'cosa-manca', place: 'left', icon: 'check',
       title: 'Verifica automatica delle regole',
       text: 'Mentre scrivi la lista R, <b>Cosa manca</b> controlla le regole: numero di giocatori, ruoli, uomini e donne, numeri di maglia, capitano e vicecapitano. Quando compare <b>Lista pronta</b> la squadra è pronta.' },
+    /* SP-IN (2026-11-13, Diego): passo nuovo con il dialog di Aggiungi giocatore, giocatori inventati */
+    { id: 'aggiungi', screen: 'prep-aggiungi', target: 'aggiungi-giocatore', place: 'right', icon: 'list',
+      title: 'Aggiungi giocatore',
+      text: 'Con <b>Aggiungi giocatore</b> scegli chi gioca tra gli atleti della squadra: la maglia arriva da Squadre e la puoi cambiare; dove manca, scrivi la seconda cifra al posto della X. Chi non è in squadra lo aggiungi con <b>Giocatore non registrato</b>.' },
     { id: 'quintetti', screen: 'prep-quintetti', target: 'quintetto', place: 'bottom', icon: 'hand',
       title: 'Formazione iniziale',
       text: 'Tocca i 6 giocatori che iniziano. I requisiti in campo diventano verdi man mano; sul referto la formazione iniziale sarà cerchiata in rosso.' },

@@ -607,7 +607,6 @@ body{font-stretch:100%;-webkit-font-smoothing:antialiased}
 .bwrap.lit .tile.cno{opacity:.5}
 .pd{position:absolute;left:12px;right:12px;top:auto;bottom:12px;z-index:30;border-radius:var(--radius-lg);padding:var(--space-12);color:var(--on-fill);display:flex;flex-direction:column;gap:var(--space-8);box-shadow:0 14px 40px rgba(0,0,0,.45);overflow:auto;background:color-mix(in srgb,var(--A) 58%,#000)}
 .tB .pd{background:color-mix(in srgb,var(--B) 58%,#000)}
-.pd.px{top:auto}
 .pd .notch{position:absolute;top:-11px;width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:12px solid color-mix(in srgb,var(--A) 58%,#000)}
 .tB .pd .notch{border-bottom-color:color-mix(in srgb,var(--B) 58%,#000)}
 .pd .notch[hidden]{display:none}
@@ -733,6 +732,12 @@ body{font-stretch:100%;-webkit-font-smoothing:antialiased}
 .ocwh{display:flex;align-items:center;gap:var(--space-12);color:var(--on-fill);font-size:var(--fs-15);font-weight:600}.ocwh span{flex:1}.ocwh b{font-family:var(--font-mono)}
 .ocw.lit .tile.cok{border:2px solid var(--ok) !important;box-shadow:0 0 0 3px var(--ok-soft)}
 .ocw.lit .tile.cno{opacity:.62}
+/* escluso: avviso in testa a "In campo", l'escluso in luce, gli altri in campo attenuati (2026-11-13) */
+.pxh{display:flex;align-items:center;gap:var(--space-12);background:var(--crit-fill);border-radius:var(--radius-md);padding:var(--space-8) var(--space-12);box-shadow:0 0 0 2px #fff;color:var(--on-fill)}
+.pxh>span{flex:1;min-width:0;font-size:var(--fs-12);line-height:1.3}
+.pxh b{font-size:var(--fs-15);letter-spacing:.02em;display:block}
+.pxh svg{flex:none}
+.ocw.ocx .tile:not(.hl){opacity:.5}
 .tile .why{margin-top:auto;font-size:var(--fs-11);font-weight:800;line-height:1.2;color:var(--crit)}.tile .why.ok{color:var(--ok)}
 .tile .why{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 /* dati della squadra su due righe: nome e colore, poi allenatore, vice e dirigenti (Diego, 2026-10-08) */
@@ -750,3 +755,62 @@ body{font-stretch:100%;-webkit-font-smoothing:antialiased}
 .sheet .acts{display:grid;justify-content:normal}
 /* deroghe nella lista R: con 8 px per lato Tempo, Spazio e Canestro non stanno nella colonna da 190 px */
 .sqmain .prow .der button{padding:0 var(--space-4)}
+
+/* ===== Aggiungi giocatore nella lista R (Diego, 2026-11-13, mockup https://claude.ai/artifact/RXYHV5Hyj7fu66H7pMdo4B) ===== */
+.sheet.agp{width:min(940px,calc(100vw - 2 * var(--space-24)));max-height:calc(100% - 2 * var(--space-24));padding:0;gap:0;overflow:hidden}
+.agp-h{display:flex;align-items:flex-start;gap:var(--space-16);padding:var(--space-20) var(--space-24) var(--space-12)}
+.agp-sw{width:14px;height:40px;border-radius:var(--radius-xs);flex:none}
+.agp-who{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--space-4)}
+.agp-who>b{font-size:var(--fs-20)}
+.agp-who>span{color:var(--muted);font-size:var(--fs-14);line-height:1.4}
+.agp-who .agp-tn{color:var(--ink);font-size:inherit}
+.agp-l{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;border-top:1px solid var(--line)}
+.agp-r{display:grid;grid-template-columns:40px 116px minmax(0,1.2fr) minmax(0,1fr) 92px;gap:var(--space-12);align-items:center;min-height:56px;padding:0 var(--space-24);border-bottom:1px solid var(--line);cursor:pointer}
+.agp-r.hd{min-height:34px;cursor:default;font-size:var(--fs-11);font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);position:sticky;top:0;background:var(--surface);z-index:1}
+.agp-r.on{background:var(--primary-soft)}
+.agp-r.inl{cursor:default}
+.agp-ck{width:26px;height:26px;border-radius:var(--radius-xs);border:2px solid var(--line-strong);display:grid;place-items:center;box-sizing:border-box;color:var(--on-fill)}
+.agp-ck svg{width:16px;height:16px;stroke-width:3.5}
+.agp-r.on .agp-ck{background:var(--primary-fill);border-color:var(--primary-fill)}
+.agp-r.inl .agp-ck{background:var(--line-strong);border-color:var(--line-strong)}
+.agp-n{display:flex;align-items:center;gap:var(--space-4)}
+.agp-n>b{font-family:var(--font-display);font-stretch:var(--display-w);font-size:var(--fs-24);font-weight:700;min-width:18px;text-align:center}
+input.agp-d{width:36px;height:40px;border:1px solid var(--line-strong);border-radius:var(--radius-sm);text-align:center;font-family:var(--font-display);font-stretch:var(--display-w);font-size:var(--fs-20);font-weight:700;padding:0;background:var(--surface);color:var(--ink)}
+input.agp-d::placeholder{color:var(--muted)}
+input.agp-d.miss{border:2px solid var(--crit);background:var(--crit-soft)}
+input.agp-d.miss::placeholder{color:var(--crit)}
+.agp-vr{font-size:var(--fs-12);font-weight:700;padding:var(--space-2) var(--space-4);border-radius:var(--radius-xs);background:var(--bg);border:1px solid var(--line)}
+.agp-c{display:flex;align-items:center;gap:var(--space-8);min-width:0}
+.agp-nm{min-width:0}
+.agp-sx{display:flex;gap:var(--space-4)}
+.agp-sx span{width:36px;height:32px;border-radius:var(--radius-sm);border:1px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:var(--fs-14)}
+.agp-sx span.on{background:var(--primary-fill);border-color:var(--primary-fill);color:var(--on-fill)}
+.agp-bang{flex:none;color:var(--warn)}
+.agp-empty{padding:var(--space-24);color:var(--muted);font-size:var(--fs-15);line-height:1.45}
+.agp-note{padding:var(--space-12) var(--space-24);border-top:1px solid var(--line)}
+.agp-info{display:flex;gap:var(--space-12);align-items:flex-start;background:var(--warn-soft);border-radius:var(--radius-md);padding:var(--space-12) var(--space-16);font-size:var(--fs-14);line-height:1.45}
+.agp-info .agp-bang{width:22px;height:22px}
+.agp-info--side{margin-top:var(--space-12)}
+.agp-f{display:flex;align-items:center;flex-wrap:wrap;gap:var(--space-12);padding:var(--space-12) var(--space-24);border-top:1px solid var(--line)}
+.agp-b{flex:1;min-height:0;overflow:auto;padding:var(--space-16) var(--space-24) var(--space-20);display:flex;flex-direction:column;gap:var(--space-16);border-top:1px solid var(--line)}
+.agp-fd{display:flex;flex-direction:column;gap:var(--space-8);min-width:0}
+.agp-lbl{font-size:var(--fs-11);font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.agp-roles{display:flex;gap:var(--space-8);flex-wrap:wrap}
+.agp-rw{position:relative}
+.agp-rb{width:96px;height:48px;border-radius:var(--radius-sm);border:1px solid var(--line);background:var(--surface);font-family:var(--font-display);font-stretch:var(--display-w);font-size:var(--fs-20);font-weight:700;color:var(--ink);display:flex;align-items:center;justify-content:center;gap:var(--space-4);padding:0}
+.agp-rb.var{background:var(--bg);color:var(--muted)}
+.agp-rb.on{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+.agp-mn{position:absolute;left:0;top:54px;z-index:5;width:150px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-md);box-shadow:var(--shadow-3);padding:var(--space-4);display:flex;flex-direction:column}
+.agp-mn button{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--space-12);border:0;border-radius:var(--radius-sm);background:transparent;color:var(--ink);font-family:var(--font-display);font-stretch:var(--display-w);font-size:var(--fs-20);font-weight:700}
+.agp-mn button[aria-selected="true"]{background:var(--primary-soft);color:var(--primary)}
+.agp-mn svg{width:16px;height:16px}
+.agp-g{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,1fr) auto;gap:var(--space-16);align-items:end}
+.agp-in{height:44px;border:1px solid var(--line-strong);border-radius:var(--radius-sm);padding:0 var(--space-12);font:inherit;font-size:var(--fs-17);width:100%;box-sizing:border-box;color:var(--ink);background:var(--surface)}
+.agp-seg button{height:44px;min-width:42px;font-size:var(--fs-15)}
+.agp-der{display:flex;gap:var(--space-8);flex-wrap:wrap}
+.agp-der button{height:36px}
+.pnw{display:flex;align-items:center;gap:var(--space-8);min-width:0}
+.pnw .pname{flex:1;min-width:0}
+.prow .nnx input.agp-d{width:36px}
+@media (max-width:760px){.agp-r{grid-template-columns:32px 100px minmax(0,1fr) 84px;padding:var(--space-8) var(--space-16)}.agp-r .agp-nm{grid-column:3;grid-row:2;margin-top:calc(-1 * var(--space-8))}.agp-r.hd>span:nth-child(4){display:none}.agp-g{grid-template-columns:auto minmax(0,1fr)}}
+.sheet.agp.agp--guida{width:min(700px,calc(100vw - 460px));margin-right:420px}

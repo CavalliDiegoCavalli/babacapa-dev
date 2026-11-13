@@ -128,7 +128,8 @@
       const [mk, mt, ms] = medTxt(a.medical);
       /* SP-IN (2026-11-05, Diego): la scheda dell'atleta si apre dal nome, niente ">" in fondo alla riga */
       const nm = a.href || a.attrs ? tag(a, 'mgx-alink', `<b>${esc(a.name)}</b>`) : `<b>${esc(a.name)}</b>`;
-      return `<tr><td><b class="mgx-num">${esc(a.num)}</b></td><td>${nm}</td><td class="mgx-mut">Ruolo ${esc(role(a))}</td><td>${cardCell(a)}</td>
+      /* SP-IN (2026-11-13): a.prov = giocatore provvisorio aggiunto dal refertista, riga evidenziata */
+      return `<tr${a.prov ? ' class="mgx-prov"' : ''}><td><b class="mgx-num">${esc(a.num)}</b></td><td>${nm}</td><td class="mgx-mut">Ruolo ${esc(role(a))}</td><td>${cardCell(a)}</td>
         <td>${st(mk, mt)}${ms ? `<small class="mgx-sub">${esc(ms)}</small>` : ''}</td><td>${a.release === 'ok' ? st('ok', 'Firmata') : st('warn', 'Da caricare')}</td></tr>`;
     }).join('');
     const items = list.map(a => {
@@ -141,7 +142,7 @@
           <span>${nm} <small class="mgx-mut">· Ruolo ${esc(role(a))}</small></span>
           ${a.card && a.card.number ? `<small class="mgx-mut">Tessera <span class="mgx-mono-t">${esc(a.card.number)}</span></small>` : ''}
           ${iss.length ? `<span class="mgx-iss">${iss.join('')}</span>` : st('ok', 'Documenti in regola')}</span>`;
-      return `<div class="mgx-li">${inner}</div>`;
+      return `<div class="mgx-li${a.prov ? ' mgx-prov' : ''}">${inner}</div>`;
     }).join('');
     return `<div class="mgx-ath" style="--c:${esc(color || INK)}">
     <table class="mgx-tbl mgx-wide"><thead><tr><th>#</th><th>Atleta</th><th>Ruolo</th><th>Tessera</th><th>Visita medica</th><th>Liberatoria</th></tr></thead><tbody>${rows}</tbody></table>
@@ -325,7 +326,8 @@
     d = d || {};
     const t = d.team || {}, c = t.color || INK, x = d.extras || {};
     const i = intro({ team: t, title: t.name, sigla: d.sigla, club: d.club, kicker: d.kicker, back: d.back, place: d.place, placeHref: d.placeHref, edit: d.edit, actions: d.actions });
-    const ath = sec({ key: 'ath', title: 'Atleti', extra: x.athletes, extraWide: true, action: d.addAthlete, inner: athletes(d.athletes, c) });
+    /* SP-IN (2026-11-13): d.athNote = avvisi dei giocatori provvisori sopra la tabella degli atleti */
+    const ath = sec({ key: 'ath', title: 'Atleti', extra: x.athletes, extraWide: true, action: d.addAthlete, inner: (d.athNote || '') + athletes(d.athletes, c) });
     const stf = sec({ key: 'stf', title: 'Staff', extra: x.staff, extraWide: true, action: d.addStaff, inner: staff(d.staff) });
     const sts = d.stats === null ? '' : sec({ key: 'sts', title: 'Statistiche', extra: 'squadra e per ruolo', extraWide: true, extraNarrow: 'della squadra', inner: stats(d.stats) });
     const evs = sec({ key: 'evs', title: 'Prossimi eventi', extra: x.events, extraWide: true, inner: events(d.events) });
