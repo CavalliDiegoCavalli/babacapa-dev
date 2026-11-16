@@ -241,6 +241,8 @@
 @keyframes lv-tkL{0%{transform:rotate(-12deg) translateX(-110%)}100%{transform:rotate(-12deg)}}
 @keyframes lv-tkR{0%{transform:rotate(-12deg) translateX(110%)}100%{transform:rotate(-12deg)}}
 .lv-tk-in{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:14px;width:100%;padding:0 20px;text-align:center}
+.lv-tk-x{position:absolute;z-index:3;top:calc(12px + var(--lv-top));left:12px}
+.lv-tablet .lv-tk-x{top:calc(14px + var(--lv-top));left:24px}
 .lv-tk.lv-out{animation:lv-tkOut .35s .25s ease-in forwards}
 .lv-tk.lv-out .lv-tk-sa{animation:lv-tkOutL .5s var(--lv-ease) forwards}
 .lv-tk.lv-out .lv-tk-sb{animation:lv-tkOutR .5s var(--lv-ease) forwards}
@@ -274,7 +276,6 @@
 .lv-lu-nm{min-width:0;display:flex;flex-direction:column;line-height:1.1}
 .lv-lu-nm b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lv-lu-nm small{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lv-mut2)}
-.lv-lu-nm small.lv-is-new{color:var(--lv-on);text-decoration:underline;text-decoration-color:var(--lv-accent);text-decoration-thickness:2px}
 .lv-tablet .lv-lu-r{height:42px}.lv-tablet .lv-lu-n{width:54px;height:38px}.lv-tablet .lv-lu-n b{font-size:26px}.lv-tablet .lv-lu-nm b{font-size:16px}
 @keyframes lv-luL{0%{opacity:0;transform:translateX(-60px)}100%{opacity:1;transform:none}}
 @keyframes lv-luR{0%{opacity:0;transform:translateX(60px)}100%{opacity:1;transform:none}}

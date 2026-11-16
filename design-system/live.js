@@ -210,7 +210,7 @@
       const court = asc(s.court[t]), bench = asc(all.filter(x => court.indexOf(x) < 0));
       const row = (x, on, first) => {
         const fl = s.pf[t][x] || 0, dq = !!s.dq[t][x], pts = s.pts[t][x] || 0;
-        const isNew = on && cur && ((cur.y === 'sub' && cur.t === t && +cur.e === x) || (cur.k === 'start' && s.entered.some(w => w.t === t && w.n === x)));
+        const isNew = on && cur && cur.y === 'sub' && cur.t === t && +cur.e === x;
         const isOut = !on && cur && cur.y === 'sub' && cur.t === t && +cur.o === x;
         return `${first ? '<div class="lv-lc-sep">Panchina</div>' : ''}<div class="lv-lr ${on ? 'lv-on' : 'lv-off'} ${isNew ? 'lv-is-new' : isOut ? 'lv-is-out' : ''}"><span class="lv-lr-n"><b>${x}</b></span><span class="lv-lr-nm"><b>${esc(s.nm(t, x) || 'N. ' + x)}</b><small class="${dq ? 'lv-is-red' : ''}">${dq ? 'Espulso' : 'Ruolo ' + (s.role(t, x) || '—')}</small></span><span class="lv-lr-v" aria-label="${pts} punti">${pts}</span><span class="lv-lr-v ${dq ? 'lv-is-red' : ''}" aria-label="${fl} falli${dq ? ', espulso' : ''}">${fl}</span></div>`;
       };
@@ -240,8 +240,8 @@ ${court.map(x => row(x, true, false)).join('')}${bench.map((x, k) => row(x, fals
   function tkHtml(kind, m, s, T, g) {
     const bug = d => `<div class="lv-up" style="animation-delay:${d}s">${bugHtml(T, s.sc.A, s.sc.B, true)}</div>`;
     if (kind === 'lineup') {
-      const col = t => asc(s.court[t]).map((x, k) => { const nw = s.entered.some(w => w.t === t && w.n === x);
-        return `<div class="lv-lu-r" style="animation-delay:${(0.5 + k * 0.09).toFixed(2)}s"><span class="lv-lu-n"><b>${x}</b></span><span class="lv-lu-nm"><b>${esc(s.nm(t, x) || 'N. ' + x)}</b><small class="${nw ? 'lv-is-new' : ''}">${nw ? 'Entra · ruolo ' : 'Ruolo '}${s.role(t, x) || '—'}</small></span></div>`; }).join('');
+      /* tutti i giocatori con la stessa grafica, senza evidenziare chi entra (Diego, 2026-11-16) */
+      const col = t => asc(s.court[t]).map((x, k) => `<div class="lv-lu-r" style="animation-delay:${(0.5 + k * 0.09).toFixed(2)}s"><span class="lv-lu-n"><b>${x}</b></span><span class="lv-lu-nm"><b>${esc(s.nm(t, x) || 'N. ' + x)}</b><small>Ruolo ${s.role(t, x) || '—'}</small></span></div>`).join('');
       return `<div class="lv-tk lv-tk-thin" role="status"><div class="lv-tk-sa"></div><div class="lv-tk-sb"></div><div class="lv-tk-in">
 <div class="lv-up" style="animation-delay:.15s"><span class="lv-tk-kick lv-t-live"><span>Si gioca · ${esc(qn(s.cq))}</span></span></div><h2 class="lv-tk-title">Formazioni in campo</h2>
 <div class="lv-lu">${T2.map(t => `<div class="lv-lu-col ${tc(t)}"><div class="lv-lu-h">${crest(T[t], 'lv-crest-s')}<b class="lv-tm-n">${esc(T[t].name)}</b></div>${col(t)}</div>`).join('')}</div></div></div>`;
@@ -349,7 +349,8 @@ ${T2.map(t => `<div class="lv-side lv-side-${t === 'A' ? 'a' : 'b'} ${tc(t)}" st
     function show(m, typ, s) {
       const e = m.k === 'ev' ? G.ev[m.i] : null;
       const f = e ? s.feed.find(x => x.i === m.i) || {} : {};
-      ovEl.innerHTML = typ === 'burst' ? burstHtml(e, s, T, f) : tkHtml(typ, m, s, T, G);
+      /* pagine a tutto schermo (formazioni, time out, attesa, fine quarto e gara): resta il "<" per uscire (Diego, 2026-11-16) */
+      ovEl.innerHTML = typ === 'burst' ? burstHtml(e, s, T, f) : tkHtml(typ, m, s, T, G).replace('role="status">', `role="status"><button type="button" class="lv-xbtn lv-tk-x" data-lv-exit aria-label="${opts.demo ? 'Esci dalla demo' : 'Esci dal live'}"><span>${SV.back}</span></button>`);
     }
     function pump() {
       if (dead || playing || paused || !queue.length) return;
