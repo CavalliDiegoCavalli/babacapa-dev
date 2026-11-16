@@ -125,7 +125,17 @@
     return `<div class="ep-form" role="group" aria-label="${esc(r.label)}: ${esc(H.short || H.name)} ${esc(txt(r.home))}; ${esc(A.short || A.name)} ${esc(txt(r.away))}">
       <span class="ep-form-l">${esc(r.label)}${r.sub ? ' · ' + esc(r.sub) : ''}</span>${periodLine(H, r.home, 'a')}${periodLine(A, r.away, 'b')}</div>`;
   }
+  /* SP-IN 2026-11-16 (Diego, proposta 3 del mockup docs/Scheda evento/mockup-miglior-realizzatore.html): miglior realizzatore
+     come pillola inclinata, solo maglia (sul colore della squadra, con la filigrana a righe inclinate) e punti; p.pill */
+  function pill(t, p, s) {
+    const v = p.value == null ? '—' : typeof p.value === 'number' ? fmtNum(p.value) : p.value;
+    return `<div class="ep-pill ep-pill--${s}" role="img" aria-label="${esc(abbr(t))}, maglia ${esc(p.num)}, ${esc(v)} ${esc(p.unit || 'punti')}">
+        <span class="ep-pill-m"><i class="ep-pill-tex" aria-hidden="true"></i><span><small>${esc(abbr(t))}</small><b>#${esc(p.num)}</b></span></span>
+        <span class="ep-pill-p"><span><b>${esc(v)}</b><small>${esc(p.unit || 'punti')}</small></span></span>
+      </div>`;
+  }
   function card(t, p, s) {
+    if (p && p.pill && p.num != null && p.num !== '') return pill(t, p, s);
     if (!p || !p.name) return `<div class="ep-card ep-card--${s} is-empty">${NONE}</div>`;
     return `<div class="ep-card ep-card--${s}">
         ${p.num != null && p.num !== '' ? `<span class="ep-card-ghost" aria-hidden="true">${esc(p.num)}</span>` : ''}

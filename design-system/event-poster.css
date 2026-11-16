@@ -130,6 +130,17 @@
 .ep-st--1{--k:.64}.ep-st--2{--k:.8}.ep-st--3{--k:1}
 .ep-streak--a .ep-st.is-w{background:var(--ep-a);color:var(--ep-a-on)}
 .ep-streak--b .ep-st.is-w{background:var(--ep-b);color:var(--ep-b-on)}
+/* SP-IN 2026-11-16 (Diego): miglior realizzatore a pillola inclinata, maglia con la filigrana e punti; ospite riflesso */
+.ep-pill{display:flex;align-items:stretch;margin:0 var(--space-12);transform:skewX(var(--ep-skew));box-shadow:var(--shadow-1);--ep-pf:min(calc(var(--ep-cardv) * 1.4),13cqi)}
+.ep-pill--a{--ep-c:var(--ep-a);--ep-con:var(--ep-a-on)}.ep-pill--b{--ep-c:var(--ep-b);--ep-con:var(--ep-b-on);flex-direction:row-reverse}
+.ep-pill-m,.ep-pill-p{display:flex;align-items:center;justify-content:center;min-width:0;padding:var(--space-8) 5cqi}
+.ep-pill-m{position:relative;overflow:hidden;background:var(--ep-c);color:var(--ep-con)}
+.ep-pill-p{flex:1 1 auto;background:var(--ep-white);color:var(--scorebox)}
+.ep-pill-tex{position:absolute;inset:0;background:repeating-linear-gradient(115deg,color-mix(in srgb,var(--ep-con) 16%,transparent) 0 2px,transparent 2px 14px)}
+.ep-pill-m>span,.ep-pill-p>span{position:relative;display:flex;align-items:baseline;gap:4px;transform:skewX(var(--ep-unskew));white-space:nowrap}
+.ep-pill b{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;line-height:.9;font-size:var(--ep-pf)}
+.ep-pill small{font-size:clamp(9px,3.6cqi,var(--fs-11));font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.ep-pill-p small{color:color-mix(in srgb,var(--scorebox) 70%,var(--ep-white))}
 .ep-st.is-empty{background:none;border-style:dashed;border-color:var(--line-strong)}
 .ep-tag{align-self:center;margin:0;padding:5px var(--space-16);background:var(--scorebox);color:var(--on-stage);transform:skewX(var(--ep-skew))}
 .ep-tag>span{display:block;transform:skewX(var(--ep-unskew));font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;font-size:var(--fs-13);letter-spacing:.08em;text-transform:uppercase}
