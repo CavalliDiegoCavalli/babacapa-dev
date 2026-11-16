@@ -172,8 +172,9 @@
   function statRows(g) {
     g = g || {};
     return [
-      ['Punti', 'Punti medi a partita', 'non di campionato', v => dec(v.ppgOther), g.other],
-      ['Punti', 'Punti medi a partita', 'di campionato', v => dec(v.ppgLeague), g.league],
+      /* SP-IN (2026-11-16): otherP e leagueP contano anche le gare con il solo risultato dell'organizzatore */
+      ['Punti', 'Punti medi a partita', 'non di campionato', v => dec(v.ppgOther), g.otherP != null ? g.otherP : g.other],
+      ['Punti', 'Punti medi a partita', 'di campionato', v => dec(v.ppgLeague), g.leagueP != null ? g.leagueP : g.league],
       ['Punti', 'Punti medi', '1° quarto', v => dec((v.q || [])[0]), g.all, 'q'],
       ['Punti', 'Punti medi', '2° quarto', v => dec((v.q || [])[1]), g.all, 'q'],
       ['Punti', 'Punti medi', '3° quarto', v => dec((v.q || [])[2]), g.all, 'q'],
