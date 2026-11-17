@@ -238,6 +238,7 @@
   ${live && !d.liveBlock ? `<span class="ep-live">${esc(liveTxt)}</span>` : ''}
   ${d.whenAct ? `<button type="button" class="ep-when ep-when--btn" data-act="${esc(d.whenAct.act)}" data-id="${esc(d.whenAct.id)}" aria-label="Salva nel calendario: ${esc(whenTxt)}">${I.cal || ''}<span>${esc(whenTxt)}</span></button>` : `<b class="ep-when${d.start || d.when ? '' : ' is-tbd'}">${esc(whenTxt)}</b>`}
   ${place}
+  ${d.flag ? `<span class="ep-flag"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>${esc(d.flag)}</span></span>` : ''}
 </div>
 ${d.liveBlock ? liveBox(d.liveBlock) : ''}
 ${statsHtml || playersHtml ? `<div class="ep-body">

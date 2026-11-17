@@ -138,6 +138,10 @@ td.cpx-c-team{text-align:left}
 .cpx-m-t{display:flex;flex-direction:column;gap:2px;min-width:0}
 .cpx-m-t>b{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cpx-m-t>span{font-size:var(--fs-12);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* SP-IN (2026-11-17, 1.34.8): avviso (i) della gara, es. "Rinviata" (Diego, tela "Gara rinviata") */
+.cpx-m-t>.cpx-flag{align-self:flex-start;margin-top:3px;padding:2px 8px;background:var(--warn-soft);color:var(--warn);transform:skewX(-12deg);overflow:visible}
+.cpx-flag>span{display:inline-flex;align-items:center;gap:5px;transform:skewX(12deg);font-size:var(--fs-12);font-weight:800}
+.cpx-flag svg{width:13px;height:13px;flex:none}
 .cpx-chev{position:absolute;right:12px;bottom:16px;color:var(--muted)}
 .cpx-chev svg{width:18px;height:18px;display:block}
 @media (hover:hover){.cpx-m:hover,.cpx-ser:hover{box-shadow:var(--shadow-2);transform:translateY(-1px)}}

@@ -105,7 +105,8 @@
       <b class="evx-name">${esc(title)}</b>
       ${it.extra ? `<span class="evx-next">${esc(it.extra)}</span>` : ''}
       ${it.place || it.city ? `<span class="evx-place">${I.pin}<span>${esc([it.place, it.city].filter(Boolean).join(' · '))}</span></span>` : ''}
-    </span>`;
+      ${it.flag ? `<span class="evx-flag" aria-label="${esc(it.flag.label || it.flag.text)}"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>${esc(it.flag.text)}</span></span>` : ''}
+    </span>`;   /* SP-IN (2026-11-17, 1.34.8): flag = avviso (i) della gara, es. "Rinviata" */
   }
   function typeChip(it) { return it.type ? `<span class="evx-type"><span>${esc(TYPES[it.type] || it.type)}</span></span>` : ''; }
   function matchCard(it) {

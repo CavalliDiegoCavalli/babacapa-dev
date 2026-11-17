@@ -325,6 +325,9 @@ body.is-editing #app .page .wrap:has(.sp-stickybar){padding-bottom:calc(var(--sp
 .sp-choice>span{display:flex;flex-direction:column;gap:2px;line-height:1.35;min-width:0}
 .sp-choice b{font-size:var(--fs-14)}
 .sp-choice small{font-size:var(--fs-12);color:var(--muted)}
+/* scelta spenta (1.34.8, esito della gara): titolo e casella al 40%, il motivo sotto resta leggibile */
+.sp-choice--off{cursor:default}
+.sp-choice--off input,.sp-choice--off b{opacity:.4}
 .sp-choice:has(input:checked){box-shadow:inset 3px 0 0 var(--ink);padding-left:var(--space-12)}
 .sp-choice:has(input:focus-visible){outline:2px solid var(--focus);outline-offset:-2px}
 .tpx-f{align-items:center;gap:var(--space-8);flex-wrap:wrap;padding-top:var(--space-4)}

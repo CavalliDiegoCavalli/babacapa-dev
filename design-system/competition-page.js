@@ -121,7 +121,7 @@
     const inner = `<span class="cpx-m-band" aria-hidden="true">${crest(H, 'cpx-crest cpx-crest--l')}
       <span class="cpx-bug" style="--a:${esc(a)};--a-on:${onColor(a)};--b:${esc(b)};--b-on:${onColor(b)}"><span class="cpx-bug-t cpx-bug-t--a"><b>${esc(abbr(H))}</b></span><span class="cpx-bug-mid">${mid}</span><span class="cpx-bug-t cpx-bug-t--b"><b>${esc(abbr(A))}</b></span></span>
       ${crest(A, 'cpx-crest cpx-crest--l')}</span>
-      <span class="cpx-m-t"><b>${esc(title)}</b><span>${esc([m.when, m.place].filter(Boolean).join(' · '))}</span></span>
+      <span class="cpx-m-t"><b>${esc(title)}</b><span>${esc([m.when, m.place].filter(Boolean).join(' · '))}</span>${m.flag ? `<span class="cpx-flag" aria-label="${esc(m.flag.label || m.flag.text)}"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>${esc(m.flag.text)}</span></span>` : ''}</span>
       <span class="cpx-chev">${I.chev}</span>`;
     return tag(m, 'cpx-m', inner, ` aria-label="${esc(title + (sc ? `, ${m.score.home} a ${m.score.away}` : m.time ? ', ore ' + m.time : ''))}"`);
   }

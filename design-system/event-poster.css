@@ -100,6 +100,10 @@
 .ep-when--btn svg{width:1em;height:1em;flex:none;color:var(--primary)}
 .ep-when--btn:active{opacity:.6}
 .ep-place{display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-13);font-weight:600;color:var(--muted);text-decoration:none}
+/* SP-IN (2026-11-17, 1.34.8): avviso (i) della gara, es. "Rinviata a data da destinarsi" (Diego, tela "Gara rinviata") */
+.ep-flag{margin-top:2px;padding:3px 9px;background:var(--warn-soft);color:var(--warn);transform:skewX(-12deg)}
+.ep-flag>span{display:inline-flex;align-items:center;gap:5px;transform:skewX(12deg);font-size:var(--fs-12);font-weight:800}
+.ep-flag svg{width:13px;height:13px;flex:none}
 .ep-place svg{width:15px;height:15px;flex:none}
 
 /* ---------- corpo: Statistiche e Protagonisti ---------- */
