@@ -89,7 +89,7 @@ ${hoop(31.5, 150)}${hoop(528.5, 150)}${hoop(280, 12, true)}${hoop(280, 288, true
       text: 'Tocca un giocatore <b>In campo</b> per segnare tiri, canestri e falli. Tocca un giocatore in <b>Panchina</b> per farlo entrare.' },
     { id: 'correggi', screen: 'live', target: 'cronologia', place: 'right', icon: 'undo',
       title: 'Hai sbagliato? Si corregge',
-      text: 'Ogni azione finisce in <b>Cronologia</b> con il quarto, l’ora e il punteggio. Subito dopo, <b>Annulla</b> la toglie; più tardi <b>Correggi</b> la barra con la sigla dell’arbitro. Il referto si aggiorna da solo.' },
+      text: 'Ogni azione finisce in <b>Cronologia</b> con il quarto, l’ora e il punteggio. Subito dopo, <b>Annulla</b> la toglie; più tardi <b>Correggi</b> la modifica o la toglie, con chi chiede la correzione. Il referto si aggiorna da solo.' },
     { id: 'fine-tempo', screen: 'live', target: 'fine-tempo', place: 'bottom', icon: 'flag',
       title: 'Fine quarto e referto',
       text: 'A ogni sirena tocca <b>Chiudi</b> il quarto e scegli la formazione del quarto successivo. In <b>Referto</b> vedi in ogni momento il modulo ufficiale. Dopo il 4° quarto controlli il punteggio e dichiari la partita conclusa.' },
