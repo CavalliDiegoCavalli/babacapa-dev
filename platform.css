@@ -1342,3 +1342,70 @@ body.pdv-on{overflow:hidden}
 .ntf-f{display:flex;align-items:center;gap:var(--space-12);flex-wrap:wrap}
 .ntf-a{display:flex;gap:var(--space-16);flex-wrap:wrap}
 .ntf-note{margin:var(--space-8) 0 var(--space-24)}
+
+/* ---------- Firma telematica del referto (1.34.9-dev.4; 25-firma-telematica.js) ---------- */
+/* Dati gara: tendina degli ufficiali registrati */
+.uf-f{position:relative}
+.uf-h{display:block;min-height:16px;margin-top:var(--space-2);font-size:var(--fs-12);color:var(--muted)}
+.uf-d{position:absolute;left:0;top:100%;z-index:30;width:min(380px,100%);min-width:280px;background:var(--surface);border:1px solid var(--line-strong);box-shadow:var(--shadow-2);display:flex;flex-direction:column;max-height:340px;overflow-y:auto}
+.uf-d[hidden]{display:none!important}
+.uf-dh{padding:var(--space-8) var(--space-12);font-size:var(--fs-12);color:var(--muted);border-bottom:1px solid var(--line)}
+.uf-r{display:flex;align-items:center;gap:var(--space-8);padding:var(--space-8) var(--space-12);border:0;border-top:1px solid var(--line);background:transparent;font:inherit;color:var(--ink);text-align:left;min-height:48px;cursor:pointer}
+.uf-r:first-of-type{border-top:0}
+.uf-r:hover,.uf-r:focus-visible{background:var(--primary-soft)}
+.uf-i{flex:none;width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:var(--primary-fill);color:var(--on-fill);font-size:var(--fs-13);font-weight:700}
+.uf-t{display:flex;flex-direction:column;min-width:0}
+.uf-t b{font-size:var(--fs-15)}
+.uf-t small{font-size:var(--fs-12);color:var(--muted);overflow-wrap:anywhere}
+.uf-x{color:var(--primary);font-weight:700;font-size:var(--fs-14)}
+.uf-note{margin:var(--space-12) 0 0;font-size:var(--fs-13)}
+/* Firme: Sul tablet / Telematica */
+.ft-sgr .sgrow.ft-row{grid-template-columns:minmax(0,1fr) 190px minmax(0,1.3fr)}
+.ft-seg{display:flex;border:1px solid var(--line-strong);height:38px}
+.ft-seg button{flex:1 1 0;border:0;background:transparent;font:inherit;font-size:var(--fs-13);color:var(--ink);cursor:pointer;padding:0 var(--space-4)}
+.ft-seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface);font-weight:700}
+.ft-seg button:disabled{color:var(--muted);cursor:default}
+.ft-seg button.is-x{text-decoration:line-through}
+.ft-st{display:flex;flex-direction:column;gap:var(--space-2);padding:var(--space-8) var(--space-12);font-size:var(--fs-14);min-height:36px;justify-content:center}
+.ft-st-h{display:flex;align-items:center;gap:var(--space-8);flex-wrap:wrap}
+.ft-st--ok{background:var(--ok-soft)}.ft-st--ok b{color:var(--ok)}
+.ft-st--wait{background:var(--warn-soft)}.ft-st--wait b{color:var(--warn)}
+.ft-v{font-size:var(--fs-12);color:var(--primary);font-weight:700}
+.ft-nota{font-size:var(--fs-13);color:var(--ink)}
+.ft-link{border:0;background:transparent;font:inherit;font-size:var(--fs-13);font-weight:700;color:var(--primary);cursor:pointer;min-height:36px;padding:0 var(--space-4)}
+.ft-sel{display:block;margin-top:var(--space-4)}
+.ft-sel select{max-width:100%;height:36px;font:inherit;font-size:var(--fs-13);border:1px solid var(--line-strong);background:var(--surface);color:var(--ink)}
+.ft-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.ft-vers{display:flex;flex-direction:column;gap:var(--space-8)}
+.ft-vr{display:flex;gap:var(--space-8);font-size:var(--fs-13)}
+.ft-vr>.grow{color:var(--muted)}
+.ft-vr--next,.ft-vr--next>.grow{color:var(--primary)}
+.ft-force{color:var(--crit);font-weight:700}
+.ft-miss ul{margin:var(--space-4) 0 var(--space-12);padding-left:var(--space-16);display:flex;flex-direction:column;gap:var(--space-4);font-size:var(--fs-14)}
+.ft-warn{background:var(--warn-soft);border:1px solid var(--warn);padding:var(--space-8) var(--space-12);font-size:var(--fs-14);line-height:1.45;margin:var(--space-12) 0}
+.ft-warn b{color:var(--warn)}
+@media (max-width:1020px){.ft-sgr .sgrow.ft-row{grid-template-columns:minmax(0,1fr) 190px}.ft-sgr .sgrow.ft-row>:last-child{grid-column:1/-1}}
+/* Chi firma: #/convalida/<id> */
+.cvl-sc{display:flex;align-items:center;gap:var(--space-12);padding:var(--space-12) 0;border-bottom:1px solid var(--line)}
+.cvl-tm{display:flex;flex-direction:column;flex:1;min-width:0;font-size:var(--fs-14)}
+.cvl-pt{font-size:var(--fs-30);font-weight:700}
+.cvl-prev{position:relative;display:block;width:100%;max-width:720px;max-height:52vh;overflow:hidden;margin:var(--space-12) 0;padding:var(--space-8);border:1px solid var(--line-strong);background:var(--surface);min-height:200px;cursor:zoom-in;text-align:center}
+.cvl-zoom{position:absolute;right:var(--space-12);bottom:var(--space-12);background:var(--ink);color:var(--surface);font-size:var(--fs-12);padding:var(--space-4) var(--space-8)}
+.cvl-prev canvas{display:block;width:100%;height:auto}
+.cvl-info{display:flex;flex-direction:column;gap:var(--space-2);font-size:var(--fs-13);color:var(--muted);line-height:1.4}
+.cvl-info b{color:var(--ink)}
+.cvl-bar{display:flex;flex-direction:column;gap:var(--space-8);margin-top:var(--space-16);padding-top:var(--space-12);border-top:1px solid var(--line)}
+.cvl-acts{display:flex;gap:var(--space-12);flex-wrap:wrap}
+.cvl-acts>*{flex:1 1 140px}
+.cvl-ok{display:flex;flex-direction:column;align-items:center;text-align:center;gap:var(--space-12);padding:var(--space-24) var(--space-16)}
+.cvl-ic{width:64px;height:64px;display:flex;align-items:center;justify-content:center;background:var(--ok-fill);color:var(--on-fill);font-size:var(--fs-30);transform:skewX(-12deg)}
+.cvl-ok h2{margin:0;font-size:var(--fs-24)}
+.cvl-ok p{margin:0;line-height:1.45}
+.cvl-nota{font-size:var(--fs-14);color:var(--muted)}
+.cvl-list{display:flex;flex-direction:column;gap:var(--space-8);padding:var(--space-12) var(--space-16);border:1px solid var(--line)}
+.cvl-li{display:flex;gap:var(--space-8);font-size:var(--fs-14)}
+.cvl-s-ok{color:var(--ok);font-weight:700}
+.cvl-s-warn{color:var(--warn);font-weight:700}
+.cvl-foot{text-align:center;margin:var(--space-16) 0 var(--space-12)}
+.cvl-err{color:var(--crit);font-size:var(--fs-13);min-height:18px;margin-bottom:var(--space-8)}
+.cvl-form .field{margin-bottom:var(--space-12)}

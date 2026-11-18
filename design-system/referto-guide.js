@@ -63,7 +63,7 @@ ${hoop(31.5, 150)}${hoop(528.5, 150)}${hoop(280, 12, true)}${hoop(280, 288, true
     mute: 'Non mostrare più all’apertura',
     where: 'Puoi rivedere la guida quando vuoi dal <b>Tuo profilo › Guida al referto</b>.',
     endTitle: 'Sei pronto per la gara',
-    endText: 'Prepara, segna, chiudi, firma e consegna. Se hai un dubbio, rivedi la guida dal <b>Tuo profilo › Guida al referto</b>.',
+    endText: 'Prepara, segna, chiudi e firma. Se hai un dubbio, rivedi la guida dal <b>Tuo profilo › Guida al referto</b>.',
     endAgain: 'Rivedi la guida', endGo: 'Chiudi la guida'   // SP-IN (2026-10-27): era "Vai al referto"
   };
 
@@ -92,13 +92,13 @@ ${hoop(31.5, 150)}${hoop(528.5, 150)}${hoop(280, 12, true)}${hoop(280, 288, true
       text: 'Ogni azione finisce in <b>Cronologia</b> con il quarto, l’ora e il punteggio. Subito dopo, <b>Annulla</b> la toglie; più tardi <b>Correggi</b> la modifica o la toglie, con chi chiede la correzione. Il referto si aggiorna da solo.' },
     { id: 'fine-tempo', screen: 'live', target: 'fine-tempo', place: 'bottom', icon: 'flag',
       title: 'Fine quarto e referto',
-      text: 'A ogni sirena tocca <b>Chiudi</b> il quarto e scegli la formazione del quarto successivo. In <b>Referto</b> vedi in ogni momento il modulo ufficiale. Dopo il 4° quarto controlli il punteggio e dichiari la partita conclusa.' },
+      text: 'A ogni sirena tocca <b>Chiudi</b> il quarto e scegli la formazione del quarto successivo. In <b>Referto</b> vedi in ogni momento il modulo ufficiale. Dopo il 4° quarto controlli il punteggio e chiudi il referto.' },   // SP-IN (2026-11-18): Chiudi referto
     { id: 'firme', screen: 'firme', target: 'firme', place: 'left', icon: 'doc',
       title: 'Le firme',
-      text: 'Firmano gli arbitri, il refertista, il cronometrista e, per ogni squadra, l’allenatore (o il vice, o il capitano). <b>Tocca per firmare</b>, firma con il dito e conferma. Poi <b>Consegna il referto firmato</b>.' },
+      text: 'Firmano gli arbitri, il refertista, il cronometrista e, per ogni squadra, l’allenatore (o il vice, o il capitano). <b>Tocca per firmare</b>, firma con il dito e conferma; chi è registrato può anche convalidare dal proprio telefono. <b>Carica la versione aggiornata</b> quando vuoi: con tutte le firme, Fine carica la versione definitiva.' },   // SP-IN (2026-11-18): firma telematica
     { id: 'caricamento', screen: 'consegna', target: 'consegna', place: 'bottom', icon: 'check',
-      title: 'Consegna e caricamento',
-      text: 'Consegnato il referto, lo <b>Stato</b> mostra partita conclusa, firme, PDF salvato sul dispositivo e invio alla piattaforma. Senza rete resta <b>In coda per la piattaforma</b> e parte da solo quando torna la connessione.' }
+      title: 'Fine e caricamento',   // SP-IN (2026-11-18): firma telematica
+      text: 'Con la versione definitiva lo <b>Stato</b> mostra referto chiuso, firme, PDF salvato sul dispositivo e invio alla piattaforma. Senza rete resta <b>In coda per la piattaforma</b> e parte da solo quando torna la connessione.' }
   ];   // SP-IN (2026-11-08): tolto il passo del voto sul referto (Diego)
 
   /* ---------- preferenze per utente ---------- */
