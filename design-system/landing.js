@@ -120,7 +120,8 @@
   }
   function evRow(e) {
     const H = e.home || {}, A = e.away || {}, C = pairColors(H, A), a = C.a, b = C.b;
-    const crest = (t, ring) => `<span class="lpx-crest" style="--c-bg:${esc(t.logoBg || '#FFFFFF')};--c-team:${esc(ring)}">${t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy">` : `<b>${esc(initials(t.short || t.name))}</b>`}</span>`;
+    /* SP-IN (Diego, 2026-11-18): --crest-c = colore primario, per la sigla dello stemma senza cerchio */
+    const crest = (t, ring) => `<span class="lpx-crest" style="--c-bg:${esc(t.logoBg || '#FFFFFF')};--c-team:${esc(ring)};--crest-c:${esc(t.color || ring)}">${t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy">` : `<b>${esc(initials(t.short || t.name))}</b>`}</span>`;
     const title = `${H.short || H.name || ''} – ${A.short || A.name || ''}`;
     /* Diego, 2026-10-21: nel tabellone giorno sopra e ora sotto; accanto il tipo di evento (non i nomi delle squadre,
        che restano nell'etichetta per gli screen reader) e sotto la competizione */

@@ -50,7 +50,7 @@
     const inner = t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy">` : `<b>${esc(initials(t.short || t.name))}</b>`;
     /* SP-IN (Diego, 2026-10-20): contorno dello stemma nell'altro colore della squadra, come nella scheda evento */
     const ring = t.altColor && t.color && t.altColor.toLowerCase() !== t.color.toLowerCase() ? t.altColor : (t.color || INK);
-    return `<span class="${cls}" style="--c-bg:${esc(t.logoBg || '#FFFFFF')};--c-team:${esc(ring)}">${inner}</span>`;
+    return `<span class="${cls}" style="--c-bg:${esc(t.logoBg || '#FFFFFF')};--c-team:${esc(ring)};--crest-c:${esc(t.color || INK)}">${inner}</span>`; /* SP-IN (Diego, 2026-11-18): --crest-c = colore primario, per la sigla dello stemma senza cerchio */
   }
   function secTitle(text, extra) {
     return `<div class="cpx-sec"><span class="cpx-tag"><b>${esc(text)}</b></span><span class="cpx-rule"></span>${extra ? `<span class="cpx-sec-x">${esc(extra)}</span>` : ''}</div>`;

@@ -144,7 +144,8 @@
 
   /* ---------- markup ---------- */
   function crest(team, cls) {
-    return `<span class="lv-crest${cls ? ' ' + cls : ''}">${team.logo ? `<img src="${esc(team.logo)}" alt="">` : `<b>${esc(team.sig)}</b>`}</span>`;
+    /* SP-IN (Diego, 2026-11-18): --crest-c = colore primario, per la sigla dello stemma senza cerchio */
+    return `<span class="lv-crest${cls ? ' ' + cls : ''}"${team.color ? ` style="--crest-c:${esc(team.color)}"` : ''}>${team.logo ? `<img src="${esc(team.logo)}" alt="">` : `<b>${esc(team.sig)}</b>`}</span>`;
   }
   function bugHtml(T, sa, sb, xl, pa, pb, fa, fb) {
     return `<div class="lv-bug${xl ? ' lv-bug-xl' : ''}" role="img" aria-label="${esc(T.A.name)} ${sa}, ${esc(T.B.name)} ${sb}">

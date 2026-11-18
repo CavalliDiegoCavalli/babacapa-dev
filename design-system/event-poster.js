@@ -73,7 +73,8 @@
   /* ---------- testata ---------- */
   function crest(t, side) {
     const inner = t.logo ? `<img src="${esc(t.logo)}" alt="Logo ${esc(t.name)}" loading="lazy">` : `<b aria-hidden="true">${esc(initials(t.short || t.name))}</b>`;
-    return t.href ? `<a class="ep-crest ep-crest--${side}" href="${esc(t.href)}" aria-label="${esc(t.name)}">${inner}</a>` : `<span class="ep-crest ep-crest--${side}">${inner}</span>`;
+    const cc = t.color ? ` style="--crest-c:${esc(t.color)}"` : ''; /* SP-IN (Diego, 2026-11-18): --crest-c = colore primario, per la sigla dello stemma senza cerchio */
+    return t.href ? `<a class="ep-crest ep-crest--${side}" href="${esc(t.href)}" aria-label="${esc(t.name)}"${cc}>${inner}</a>` : `<span class="ep-crest ep-crest--${side}"${cc}>${inner}</span>`;
   }
   function side(t, s) {
     return `<div class="ep-side ep-side--${s}">${crest(t, s)}<div class="ep-team">` +

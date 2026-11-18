@@ -92,7 +92,7 @@
   function ringOf(t) { const c = t.color || INK, a = t.altColor; return a && a.toLowerCase() !== c.toLowerCase() ? a : onColor(c); }
   function crest(t, cls, ring) {
     const inner = t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy">` : `<b>${esc(initials(t.short || t.name))}</b>`;
-    return `<span class="${cls}" style="--c-bg:${esc(t.logoBg || '#FFFFFF')};--c-ring:${esc(ring || ringOf(t))}">${inner}</span>`;
+    return `<span class="${cls}" style="--c-bg:${esc(t.logoBg || '#FFFFFF')};--c-ring:${esc(ring || ringOf(t))};--crest-c:${esc(t.color || 'var(--ink)')}">${inner}</span>`; /* SP-IN (Diego, 2026-11-18): --crest-c = colore primario, per la sigla dello stemma senza cerchio */
   }
   function pairColors(H, A) {
     const P = window.SPIN && window.SPIN.eventPoster;
