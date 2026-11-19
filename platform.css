@@ -1405,6 +1405,9 @@ body.pdv-on{overflow:hidden}
 .ft-pick .sgpad{flex:1 1 auto;min-height:64px;cursor:pointer}
 .ft-btn{border:1px solid var(--primary);background:var(--surface);color:var(--primary);font:inherit;font-weight:700;font-size:var(--fs-13);border-radius:var(--radius-pill);padding:0 var(--space-12);min-height:36px;cursor:pointer}
 .ft-pick .ft-ask{flex:0 0 150px;border-radius:var(--radius-md);line-height:1.2;white-space:normal}
+/* da PC niente firma a mano (1.34.9-dev.8): la convalida prende tutta la riga, chi non è registrato ha la sola scritta */
+.ft-pick .ft-ask:only-child{flex:1 1 auto;min-height:64px}
+.ft-pc{flex:1 1 auto;display:flex;align-items:center;justify-content:center;min-height:64px;border:1.5px dashed var(--line);border-radius:var(--radius-md);color:var(--muted);font-size:var(--fs-13);text-align:center;padding:0 var(--space-12)}
 .ft-box{display:flex;align-items:center;gap:var(--space-12);min-height:64px;border-radius:var(--radius-md);padding:var(--space-8) var(--space-12);box-sizing:border-box;font-size:var(--fs-14)}
 .ft-box small{display:block;color:var(--muted);font-size:var(--fs-12)}
 .ft-box--ok{background:var(--ok-soft);border:1.5px solid var(--ok)}.ft-box--ok b{color:var(--ok)}
