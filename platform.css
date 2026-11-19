@@ -1406,21 +1406,23 @@ body.pdv-on{overflow:hidden}
 .ft-btn{border:1px solid var(--primary);background:var(--surface);color:var(--primary);font:inherit;font-weight:700;font-size:var(--fs-13);border-radius:var(--radius-pill);padding:0 var(--space-12);min-height:36px;cursor:pointer}
 .ft-pick .ft-ask{flex:0 0 150px;border-radius:var(--radius-md);line-height:1.2;white-space:normal}
 /* da PC niente firma a mano (1.34.9-dev.8): la convalida prende tutta la riga, chi non è registrato ha la sola scritta */
-.ft-pick .ft-ask:only-child{flex:1 1 auto;min-height:64px}
-.ft-pc{flex:1 1 auto;display:flex;align-items:center;justify-content:center;min-height:64px;border:1.5px dashed var(--line);border-radius:var(--radius-md);color:var(--muted);font-size:var(--fs-13);text-align:center;padding:0 var(--space-12)}
-/* firme a mano dal telefono (1.34.9-dev.9) */
-.ft-pc--or{flex:0 0 120px;border:0;font-size:var(--fs-12)}
-.ft-tel{display:flex;align-items:center;gap:var(--space-12);padding:var(--space-12);margin:0 0 var(--space-8);border:1px solid var(--line);border-radius:var(--radius-md)}
-.ft-tel small{display:block;color:var(--muted);font-size:var(--fs-12);margin-top:2px}
+/* firma dal telefono del refertista (1.34.9-dev.10): da PC la convalida e il telefono, ognuno col suo pulsante; (i) con la spiegazione */
+.ft-pick .ft-tel{flex:1 1 auto;display:flex;align-items:stretch;gap:var(--space-8)}
+.ft-pick .ft-phone{flex:1 1 auto;min-height:64px;border-radius:var(--radius-md);line-height:1.2;white-space:normal;border-style:dashed}
+.ft-i{flex:0 0 auto;align-self:center;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--muted);background:var(--surface);color:var(--muted);font:700 var(--fs-13)/1 var(--body,inherit);font-style:italic;cursor:pointer;padding:0}
+.ft-acts .ft-i{margin-left:var(--space-4)}
 .ftl-li{align-items:center;gap:var(--space-12)}
 .ftl-li small{display:block;color:var(--muted);font-size:var(--fs-12)}
 .ftl-st{display:flex;align-items:center;gap:var(--space-8);flex-wrap:wrap;justify-content:flex-end}
-.ftl-pad .ftl-rot{display:none;text-align:center;margin:0 var(--space-16)}
-@media (orientation:portrait){.ftl-pad .ftl-rot{display:block}}
-.ftl-pad .foot{height:auto;flex-wrap:wrap;gap:var(--space-8);padding:var(--space-12) var(--space-16)}
-.ftl-pad .foot .grow{display:none}
-.ftl-pad .foot .btn{flex:1 1 40%;min-width:0}
-.ftl-pad .foot .btn.primary{flex-basis:100%;height:52px}
+/* firma sul telefono sempre in orizzontale: in verticale il riquadro è ruotato di 90° e si gira il telefono */
+.ftl-pad .ftl-box{position:absolute;inset:0;display:flex;flex-direction:column}
+.ftl-pad .area{width:min(100%, calc((100dvh - 170px) * 2.2))}
+.ftl-pad .foot{padding:0 var(--space-16)}
+.ftl-hint{color:var(--muted);font-size:var(--fs-13)}
+@media (orientation:portrait){
+  .ftl-pad .ftl-box{inset:auto;top:50%;left:50%;width:100vh;width:100dvh;height:100vw;transform:translate(-50%,-50%) rotate(90deg)}
+  .ftl-pad .area{width:min(100%, calc((100vw - 170px) * 2.2))}
+}
 .ft-box{display:flex;align-items:center;gap:var(--space-12);min-height:64px;border-radius:var(--radius-md);padding:var(--space-8) var(--space-12);box-sizing:border-box;font-size:var(--fs-14)}
 .ft-box small{display:block;color:var(--muted);font-size:var(--fs-12)}
 .ft-box--ok{background:var(--ok-soft);border:1.5px solid var(--ok)}.ft-box--ok b{color:var(--ok)}
