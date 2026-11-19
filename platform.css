@@ -1360,22 +1360,22 @@ body.pdv-on{overflow:hidden}
 .uf-x{color:var(--primary);font-weight:700;font-size:var(--fs-14)}
 .uf-note{margin:var(--space-12) 0 0;font-size:var(--fs-13)}
 /* Firme: Sul tablet / Telematica */
-.ft-sgr .sgrow.ft-row{grid-template-columns:minmax(0,1fr) 190px minmax(0,1.3fr)}
-.ft-seg{display:flex;border:1px solid var(--line-strong);height:38px}
-.ft-seg button{flex:1 1 0;border:0;background:transparent;font:inherit;font-size:var(--fs-13);color:var(--ink);cursor:pointer;padding:0 var(--space-4)}
-.ft-seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface);font-weight:700}
-.ft-seg button:disabled{color:var(--muted);cursor:default}
-.ft-seg button.is-x{text-decoration:line-through}
-.ft-st{display:flex;flex-direction:column;gap:var(--space-2);padding:var(--space-8) var(--space-12);font-size:var(--fs-14);min-height:36px;justify-content:center}
-.ft-st-h{display:flex;align-items:center;gap:var(--space-8);flex-wrap:wrap}
-.ft-st--ok{background:var(--ok-soft)}.ft-st--ok b{color:var(--ok)}
-.ft-st--wait{background:var(--warn-soft)}.ft-st--wait b{color:var(--warn)}
-.ft-v{font-size:var(--fs-12);color:var(--primary);font-weight:700}
-.ft-nota{font-size:var(--fs-13);color:var(--ink)}
+/* righe di firma, proposta 1 (Diego, 2026-11-19, 1.34.9-dev.5): il riquadro a destra è la firma */
+.ft-sgr .sgrow.ft-row{grid-template-columns:minmax(0,1fr) minmax(0,420px)}
+.ft-pick{display:flex;gap:var(--space-8);align-items:stretch}
+.ft-pick .sgpad{flex:1 1 auto;min-height:64px;cursor:pointer}
+.ft-btn{border:1px solid var(--primary);background:var(--surface);color:var(--primary);font:inherit;font-weight:700;font-size:var(--fs-13);border-radius:var(--radius-pill);padding:0 var(--space-12);min-height:36px;cursor:pointer}
+.ft-pick .ft-ask{flex:0 0 150px;border-radius:var(--radius-md);line-height:1.2;white-space:normal}
+.ft-box{display:flex;align-items:center;gap:var(--space-12);min-height:64px;border-radius:var(--radius-md);padding:var(--space-8) var(--space-12);box-sizing:border-box;font-size:var(--fs-14)}
+.ft-box small{display:block;color:var(--muted);font-size:var(--fs-12)}
+.ft-box--ok{background:var(--ok-soft);border:1.5px solid var(--ok)}.ft-box--ok b{color:var(--ok)}
+.ft-box--wait{background:var(--warn-soft);border:1.5px solid var(--warn)}.ft-box--wait b{color:var(--warn)}
+.ft-box img{height:40px;max-width:90px;object-fit:contain}
+.ft-ic{font-weight:800;color:var(--ok);font-size:var(--fs-17)}
 .ft-link{border:0;background:transparent;font:inherit;font-size:var(--fs-13);font-weight:700;color:var(--primary);cursor:pointer;min-height:36px;padding:0 var(--space-4)}
-.ft-sel{display:block;margin-top:var(--space-4)}
-.ft-sel select{max-width:100%;height:36px;font:inherit;font-size:var(--fs-13);border:1px solid var(--line-strong);background:var(--surface);color:var(--ink)}
-.ft-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.ft-dot{width:8px;height:8px;border-radius:50%;background:var(--warn);flex:none}
+.ft-acts{display:flex;flex-direction:column;align-items:flex-end;gap:var(--space-2)}
+.ft-box .ft-nota{color:var(--ink);font-size:var(--fs-13);margin-top:var(--space-2)}
 .ft-vers{display:flex;flex-direction:column;gap:var(--space-8)}
 .ft-vr{display:flex;gap:var(--space-8);font-size:var(--fs-13)}
 .ft-vr>.grow{color:var(--muted)}
@@ -1384,7 +1384,7 @@ body.pdv-on{overflow:hidden}
 .ft-miss ul{margin:var(--space-4) 0 var(--space-12);padding-left:var(--space-16);display:flex;flex-direction:column;gap:var(--space-4);font-size:var(--fs-14)}
 .ft-warn{background:var(--warn-soft);border:1px solid var(--warn);padding:var(--space-8) var(--space-12);font-size:var(--fs-14);line-height:1.45;margin:var(--space-12) 0}
 .ft-warn b{color:var(--warn)}
-@media (max-width:1020px){.ft-sgr .sgrow.ft-row{grid-template-columns:minmax(0,1fr) 190px}.ft-sgr .sgrow.ft-row>:last-child{grid-column:1/-1}}
+@media (max-width:1020px){.ft-sgr .sgrow.ft-row{grid-template-columns:minmax(0,1fr)}}
 /* Chi firma: #/convalida/<id> */
 .cvl-sc{display:flex;align-items:center;gap:var(--space-12);padding:var(--space-12) 0;border-bottom:1px solid var(--line)}
 .cvl-tm{display:flex;flex-direction:column;flex:1;min-width:0;font-size:var(--fs-14)}

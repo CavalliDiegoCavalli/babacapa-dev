@@ -746,6 +746,7 @@ body{font-stretch:100%;-webkit-font-smoothing:antialiased}
 .sqbody .form.tform{display:grid;grid-template-columns:repeat(6,minmax(0,1fr))}
 .sqbody .form.tform .field{grid-column:span 2}
 .sqbody .form.tform .field.wide{grid-column:span 4}
+.sqbody .form.tform .field.st{grid-column:span 3}   /* allenatore, vice e dirigenti a coppie (1.34.9-dev.5) */
 
 /* ===== Design system SP-IN: l'aspetto dei componenti è in design-system/components.css.
    Qui solo il comportamento che il referto e le finestre richiedono (posizione, animazione, a capo). ===== */
