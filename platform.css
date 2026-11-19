@@ -1414,15 +1414,23 @@ body.pdv-on{overflow:hidden}
 .ftl-li{align-items:center;gap:var(--space-12)}
 .ftl-li small{display:block;color:var(--muted);font-size:var(--fs-12)}
 .ftl-st{display:flex;align-items:center;gap:var(--space-8);flex-wrap:wrap;justify-content:flex-end}
-/* firma sul telefono sempre in orizzontale: in verticale il riquadro è ruotato di 90° e si gira il telefono */
-.ftl-pad .ftl-box{position:absolute;inset:0;display:flex;flex-direction:column}
-.ftl-pad .area{width:min(100%, calc((100dvh - 170px) * 2.2))}
-.ftl-pad .foot{padding:0 var(--space-16)}
-.ftl-hint{color:var(--muted);font-size:var(--fs-13)}
+/* firma sul telefono sempre in orizzontale: in verticale il riquadro è ruotato di 90° e si gira il telefono.
+   1.34.9-dev.13: fuori da barra di stato (--top-pad, --nat-sat) e tasti di Android (--nat-sab, --safe-area-inset-*),
+   una sola barra in alto con i pulsanti e il riquadro della firma su tutta la larghezza */
+.sigfull.ftl-pad{padding:0 !important;--ft:max(var(--top-pad,0px),var(--nat-sat,0px),var(--safe-area-inset-top,0px));
+  --fb:max(env(safe-area-inset-bottom,0px),var(--safe-area-inset-bottom,0px),var(--nat-sab,0px));
+  --fl:max(env(safe-area-inset-left,0px),var(--safe-area-inset-left,0px));--fr:max(env(safe-area-inset-right,0px),var(--safe-area-inset-right,0px))}
+.ftl-pad .ftl-box{position:absolute;top:var(--ft);bottom:var(--fb);left:var(--fl);right:var(--fr);display:flex;flex-direction:column;background:var(--bg)}
+.ftl-pad .ftl-bar{display:flex;align-items:center;gap:var(--space-8);padding:var(--space-8) var(--space-12);border-bottom:1px solid var(--line);background:var(--surface)}
+.ftl-pad .ftl-bar .apptitle{min-width:0}.ftl-pad .ftl-bar .apptitle b,.ftl-pad .ftl-bar .apptitle small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.ftl-pad .ftl-bar .btn{height:40px;padding:0 var(--space-12);flex:0 0 auto}
+.ftl-pad .body{flex:1;min-height:0;padding:var(--space-8) var(--space-8)}
+.ftl-pad .area{width:100% !important;height:100%;max-width:none;aspect-ratio:auto}
 @media (orientation:portrait){
-  .ftl-pad .ftl-box{inset:auto;top:50%;left:50%;width:100vh;width:100dvh;height:100vw;transform:translate(-50%,-50%) rotate(90deg)}
-  .ftl-pad .area{width:min(100%, calc((100vw - 170px) * 2.2))}
+  .ftl-pad .ftl-box{bottom:auto;right:auto;top:calc(var(--ft) + (100dvh - var(--ft) - var(--fb)) / 2);left:calc(var(--fl) + (100vw - var(--fl) - var(--fr)) / 2);
+    width:calc(100dvh - var(--ft) - var(--fb));height:calc(100vw - var(--fl) - var(--fr));transform:translate(-50%,-50%) rotate(90deg)}
 }
+
 .ft-box{display:flex;align-items:center;gap:var(--space-12);min-height:64px;border-radius:var(--radius-md);padding:var(--space-8) var(--space-12);box-sizing:border-box;font-size:var(--fs-14)}
 .ft-box small{display:block;color:var(--muted);font-size:var(--fs-12)}
 .ft-box--ok{background:var(--ok-soft);border:1.5px solid var(--ok)}.ft-box--ok b{color:var(--ok)}
