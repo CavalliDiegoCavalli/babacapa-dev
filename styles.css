@@ -743,10 +743,13 @@ body{font-stretch:100%;-webkit-font-smoothing:antialiased}
 .tile .why{margin-top:auto;font-size:var(--fs-11);font-weight:800;line-height:1.2;color:var(--crit)}.tile .why.ok{color:var(--ok)}
 .tile .why{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 /* dati della squadra su due righe: nome e colore, poi allenatore, vice e dirigenti (Diego, 2026-10-08) */
-.sqbody .form.tform{display:grid;grid-template-columns:repeat(6,minmax(0,1fr))}
-.sqbody .form.tform .field{grid-column:span 2}
-.sqbody .form.tform .field.wide{grid-column:span 4}
-.sqbody .form.tform .field.st{grid-column:span 3}   /* allenatore, vice e dirigenti a coppie (1.34.9-dev.5) */
+.sqbody .form.tform{display:grid;grid-template-columns:repeat(12,minmax(0,1fr))}
+.sqbody .form.tform .field{grid-column:span 4}
+.sqbody .form.tform .field.wide{grid-column:span 8}
+/* allenatore, vice e due dirigenti su una riga; il nome lungo finisce con i puntini (sul referto resta intero) (Diego, 2026-11-19) */
+.sqbody .form.tform .field.st{grid-column:span 3;min-width:0}
+.sqbody .form.tform .field.st input{min-width:0;width:100%;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}
+.sqbody .form.tform .field.st .uf-h{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* ===== Design system SP-IN: l'aspetto dei componenti è in design-system/components.css.
    Qui solo il comportamento che il referto e le finestre richiedono (posizione, animazione, a capo). ===== */
