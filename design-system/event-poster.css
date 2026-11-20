@@ -262,3 +262,16 @@
 .ep-livebox--pre .ep-livepre{color:var(--ink)}
 .ep-livesoon{display:inline-grid;place-items:center;min-height:44px;padding:8px 20px;text-align:center;box-shadow:inset 0 0 0 2px var(--ep-live);color:var(--ep-live);transform:skewX(var(--ep-skew))}
 .ep-livesoon>span{transform:skewX(var(--ep-unskew));font-family:var(--font-display);font-size:var(--fs-17);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;letter-spacing:.04em}
+
+/* SP-IN (2026-11-20, Diego, 1.34.10): senza accesso il contenuto sotto la testata è poco sfocato (come la scheda di In campo)
+   con in sovraimpressione l'invito a registrarsi, in alto e sempre visibile mentre si scorre */
+.ep-lock{position:relative;min-height:360px}
+.ep-lock-b{filter:blur(3px);opacity:.85;pointer-events:none;user-select:none}
+.ep-lock-cta{position:absolute;top:var(--space-24);left:50%;transform:translateX(-50%);width:min(520px,calc(100% - 2*var(--space-16)));display:flex;flex-direction:column;align-items:center;gap:var(--space-12);text-align:center;padding:var(--space-24) var(--space-16);background:color-mix(in srgb,var(--surface) 92%,transparent);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink),var(--shadow-2);z-index:2}
+.ep-lock-t{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:var(--fs-24);line-height:1;padding-right:.1em}
+.ep-lock-cta p{margin:0;font-size:var(--fs-15);color:var(--muted)}
+.ep-lock-a{display:flex;gap:var(--space-8);flex-wrap:wrap;justify-content:center}
+.ep-lock-in,.ep-lock-up{height:44px;padding:0 var(--space-16);display:grid;place-items:center;border:0;text-decoration:none;transform:skewX(var(--ep-skew));cursor:pointer;font:inherit}
+.ep-lock-in{background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.ep-lock-up{background:var(--primary-fill);color:var(--on-fill)}
+.ep-lock-in b,.ep-lock-up b{display:block;transform:skewX(var(--ep-unskew));font-size:var(--fs-15)}

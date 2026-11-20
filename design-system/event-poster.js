@@ -195,6 +195,15 @@
     return `<section class="ep-livebox" aria-label="Diretta"><a class="ep-livebtn" href="${esc(b.href || '#')}"><span><i class="ep-livedot" aria-hidden="true"></i>Live</span></a><b class="ep-livelbl">${esc(b.label || '')}</b></section>`;
   }
 
+  /* SP-IN (2026-11-20, Diego, 1.34.10): senza accesso tutto ciò che sta sotto la testata (squadre e punteggio) è poco sfocato
+     e inerte, con in sovraimpressione l'invito a registrarsi. d.locked = {title, text, login, signup} con attrs o href. */
+  function lockCta(L) {
+    const at = o => o.href ? `href="${esc(o.href)}"` : Object.keys(o.attrs || {}).map(k => `${k}="${esc(o.attrs[k])}"`).join(' ');
+    const btn = (o, cls, t) => o ? (o.href ? `<a class="${cls}" ${at(o)}><b>${esc(o.label || t)}</b></a>` : `<button type="button" class="${cls}" ${at(o)}><b>${esc(o.label || t)}</b></button>`) : '';
+    return `<div class="ep-lock-cta" role="dialog" aria-label="${esc(L.title || '')}"><b class="ep-lock-t">${esc(L.title || '')}</b>${L.text ? `<p>${esc(L.text)}</p>` : ''}
+      <div class="ep-lock-a">${btn(L.login, 'ep-lock-in', 'Accedi')}${btn(L.signup, 'ep-lock-up', 'Registrati')}</div></div>`;
+  }
+
   /* ---------- render ---------- */
   function render(d) {
     const H = d.home, A = d.away, C = teamColors(H, A);
@@ -235,6 +244,7 @@
   ${side(H, 'a')}${side(A, 'b')}
   ${bug(H, A, d, hasScore, lostA, lostB, w)}
 </header>
+${d.locked ? '<div class="ep-lock"><div class="ep-lock-b" aria-hidden="true" inert>' : ''}
 <div class="ep-info">
   ${live && !d.liveBlock ? `<span class="ep-live">${esc(liveTxt)}</span>` : ''}
   ${d.whenAct ? `<button type="button" class="ep-when ep-when--btn" data-act="${esc(d.whenAct.act)}" data-id="${esc(d.whenAct.id)}" aria-label="Salva nel calendario: ${esc(whenTxt)}">${I.cal || ''}<span>${esc(whenTxt)}</span></button>` : `<b class="ep-when${d.start || d.when ? '' : ' is-tbd'}">${esc(whenTxt)}</b>`}
@@ -252,6 +262,7 @@ ${cta ? `<footer class="ep-actions">
   ${d.state === 'pre' && d.calendarHref ? `<a class="ep-cal" href="${esc(d.calendarHref)}" aria-label="Aggiungi al calendario">${I.cal}</a>` : ''}
 </footer>` : ''}
 ${d.more ? `<div class="ep-more">${d.more}</div>` : ''}
+${d.locked ? `</div>${lockCta(d.locked)}</div>` : ''}
 </article>`;
   }
 

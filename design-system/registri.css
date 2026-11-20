@@ -281,7 +281,7 @@ body[data-register] .toasts .toast.crit{box-shadow:inset 4px 0 0 var(--crit-fill
 body[data-register] .toasts .toast.ok::before{content:"";width:16px;height:16px;flex:none;background:var(--ok-on-stage);-webkit-mask:var(--sp-ic-ok) center/contain no-repeat;mask:var(--sp-ic-ok) center/contain no-repeat}
 
 /* ---------- barra delle azioni (telefono, Segreteria in modifica): sostituisce la barra dei tab ---------- */
-body.is-editing #app .page .wrap:has(.sp-actionbar--fixed){padding-bottom:calc(var(--space-40) + 132px + var(--kb))}
+@media (max-width:899.98px){body.is-editing #app .page .wrap:has(.sp-actionbar--fixed){padding-bottom:calc(var(--space-40) + 132px + var(--kb))}}   /* 1.34.10: solo dove la barra si vede (telefono); su PC il margine schiacciava la convocazione */
 body.is-editing #app .page .wrap:has(.sp-stickybar){padding-bottom:calc(var(--space-40) + var(--kb))}
 @media (max-width:899px){
   .sp-stickybar{position:sticky;bottom:0;z-index:30;flex-wrap:nowrap;margin:0 calc(-1 * var(--space-16));padding:var(--space-12) var(--space-16) calc(14px + env(safe-area-inset-bottom,0px));
@@ -361,3 +361,10 @@ body.is-editing #app .page .wrap:has(.sp-stickybar){padding-bottom:calc(var(--sp
 /* finché la versione senza sfondo non è pronta il logo non si mostra (25-stemmi.js: stm-on, data-stm) */
 .stm-on img[src*="/object/public/loghi/"]:not([data-stm]):not([src*="s=1"]),.stm-on img[data-stm-try]:not([data-stm]){visibility:hidden}
 .stm-bg{margin-top:var(--space-8)}
+
+/* Interruttori in sola lettura (1.34.10, Diego 2026-11-20): grigi come disabilitati, con lo stato fissato da chi li ha impostati
+   (acceso a destra in grigio scuro, spento a sinistra in grigio chiaro), senza testo in più */
+.sp-check:has(input:disabled),.sp-check[aria-disabled="true"]{cursor:default}
+.sp-check:has(input:disabled) .sp-switch,.sp-check[aria-disabled="true"] .sp-switch{background:var(--line)}
+.sp-check.is-on[aria-disabled="true"] .sp-switch,.sp-check:has(input:disabled:checked) .sp-switch{background:var(--muted)}
+.rchk:has(input:disabled)>input{accent-color:var(--muted)}

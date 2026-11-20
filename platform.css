@@ -1182,6 +1182,7 @@ a.back:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .sqminv{display:flex;flex-direction:column;gap:var(--space-8);margin-top:var(--space-12)}
 .uadd{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-12)}
 .uadd .uaw{grid-column:1/-1}
+@media (max-width:560px){.uadd{grid-template-columns:1fr}}
 .uchk{display:block;margin-top:var(--space-4);font-size:var(--fs-13)}
 .ainv{background:var(--sunk);padding:var(--space-12)}
 /* Società del profilo (1.33.7-dev.4): righe come le Squadre, con i loghi delle squadre sovrapposti e gli atleti */
@@ -1474,3 +1475,5 @@ body.pdv-on{overflow:hidden}
 .cvl-foot{text-align:center;margin:var(--space-16) 0 var(--space-12)}
 .cvl-err{color:var(--crit);font-size:var(--fs-13);min-height:18px;margin-bottom:var(--space-8)}
 .cvl-form .field{margin-bottom:var(--space-12)}
+/* Gestore delle password (1.34.10): nome utente nascosto nei moduli che cambiano la password, modulo d'appoggio fuori vista */
+.pm-user,.pm-form{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;opacity:0;pointer-events:none}

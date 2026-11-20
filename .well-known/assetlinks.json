@@ -1,0 +1,18 @@
+[
+  {
+    "relation": ["delegate_permission/common.get_login_creds"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.babacapa.app",
+      "sha256_cert_fingerprints": ["6E:BA:35:14:4F:68:F6:0B:AC:63:B4:F5:17:2C:E4:9A:AB:5B:54:6A:6F:AA:A6:CF:35:ED:3E:BA:A9:B2:94:EE"]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.get_login_creds"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.babacapa.app.dev",
+      "sha256_cert_fingerprints": ["6E:BA:35:14:4F:68:F6:0B:AC:63:B4:F5:17:2C:E4:9A:AB:5B:54:6A:6F:AA:A6:CF:35:ED:3E:BA:A9:B2:94:EE"]
+    }
+  }
+]

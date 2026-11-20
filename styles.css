@@ -536,7 +536,7 @@ body{font-stretch:100%;-webkit-font-smoothing:antialiased}
 .rli.off{color:var(--muted)}
 .rli b{font-size:var(--fs-12);color:var(--warn);margin-left:auto}
 .rli .rsw{width:34px;height:20px;border-radius:var(--radius-pill);background:var(--line);position:relative;flex:none}
-.rli .rsw.on{background:var(--primary)}
+.rli .rsw.on{background:var(--muted)}   /* 1.34.10 (Diego, 2026-11-20): regole fissate dall'organizzatore, in sola lettura: in grigio, con lo stato */
 .rli .rsw i{position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:var(--radius-round);background:#fff}
 .rli .rsw.on i{left:auto;right:3px}
 .rside .rules-ed{max-height:none}
