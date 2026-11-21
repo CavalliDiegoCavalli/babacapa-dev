@@ -1776,3 +1776,13 @@ body.sav-rot .sav-rform{top:52px}
 .sav-rchips .is-ok{border-color:var(--ok);color:var(--ok)}.sav-rchips .is-ko{border-color:var(--crit);color:var(--crit)}
 .sav-rsa{display:flex;gap:var(--space-8);align-items:center}
 .sav-rlk--crit{color:var(--crit)}
+/* 1.34.11-dev.5: squadra schierabile, campo che gira sulla linea verticale, prezzo della licenza (admin) */
+.sav-rfd{font-size:var(--fs-13)}.sav-rfd svg{width:16px;height:16px}
+.sav-rcbox{perspective:1400px}
+.sav-rghost{pointer-events:none;backface-visibility:hidden;z-index:2}
+.sav-rcin{backface-visibility:hidden}
+.sav-pzr{display:flex;gap:var(--space-12);align-items:flex-end;flex-wrap:wrap}
+.sav-pz{display:flex;flex-direction:column;gap:6px;font-size:var(--fs-13);font-weight:700;color:var(--muted)}
+.sav-pzi{display:flex;align-items:center;gap:6px;height:44px;border:1.5px solid var(--field-border);background:var(--surface);padding:0 12px;color:var(--ink);font-weight:700}
+.sav-pzi input{border:0;outline:0;background:none;font:inherit;font-size:var(--fs-15);width:90px;color:var(--ink)}
+.sav-pzi:focus-within{box-shadow:0 0 0 3px var(--focus-ring)}
