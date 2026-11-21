@@ -1645,20 +1645,22 @@ body.pdv-on{overflow:hidden}
 .sav-rbch{height:40px;border:1.5px dashed var(--line-strong);background:var(--surface);color:var(--ri);font-family:var(--font-mono);font-weight:700;font-size:var(--fs-15);cursor:pointer;border-radius:var(--radius-md);padding:0}
 .sav-rbch.is-on{background:var(--brand-orange);border:1.5px solid var(--brand-orange);color:var(--ink)}
 .sav-rbadd{color:var(--muted);display:grid;place-items:center}.sav-rbadd svg{width:16px;height:16px}
-.sav-rmid{order:2;display:flex;flex-direction:column;gap:var(--space-8);min-height:0;min-width:0}
-.sav-rfil{display:flex;gap:var(--space-8);align-items:center;flex-wrap:wrap}
-.sav-rfl{display:flex;align-items:center;gap:6px;font-size:var(--fs-11);font-weight:800;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
-.sav-rfl select{height:36px;border:1.5px solid var(--field-border);background:var(--surface);color:var(--ink);font:inherit;font-size:var(--fs-13);font-weight:600;padding:0 6px;text-transform:none;letter-spacing:0;max-width:200px}
+.sav-rmid{order:2;display:flex;flex-direction:column;gap:var(--space-8);min-height:0;min-width:0;overflow:auto}
+.sav-rfil{display:flex;gap:var(--space-8);align-items:center;flex-wrap:nowrap;overflow-x:auto;flex:none}   /* filtri su una riga (Diego, 2026-11-21) */
+.sav-rfl{display:flex;align-items:center;gap:6px;font-size:var(--fs-11);font-weight:800;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;flex:1 1 0;min-width:0}
+.sav-rfl:first-child{flex-grow:1.6}
+.sav-rfil>.sav-rlk{flex:none;white-space:nowrap}
+.sav-rfl select{height:36px;border:1.5px solid var(--field-border);background:var(--surface);color:var(--ink);font:inherit;font-size:var(--fs-13);font-weight:600;padding:0 6px;text-transform:none;letter-spacing:0;width:100%;min-width:72px}
 .sav-rcbox{position:relative;background:var(--surface);padding:var(--space-8);border:3px solid transparent;flex:none}
 .sav-rcbox.is-ask{border-color:var(--ink);box-shadow:0 0 0 6px var(--focus-ring)}
 .sav-rask{position:absolute;left:50%;top:-18px;transform:translateX(-50%);background:var(--ink);color:var(--surface);font-size:var(--fs-13);font-weight:800;padding:6px 14px;white-space:nowrap;z-index:3;display:flex;gap:var(--space-12);align-items:center;max-width:calc(100% - 16px);overflow:auto}
 .sav-rask button{border:0;background:rgba(255,255,255,.18);color:inherit;font:inherit;font-size:var(--fs-12);font-weight:700;padding:2px 8px;cursor:pointer}
-.sav-rcin{position:relative}
-.sav-rcourt{width:100%;display:block;max-height:calc(100dvh - 400px);min-height:180px}
+.sav-rcin{position:relative;margin:0 auto}
+.sav-rcourt{width:100%;height:auto;display:block}
 .sav-rtap{position:absolute;inset:0;width:100%;height:100%;border:0;padding:0;background:transparent;cursor:default}
 .sav-rcbox.is-ask .sav-rtap{cursor:crosshair}
-.sav-rattk{position:absolute;top:6px;font-size:var(--fs-11);font-weight:800;pointer-events:none}
-.sav-rattk--l{left:8px}.sav-rattk--r{right:8px}
+.sav-rattk{position:absolute;top:3.5%;font-size:var(--fs-11);font-weight:800;pointer-events:none;white-space:nowrap;max-width:44%;overflow:hidden;text-overflow:ellipsis}   /* dentro le linee del campo (Diego, 2026-11-21) */
+.sav-rattk--l{left:2.5%}.sav-rattk--r{right:2.5%}
 .sav-rdot{position:absolute;pointer-events:none;width:12px;height:12px;margin:-6px;box-sizing:border-box;display:grid;place-items:center}
 .sav-rdot--ok{border-radius:var(--radius-round);background:var(--ok)}
 .sav-rdot--ko{border-radius:var(--radius-round);background:var(--crit)}
@@ -1752,5 +1754,25 @@ body.pdv-on{overflow:hidden}
 .sav-rsn2{font-size:var(--fs-13);color:var(--muted)}
 /* schermi più piccoli dell'iPad Air: si scorre, niente si taglia */
 @media (max-width:1020px){.sav-rgrid{grid-template-columns:132px minmax(0,1fr) 132px}.sav-rpad--l{left:12px}.sav-rpad--r{right:12px}}
-@media (max-width:760px){.sav-rtwo,.sav-rendg{grid-template-columns:minmax(0,1fr)}.sav-rgrid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto}.sav-rmid{order:4;grid-column:1/-1}
-  .sav-rcourt{max-height:none}.sav-rtabs{min-height:260px}.sav-rfcols{grid-template-columns:minmax(0,1fr)}.sav-rpad,.sav-rfix{left:12px;right:12px;width:auto;transform:none;top:80px}.sav-rses{grid-template-columns:minmax(0,1fr) auto}.sav-rst{grid-column:1/-1}}
+@media (max-width:760px){body:not(.sav-rot) :is(.sav-rtwo,.sav-rendg){grid-template-columns:minmax(0,1fr)}body:not(.sav-rot) .sav-rgrid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto}body:not(.sav-rot) .sav-rmid{order:4;grid-column:1/-1}
+  body:not(.sav-rot) .sav-rtabs{min-height:260px}body:not(.sav-rot) .sav-rfcols{grid-template-columns:minmax(0,1fr)}body:not(.sav-rot) :is(.sav-rpad,.sav-rfix){left:12px;right:12px;width:auto;transform:none;top:80px}.sav-rses{grid-template-columns:minmax(0,1fr) auto}.sav-rst{grid-column:1/-1}}
+/* telefono in verticale: la raccolta ruota di 90° e si usa in orizzontale (Diego, 2026-11-21; svrRot) */
+html.sav-rot-h{overflow:hidden}
+body.sav-rot{position:fixed;top:0;left:100vw;width:100vh;width:100dvh;height:100vw;margin:0;transform-origin:0 0;transform:rotate(90deg);overflow:hidden}
+body.sav-rot #app{padding:0 env(safe-area-inset-bottom,0px) 0 env(safe-area-inset-top,0px)}
+body.sav-rot .sav-rgrid{grid-template-columns:118px minmax(0,1fr) 118px;gap:var(--space-8);padding:var(--space-8)}
+body.sav-rot .sav-rtop{min-height:52px;padding:4px var(--space-8);flex-wrap:nowrap}
+body.sav-rot .sav-rtt{min-width:0}body.sav-rot .sav-rtt b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.sav-rot .sav-rsteps{display:none}
+body.sav-rot .sav-rpl{height:60px}
+body.sav-rot .sav-rpad--l{left:130px}body.sav-rot .sav-rpad--r{right:130px}body.sav-rot .sav-rpad{top:60px;max-height:calc(100% - 70px);overflow:auto}
+body.sav-rot .sav-rform{top:52px}
+
+/* regole della sessione d'allenamento e controlli della formazione (1.34.11-dev.3) */
+.sav-rrules{margin:var(--space-16);background:var(--surface);border:1px solid var(--line);padding:var(--space-16) var(--space-20);display:flex;flex-direction:column;gap:var(--space-12);overflow:auto}
+.sav-rrules h2{margin:0;font-family:var(--font-display);font-stretch:var(--display-w);font-weight:900;font-style:italic;text-transform:uppercase;font-size:var(--fs-24)}
+.sav-rchips{display:flex;gap:6px;flex-wrap:wrap}
+.sav-rchips span{font-size:var(--fs-11);font-weight:800;padding:3px 7px;border:1px solid var(--line);color:var(--muted)}
+.sav-rchips .is-ok{border-color:var(--ok);color:var(--ok)}.sav-rchips .is-ko{border-color:var(--crit);color:var(--crit)}
+.sav-rsa{display:flex;gap:var(--space-8);align-items:center}
+.sav-rlk--crit{color:var(--crit)}
