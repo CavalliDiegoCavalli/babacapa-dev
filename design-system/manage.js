@@ -332,10 +332,12 @@
     const stf = sec({ key: 'stf', title: 'Staff', extra: x.staff, extraWide: true, action: d.addStaff, inner: staff(d.staff) });
     const sts = d.stats === null ? '' : sec({ key: 'sts', title: 'Statistiche', extra: 'squadra e per ruolo', extraWide: true, extraNarrow: 'della squadra', inner: stats(d.stats) });
     const evs = sec({ key: 'evs', title: 'Prossimi eventi', extra: x.events, extraWide: true, inner: events(d.events) });
+    /* SP-IN (2026-11-21, 1.34.11-dev.1): d.premium = sezione "Statistiche avanzate · PREMIUM" (markup pronto) dopo le statistiche */
+    const prm = d.premium ? `<section class="mgx-sec mgx-o-prm">${d.premium}</section>` : '';
     /* SP-IN (2026-11-05, Diego): senza "Da sistemare" (d.todo null) l'intestazione prende tutta la riga; d.statsFirst mette
        le statistiche prima degli atleti, anche sul telefono */
     return page('team', { color: c, cls: [d.todo ? '' : 'mgx--notodo', d.statsFirst ? 'mgx--stfirst' : '', d.fix ? 'mgx--fix' : ''].filter(Boolean).join(' ') },
-      { intro: i, todo: d.todo ? todo(d.todo) : '', cols: d.statsFirst ? [sts, ath] : [ath, sts] }, [stf, evs]);
+      { intro: i, todo: d.todo ? todo(d.todo) : '', cols: d.statsFirst ? [sts, prm, ath] : [ath, sts, prm] }, [stf, evs]);
   }
 
   /* d = { society: { name, monogram?, color }, kicker, back, edit, actions: [btn], todo: { items }, docs: [], affiliations: [],

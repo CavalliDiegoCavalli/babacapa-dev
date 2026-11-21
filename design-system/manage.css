@@ -213,6 +213,8 @@
 .mgx-club{font-weight:700;margin-right:var(--space-8)}
 .mgx-sigla{flex:none;padding:2px var(--space-8);box-shadow:inset 0 0 0 1.5px var(--c);font-family:var(--display);font-stretch:var(--display-w);font-weight:800;font-size:var(--fs-14);letter-spacing:.08em;color:var(--ink)}
 .mgx--stfirst .mgx-o-sts{order:3}.mgx--stfirst .mgx-o-ath{order:4}
+/* SP-IN (2026-11-21): Statistiche avanzate subito dopo le statistiche */
+.mgx--team .mgx-o-prm{order:5}.mgx--stfirst .mgx-o-prm{order:3}
 @container mgx (min-width:900px){
   .mgx--notodo .mgx-o-intro{grid-column:1/-1}
 }
