@@ -1613,10 +1613,11 @@ body.pdv-on{overflow:hidden}
 .sav-rpt{display:flex;flex-direction:column;gap:4px;flex:1;min-width:200px}
 .sav-rpt b{font-size:var(--fs-15)}.sav-rpt>span{font-size:var(--fs-13);color:var(--muted);line-height:1.4}
 .sav-rprev>.sav-rwarn{max-width:260px;font-weight:800}
-.sav-rcf{fill:none;stroke:var(--muted);stroke-width:2}
-.sav-rcl path,.sav-rcl circle{fill:none;stroke:var(--muted);stroke-width:2;stroke-opacity:.7}
-.sav-rcd{stroke-dasharray:5 5}
-.sav-rch{fill:var(--surface);stroke:var(--ink);stroke-width:2}
+/* linee del campo come la proposta 1 della tela (Diego, 2026-11-23): sottili e nette a ogni misura, colori di prima */
+.sav-rcl rect,.sav-rcl path,.sav-rcl circle{fill:none;stroke:var(--ink);stroke-width:1.2;vector-effect:non-scaling-stroke;stroke-linecap:butt}
+.sav-rcl rect{stroke-width:1.6}
+.sav-rcl .sav-rcb{stroke-width:2.5}
+.sav-rcl .sav-rcz{fill:var(--ink);stroke:none}
 .sav-rgot{margin:0;font-size:var(--fs-14);font-weight:700}
 /* raccolta */
 .sav-rflip{min-height:44px;padding:0 14px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);font:inherit;font-weight:800;font-size:var(--fs-14);display:flex;gap:var(--space-8);align-items:center;cursor:pointer}
