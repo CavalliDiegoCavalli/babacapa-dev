@@ -1813,7 +1813,7 @@ body.sav-rot .sav-rform{top:52px}
 .sav-anc{position:relative}
 .sav-ancourt{display:block;width:100%;height:auto}
 .sav-anatt{fill:var(--primary-soft)}.sav-andef{fill:var(--bg)}.sav-anpiv{fill:var(--primary-soft);stroke:none}
-.sav-anpivo{fill:var(--warn-soft);stroke:none}   /* area del pivot avversario (Diego, 2026-11-23) */
+.sav-anpivo{fill:var(--bg);stroke:none}   /* area del pivot avversario: come la metà campo degli avversari (Diego, 2026-11-23) */
 .sav-rdot.sav-andg{background:var(--crit)}.sav-rdot.sav-andg.is-opp{background:var(--surface);border-color:var(--crit)}
 .sav-anleg{font-size:var(--fs-12);color:var(--muted);line-height:1.4}
 .sav-anzt{flex:1 1 300px;min-width:0;display:flex;flex-direction:column}
