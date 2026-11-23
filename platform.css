@@ -1898,3 +1898,12 @@ button.sav-ankpi[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0
 .sav-mk.is-static{position:relative;margin:0 6px 0 0;display:inline-block;vertical-align:-3px}
 .sav-rleg>span,.sav-anleg>span{white-space:nowrap}
 .sav-anleg>span{margin-right:12px}
+
+/* vista Statistica a esagoni (proposta 2, Diego 2026-11-23): svrHex; esagono di raggio 10 unità del campo (568 × 308) */
+.sav-hx{position:absolute;width:2.93%;height:6.2%;transform:translate(-50%,-50%);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);pointer-events:none}
+.sav-rview{display:inline-flex;flex:none}
+.sav-rview button{min-height:36px;padding:0 14px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);font:inherit;font-size:var(--fs-14);font-weight:800;cursor:pointer}
+.sav-rview button+button{border-left:0}
+.sav-rview button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.sav-ansh--f{justify-content:flex-start}
+.sav-ansh--f .sav-rview{margin-left:auto}
