@@ -71,7 +71,7 @@
     const x = s.extra ? `<span class="mgx-sec-x${s.extraWide ? ' mgx-wide' : ''}">${esc(s.extra)}</span>` : '';
     const xs = s.extraNarrow ? `<span class="mgx-sec-x mgx-narrow">${esc(s.extraNarrow)}</span>` : '';
     return `<section class="mgx-sec mgx-o-${esc(s.key || 'x')}"${s.id ? ` id="${esc(s.id)}"` : ''}>
-    <div class="mgx-sec-h"><h2>${esc(s.title)}</h2><span class="mgx-dash" aria-hidden="true"></span>${x}${xs}<span class="mgx-grow"></span>${s.action ? `<span class="mgx-sec-a">${btn(s.action, true)}</span>` : ''}</div>
+    <div class="mgx-sec-h"><h2>${esc(s.title)}</h2>${s.titleAfter ? `<span class="mgx-sec-ta">${s.titleAfter}</span>` : ''}<span class="mgx-dash" aria-hidden="true"></span>${x}${xs}<span class="mgx-grow"></span>${s.action ? `<span class="mgx-sec-a">${btn(s.action, true)}</span>` : ''}</div>
     ${s.inner || ''}
   </section>`;
   }
@@ -330,7 +330,8 @@
     /* SP-IN (2026-11-13): d.athNote = avvisi dei giocatori provvisori sopra la tabella degli atleti */
     const ath = sec({ key: 'ath', title: 'Atleti', extra: x.athletes, extraWide: true, action: d.addAthlete, inner: (d.athNote || '') + athletes(d.athletes, c) });
     const stf = sec({ key: 'stf', title: 'Staff', extra: x.staff, extraWide: true, action: d.addStaff, inner: staff(d.staff) });
-    const sts = d.stats === null ? '' : sec({ key: 'sts', title: 'Statistiche', extra: 'squadra e per ruolo', extraWide: true, extraNarrow: 'della squadra', inner: stats(d.stats) });
+    /* SP-IN (2026-11-23, 1.34.11-dev.7): d.statsAfter = markup pronto accanto al titolo Statistiche (PRO e + Allenamento) */
+    const sts = d.stats === null ? '' : sec({ key: 'sts', title: 'Statistiche', titleAfter: d.statsAfter, extra: 'squadra e per ruolo', extraWide: true, extraNarrow: 'della squadra', inner: stats(d.stats) });
     const evs = sec({ key: 'evs', title: 'Prossimi eventi', extra: x.events, extraWide: true, inner: events(d.events) });
     /* SP-IN (2026-11-21, 1.34.11-dev.1): d.premium = sezione "Statistiche avanzate · PREMIUM" (markup pronto) dopo le statistiche */
     const prm = d.premium ? `<section class="mgx-sec mgx-o-prm">${d.premium}</section>` : '';
