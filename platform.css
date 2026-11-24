@@ -1599,6 +1599,10 @@ body.pdv-on{overflow:hidden}
 .sav-rsw{display:flex;gap:var(--space-8);flex-wrap:wrap}
 .sav-rswb{width:44px;height:44px;border-radius:var(--radius-round);border:0;padding:0;cursor:pointer}
 .sav-rswb.is-white{border:1.5px solid var(--line-strong)}
+.sav-rpalb{align-self:center;min-height:44px}
+.sav-rpal{display:flex;flex-direction:column;gap:var(--space-8);margin-top:var(--space-12)}
+.sav-ralt{display:inline-flex;align-items:center;gap:var(--space-8);min-height:44px;cursor:pointer}
+.sav-ralt input{width:44px;height:32px;border:0;padding:0;background:none}
 .sav-rswb[aria-pressed="true"]{box-shadow:0 0 0 3px var(--surface),0 0 0 6px var(--ink)}
 .sav-rnums{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:var(--space-8)}
 .sav-rnum{height:44px;display:flex;align-items:center;justify-content:space-between;border:1.5px solid var(--rc);background:var(--surface);padding-left:10px;color:var(--ri)}
@@ -1614,10 +1618,10 @@ body.pdv-on{overflow:hidden}
 .sav-rpt b{font-size:var(--fs-15)}.sav-rpt>span{font-size:var(--fs-13);color:var(--muted);line-height:1.4}
 .sav-rprev>.sav-rwarn{max-width:260px;font-weight:800}
 /* linee del campo come la proposta 1 della tela (Diego, 2026-11-23): sottili e nette a ogni misura, colori di prima */
-.sav-rcl rect,.sav-rcl path,.sav-rcl circle{fill:none;stroke:var(--ink);stroke-width:1.2;vector-effect:non-scaling-stroke;stroke-linecap:butt}
+.sav-rcl rect,.sav-rcl path,.sav-rcl circle{fill:none;stroke:var(--scorebox);stroke-width:1.2;vector-effect:non-scaling-stroke;stroke-linecap:butt}
 .sav-rcl rect{stroke-width:1.6}
 .sav-rcl .sav-rcb{stroke-width:2.5}
-.sav-rcl .sav-rcz{fill:var(--ink);stroke:none}
+.sav-rcl .sav-rcz{fill:var(--scorebox);stroke:none}   /* linee nere anche nel tema scuro (Diego, 2026-11-24) */
 .sav-rgot{margin:0;font-size:var(--fs-14);font-weight:700}
 /* raccolta */
 .sav-rflip{min-height:44px;padding:0 14px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);font:inherit;font-weight:800;font-size:var(--fs-14);display:flex;gap:var(--space-8);align-items:center;cursor:pointer}
