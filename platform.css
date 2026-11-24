@@ -1948,3 +1948,14 @@ button.sav-ankpi[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0
 .ent-ro{margin:0}
 .sp-wrow-i.ent-wi{background:transparent}
 .sp-wrow-i.ent-wi img{width:100%;height:100%;object-fit:contain}
+/* 1.35.0-dev.2: pagina dell'ente gestita (logo, inviti dei referenti, casella Modifiche) */
+.ent-rowb{width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line-soft);font:inherit;color:inherit;cursor:pointer}
+.entinv{display:flex;flex-direction:column;gap:var(--space-12);min-width:0}
+.ent-chs{max-height:280px;overflow-y:auto}
+.ent-ch{width:100%;text-align:left;background:none;border-left:0;border-right:0;border-bottom:0;font:inherit;color:inherit;align-items:center;padding-left:var(--space-8)}
+.ent-ch.is-on{box-shadow:inset 3px 0 0 var(--ink);background:var(--sunk)}
+.ent-ch.is-off{cursor:default;opacity:.7}
+.ent-plus{background:transparent;border:1px dashed var(--line-strong)}
+.ent-altro{margin-top:var(--space-8)}
+.ent-pend .overline{display:block;margin-bottom:var(--space-4)}
+.ent-ann{color:var(--crit)}
