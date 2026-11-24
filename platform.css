@@ -1959,3 +1959,10 @@ button.sav-ankpi[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0
 .ent-altro{margin-top:var(--space-8)}
 .ent-pend .overline{display:block;margin-bottom:var(--space-4)}
 .ent-ann{color:var(--crit)}
+/* 1.35.0-dev.3: sezioni territoriali (stato, righe della tabella, squadre) */
+.ent-sezl{color:inherit;text-decoration:none}
+.ent-sezl:hover b{text-decoration:underline}
+.ent-st--censita{color:var(--primary)}
+.ent-st--censita::before{content:"\25D0";margin-right:var(--space-4)}
+.ent-st--bozza::before{content:"\25CB";margin-right:var(--space-4)}
+.ent .sp-tbl td{vertical-align:middle}
