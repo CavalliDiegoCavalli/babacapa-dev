@@ -1626,10 +1626,8 @@ body.pdv-on{overflow:hidden}
 .sav-rsw{display:flex;gap:var(--space-8);flex-wrap:wrap}
 .sav-rswb{width:44px;height:44px;border-radius:var(--radius-round);border:0;padding:0;cursor:pointer}
 .sav-rswb.is-white{border:1.5px solid var(--line-strong)}
-.sav-rpalb{align-self:center;min-height:44px}
-.sav-rpal{display:flex;flex-direction:column;gap:var(--space-8);margin-top:var(--space-12)}
-.sav-ralt{display:inline-flex;align-items:center;gap:var(--space-8);min-height:44px;cursor:pointer}
-.sav-ralt input{width:44px;height:32px;border:0;padding:0;background:none}
+.sav-rpalb{align-self:center;min-height:44px;position:relative}
+.sav-rpalb input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;border:0;padding:0}   /* il tocco apre subito la tavolozza del sistema */
 .sav-rswb[aria-pressed="true"]{box-shadow:0 0 0 3px var(--surface),0 0 0 6px var(--ink)}
 .sav-rnums{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:var(--space-8)}
 .sav-rnum{height:44px;display:flex;align-items:center;justify-content:space-between;border:1.5px solid var(--rc);background:var(--surface);padding-left:10px;color:var(--ri)}
