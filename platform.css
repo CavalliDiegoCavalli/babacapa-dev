@@ -1842,8 +1842,7 @@ body.sav-rot .sav-rform{top:52px}
 .sav-anc{position:relative}
 .sav-ancourt{display:block;width:100%;height:auto}
 /* colori del campo uguali nei due temi (Diego, 2026-11-24): i valori del tema chiaro */
-.sav-anatt{fill:#dcefff}.sav-andef{fill:#f4f6f7}.sav-anpiv{fill:#dcefff;stroke:none}
-.sav-anpivo{fill:#f4f6f7;stroke:none}   /* area del pivot avversario: come la metà campo degli avversari (Diego, 2026-11-23) */
+.sav-anpiv,.sav-anpivo{stroke:none}   /* riempimenti dal colore della squadra e degli avversari (sanCourt) */   /* area del pivot avversario: come la metà campo degli avversari (Diego, 2026-11-23) */
 .sav-rdot.sav-andg{background:var(--crit)}.sav-rdot.sav-andg.is-opp{background:#ffffff;border-color:var(--crit)}
 .sav-anleg{font-size:var(--fs-12);color:var(--muted);line-height:1.4}
 .sav-anzt{flex:1 1 300px;min-width:0;display:flex;flex-direction:column}
