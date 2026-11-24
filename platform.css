@@ -1562,6 +1562,33 @@ body.pdv-on{overflow:hidden}
 .sav-grow{flex:1}
 .sav-adm .sav-off{min-height:40px;background:none;border:0;padding:0 var(--space-8);font:inherit;font-weight:700;font-size:var(--fs-14);color:var(--crit);text-decoration:underline;cursor:pointer}
 @media (max-width:899px){.sav-h1{font-size:var(--fs-30)}.sav-ra{width:100%}.sav-ra>*{flex:1}}
+/* Servizi Premium dell'admin, 1.34.11-dev.16: tab per contesto, tabella dei servizi, pagina del servizio */
+.sav-tabs{max-width:420px}
+.sav-tb{display:inline-block;margin-left:4px;padding:0 6px;background:var(--crit-fill);color:var(--on-fill);font-size:var(--fs-12)}
+.sav-soon{border-top:2px solid var(--ink);padding-top:var(--space-12);display:flex;flex-direction:column;gap:var(--space-4)}
+.sav-soon b{font-size:var(--fs-17)}
+.sav-tbl{display:flex;flex-direction:column;border-top:2px solid var(--ink)}
+.sav-th,.sav-tr{display:grid;grid-template-columns:minmax(140px,1.1fr) minmax(180px,2fr) 120px 90px 120px 20px;gap:var(--space-12);align-items:center;padding:10px var(--space-8)}
+.sav-th{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line)}
+.sav-tr{border-bottom:1px solid var(--line-soft);color:var(--ink);text-decoration:none;min-height:56px}
+.sav-tr:hover{background:var(--sunk)}
+.sav-tr:focus-visible{outline:none;box-shadow:inset 0 0 0 3px var(--focus-ring)}
+.sav-td{min-width:0}
+.sav-tdn b{font-size:var(--fs-15)}
+.sav-tdd{font-size:var(--fs-14);color:var(--muted);line-height:1.4}
+.sav-was{color:var(--muted)}
+.sav-mu{color:var(--muted)}
+.sav-wn{display:inline-flex;align-items:center;gap:6px;color:var(--warn)}
+.sav-wn svg{width:16px;height:16px}
+.sav-chev{color:var(--muted);display:flex}
+.sav-back{display:inline-flex;align-items:center;gap:4px;align-self:flex-start}
+@media (max-width:899px){
+  .sav-th{display:none}
+  .sav-tr{grid-template-columns:repeat(3,minmax(0,1fr)) 20px;row-gap:var(--space-8)}
+  .sav-tdn{grid-column:1/4}.sav-tdd{grid-column:1/-1;grid-row:2}.sav-chev{grid-column:4;grid-row:1}
+  .sav-tr>[data-l]{display:flex;flex-direction:column;gap:2px}
+  .sav-tr>[data-l]::before{content:attr(data-l);font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+}
 /* Statistiche avanzate · raccolta (1.34.11-dev.2, tela https://claude.ai/artifact/5ePc2Gh1v63DTFRK12Rorg, tavole 6–11 e 13).
    Prefisso sav-r. Disposizione fissa per l'iPad Air (1180 × 820); altrove ciò che non ci sta scorre, mai tagliato.
    Colori delle maglie dalla tabella SVR_COL (variabili --rc colore, --ri numeri, --rd riquadro delle azioni). */
