@@ -52,6 +52,15 @@
 .evx-dd-o small{font-size:var(--fs-12);color:var(--muted)}
 .evx-dd-o svg{width:18px;height:18px;flex:none;color:var(--primary)}
 .evx-dd-o:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
+/* SP-IN (2026-11-25, Diego, 1.35.0-dev.13): tendina delle sezioni territoriali accanto a Prossimi; sul telefono le due tendine
+   si dividono la riga e l'elenco si apre verso sinistra (niente scorrimento orizzontale); l'elenco lungo scorre */
+.evx-dd--sez .evx-dd-m{left:auto;right:0;max-height:60vh;overflow-y:auto}
+.evx-dd-t{min-width:0;overflow:hidden;text-overflow:ellipsis;font-style:inherit;padding-right:.12em}
+.evx-dd--sez>summary{min-width:0}
+.evx-dd--sez>summary>span{gap:var(--space-8);min-width:0}
+.evx-dd--sez .evx-dd-o>span{align-items:center}
+.evx-dd--sez .evx-dd-o>span>svg{width:14px;height:14px;color:var(--primary)}
+.evx-dd--sez .evx-dd-o small{white-space:nowrap}
 /* SP-IN (2026-11-09, Diego): pulsante Competizioni separato dai filtri temporali da una barra; sotto 900 px solo la coppa */
 .evx-csep{flex:none;align-self:center;width:2px;height:30px;margin:0 var(--space-4);background:var(--line)}
 .evx-s--comps{flex:none;width:60px;padding:0}
@@ -204,6 +213,8 @@
   .evx-dd{flex:none}
   .evx-dd>summary{min-width:190px}
   .evx-dd>summary>span{gap:var(--space-12)}
+  .evx-dd--sez>summary{max-width:300px}
+  .evx-dd--sez .evx-dd-m{left:0;right:auto;min-width:300px}
   .evx-s--comps{width:auto;padding:0 18px}
   .evx-cl{display:inline}
   .evx-filters{padding:0}

@@ -66,6 +66,7 @@
     <div class="evx-seg" role="group" aria-label="Quali eventi">
       ${seg.menu ? dropdown(nx, ps) : `${tag(nx, 'evx-s evx-s--next', `<span>${esc(nx.label || 'Prossimi')}${nx.count != null ? `<small>${esc(nx.count)}</small>` : ''}</span>`, ` aria-pressed="${!ps.pressed}"`)}
       ${tag(ps, 'evx-s evx-s--past', `<span>${I.clock}</span>`, ` aria-pressed="${!!ps.pressed}" aria-label="${esc(ps.label || 'Già giocati')}" title="${esc(ps.label || 'Già giocati')}"`)}`}
+      ${h.sez ? menu(h.sez) : ''}
       ${h.comps ? `<span class="evx-csep" aria-hidden="true"></span>${tag(h.comps, 'evx-s evx-s--comps', `<span>${I.cup}<b class="evx-cl">${esc(h.comps.label || 'Competizioni')}</b></span>`, ` aria-haspopup="dialog" aria-label="${esc(h.comps.label || 'Competizioni')}" title="${esc(h.comps.label || 'Competizioni')}"`)}` : ''}
     </div>
     ${fl ? `<span class="evx-sep" aria-hidden="true"></span><div class="evx-filters" role="group" aria-label="Filtra gli eventi">${fl}</div>` : ''}
@@ -81,6 +82,13 @@
     const opt = (o, on, def) => tag(o, 'evx-dd-o', `<span><b>${esc(o.label || def)}</b>${o.hint ? `<small>${esc(o.hint)}</small>` : ''}</span>${on ? I.check : ''}`, ` role="menuitemradio" aria-checked="${on}"`);
     return `<details class="evx-dd"><summary class="evx-s evx-s--next" aria-haspopup="menu"><span>${esc(cur.label || (ps.pressed ? 'Già giocati' : 'Prossimi'))}${I.down}</span></summary>
       <div class="evx-dd-m" role="menu">${opt(nx, !ps.pressed, 'Prossimi')}${opt(ps, !!ps.pressed, 'Già giocati')}</div></details>`;
+  }
+  /* SP-IN (2026-11-25, Diego, 1.35.0-dev.13): h.sez = {label, aria, options:[{label, hint, heart, pressed, attrs}]}: seconda
+     tendina accanto a Prossimi (sezioni territoriali), stesso aspetto; l'elenco scorre se è lungo */
+  function menu(m) {
+    const opt = o => tag(o, 'evx-dd-o', `<span>${o.heart ? I.heart : ''}<b>${esc(o.label)}</b>${o.hint ? `<small>${esc(o.hint)}</small>` : ''}</span>${o.pressed ? I.check : ''}`, ` role="menuitemradio" aria-checked="${!!o.pressed}"`);
+    return `<details class="evx-dd evx-dd--sez"><summary class="evx-s evx-s--next" aria-haspopup="menu" aria-label="${esc((m.aria || 'Filtro') + ': ' + m.label)}"><span><em class="evx-dd-t">${esc(m.label)}</em>${I.down}</span></summary>
+      <div class="evx-dd-m" role="menu" aria-label="${esc(m.aria || '')}">${(m.options || []).map(opt).join('')}</div></details>`;
   }
   // la tendina aperta si chiude toccando fuori
   document.addEventListener('click', e => {
