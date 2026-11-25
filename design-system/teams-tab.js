@@ -187,7 +187,8 @@
   }
 
   /* ---------- tab ---------- */
-  /* SP-IN (2026-11-25): d.tabs = barra dei tab delle sezioni sotto l'intestazione, d.after = "Apri la sezione" sotto il muro */
+  /* SP-IN (2026-11-25): d.tabs = barra dei tab delle sezioni sotto l'intestazione, d.after = "Apri la sezione" sotto il muro,
+     d.wallTitle false = muro senza titolo (il nome è nel tab) */
   function render(d) {
     d = d || {};
     const teams = d.teams || [];
@@ -197,7 +198,7 @@
     return `<div class="tmx">
   ${header(d.header)}${d.tabs || ''}
   <div class="tmx-cols${aside ? '' : ' tmx-cols--one'}">
-    <div class="tmx-main">${sec(d.wallTitle || 'Tutte le squadre', wallSub)}${wall(teams, d.empty, d.keepOrder)}${d.after || ''}${d.hint === false ? '' : `<small class="tmx-hint">Tocca una squadra per vedere la sua scheda. <span>${I.heart}</span> = la segui</small>`}</div>
+    <div class="tmx-main">${d.wallTitle === false ? '' : sec(d.wallTitle || 'Tutte le squadre', wallSub)}${wall(teams, d.empty, d.keepOrder)}${d.after || ''}${d.hint === false ? '' : `<small class="tmx-hint">Tocca una squadra per vedere la sua scheda. <span>${I.heart}</span> = la segui</small>`}</div>
     ${aside}
   </div>
 </div>`;

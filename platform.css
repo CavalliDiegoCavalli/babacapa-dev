@@ -1997,11 +1997,18 @@ button.sav-ankpi[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0
 
 /* ---------- Sezioni per il tifoso (1.35.0-dev.11, Diego 2026-11-25; 25-sezioni-pubbliche.js) ---------- */
 /* In campo: barra dei tab delle sezioni, che scorre da sola (mai la pagina) */
-.szt{margin:var(--space-12) 0 0;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+/* 1.35.0-dev.12 (Diego): stile Tribuna, riquadri inclinati come i filtri del tab Eventi; quello aperto in pieno */
+.szt{margin:var(--space-12) calc(-1 * var(--space-8)) 0;padding:2px var(--space-8);overflow-x:auto;scrollbar-width:none}
 .szt::-webkit-scrollbar{display:none}
-.szt-in{display:flex;gap:var(--space-2);min-width:max-content}
-.szt-b{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 var(--space-16);background:none;border:0;color:var(--muted);font:inherit;font-weight:800;font-size:var(--fs-15);cursor:pointer;white-space:nowrap}
-.szt-b[aria-current="page"]{color:var(--ink);box-shadow:inset 0 -4px 0 var(--ink)}
+.szt.is-r{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent)}
+.szt.is-l{-webkit-mask-image:linear-gradient(90deg,transparent,#000 48px);mask-image:linear-gradient(90deg,transparent,#000 48px)}
+.szt.is-l.is-r{-webkit-mask-image:linear-gradient(90deg,transparent,#000 48px,#000 calc(100% - 48px),transparent);mask-image:linear-gradient(90deg,transparent,#000 48px,#000 calc(100% - 48px),transparent)}
+.szt-in{display:flex;gap:6px;min-width:max-content}
+.szt-b{display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 var(--space-16);border:0;background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink);transform:skewX(var(--skew));cursor:pointer;white-space:nowrap}
+.szt-b>span{display:inline-flex;transform:skewX(var(--unskew))}
+.szt-b>span:last-child{font-family:var(--font-display);font-weight:900;font-stretch:62%;font-style:italic;text-transform:uppercase;font-size:var(--fs-17)}
+.szt-b[aria-current="page"]{background:var(--ink);color:var(--surface)}
+.szt-b[aria-current="page"] .szt-h{color:var(--surface)}
 .szt-b:disabled{opacity:.45;cursor:default}
 .szt-h{display:inline-flex;color:var(--primary)}
 .szt-open{display:flex;align-items:center;gap:var(--space-12);margin-top:var(--space-16);padding-top:var(--space-16);border-top:1px solid var(--line);flex-wrap:wrap}
