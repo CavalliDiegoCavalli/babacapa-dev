@@ -222,6 +222,7 @@ ${hoop(31.5, 150)}${hoop(528.5, 150)}${hoop(280, 12, true)}${hoop(280, 288, true
     if (T.o.prepare) await T.o.prepare(s, i);
     if (T !== my) return; // giro chiuso nel frattempo
     await frame(); await frame();
+    if (T !== my) return; // SP-IN (2026-11-25, 1.35.0-dev.15): giro chiuso durante l'attesa dei frame
     T.el = T.o.find(s);
     if (T.el && T.el.scrollIntoView) T.el.scrollIntoView({ block: 'nearest', inline: 'nearest' });
     const last = i === tot - 1;

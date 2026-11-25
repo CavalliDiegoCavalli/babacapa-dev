@@ -52,12 +52,20 @@
 .evx-dd-o small{font-size:var(--fs-12);color:var(--muted)}
 .evx-dd-o svg{width:18px;height:18px;flex:none;color:var(--primary)}
 .evx-dd-o:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
-/* SP-IN (2026-11-25, Diego, 1.35.0-dev.13): tendina delle sezioni territoriali accanto a Prossimi; sul telefono le due tendine
-   si dividono la riga e l'elenco si apre verso sinistra (niente scorrimento orizzontale); l'elenco lungo scorre */
-.evx-dd--sez .evx-dd-m{left:auto;right:0;max-height:60vh;overflow-y:auto}
-.evx-dd-t{min-width:0;overflow:hidden;text-overflow:ellipsis;font-style:inherit;padding-right:.12em}
-.evx-dd--sez>summary{min-width:0}
-.evx-dd--sez>summary>span{gap:var(--space-8);min-width:0}
+/* SP-IN (2026-11-25, Diego, 1.35.0-dev.13): tendina delle sezioni territoriali tra Prossimi e Competizioni; l'elenco lungo
+   scorre e sul telefono si apre verso sinistra (niente scorrimento orizzontale).
+   1.35.0-dev.15 (Diego, proposta 5): pulsante come Competizioni con la sigla ST (sotto 900 px solo la sigla, sopra
+   "ST - scelta" con il trattino a metà); contorno = tutte le sezioni, pieno = una sezione, cuoricino = sezioni seguite */
+.evx-dd--sez{flex:none}
+.evx-dd>summary.evx-s--sez{flex:none;width:60px;padding:0;position:relative;background:var(--surface);color:var(--ink)}
+.evx-dd>summary.evx-s--sez.is-on{background:var(--ink);color:var(--surface)}
+.evx-dd>summary.evx-s--sez>span{display:inline-flex;width:auto;align-items:baseline;justify-content:center;gap:var(--space-8);min-width:0}
+.evx-s--sez b{font:inherit;padding-right:.08em}
+.evx-sx,.evx-sl{display:none}
+.evx-sl{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.evx-hb{box-sizing:border-box;padding:0;font-style:normal;position:absolute;top:-7px;right:-7px;width:18px;height:18px;border-radius:50%;background:var(--surface);color:var(--primary);box-shadow:0 0 0 1.5px var(--ink);display:grid;place-items:center;transform:skewX(var(--evx-unskew))}
+.evx-dd>summary .evx-hb svg,.evx-dd[open]>summary .evx-hb svg{width:11px;height:11px;transform:none}
+.evx-dd--sez .evx-dd-m{left:auto;right:0;max-width:calc(100vw - 32px);max-height:60vh;overflow-y:auto}
 .evx-dd--sez .evx-dd-o>span{align-items:center}
 .evx-dd--sez .evx-dd-o>span>svg{width:14px;height:14px;color:var(--primary)}
 .evx-dd--sez .evx-dd-o small{white-space:nowrap}
@@ -213,7 +221,8 @@
   .evx-dd{flex:none}
   .evx-dd>summary{min-width:190px}
   .evx-dd>summary>span{gap:var(--space-12)}
-  .evx-dd--sez>summary{max-width:300px}
+  .evx-dd>summary.evx-s--sez{width:auto;min-width:0;max-width:340px;padding:0 18px}
+  .evx-sx,.evx-sl{display:inline}
   .evx-dd--sez .evx-dd-m{left:0;right:auto;min-width:300px}
   .evx-s--comps{width:auto;padding:0 18px}
   .evx-cl{display:inline}
