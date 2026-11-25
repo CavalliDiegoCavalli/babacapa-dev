@@ -261,3 +261,17 @@
 .mgx-tbl tr.mgx-prov td{background:var(--warn-soft)}
 .mgx-li.mgx-prov{background:var(--warn-soft)}
 @media (max-width:700px){.mgx-provbox{flex-wrap:wrap}}
+
+/* SP-IN (2026-11-25, 1.35.1-dev.1, Diego): pagina della squadra con la colonna principale a tab (Atleti, Statistiche, Staff):
+   barra dei tab in cima alla colonna (ferma mentre la colonna scorre), sezione del tab senza titolo, a lato i prossimi eventi */
+.mgx--tabs .mgx-o-tab{order:3}
+.mgx--tabs :is(.mgx-o-ath,.mgx-o-sts,.mgx-o-stf){order:4}
+.mgx--tabs .mgx-o-evs{order:6}
+.mgx-tabs{width:100%;max-width:560px}
+.mgx-sec--bare{padding-top:0;border-top:0}
+.mgx-sec-h--bare{min-height:0}
+.mgx-sec-h--bare:empty{display:none}
+@container mgx (min-width:900px){
+  .mgx--tabs .mgx-main{gap:var(--space-16)}
+  .mgx--fix .mgx-main .mgx-tabs.seg{position:sticky;top:0;z-index:5;max-width:none;background:var(--mgx-page-bg,var(--surface))}
+}

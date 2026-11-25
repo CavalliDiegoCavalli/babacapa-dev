@@ -70,6 +70,12 @@
     s = s || {};
     const x = s.extra ? `<span class="mgx-sec-x${s.extraWide ? ' mgx-wide' : ''}">${esc(s.extra)}</span>` : '';
     const xs = s.extraNarrow ? `<span class="mgx-sec-x mgx-narrow">${esc(s.extraNarrow)}</span>` : '';
+    /* SP-IN (2026-11-25, 1.35.1-dev.1, Diego): s.bare = sezione dentro un tab, senza il titolo (lo dice il tab); restano
+       testo accanto, pulsanti e azione */
+    if (s.bare) {
+      const hb = s.titleAfter || x || xs || s.action ? `<div class="mgx-sec-h mgx-sec-h--bare">${s.titleAfter ? `<span class="mgx-sec-ta">${s.titleAfter}</span>` : ''}${x}${xs}<span class="mgx-grow"></span>${s.action ? `<span class="mgx-sec-a">${btn(s.action, true)}</span>` : ''}</div>` : '';
+      return `<section class="mgx-sec mgx-sec--bare mgx-o-${esc(s.key || 'x')}"${s.id ? ` id="${esc(s.id)}"` : ''} role="tabpanel" aria-label="${esc(s.title)}">${hb}${s.inner || ''}</section>`;
+    }
     return `<section class="mgx-sec mgx-o-${esc(s.key || 'x')}"${s.id ? ` id="${esc(s.id)}"` : ''}>
     <div class="mgx-sec-h"><h2>${esc(s.title)}</h2>${s.titleAfter ? `<span class="mgx-sec-ta">${s.titleAfter}</span>` : ''}<span class="mgx-dash" aria-hidden="true"></span>${x}${xs}<span class="mgx-grow"></span>${s.action ? `<span class="mgx-sec-a">${btn(s.action, true)}</span>` : ''}</div>
     ${s.inner || ''}
@@ -328,15 +334,21 @@
     const t = d.team || {}, c = t.color || INK, x = d.extras || {};
     const i = intro({ team: t, title: t.name, sigla: d.sigla, club: d.club, kicker: d.kicker, back: d.back, place: d.place, placeHref: d.placeHref, edit: d.edit, actions: d.actions });
     /* SP-IN (2026-11-13): d.athNote = avvisi dei giocatori provvisori sopra la tabella degli atleti */
-    const ath = sec({ key: 'ath', title: 'Atleti', extra: x.athletes, extraWide: true, action: d.addAthlete, inner: (d.athNote || '') + athletes(d.athletes, c) });
-    const stf = sec({ key: 'stf', title: 'Staff', extra: x.staff, extraWide: true, action: d.addStaff, inner: staff(d.staff) });
+    /* SP-IN (2026-11-25, 1.35.1-dev.1, Diego): d.tabBar (barra dei tab pronta) e d.tab ('ath', 'sts', 'stf'): colonna
+       principale a tab nell'ordine Atleti, Statistiche, Staff, con la sola sezione del tab aperto e senza il suo titolo; a
+       lato restano i prossimi eventi */
+    const tb = !!d.tabBar;
+    const ath = sec({ key: 'ath', title: 'Atleti', bare: tb, extra: x.athletes, extraWide: true, action: d.addAthlete, inner: (d.athNote || '') + athletes(d.athletes, c) });
+    const stf = sec({ key: 'stf', title: 'Staff', bare: tb, extra: x.staff, extraWide: true, action: d.addStaff, inner: staff(d.staff) });
     /* SP-IN (2026-11-23, 1.34.11-dev.7): d.statsAfter = markup pronto accanto al titolo Statistiche (PRO e + Allenamento) */
-    const sts = d.stats === null ? '' : sec({ key: 'sts', title: 'Statistiche', titleAfter: d.statsAfter, extra: 'squadra e per ruolo', extraWide: true, extraNarrow: 'della squadra', inner: stats(d.stats) });
+    const sts = d.stats === null ? '' : sec({ key: 'sts', title: 'Statistiche', bare: tb, titleAfter: d.statsAfter, extra: 'squadra e per ruolo', extraWide: true, extraNarrow: 'della squadra', inner: stats(d.stats) });
     const evs = sec({ key: 'evs', title: 'Prossimi eventi', extra: x.events, extraWide: true, inner: events(d.events) });
     /* SP-IN (2026-11-21, 1.34.11-dev.1): d.premium = sezione "Statistiche avanzate · PREMIUM" (markup pronto) dopo le statistiche */
     const prm = d.premium ? `<section class="mgx-sec mgx-o-prm">${d.premium}</section>` : '';
     /* SP-IN (2026-11-05, Diego): senza "Da sistemare" (d.todo null) l'intestazione prende tutta la riga; d.statsFirst mette
        le statistiche prima degli atleti, anche sul telefono */
+    if (tb) return page('team', { color: c, cls: ['mgx--notodo', 'mgx--tabs', d.fix ? 'mgx--fix' : ''].filter(Boolean).join(' ') },
+      { intro: i, todo: '', cols: [d.tabBar, ({ sts: sts || ath, stf })[d.tab] || ath] }, [evs]);
     return page('team', { color: c, cls: [d.todo ? '' : 'mgx--notodo', d.statsFirst ? 'mgx--stfirst' : '', d.fix ? 'mgx--fix' : ''].filter(Boolean).join(' ') },
       { intro: i, todo: d.todo ? todo(d.todo) : '', cols: d.statsFirst ? [sts, prm, ath] : [ath, sts, prm] }, [stf, evs]);
   }
