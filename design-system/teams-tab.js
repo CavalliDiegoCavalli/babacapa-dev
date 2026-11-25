@@ -74,11 +74,12 @@
   function tile(t) {
     const sel = !!t.selected, f = !!t.followed, c = t.color || INK;
     const c2 = t.altColor && t.altColor.toLowerCase() !== c.toLowerCase() ? t.altColor : onColor(c);   // cerchio della squadra seguita: secondo colore
-    return tag(t, 'tmx-tile' + (f ? ' tmx-tile--f' : ''), `${f ? '<span class="tmx-tex" aria-hidden="true"></span>' : ''}${crest(t, 'tmx-crest')}<b class="tmx-tile-n">${esc(name(t))}</b>${f ? `<span class="tmx-tile-f" title="La segui">${I.heart}</span>` : ''}`,
+    return tag(t, 'tmx-tile' + (f ? ' tmx-tile--f' : ''), `${f ? '<span class="tmx-tex" aria-hidden="true"></span>' : ''}${crest(t, 'tmx-crest')}<b class="tmx-tile-n">${esc(name(t))}</b>${t.sub ? `<small class="tmx-tile-s">${esc(t.sub)}</small>` : ''}${f ? `<span class="tmx-tile-f" title="La segui">${I.heart}</span>` : ''}`,
       ` style="--c:${esc(c)};--c-on:${onColor(c)};--c2:${esc(c2)}" aria-current="${sel}" aria-label="${esc((t.name || name(t)) + (f ? ', la segui' : ''))}"`);
   }
-  function wall(teams, empty) {
-    const list = (teams || []).slice().sort((a, b) => name(a).localeCompare(name(b), 'it'));
+  /* SP-IN (2026-11-25): keep = ordine già deciso dall'app (nel tab di una sezione prima le seguite); sub = riga sotto il nome (sezione nella ricerca) */
+  function wall(teams, empty, keep) {
+    const list = keep ? (teams || []).slice() : (teams || []).slice().sort((a, b) => name(a).localeCompare(name(b), 'it'));
     return list.length ? `<div class="tmx-wall">${list.map(tile).join('')}</div>` : `<div class="tmx-empty">${esc(empty || 'Nessuna squadra trovata.')}</div>`;
   }
 
@@ -186,6 +187,7 @@
   }
 
   /* ---------- tab ---------- */
+  /* SP-IN (2026-11-25): d.tabs = barra dei tab delle sezioni sotto l'intestazione, d.after = "Apri la sezione" sotto il muro */
   function render(d) {
     d = d || {};
     const teams = d.teams || [];
@@ -193,9 +195,9 @@
     const wallSub = d.wallNote != null ? d.wallNote : `${n} · A–Z`;
     const aside = d.preview ? `<aside class="tmx-aside">${sec('Anteprima')}${card(d.preview)}</aside>` : '';
     return `<div class="tmx">
-  ${header(d.header)}
+  ${header(d.header)}${d.tabs || ''}
   <div class="tmx-cols${aside ? '' : ' tmx-cols--one'}">
-    <div class="tmx-main">${sec(d.wallTitle || 'Tutte le squadre', wallSub)}${wall(teams, d.empty)}${d.hint === false ? '' : `<small class="tmx-hint">Tocca una squadra per vedere la sua scheda. <span>${I.heart}</span> = la segui</small>`}</div>
+    <div class="tmx-main">${sec(d.wallTitle || 'Tutte le squadre', wallSub)}${wall(teams, d.empty, d.keepOrder)}${d.after || ''}${d.hint === false ? '' : `<small class="tmx-hint">Tocca una squadra per vedere la sua scheda. <span>${I.heart}</span> = la segui</small>`}</div>
     ${aside}
   </div>
 </div>`;
