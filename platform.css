@@ -1978,3 +1978,17 @@ button.sav-ankpi[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0
 .ent-sg-pa small{flex:1 1 220px;text-align:right}
 .ent-sg-eu{margin:0}
 .ent-sg-acts{flex-wrap:wrap;gap:var(--space-12)}
+/* 1.35.0-dev.9: pagina della sezione a due colonne, campionati delle sezioni */
+.ent-cols{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:var(--space-32);align-items:start}
+.ent-main{display:flex;flex-direction:column;gap:var(--space-24);min-width:0}
+.ent-side{border-left:1px solid var(--line-soft);padding-left:var(--space-24);min-width:0}
+@container sp (max-width:899px){.ent-cols{grid-template-columns:minmax(0,1fr)}.ent-side{border-left:0;padding-left:0}}
+.ent-nu{font-size:var(--fs-12);font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.ent-czs{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--space-16);align-items:end}
+@container sp (max-width:899px){.ent-czs{grid-template-columns:minmax(0,1fr)}}
+.ent-czchk{display:flex;align-items:center;gap:var(--space-8);min-height:44px;cursor:pointer}
+.ent-czchk input{width:20px;height:20px;accent-color:var(--ink)}
+.ent-lock{border:1px solid var(--line);background:var(--sunk);padding:var(--space-12) var(--space-16);display:flex;flex-direction:column}
+.ent-lock-h{display:flex;align-items:center;gap:var(--space-8);margin-bottom:var(--space-4)}
+.ent-sg-rg{gap:var(--space-12)}
+.czfin p{margin:0;line-height:1.5}
