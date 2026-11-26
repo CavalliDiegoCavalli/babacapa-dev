@@ -2045,9 +2045,8 @@ button.sav-ankpi[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0
 .szp-edit{display:inline-flex;align-items:center;height:40px;padding:0 var(--space-16);border:1.5px solid var(--ink);color:var(--ink);font-weight:800;text-decoration:none;transform:skewX(-12deg)}
 .szp-edit>span{display:inline-flex;align-items:center;gap:var(--space-8);transform:skewX(12deg)}
 .szp-edit svg{width:16px;height:16px}
-.szp-tabs{display:flex;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
-.szp-tabs button{flex:none;min-height:46px;padding:0 var(--space-20);background:none;border:0;color:var(--muted);font:inherit;font-weight:800;font-size:var(--fs-15);cursor:pointer}
-.szp-tabs button[aria-current="page"]{color:var(--ink);box-shadow:inset 0 -4px 0 var(--ink)}
+/* 1.35.2-dev.2 (Diego, 2026-11-26): barra dei tab della sezione come quella della pagina della squadra (.seg.tabs) */
+.szp-tabs{max-width:560px}
 .szp-body{display:flex;flex-direction:column;gap:var(--space-16);min-width:0}
 .szp-tag{display:inline-flex;align-items:center;height:26px;padding:0 var(--space-12);font-size:var(--fs-11);font-weight:800;letter-spacing:.04em;text-transform:uppercase;transform:skewX(-12deg);background:var(--sunk);color:var(--ink)}
 .szp-tag>span{transform:skewX(12deg)}
@@ -2106,3 +2105,23 @@ button.sav-ankpi[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0
 .szp-lock-in b{font-family:var(--font-display);font-size:var(--fs-24);line-height:1.15;max-width:420px}
 .szp-lock-a{display:flex;gap:var(--space-12);flex-wrap:wrap;justify-content:center}
 @media (max-width:700px){.szp-nr h1{font-size:var(--fs-30)}.szp-lg{width:56px;height:56px}}
+
+/* 1.35.2-dev.2 (Diego, 2026-11-26): barre dei tab adattive (squadra, sezione, ente, stagione, modifica della squadra): ogni tab
+   tiene la scritta su una riga; se non ci stanno tutti la barra scorre in orizzontale */
+:is(.mgx-tabs,.szp-tabs,.ent-tabs,.sqf-tabs).seg.tabs{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;flex-wrap:nowrap}
+:is(.mgx-tabs,.szp-tabs,.ent-tabs,.sqf-tabs).seg.tabs::-webkit-scrollbar{display:none}
+.sp[data-register] :is(.mgx-tabs,.szp-tabs,.ent-tabs,.sqf-tabs).seg.tabs button{flex:1 0 auto;white-space:nowrap}
+/* titolo e barra dei tab fermi in alto mentre la pagina scorre (sezione pubblica e di gestione, ente, stagione) */
+.szp-top,.ent-top{position:sticky;top:0;z-index:6;display:flex;flex-direction:column;gap:var(--space-16);padding:var(--space-8) 0 var(--space-12);margin-top:calc(-1 * var(--space-8));background:var(--page)}
+.ent-top{background:var(--surface)}
+.nat-iphone .szp-top,.nat-iphone .ent-top{top:var(--nat-sat,0px);box-shadow:0 calc(-1 * var(--nat-sat,0px)) 0 var(--page)}
+.nat-iphone .ent-top{box-shadow:0 calc(-1 * var(--nat-sat,0px)) 0 var(--surface)}
+/* elenco delle competizioni (sezione e stagione) */
+.czc-tw{overflow-x:auto;min-width:0}
+.czc-nm{display:inline-flex;align-items:center;gap:var(--space-8);flex-wrap:wrap}
+.czc-tag{display:inline-flex;align-items:center;height:20px;padding:0 var(--space-8);font-size:var(--fs-11);font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--on-fill);background:var(--type-league);transform:skewX(-12deg)}
+.czc-tag--cup{background:var(--type-cup)}
+.czc-y{display:inline-flex;color:var(--ok)}
+.czc-n{color:var(--muted);font-weight:700}
+.czc-row small .czc-y svg{width:12px;height:12px;vertical-align:-2px}
+.szp-tag--t{background:var(--type-cup);color:var(--on-fill)}

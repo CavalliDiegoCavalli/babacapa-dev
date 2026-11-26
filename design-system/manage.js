@@ -342,13 +342,14 @@
     const stf = sec({ key: 'stf', title: 'Staff', bare: tb, extra: x.staff, extraWide: true, action: d.addStaff, inner: staff(d.staff) });
     /* SP-IN (2026-11-23, 1.34.11-dev.7): d.statsAfter = markup pronto accanto al titolo Statistiche (PRO e + Allenamento) */
     const sts = d.stats === null ? '' : sec({ key: 'sts', title: 'Statistiche', bare: tb, titleAfter: d.statsAfter, extra: 'squadra e per ruolo', extraWide: true, extraNarrow: 'della squadra', inner: stats(d.stats) });
-    const evs = sec({ key: 'evs', title: 'Prossimi eventi', extra: x.events, extraWide: true, inner: events(d.events) });
+    /* SP-IN (2026-11-26, 1.35.2-dev.2, Diego): d.evsTab = sul telefono i prossimi eventi sono un tab della colonna principale */
+    const evs = sec({ key: 'evs', title: 'Prossimi eventi', bare: tb && d.evsTab, extra: x.events, extraWide: true, inner: events(d.events) });
     /* SP-IN (2026-11-21, 1.34.11-dev.1): d.premium = sezione "Statistiche avanzate · PREMIUM" (markup pronto) dopo le statistiche */
     const prm = d.premium ? `<section class="mgx-sec mgx-o-prm">${d.premium}</section>` : '';
     /* SP-IN (2026-11-05, Diego): senza "Da sistemare" (d.todo null) l'intestazione prende tutta la riga; d.statsFirst mette
        le statistiche prima degli atleti, anche sul telefono */
     if (tb) return page('team', { color: c, cls: ['mgx--notodo', 'mgx--tabs', d.fix ? 'mgx--fix' : ''].filter(Boolean).join(' ') },
-      { intro: i, todo: '', cols: [d.tabBar, ({ sts: sts || ath, stf })[d.tab] || ath] }, [evs]);
+      { intro: i, todo: '', cols: [d.tabBar, ({ sts: sts || ath, stf, evs: d.evsTab ? evs : ath })[d.tab] || ath] }, d.evsTab ? [] : [evs]);
     return page('team', { color: c, cls: [d.todo ? '' : 'mgx--notodo', d.statsFirst ? 'mgx--stfirst' : '', d.fix ? 'mgx--fix' : ''].filter(Boolean).join(' ') },
       { intro: i, todo: d.todo ? todo(d.todo) : '', cols: d.statsFirst ? [sts, prm, ath] : [ath, sts, prm] }, [stf, evs]);
   }
