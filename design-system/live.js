@@ -1,6 +1,6 @@
 /* Babacapa · Live per i tifosi (1.34.0, docs/Live/LIVE.md; mockup approvato da Diego il 2026-11-06, docs/Live/mockup/Main.dc.html).
    Script classico; usa window.SPIN.core e window.SPIN.eventPoster (colori delle squadre). Espone window.SPIN.live:
-     mount(el, opts) → controller { load(g), push(g), gate(kind), destroy() }
+     mount(el, opts) → controller { load(g), push(g), gate(kind), suspend(on), destroy() }
        opts.teams   {A:{name, full, sig, logo}, B:{…}}   squadre (A in casa, B ospite)
        opts.colors  risultato di SPIN.eventPoster.teamColors
        opts.gate    '' | 'login' | 'web'                 Live bloccato e sfocato (sez. 8)
@@ -286,7 +286,7 @@ ${court.map(x => row(x, true, false)).join('')}${bench.map((x, k) => row(x, fals
     const mq = window.matchMedia ? window.matchMedia('(min-width: 900px)') : null;
     let G = { fase: 'gioco', q: 1, ev: [], lu: {}, gioc: { A: [], B: [] }, nomi: {} };
     let disp = { n: 0, ph: { k: 'pausa', q: 0 } }, queue = [], playing = null, timer = 0, paused = false, tab = 'live', gate = opts.gate || '', infoI = null;
-    let lastSc = { A: null, B: null }, popN = { A: 0, B: 0 }, feedLen = 0, dead = false;
+    let lastSc = { A: null, B: null }, popN = { A: 0, B: 0 }, feedLen = 0, dead = false, sosp = false, sospT = 0;
     const tablet = () => !!(mq && mq.matches);
     el.innerHTML = `<div class="lv" style="--lv-a:${C.a};--lv-a-on:${C.aOn};--lv-b:${C.b};--lv-b-on:${C.bOn}">
 <section class="lv-hero" aria-label="Tabellone"><div class="lv-slab lv-slab-a"></div><div class="lv-slab lv-slab-b"></div><div class="lv-tex-w"><div class="lv-tex"></div></div><div class="lv-glint"></div>
@@ -298,7 +298,7 @@ ${T2.map(t => `<div class="lv-side lv-side-${t === 'A' ? 'a' : 'b'} ${tc(t)}" st
 <div class="lv-panes"><section class="lv-pane lv-pane-feed" aria-label="Cronaca"><h3 class="lv-ptag"><span>Cronaca</span></h3><ol class="lv-feed" data-lv="feed"></ol></section>
 <section class="lv-pane lv-pane-live" aria-label="Live"><h3 class="lv-ptag"><span>Live</span></h3><div class="lv-lcols" data-lv="cols"></div></section>
 <section class="lv-pane lv-pane-stats" aria-label="Statistiche"><h3 class="lv-ptag"><span>Statistiche</span></h3><div class="lv-st-head">${crest(T.A, 'lv-crest-s lv-t-a')}<small>dal referto, azione per azione</small>${crest(T.B, 'lv-crest-s lv-t-b')}</div><div class="lv-st-rows" data-lv="stats"></div><h4 class="lv-sub-h">Migliori realizzatori</h4><div data-lv="best"></div></section></div>
-<div data-lv="ov"></div><div data-lv="dlg"></div><div data-lv="gate"></div></div>`;
+<div data-lv="ov"></div><div data-lv="dlg"></div><div data-lv="gate"></div><div data-lv="sosp"></div></div>`;
     const root = el.firstElementChild, $ = k => root.querySelector('[data-lv="' + k + '"]');
     const ovEl = $('ov');
 
@@ -316,7 +316,7 @@ ${T2.map(t => `<div class="lv-side lv-side-${t === 'A' ? 'a' : 'b'} ${tc(t)}" st
       if (dead) return;
       const s = snap(G, disp.n, disp.ph);
       const ended = s.ck === 'fine';
-      $('pill').className = 'lv-live' + (ended ? ' lv-is-end' : ''); $('pillt').textContent = opts.demo ? 'Demo' : ended ? 'Conclusa' : 'In diretta';
+      $('pill').className = 'lv-live' + (ended ? ' lv-is-end' : sosp ? ' lv-is-sosp' : ''); $('pillt').textContent = opts.demo ? 'Demo' : ended ? 'Conclusa' : sosp ? 'Sospesa' : 'In diretta';
       /* tabellone: le cifre entrano dal basso quando cambiano, la sigla di chi ha segnato lampeggia */
       const pop = {}, fl = {};
       T2.forEach(t => { if (lastSc[t] !== null && s.sc[t] !== lastSc[t]) { popN[t]++; pop[t] = popN[t] % 2 ? 'lv-pop1' : 'lv-pop2'; fl[t] = popN[t] % 2 ? 'lv-fl1' : 'lv-fl2'; } lastSc[t] = s.sc[t]; });
@@ -418,6 +418,7 @@ ${T2.map(t => `<div class="lv-side lv-side-${t === 'A' ? 'a' : 'b'} ${tc(t)}" st
       if (x.hasAttribute('data-lv-close')) { closeInfo(); return; }
       if (x.dataset.lvInfo != null) { openInfo(+x.dataset.lvInfo); return; }
       if (x.dataset.lvTab) {
+        if (sosp) return;   /* live sospesa: le viste non si cambiano (Diego, 2026-11-26) */
         tab = x.dataset.lvTab; layout();
         /* l'animazione dell'evento si vede solo nella vista Live: cambiando vista si chiude */
         if (playing && playing.typ === 'burst' && tab !== 'live' && !tablet()) leave();
@@ -431,6 +432,28 @@ ${T2.map(t => `<div class="lv-side lv-side-${t === 'A' ? 'a' : 'b'} ${tc(t)}" st
     layout(); paint();
     return {
       load, push, idle: () => !queue.length && (!playing || !!playing.persist) && !paused,
+      /* SP-IN (2026-11-26, 1.35.2-dev.4, Diego; tela https://claude.ai/artifact/FpRboocrgyjC3Q4i7cUGkv): live sospesa quando il
+         dispositivo del refertista è offline o fuori dallo streaming. Fascia grigia come l'avviso del canestro, ferma finché
+         non torna; sotto la rotellina della riconnessione; tutto il resto in scala di grigi; i tab non si toccano, "Esci dal
+         live" sì. Le animazioni aspettano: alla ripresa chi chiama passa la gara con push(g, {rientro: true}). */
+      suspend(on) {
+        on = !!on; if (dead || on === sosp) return; sosp = on; clearTimeout(sospT);
+        const w = $('sosp');
+        root.classList.toggle('lv-is-sosp', on);
+        if (on) {
+          paused = true; clearTimeout(timer);
+          if (playing && !playing.persist) { ovEl.innerHTML = ''; playing = null; }
+          w.innerHTML = `<div class="lv-sosp" role="status" aria-live="polite"><div class="lv-s-dim"></div><button type="button" class="lv-xbtn lv-s-x" data-lv-exit><span>${SV.back}${opts.demo ? 'Esci dalla demo' : 'Esci dal live'}</span></button>
+<div class="lv-burst lv-s-burst"><div class="lv-b-band lv-s-band"></div><span class="lv-b-team lv-s-chip"><span>Problema tecnico</span></span><div class="lv-b-txt lv-s-txt"><span class="lv-b-big"><svg viewBox="0 0 82 82" aria-hidden="true"><rect x="16" y="10" width="16" height="62" fill="currentColor"></rect><rect x="50" y="10" width="16" height="62" fill="currentColor"></rect></svg></span><span class="lv-b-col"><span class="lv-b-title">Live sospesa</span><span class="lv-s-who">A causa di un problema tecnico, la live è stata sospesa. Tornerà in onda in automatico appena verrà risolto il problema.</span></span></div></div>
+<div class="lv-s-spin"><svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="21" fill="none" stroke="currentColor" stroke-opacity=".25" stroke-width="5"></circle><path d="M26 5a21 21 0 0 1 21 21" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"></path></svg><small>Riconnessione in corso…</small></div></div>`;
+        } else {
+          const o = w.firstElementChild; if (o) o.classList.add('lv-out');
+          sospT = setTimeout(() => { if (!sosp) w.innerHTML = ''; }, OUT);
+          paused = false;
+          if (playing && !playing.persist) timer = setTimeout(leave, 500); else if (!playing) timer = setTimeout(pump, 300);
+        }
+        paint();
+      },
       gate(k) { gate = k || ''; layout(); },
       destroy() { dead = true; clearTimeout(timer); root.removeEventListener('click', onClick); document.removeEventListener('keydown', onKey); if (mq) (mq.removeEventListener ? mq.removeEventListener('change', onMq) : mq.removeListener(onMq)); el.innerHTML = ''; }
     };
