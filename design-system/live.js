@@ -1,6 +1,6 @@
 /* Babacapa · Live per i tifosi (1.34.0, docs/Live/LIVE.md; mockup approvato da Diego il 2026-11-06, docs/Live/mockup/Main.dc.html).
    Script classico; usa window.SPIN.core e window.SPIN.eventPoster (colori delle squadre). Espone window.SPIN.live:
-     mount(el, opts) → controller { load(g), push(g), gate(kind), suspend(on), destroy() }
+     mount(el, opts) → controller { load(g), push(g), gate(kind), suspend(on), note(items), destroy() }
        opts.teams   {A:{name, full, sig, logo}, B:{…}}   squadre (A in casa, B ospite)
        opts.colors  risultato di SPIN.eventPoster.teamColors
        opts.gate    '' | 'login' | 'web'                 Live bloccato e sfocato (sez. 8)
@@ -86,7 +86,7 @@
     for (let i = 0; i < n && i < ev.length; i++) {
       const e = ev[i], t = e.t === 'B' ? 'B' : 'A', qi = Math.max(0, (e.q || 1) - 1);
       reach('gioco', e.q || 1);
-      const f = { k: e.y, i, t, tc: tc(t), num: e.n != null ? String(e.n) : '', h: ql(e.q || 1) + (e.h ? ' · ' + e.h : '') };
+      const f = { k: e.y, i, t, tc: tc(t), num: e.n != null ? String(e.n) : '', h: ql(e.q || 1) + (e.h ? ' · ' + e.h : '') + (e.fx ? ' · corretto' : '') };   /* SP-IN (2026-11-26): azione corretta dal refertista */
       if (e.h) s.h = e.h;
       if (e.y === 'score') {
         const p = +e.p || 0;
@@ -298,7 +298,7 @@ ${T2.map(t => `<div class="lv-side lv-side-${t === 'A' ? 'a' : 'b'} ${tc(t)}" st
 <div class="lv-panes"><section class="lv-pane lv-pane-feed" aria-label="Cronaca"><h3 class="lv-ptag"><span>Cronaca</span></h3><ol class="lv-feed" data-lv="feed"></ol></section>
 <section class="lv-pane lv-pane-live" aria-label="Live"><h3 class="lv-ptag"><span>Live</span></h3><div class="lv-lcols" data-lv="cols"></div></section>
 <section class="lv-pane lv-pane-stats" aria-label="Statistiche"><h3 class="lv-ptag"><span>Statistiche</span></h3><div class="lv-st-head">${crest(T.A, 'lv-crest-s lv-t-a')}<small>dal referto, azione per azione</small>${crest(T.B, 'lv-crest-s lv-t-b')}</div><div class="lv-st-rows" data-lv="stats"></div><h4 class="lv-sub-h">Migliori realizzatori</h4><div data-lv="best"></div></section></div>
-<div data-lv="ov"></div><div data-lv="dlg"></div><div data-lv="gate"></div><div data-lv="sosp"></div></div>`;
+<div data-lv="ov"></div><div data-lv="ban"></div><div data-lv="dlg"></div><div data-lv="gate"></div><div data-lv="sosp"></div></div>`;
     const root = el.firstElementChild, $ = k => root.querySelector('[data-lv="' + k + '"]');
     const ovEl = $('ov');
 
@@ -413,8 +413,9 @@ ${T2.map(t => `<div class="lv-side lv-side-${t === 'A' ? 'a' : 'b'} ${tc(t)}" st
       if (playing && !playing.persist) timer = setTimeout(leave, 500); else if (!playing) timer = setTimeout(pump, 500); else if (queue.length) leave();
     }
     function onClick(ev) {
-      const x = ev.target.closest('[data-lv-exit],[data-lv-tab],[data-lv-info],[data-lv-close]'); if (!x) return;
+      const x = ev.target.closest('[data-lv-exit],[data-lv-tab],[data-lv-info],[data-lv-close],[data-lv-ban]'); if (!x) return;
       if (x.hasAttribute('data-lv-exit')) { if (opts.onExit) opts.onExit(); return; }
+      if (x.hasAttribute('data-lv-ban')) { banLeave(); return; }
       if (x.hasAttribute('data-lv-close')) { closeInfo(); return; }
       if (x.dataset.lvInfo != null) { openInfo(+x.dataset.lvInfo); return; }
       if (x.dataset.lvTab) {
@@ -425,13 +426,41 @@ ${T2.map(t => `<div class="lv-side lv-side-${t === 'A' ? 'a' : 'b'} ${tc(t)}" st
         paint();
       }
     }
+    /* SP-IN (2026-11-26, 1.35.2-dev.6, Diego; tela https://claude.ai/artifact/JoPpFNTxrLmCVTJG4dhSi2): correzioni del
+       refertista e note delle squadre → banner a fascia in fondo allo schermo, nel colore della squadra, etichetta bianca con
+       la scritta nera; uno alla volta, in coda, senza fermare le animazioni delle azioni; un tocco lo chiude. Durata: 6 s per
+       le correzioni, per le note 6 s più 1 s ogni 20 caratteri fino a 12 s. Item: { t: 'A'|'B', k: 'fix'|'void'|'note',
+       title, sub } */
+    let banQ = [], banCur = null, banT = 0;
+    const PEN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path><path d="M13.5 6.5l4 4"></path></svg>';
+    const UNDO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14L4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 010 11H11"></path></svg>';
+    const NOTE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14v12l-4 4H5z"></path><path d="M15 20v-4h4"></path><path d="M8 9h8M8 13h5"></path></svg>';
+    function banDur(b) { return b.k === 'note' ? Math.min(12000, 6000 + Math.floor(String(b.title || '').length / 20) * 1000) : 6000; }
+    function banNext() {
+      clearTimeout(banT); if (dead) return;
+      const w = $('ban'); banCur = banQ.shift() || null;
+      if (!banCur) { w.innerHTML = ''; return; }
+      const b = banCur, t = b.t === 'B' ? 'B' : 'A', lbl = (b.k === 'note' ? 'Nota del refertista' : b.k === 'void' ? 'Annullata' : 'Correzione') + ' · ' + T[t].name;
+      w.innerHTML = `<button type="button" class="lv-ban ${tc(t)}${b.k === 'note' ? ' lv-ban-note' : ''}" data-lv-ban role="status" aria-label="${esc(lbl)}: ${esc(b.title)}. Tocca per chiudere"><span class="lv-ban-band"></span><span class="lv-ban-tag"><span>${esc(lbl)}</span></span><span class="lv-ban-txt"><span class="lv-ban-ico">${b.k === 'note' ? NOTE : b.k === 'void' ? UNDO : PEN}</span><span class="lv-ban-col"><span class="lv-ban-t">${esc(b.title)}</span>${b.sub ? `<span class="lv-ban-s">${esc(b.sub)}</span>` : ''}</span></span>${banQ.length ? `<span class="lv-ban-q">+${banQ.length} in coda</span>` : ''}</button>`;
+      banT = setTimeout(banLeave, banDur(b));
+    }
+    function banLeave() {
+      clearTimeout(banT); const o = $('ban').firstElementChild; if (!o || !banCur) { banNext(); return; }
+      banCur = null; o.classList.add('lv-out'); banT = setTimeout(banNext, 450);
+    }
+    function note(items) {
+      if (dead || gate || !items || !items.length) return;
+      banQ = banQ.concat(items);
+      if (!banCur && !$('ban').firstElementChild) banNext();
+      else { const q = $('ban').querySelector('.lv-ban-q'), b = $('ban').firstElementChild; if (b && banCur) { if (q) q.textContent = '+' + banQ.length + ' in coda'; else b.insertAdjacentHTML('beforeend', `<span class="lv-ban-q">+${banQ.length} in coda</span>`); } }
+    }
     function onKey(ev) { if (ev.key === 'Escape' && infoI !== null) closeInfo(); }
     function onMq() { layout(); paint(); }
     root.addEventListener('click', onClick); document.addEventListener('keydown', onKey);
     if (mq) (mq.addEventListener ? mq.addEventListener('change', onMq) : mq.addListener(onMq));
     layout(); paint();
     return {
-      load, push, idle: () => !queue.length && (!playing || !!playing.persist) && !paused,
+      load, push, note, idle: () => !queue.length && (!playing || !!playing.persist) && !paused,
       /* SP-IN (2026-11-26, 1.35.2-dev.4, Diego; tela https://claude.ai/artifact/FpRboocrgyjC3Q4i7cUGkv): live sospesa quando il
          dispositivo del refertista è offline o fuori dallo streaming. Fascia grigia come l'avviso del canestro, ferma finché
          non torna; sotto la rotellina della riconnessione; tutto il resto in scala di grigi; i tab non si toccano, "Esci dal
@@ -455,7 +484,7 @@ ${T2.map(t => `<div class="lv-side lv-side-${t === 'A' ? 'a' : 'b'} ${tc(t)}" st
         paint();
       },
       gate(k) { gate = k || ''; layout(); },
-      destroy() { dead = true; clearTimeout(timer); root.removeEventListener('click', onClick); document.removeEventListener('keydown', onKey); if (mq) (mq.removeEventListener ? mq.removeEventListener('change', onMq) : mq.removeListener(onMq)); el.innerHTML = ''; }
+      destroy() { dead = true; clearTimeout(timer); clearTimeout(banT); clearTimeout(sospT); root.removeEventListener('click', onClick); document.removeEventListener('keydown', onKey); if (mq) (mq.removeEventListener ? mq.removeEventListener('change', onMq) : mq.removeListener(onMq)); el.innerHTML = ''; }
     };
   }
 

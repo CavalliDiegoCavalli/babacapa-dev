@@ -431,3 +431,25 @@
 .lv-sosp.lv-out .lv-b-band{transform-origin:right center;animation:lv-bBandOut .45s var(--lv-ease) forwards}
 @keyframes lv-sFadeOut{0%{opacity:1}100%{opacity:0}}
 @media (prefers-reduced-motion:reduce){.lv-s-spin svg{animation-duration:2.4s}}
+
+/* SP-IN (2026-11-26, 1.35.2-dev.6, Diego): banner a fascia delle correzioni e delle note (tela
+   https://claude.ai/artifact/JoPpFNTxrLmCVTJG4dhSi2): in fondo, nel colore della squadra, etichetta bianca con la scritta nera */
+.lv-ban{position:absolute;z-index:25;left:0;right:0;bottom:calc(30px + var(--lv-bot));height:132px;border:0;padding:0;margin:0;background:none;color:var(--lv-con);text-align:left;cursor:pointer;font:inherit;animation:lv-banIn .5s var(--lv-ease) both}
+.lv-ban.lv-ban-note{height:150px}
+.lv-tablet .lv-ban{left:24%;right:24%}
+.lv-ban.lv-out{animation:lv-banOut .45s var(--lv-ease) forwards}
+@keyframes lv-banIn{0%{opacity:0;transform:translateY(120px)}100%{opacity:1;transform:none}}
+@keyframes lv-banOut{0%{opacity:1;transform:none}100%{opacity:0;transform:translateY(120px)}}
+.lv-ban-band{position:absolute;left:-30px;right:-30px;top:14px;bottom:0;background:var(--lv-c);transform:skewY(-4deg);box-shadow:0 -10px 40px rgba(0,0,0,.35),0 8px 24px rgba(0,0,0,.35)}
+.lv-tablet .lv-ban-band{left:0;right:0}
+.lv-ban-tag{position:absolute;left:18px;top:0;padding:4px 12px;background:var(--lv-white);color:var(--lv-ink);transform:skewX(-12deg);box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.lv-ban-tag span{display:block;transform:skewX(12deg);font-size:13px;line-height:1.3;letter-spacing:.08em;text-transform:uppercase;font-weight:900;font-style:italic}
+.lv-ban-txt{position:absolute;left:18px;right:18px;top:38px;bottom:12px;display:flex;align-items:center;gap:14px}
+.lv-ban-ico{flex:none;width:44px;height:44px}.lv-ban-ico svg{width:100%;height:100%}
+.lv-ban-note .lv-ban-ico{width:40px;height:40px}
+.lv-ban-col{display:flex;flex-direction:column;gap:4px;min-width:0}
+.lv-ban-t{font-size:26px;line-height:.95;font-weight:900;font-style:italic;text-transform:uppercase}
+.lv-ban-note .lv-ban-t{font-family:var(--font-sans,inherit);font-size:15px;line-height:1.35;font-weight:700;font-style:normal;text-transform:none;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.lv-ban-s{font-family:var(--font-sans,inherit);font-size:13px;line-height:1.3;font-weight:700;opacity:.9}
+.lv-ban-q{position:absolute;right:14px;bottom:12px;padding:3px 8px;background:color-mix(in srgb,var(--scorebox) 75%,transparent);color:var(--lv-white);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.lv.lv-is-sosp [data-lv="ban"]{display:none}
